@@ -1,6 +1,6 @@
 //
 //  Foodie_NotesApp.swift
-//  Foodie Notes
+//  Foodie Notes -- an app for taking notes on food!
 //
 //  Created by Steve Martin on 6/22/24.
 //
