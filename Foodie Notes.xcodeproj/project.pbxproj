@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		AA81D20F2C26EEA100FF0221 /* Foodie_NotesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D20E2C26EEA100FF0221 /* Foodie_NotesApp.swift */; };
+		AA81D20F2C26EEA100FF0221 /* FoodieNotesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D20E2C26EEA100FF0221 /* FoodieNotesApp.swift */; };
 		AA81D2112C26EEA100FF0221 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D2102C26EEA100FF0221 /* Persistence.swift */; };
 		AA81D2142C26EEA100FF0221 /* Foodie_Notes.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AA81D2122C26EEA100FF0221 /* Foodie_Notes.xcdatamodeld */; };
 		AA81D2162C26EEA100FF0221 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D2152C26EEA100FF0221 /* ContentView.swift */; };
@@ -16,6 +16,11 @@
 		AA81D2262C26EEA200FF0221 /* Foodie_NotesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D2252C26EEA200FF0221 /* Foodie_NotesTests.swift */; };
 		AA81D2302C26EEA200FF0221 /* Foodie_NotesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D22F2C26EEA200FF0221 /* Foodie_NotesUITests.swift */; };
 		AA81D2322C26EEA200FF0221 /* Foodie_NotesUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D2312C26EEA200FF0221 /* Foodie_NotesUITestsLaunchTests.swift */; };
+		AA81D2802C309BF000FF0221 /* MealListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D27F2C309BF000FF0221 /* MealListView.swift */; };
+		AA81D2822C309C3100FF0221 /* MealCreateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D2812C309C3100FF0221 /* MealCreateView.swift */; };
+		AA81D2852C309C7F00FF0221 /* MealView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D2842C309C7F00FF0221 /* MealView.swift */; };
+		AA81D2872C309C9E00FF0221 /* CourseAddOrEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D2862C309C9E00FF0221 /* CourseAddOrEditView.swift */; };
+		AA81D2892C309CB400FF0221 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D2882C309CB400FF0221 /* ProfileView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,7 +42,7 @@
 
 /* Begin PBXFileReference section */
 		AA81D20B2C26EEA100FF0221 /* Foodie Notes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Foodie Notes.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		AA81D20E2C26EEA100FF0221 /* Foodie_NotesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Foodie_NotesApp.swift; sourceTree = "<group>"; };
+		AA81D20E2C26EEA100FF0221 /* FoodieNotesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodieNotesApp.swift; sourceTree = "<group>"; };
 		AA81D2102C26EEA100FF0221 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		AA81D2132C26EEA100FF0221 /* Foodie_Notes.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Foodie_Notes.xcdatamodel; sourceTree = "<group>"; };
 		AA81D2152C26EEA100FF0221 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -49,6 +54,11 @@
 		AA81D22B2C26EEA200FF0221 /* Foodie NotesUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Foodie NotesUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA81D22F2C26EEA200FF0221 /* Foodie_NotesUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Foodie_NotesUITests.swift; sourceTree = "<group>"; };
 		AA81D2312C26EEA200FF0221 /* Foodie_NotesUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Foodie_NotesUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		AA81D27F2C309BF000FF0221 /* MealListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealListView.swift; sourceTree = "<group>"; };
+		AA81D2812C309C3100FF0221 /* MealCreateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealCreateView.swift; sourceTree = "<group>"; };
+		AA81D2842C309C7F00FF0221 /* MealView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealView.swift; sourceTree = "<group>"; };
+		AA81D2862C309C9E00FF0221 /* CourseAddOrEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseAddOrEditView.swift; sourceTree = "<group>"; };
+		AA81D2882C309CB400FF0221 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,7 +109,8 @@
 		AA81D20D2C26EEA100FF0221 /* Foodie Notes */ = {
 			isa = PBXGroup;
 			children = (
-				AA81D20E2C26EEA100FF0221 /* Foodie_NotesApp.swift */,
+				AA81D2832C309C3A00FF0221 /* Views */,
+				AA81D20E2C26EEA100FF0221 /* FoodieNotesApp.swift */,
 				AA81D2102C26EEA100FF0221 /* Persistence.swift */,
 				AA81D2152C26EEA100FF0221 /* ContentView.swift */,
 				AA81D2172C26EEA200FF0221 /* Assets.xcassets */,
@@ -133,6 +144,18 @@
 				AA81D2312C26EEA200FF0221 /* Foodie_NotesUITestsLaunchTests.swift */,
 			);
 			path = "Foodie NotesUITests";
+			sourceTree = "<group>";
+		};
+		AA81D2832C309C3A00FF0221 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				AA81D27F2C309BF000FF0221 /* MealListView.swift */,
+				AA81D2812C309C3100FF0221 /* MealCreateView.swift */,
+				AA81D2842C309C7F00FF0221 /* MealView.swift */,
+				AA81D2862C309C9E00FF0221 /* CourseAddOrEditView.swift */,
+				AA81D2882C309CB400FF0221 /* ProfileView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -265,10 +288,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AA81D20F2C26EEA100FF0221 /* Foodie_NotesApp.swift in Sources */,
+				AA81D2872C309C9E00FF0221 /* CourseAddOrEditView.swift in Sources */,
+				AA81D2892C309CB400FF0221 /* ProfileView.swift in Sources */,
+				AA81D20F2C26EEA100FF0221 /* FoodieNotesApp.swift in Sources */,
 				AA81D2142C26EEA100FF0221 /* Foodie_Notes.xcdatamodeld in Sources */,
 				AA81D2162C26EEA100FF0221 /* ContentView.swift in Sources */,
+				AA81D2852C309C7F00FF0221 /* MealView.swift in Sources */,
 				AA81D2112C26EEA100FF0221 /* Persistence.swift in Sources */,
+				AA81D2802C309BF000FF0221 /* MealListView.swift in Sources */,
+				AA81D2822C309C3100FF0221 /* MealCreateView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
