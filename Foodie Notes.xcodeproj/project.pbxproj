@@ -17,10 +17,11 @@
 		AA81D2302C26EEA200FF0221 /* Foodie_NotesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D22F2C26EEA200FF0221 /* Foodie_NotesUITests.swift */; };
 		AA81D2322C26EEA200FF0221 /* Foodie_NotesUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D2312C26EEA200FF0221 /* Foodie_NotesUITestsLaunchTests.swift */; };
 		AA81D2802C309BF000FF0221 /* MealListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D27F2C309BF000FF0221 /* MealListView.swift */; };
-		AA81D2822C309C3100FF0221 /* MealCreateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D2812C309C3100FF0221 /* MealCreateView.swift */; };
+		AA81D2822C309C3100FF0221 /* MealCreateOrEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D2812C309C3100FF0221 /* MealCreateOrEditView.swift */; };
 		AA81D2852C309C7F00FF0221 /* MealView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D2842C309C7F00FF0221 /* MealView.swift */; };
-		AA81D2872C309C9E00FF0221 /* CourseAddOrEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D2862C309C9E00FF0221 /* CourseAddOrEditView.swift */; };
+		AA81D2872C309C9E00FF0221 /* CourseCreateOrEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D2862C309C9E00FF0221 /* CourseCreateOrEditView.swift */; };
 		AA81D2892C309CB400FF0221 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D2882C309CB400FF0221 /* ProfileView.swift */; };
+		AA81D28D2C30F20D00FF0221 /* FormViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D28C2C30F20D00FF0221 /* FormViews.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,10 +56,11 @@
 		AA81D22F2C26EEA200FF0221 /* Foodie_NotesUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Foodie_NotesUITests.swift; sourceTree = "<group>"; };
 		AA81D2312C26EEA200FF0221 /* Foodie_NotesUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Foodie_NotesUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		AA81D27F2C309BF000FF0221 /* MealListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealListView.swift; sourceTree = "<group>"; };
-		AA81D2812C309C3100FF0221 /* MealCreateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealCreateView.swift; sourceTree = "<group>"; };
+		AA81D2812C309C3100FF0221 /* MealCreateOrEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealCreateOrEditView.swift; sourceTree = "<group>"; };
 		AA81D2842C309C7F00FF0221 /* MealView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealView.swift; sourceTree = "<group>"; };
-		AA81D2862C309C9E00FF0221 /* CourseAddOrEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseAddOrEditView.swift; sourceTree = "<group>"; };
+		AA81D2862C309C9E00FF0221 /* CourseCreateOrEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseCreateOrEditView.swift; sourceTree = "<group>"; };
 		AA81D2882C309CB400FF0221 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		AA81D28C2C30F20D00FF0221 /* FormViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormViews.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -150,10 +152,11 @@
 			isa = PBXGroup;
 			children = (
 				AA81D27F2C309BF000FF0221 /* MealListView.swift */,
-				AA81D2812C309C3100FF0221 /* MealCreateView.swift */,
+				AA81D2812C309C3100FF0221 /* MealCreateOrEditView.swift */,
 				AA81D2842C309C7F00FF0221 /* MealView.swift */,
-				AA81D2862C309C9E00FF0221 /* CourseAddOrEditView.swift */,
+				AA81D2862C309C9E00FF0221 /* CourseCreateOrEditView.swift */,
 				AA81D2882C309CB400FF0221 /* ProfileView.swift */,
+				AA81D28C2C30F20D00FF0221 /* FormViews.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -288,7 +291,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AA81D2872C309C9E00FF0221 /* CourseAddOrEditView.swift in Sources */,
+				AA81D28D2C30F20D00FF0221 /* FormViews.swift in Sources */,
+				AA81D2872C309C9E00FF0221 /* CourseCreateOrEditView.swift in Sources */,
 				AA81D2892C309CB400FF0221 /* ProfileView.swift in Sources */,
 				AA81D20F2C26EEA100FF0221 /* FoodieNotesApp.swift in Sources */,
 				AA81D2142C26EEA100FF0221 /* Foodie_Notes.xcdatamodeld in Sources */,
@@ -296,7 +300,7 @@
 				AA81D2852C309C7F00FF0221 /* MealView.swift in Sources */,
 				AA81D2112C26EEA100FF0221 /* Persistence.swift in Sources */,
 				AA81D2802C309BF000FF0221 /* MealListView.swift in Sources */,
-				AA81D2822C309C3100FF0221 /* MealCreateView.swift in Sources */,
+				AA81D2822C309C3100FF0221 /* MealCreateOrEditView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
