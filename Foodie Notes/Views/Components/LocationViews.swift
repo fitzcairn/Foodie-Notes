@@ -28,15 +28,16 @@ struct LocationViews {
     }
     
     struct LocationEditSection : View {
-        // TODO: Needs to be in viewmodel.
         @Binding var venue: String
+        @Binding var rating: Int
+
         
         var body: some View {
             Section(header: Text(title)) {
                 HStack {
                     NameViews.NameEditView(name:$venue)
                     Spacer()
-                    RatingViews.RatingEditView(rating:.constant(0))
+                    RatingViews.RatingEditView(rating:$rating)
                 }
             }
         }

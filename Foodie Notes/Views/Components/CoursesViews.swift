@@ -15,15 +15,13 @@ struct CoursesViews {
     
     struct CoursesViewSection : View {
         @EnvironmentObject private var viewModel:AppViewModel;
-        let mealId:String;
-        let courseId:String?;
+        let meal:Meal
 
         var body: some View {
-            let courses = viewModel.getMealFor(mealId)?.courses ?? []
             Section(header: Text("Courses")) {
                 List {
-                    ForEach(courses) { course in
-                        CourseItemView(mealId:mealId, courseId:courseId)
+                    ForEach(meal.courseIds) { course in
+                        CourseItemView(course:course)
                     }
                 }
             }
@@ -32,20 +30,13 @@ struct CoursesViews {
     
     struct CoursesEditSection : View {
         @EnvironmentObject private var viewModel:AppViewModel;
-        let mealId:String;
-        let courseId:String?;
-
-        init(mealId: String, courseId: String?) {
-            self.mealId = mealId
-            self.courseId = courseId
-        }
+        let meal:Meal;
 
         var body: some View {
-            let courses = viewModel.getMealFor(mealId)?.courses ?? []
             Section(header: header) {
                 List {
-                    ForEach(courses) { course in
-                        CourseItemView(mealId:mealId, courseId:courseId)
+                    ForEach(meal.courseIds) { course in
+                        CourseItemView(course:course)
                     }
                     .onDelete(perform: remove)
                 }
@@ -56,7 +47,7 @@ struct CoursesViews {
             HStack {
                 Text("Courses")
                 Spacer()
-                NavigationLink(destination: CourseCreateOrEditView(courseId:courseId)) {
+                NavigationLink(destination: CourseCreateOrEditView(mealId: meal.id, courseId:nil)) {
                     Image(systemName: "plus.circle")
                         .resizable()
                         .frame(width: 24, height: 24)
@@ -93,25 +84,18 @@ struct CoursesViews {
     // Individual course in a list
     struct CourseItemView : View {
         @EnvironmentObject private var viewModel:AppViewModel;
-        let mealId:String;
-        let courseId:String?;
-
-        init(mealId: String, courseId: String?) {
-            self.mealId = mealId
-            self.courseId = courseId
-        }
+        let course:Course
 
         var body: some View {
-            let course = viewModel.getOrAddCourseFor(mealId: mealId, courseId: courseId)
             HStack {
                 Image(systemName: viewModel.getPreferredImageSrc(for: course))
                     .resizable()
                     .frame(width: 64.0, height: 64.0)
-                NavigationLink(destination: CourseCreateOrEditView(courseId:courseId)) {
+                NavigationLink(destination: CourseCreateOrEditView(mealId:course.mealId, courseId:course.id)) {
                     VStack(alignment: .leading) {
                         Text(course.name)
                             .bold()
-                        Text(course.food.notes ?? "")
+                        Text(course.food.notes)
                             .foregroundColor(.gray)
                         Spacer()
                     }

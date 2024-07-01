@@ -8,33 +8,51 @@
 import SwiftUI
 
 struct CourseCreateOrEditView: View {
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @EnvironmentObject var viewModel:AppViewModel;
+    let mealId:String;
     let courseId:String?;
 
-    @Environment(\.dismiss) private var dismiss
-    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-
     var body: some View {
+        // We're either editing or creating a new meal in the model.
+        let course = viewModel.getOrAddCourseFor(mealId: mealId, courseId:courseId)
+        let courseId = course.id;
+        
         NavigationStack {
             ZStack(alignment: .bottom) {
-                // TODO: fully hook up model.
                 Form {
-                    PictureViews.PictureAndNameEditView(viewModel: viewModel, name: .constant("whee"), image: .constant("plus"))
+                    PictureViews.PictureAndNameEditView(
+                        name:Binding<String>(
+                            get: { course.name },
+                            set: { viewModel.setVenueNameFor(mealId, name:$0) }),
+                        rating:Binding<Int>(
+                            get: { meal.venue.rating },
+                            set: { viewModel.setVenueRatingFor(mealId, rating:$0) })
+                    )
+                        
+                        
+                        
+                        name: .constant("whee"), image: .constant("plus"))
                     DateViews.DatePickerSection(selectedDate: Date())
-                    PictureViews.PictureAndNotesEditSection(title: "Food", data: nil)
-                    PictureViews.PictureAndNotesEditSection(title: "Wine", data: nil)
+                    PictureViews.PictureAndNotesEditSection(title: "Food", data: course.food)
+                    PictureViews.PictureAndNotesEditSection(title: "Wine", data: course.wine)
                 }
 
-                SaveButton() // TODO: Action to save this form
+                SaveButton(
+                    actionFunc: {
+                        
+                        // TODO: Write the course we built here back to the viewmodel.
+                        
+                        print("Saving course " + courseId)
+                    }
+                )
             }
             .navigationBarBackButtonHidden()
             .navigationBarItems(
                 leading: Text("Edit Course")
                     .font(.system(size:36, weight: .bold)),
                 trailing: Button(
-                    action: {
-                        dismiss()
-                    },
+                    action: { self.presentationMode.wrappedValue.dismiss() },
                     label: {
                         Image(systemName: "x.circle.fill")
                             .resizable()

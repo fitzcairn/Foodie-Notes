@@ -26,7 +26,7 @@ struct MealListView: View {
             .navigationBarItems(
                 leading: Text("Meals")
                     .font(.system(size:36, weight: .bold)),
-                trailing: NavigationLink(destination: MealCreateOrEditView()) {
+                trailing: NavigationLink(destination: MealCreateOrEditView(mealId:nil)) {
                     Image(systemName: "plus")
                         .resizable()
                         .padding(6)
@@ -71,11 +71,11 @@ struct MealItem: View {
                 .resizable()
                 .frame(width: 64.0, height: 64.0)
             // TODO: implement passing in the meal for edit, or nil for create.
-            NavigationLink(destination: MealView(mealId: meal.id, viewModel: viewModel)) {
+            NavigationLink(destination: MealView(mealId: meal.id)) {
                 VStack(alignment: .leading) {
                     Text(meal.getVenue().name)
                         .bold()
-                    Text(meal.notes ?? "")
+                    Text(meal.notes)
                         .foregroundColor(.gray)
                     Spacer()
                 }

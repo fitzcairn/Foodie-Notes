@@ -12,7 +12,6 @@ struct NameViews {
     private static let title:String = "Name"
   
     struct NameViewSection : View {
-        // TODO: Needs to be in viewmodel.
         let name:String;
         
         var body: some View {
@@ -26,7 +25,6 @@ struct NameViews {
     }
 
     struct NameEditSection : View {
-        // TODO: Needs to be in viewmodel.
         @Binding var name: String
         
         var body: some View {
@@ -39,7 +37,6 @@ struct NameViews {
     }
     
     struct NameEditView : View {
-        // TODO: Needs to be in viewmodel.
         @Binding var name: String
         
         var body: some View {

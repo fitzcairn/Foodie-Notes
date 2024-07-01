@@ -9,11 +9,14 @@ import SwiftUI
 
 
 struct SaveButton: View {
+    let actionFunc:(() -> Void)
+    
     var body: some View {
         Button(
             action: {
                 // TODO: trigger model write.
                 print("Save tapped")
+                actionFunc()
             },
             label: {
                 Text("Save")

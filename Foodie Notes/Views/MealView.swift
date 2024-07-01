@@ -8,13 +8,10 @@
 import SwiftUI
 
 struct MealView: View {
+    typealias PicturesAndNotes = AppModel.PicturesAndNotes
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @EnvironmentObject var viewModel:AppViewModel;
     let mealId:String;
-
-    @Environment(\.dismiss) private var dismiss
-    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    
-    
     
     var body: some View {
         if let meal = viewModel.getMealFor(mealId) {
@@ -24,19 +21,19 @@ struct MealView: View {
                     LocationViews.LocationViewSection(venue: meal.getVenue().name, rating: meal.getVenue().rating)
                     DateViews.DateSection(Date())
                     
-                    // Menu
-                    if let menu = meal.menu {
-                        PictureViews.PictureAndNotesViewSection(title: "Menu[s]", data: menu)
+                    // Menu, if not empty.
+                    if viewModel.checkShow(meal.menu) {
+                        PictureViews.PictureAndNotesViewSection(title: "Menu[s]", data:meal.menu)
                     }
                     
                     // Courses!
-                    CoursesViews.CoursesViewSection(mealId:mealId)
+                    CoursesViews.CoursesViewSection(meal:meal)
                     
                     // Notes
-                    if let note = meal.notes {
+                    if !meal.notes.isEmpty {
                         NotesViews.NotesSection(
                             title:"Additional Notes",
-                            note: note
+                            note: meal.notes
                         )
                     }
                 }
@@ -45,7 +42,7 @@ struct MealView: View {
                     leading: Text("View Meal")
                         .font(.system(size:36, weight: .bold)),
                     trailing: HStack {
-                        NavigationLink(destination: MealCreateOrEditView()) {
+                        NavigationLink(destination: MealCreateOrEditView(mealId:mealId)) {
                             Image(systemName: "pencil")
                                 .resizable()
                                 .padding(6)
@@ -55,9 +52,7 @@ struct MealView: View {
                                 .foregroundColor(.white)
                         }
                         Button(
-                            action: {
-                                dismiss()
-                            },
+                            action: { self.presentationMode.wrappedValue.dismiss() },
                             label: {
                                 Image(systemName: "x.circle.fill")
                                     .resizable()

@@ -16,7 +16,7 @@ struct NotesViews {
 
         var body: some View {
             Section(header: Text(title)) {
-                NotesView(note:note)
+                NotesView(inputText:note)
             }
         }
     }
@@ -24,27 +24,28 @@ struct NotesViews {
 
     // Display a note
     struct NotesView: View {
-        let note: String;
-        
+        var inputText:String;
+       
         var body: some View {
-            Text(note);
+            Text(inputText);
         }
     }
 
     // Notes edit embedded in a standalone session
     struct NotesEditSection: View {
         let title:String;
+        @Binding var inputText:String;
 
         var body: some View {
             Section(header: Text(title)) {
-                NotesEditView()
+                NotesEditView(inputText: $inputText)
             }
         }
     }
     
     // Notes edit view
     struct NotesEditView: View {
-        @State var inputText:String = ""
+        @Binding var inputText:String;
 
         var body: some View {
             ZStack {

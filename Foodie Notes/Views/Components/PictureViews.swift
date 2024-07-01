@@ -10,7 +10,8 @@ import SwiftUI
 // All views related to showing pictures and annotations
 struct PictureViews {
     typealias PicturesAndNotes = AppModel.PicturesAndNotes
-    
+    typealias Picture = AppModel.Picture
+
     struct PictureAndNameView : View {
         private let name:String
         private let image:String
@@ -33,12 +34,8 @@ struct PictureViews {
     }
     
     struct PictureAndNameEditView : View {
-        @ObservedObject var viewModel:AppViewModel;
-
-        // TODO: Needs to be in viewmodel.
         @Binding var name: String
-        // TODO: Needs to be in viewmodel.
-        @Binding var image: String?
+        @Binding var picture: Picture
         
         var body: some View {
             HStack {
@@ -52,20 +49,24 @@ struct PictureViews {
     struct PictureAndNotesViewSection: View {
         let title:String;
         let data:AppModel.PicturesAndNotes;
-        
+        @EnvironmentObject var viewModel:AppViewModel;
+
         var body: some View {
+            let vm:AppViewModel = viewModel;
             Section(header: Text(title)) {
                 HStack(alignment: .center) {
                     VStack(alignment: .center) {
                         LazyVGrid(columns: [GridItem(.adaptive(minimum: 64))], spacing:10) {
-                            ForEach(data.pictures) { picture in
-                                Image(systemName: picture.src)
-                                    .resizable()
-                                    .frame(width: 64.0, height: 64.0)
+                            ForEach(data.pictureIds.indices) { i in
+                                if let picture = vm.getPictureFor(data.pictureIds[i]) {
+                                    Image(systemName: picture.src)
+                                        .resizable()
+                                        .frame(width: 64.0, height: 64.0)
+                                }
                             }
                         }
                     }
-                    NotesViews.NotesView(note:data.notes ?? "")
+                    NotesViews.NotesView(inputText:data.notes)
                         .frame(maxWidth: .infinity)
                         .fixedSize(horizontal: false, vertical: true)
                 }
@@ -75,23 +76,21 @@ struct PictureViews {
     
     struct PictureAndNotesEditSection: View {
         let title:String;
-        // TODO: Comes from view model.
-        var data:AppModel.PicturesAndNotes? = nil;
+        @EnvironmentObject var viewModel:AppViewModel;
+        @Binding var data:AppModel.PicturesAndNotes;
         
         var body: some View {
             Section(header: Text(title)) {
                 HStack(alignment: .center) {
                     VStack(alignment: .center) {
                         LazyVGrid(columns: [GridItem(.adaptive(minimum: 64))], spacing:10) {
-                            ForEach(data?.pictures ?? []) { img in
-                                EditablePictureView(image: img.src, deleteAction:deletePhoto)
+                            ForEach($data.pictureIds.indices) { i in
+                                EditablePictureView(data:data, index:i, deleteAction:deletePhoto)
                             }
-                            EditablePictureView()
+                            EditablePictureView(data:data)
                         }
                     }
-                    NotesViews.NotesEditView(inputText:data?.notes ?? "")
-                        //.frame(maxWidth: .infinity)
-                        //.fixedSize(horizontal: false, vertical: true)
+                    NotesViews.NotesEditView(inputText:$data.notes)
                 }
             }
         }
@@ -104,16 +103,30 @@ struct PictureViews {
     
     // A Picture that you can click and remove
     struct EditablePictureView: View {
-        // TODO: tie to actual view model.
-        var image: String? = nil;
-        
+        @EnvironmentObject var viewModel:AppViewModel;
+        @Binding var data:AppModel.PicturesAndNotes;
+        let index:Int;
         // Allow this to also delete.
         var deleteAction: (() -> Void)? = nil;
         
+        init(data: AppModel.PicturesAndNotes, index:Int, deleteAction:(()-> Void)?) {
+            self.data = data
+            self.index = index;
+            self.deleteAction = deleteAction
+        }
+
+        // New picture case.
+        init(data: AppModel.PicturesAndNotes) {
+            self.data = data
+            self.index = -1;
+        }
+
         var body: some View {
+            let vm:AppViewModel = viewModel;
             ZStack(alignment: .top) {
-                if let picture = image {
-                    Image(systemName: picture)
+                if data.pictureIds.count > index {
+                    let picture = vm.getPictureFor(data.pictureIds[index])
+                    Image(systemName: picture.src)
                         .resizable()
                         .frame(width: 64.0, height: 64.0)
                     HStack {
