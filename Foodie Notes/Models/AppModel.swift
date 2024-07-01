@@ -57,9 +57,9 @@ struct AppModel {
     
     struct Meal : Identifiable {
         var id:String = Id.createId();
-        private var venue: Venue;
-        private var menu: PicturesAndNotes?
-        private var courses: [Course] = [];
+        var venue: Venue;
+        var menu: PicturesAndNotes?
+        var courses: [Course] = [];
         var date:Date = Date();
         var notes:String?
         
@@ -120,8 +120,8 @@ struct AppModel {
     }
     
     struct PicturesAndNotes {
-        private var pictures:[Picture] = [];
-        private var notes:String?;
+        var pictures:[Picture] = [];
+        var notes:String?;
         
         init() {
         }
@@ -133,7 +133,9 @@ struct AppModel {
     }
     
     // Encapsulate picture management
-    struct Picture {
+    struct Picture : Identifiable {
+        var id:String = Id.createId()
+        
         // For now, string, until I can figure this one out.
         let src:String;
         

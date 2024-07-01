@@ -25,7 +25,9 @@ struct MealView: View {
                     DateViews.DateSection(Date())
                     
                     // Menu
-                    PictureViews.PictureAndNotesViewSection(title: "Menu[s]", data: PictureViews.PicturesAndNotes(pictures: ["plus", "gear"], notes: "Bonzer menus"))
+                    if let menu = meal.menu {
+                        PictureViews.PictureAndNotesViewSection(title: "Menu[s]", data: menu)
+                    }
                     
                     // Courses!
                     CoursesViews.CoursesViewSection()
@@ -69,7 +71,7 @@ struct MealView: View {
             Button(
                 action: { self.presentationMode.wrappedValue.dismiss() },
                 label: {
-                    Text("Oops! Something went wrong.")
+                    Text("Oops! Something went wrong.\n\nClick to go back.")
                 }
             )
         }

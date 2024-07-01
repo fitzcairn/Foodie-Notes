@@ -53,22 +53,21 @@ struct PictureViews {
 
     struct PictureAndNotesViewSection: View {
         let title:String;
-        // TODO: Comes from view model.
-        let data:PicturesAndNotes;
+        let data:AppModel.PicturesAndNotes;
         
         var body: some View {
             Section(header: Text(title)) {
                 HStack(alignment: .center) {
                     VStack(alignment: .center) {
                         LazyVGrid(columns: [GridItem(.adaptive(minimum: 64))], spacing:10) {
-                            ForEach(data.pictures, id:\.self) { imgStr in
-                                Image(systemName: imgStr)
+                            ForEach(data.pictures) { picture in
+                                Image(systemName: picture.src)
                                     .resizable()
                                     .frame(width: 64.0, height: 64.0)
                             }
                         }
                     }
-                    NotesViews.NotesView(note:data.notes)
+                    NotesViews.NotesView(note:data.notes ?? "")
                         .frame(maxWidth: .infinity)
                         .fixedSize(horizontal: false, vertical: true)
                 }
