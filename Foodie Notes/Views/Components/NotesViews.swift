@@ -1,18 +1,18 @@
 //
-//  ProfileView.swift
+//  NotesViews.swift
 //  Foodie Notes
 //
-//  Created by Steve Martin on 6/29/24.
+//  Created by Steve Martin on 7/1/24.
 //
 
 import SwiftUI
 
-struct ProfileView: View {
+struct NotesViews: View {
     var body: some View {
         Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
     }
 }
 
 #Preview {
-    ProfileView()
+    NotesViews()
 }
