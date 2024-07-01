@@ -1,5 +1,5 @@
 //
-//  CourseAddOrEditView.swift
+//  CourseCreateOrEditView.swift
 //  Foodie Notes
 //
 //  Created by Steve Martin on 6/29/24.
@@ -7,19 +7,11 @@
 
 import SwiftUI
 
-struct CourseAddOrEditView: View {
+struct CourseCreateOrEditView: View {
     @Environment(\.dismiss) private var dismiss
-
-    @State var name: String = ""
-    @State var isHidden: Bool = false
-    @State var email: String = ""
-    @State var receiveEmails: Bool = false
-    @State private var index = 0
-    var emailOptions = ["All", "Transactional", "Marketing"]
-    @State var volumeSliderValue: Double = 0
-    @State var date = Date()
-    @State var stepper: Int = 0
     
+    // TODO: This should be passed in.
+    private let course = CoursesViews.testCourses[0];
     
     var body: some View {
         NavigationStack {
@@ -27,8 +19,6 @@ struct CourseAddOrEditView: View {
                 form
                 SaveButton()
             }
-
-
             .navigationBarBackButtonHidden()
             .navigationBarItems(
                 leading: Text("Edit Course")
@@ -49,16 +39,17 @@ struct CourseAddOrEditView: View {
     }
     
     var form: some View {
+        // TODO: Pass in actual model values.
         Form {
-            DatePickerSection(prompt:"When Enjoyed:")
-            PictureAndAnnotationSection(title:"Food")
-            PictureAndAnnotationSection(title:"Wine")
-            NotesSection(title:"Additional Notes")
+            NameViews.NameAndImageEditView(name: .constant(course.name), image: .constant(course.pickedImage))
+            DateViews.DatePickerSection(selectedDate:course.date)
+            PictureViews.PictureAndNotesEditSection(title: "Food", data: course.food)
+            PictureViews.PictureAndNotesEditSection(title: "Wine", data: course.wine)
         }
     }
 }
 
 #Preview {
-    CourseAddOrEditView()
+    CourseCreateOrEditView()
 }
 

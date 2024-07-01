@@ -22,7 +22,7 @@ struct MealListView: View {
                 ForEach(meals, id: \.self) { meal in
                     MealItem(meal[0], meal[1])
                 }
-                .onDelete(perform: removeMeal)
+                .onDelete(perform: remove)
             }
             .listStyle(.plain)
             .navigationBarBackButtonHidden()
@@ -50,9 +50,8 @@ struct MealListView: View {
         LinearGradient(gradient: Gradient(colors: [Color.blue, Color.white]), startPoint: .topLeading, endPoint: .bottomTrailing)
             .edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
     }
-    
-    
-    func removeMeal(at offsets: IndexSet) {
+        
+    func remove(at offsets: IndexSet) {
         // TODO: Implement delete
     }
     

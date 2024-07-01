@@ -11,7 +11,7 @@ struct MealCreateOrEditView: View {
     @Environment(\.dismiss) private var dismiss
     
     var body: some View {
-        // TODO: Split the NStack out into a custom view.
+        // TODO: Split my custom NavigationStack out into a custom view.
         NavigationStack {
             ZStack(alignment: .bottom) {
                 form
@@ -22,15 +22,6 @@ struct MealCreateOrEditView: View {
                 leading: Text("Edit Meal")
                     .font(.system(size:36, weight: .bold)),
                 trailing: HStack {
-                    NavigationLink(destination: MealCreateOrEditView()) {
-                        Image(systemName: "pencil")
-                            .resizable()
-                            .padding(6)
-                            .frame(width: 24, height: 24)
-                            .background(Color.blue)
-                            .clipShape(Circle())
-                            .foregroundColor(.white)
-                    }
                     Button(
                         action: {
                             dismiss
@@ -48,20 +39,10 @@ struct MealCreateOrEditView: View {
     
     var form: some View {
         Form {
-            DatePickerSection(prompt:"When Enjoyed:")
-
-            // Location
-            Section(header: Text("Venue")) {
-                Text("TODO: Location Picker")
-            }
-
-            
-            // Courses!
-            Section(header: Text("Courses")) {
-                Text("TODO: Add/View/Edit Course List")
-            }
-            
-            NotesSection(title:"Additional Notes")
+            LocationViews.LocationEditSection(venue:.constant(""))
+            DateViews.DatePickerSection()
+            CoursesViews.CoursesEditSection()
+            NotesViews.NotesEditSection(title:"Additional Notes")
         }
     }
 

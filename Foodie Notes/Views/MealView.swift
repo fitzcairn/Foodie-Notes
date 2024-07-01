@@ -11,8 +11,9 @@ struct MealView: View {
     @Environment(\.dismiss) private var dismiss
     
     var body: some View {
+        // TODO: Split my custom NavigationStack out into a custom view.
         NavigationStack {
-            Text("View Meal")
+            content
             .navigationBarBackButtonHidden()
             .navigationBarItems(
                 leading: Text("View Meal")
@@ -39,6 +40,28 @@ struct MealView: View {
                         }
                     )
                 })
+        }
+    }
+    
+    var content: some View {
+        // TODO: Pass in actual model values.
+        Form {
+            // Location
+            LocationViews.LocationViewSection(venue:"Bob's Shack", rating: 4)
+            
+            DateViews.DateSection(Date())
+
+            // Courses!
+            CoursesViews.CoursesViewSection()
+
+            // Notes
+            // TODO: condition on if there's a note.
+            NotesViews.NotesSection(
+                title:"Additional Notes",
+                note: """
+                In the below example, for each link is sent a string with the screen number, in the NavigationLink's value parameter. And then, the link's container has implemented the navigationDestination, that will be called when any value of type string, is sent.
+                """
+            )
         }
     }
 }
