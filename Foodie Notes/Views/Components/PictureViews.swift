@@ -9,11 +9,7 @@ import SwiftUI
 
 // All views related to showing pictures and annotations
 struct PictureViews {
-    // TODO: replace with view model
-    struct PicturesAndNotes : Hashable {
-        let pictures:[String]
-        let notes:String
-    }
+    typealias PicturesAndNotes = AppModel.PicturesAndNotes
     
     struct PictureAndNameView : View {
         private let name:String
@@ -37,6 +33,8 @@ struct PictureViews {
     }
     
     struct PictureAndNameEditView : View {
+        @ObservedObject var viewModel:AppViewModel;
+
         // TODO: Needs to be in viewmodel.
         @Binding var name: String
         // TODO: Needs to be in viewmodel.
@@ -78,15 +76,15 @@ struct PictureViews {
     struct PictureAndNotesEditSection: View {
         let title:String;
         // TODO: Comes from view model.
-        var data:PicturesAndNotes? = nil;
+        var data:AppModel.PicturesAndNotes? = nil;
         
         var body: some View {
             Section(header: Text(title)) {
                 HStack(alignment: .center) {
                     VStack(alignment: .center) {
                         LazyVGrid(columns: [GridItem(.adaptive(minimum: 64))], spacing:10) {
-                            ForEach(data?.pictures ?? [], id:\.self) { imgStr in
-                                EditablePictureView(image: imgStr, deleteAction:deletePhoto)
+                            ForEach(data?.pictures ?? []) { img in
+                                EditablePictureView(image: img.src, deleteAction:deletePhoto)
                             }
                             EditablePictureView()
                         }

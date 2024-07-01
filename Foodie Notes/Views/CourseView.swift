@@ -8,21 +8,34 @@
 import SwiftUI
 
 struct CourseView: View {
+    @EnvironmentObject var viewModel:AppViewModel;
+    let mealId:String;
+    let courseId:String?;
+
     @Environment(\.dismiss) private var dismiss
-    
-    // TODO: This should be passed in.
-    private let course = CoursesViews.testCourses[1];
-        
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+
+
     var body: some View {
         // TODO: Split my custom NavigationStack out into a custom view.
         NavigationStack {
-            content
+            
+            // TODO: Pass in actual model values.
+            Form {
+                CoursesViews.CourseNameAndPickedImageView(mealId:mealId, courseId: courseId)
+                DateViews.DateSection(Date())
+                //PictureViews.PictureAndNotesViewSection(title: "Food", data: course.food)
+                //if let wine = course.wine {
+                    //PictureViews.PictureAndNotesViewSection(title: "Wine", data: wine)
+                //}
+            }
+
             .navigationBarBackButtonHidden()
             .navigationBarItems(
                 leading: Text("View Course")
                     .font(.system(size:36, weight: .bold)),
                 trailing: HStack {
-                    NavigationLink(destination: CourseCreateOrEditView()) {
+                    NavigationLink(destination: CourseCreateOrEditView(viewModel: viewModel, course: course)) {
                         Image(systemName: "pencil")
                             .resizable()
                             .padding(6)
@@ -32,9 +45,7 @@ struct CourseView: View {
                             .foregroundColor(.white)
                     }
                     Button(
-                        action: {
-                            dismiss()
-                        },
+                        action: { self.presentationMode.wrappedValue.dismiss() },
                         label: {
                             Image(systemName: "x.circle.fill")
                                 .resizable()
@@ -45,20 +56,9 @@ struct CourseView: View {
                 })
         }
     }
-    
-    var content: some View {
-        // TODO: Pass in actual model values.
-        Form {
-            CoursesViews.CourseNameAndPickedImageView(course)
-            DateViews.DateSection(course.date)           
-            //PictureViews.PictureAndNotesViewSection(title: "Food", data: course.food)
-            if let wine = course.wine {
-                //PictureViews.PictureAndNotesViewSection(title: "Wine", data: wine)
-            }
-        }
-    }
 }
 
 #Preview {
-    CourseView()
+    CourseView(mealId:"m1", courseId:"c1")
+        .environmentObject(AppViewModel(numTestMeals:5))
 }

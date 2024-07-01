@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct MealView: View {
+    @EnvironmentObject var viewModel:AppViewModel;
     let mealId:String;
-    @ObservedObject var viewModel:AppViewModel;
-    
+
     @Environment(\.dismiss) private var dismiss
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
@@ -30,7 +30,7 @@ struct MealView: View {
                     }
                     
                     // Courses!
-                    CoursesViews.CoursesViewSection()
+                    CoursesViews.CoursesViewSection(mealId:mealId)
                     
                     // Notes
                     if let note = meal.notes {
@@ -79,5 +79,6 @@ struct MealView: View {
 }
 
 #Preview {
-    MealView(mealId:"m1", viewModel: AppViewModel(numTestMeals:5))
+    MealView(mealId:"m1")
+        .environmentObject(AppViewModel(numTestMeals:5))
 }

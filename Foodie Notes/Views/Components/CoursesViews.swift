@@ -9,112 +9,21 @@ import SwiftUI
 
 // All views and logic related to courses.
 struct CoursesViews {
-    private static var missingImage = "fork.knife.circle";
-    
-    // TODO: replace with view model
-    struct Course : Hashable, Equatable {
-        static func == (lhs: CoursesViews.Course, rhs: CoursesViews.Course) -> Bool {
-            return lhs.name == rhs.name
-        }
-        func hash(into hasher: inout Hasher) {
-          hasher.combine(name)
-        }
-        
-        let name:String
-        let pickedImage:String?
-        let food:PictureViews.PicturesAndNotes
-        let wine:PictureViews.PicturesAndNotes?
-        let date:Date
-        // TODO: Add meal, venue, date, id
-        
-    }
-    
-    // TODO: Move this to a test case.
-    public static var testCourses = [
-        Course(
-            name: "Amuse Bouche",
-            pickedImage: "gearshape",
-            food: PictureViews.PicturesAndNotes(
-                pictures: [
-                    "star.leadinghalf.filled",
-                    "gearshape",
-                    "figure.walk"
-                ],
-                notes: "A delightful bite-sized explosion of flavors that sets the perfect tone for the culinary journey ahead."
-            ),
-            wine: nil,
-            date: Date()
-        ),
-        Course(
-            name: "Lobster",
-            pickedImage: nil,
-            food: PictureViews.PicturesAndNotes(
-                pictures: [
-                    "flame.fill",
-                ],
-                notes: "A succulent lobster dish that boasts tender, buttery meat perfectly complemented by a rich, flavorful sauce."
-                ),
-            wine: PictureViews.PicturesAndNotes(
-                pictures: [
-                    "circle.square.fill",
-                    "keyboard",
-                    "gearshape"
-                ],
-                notes: "A masterful wine pairing that elevates each dish, enhancing flavors and creating a harmonious dining experience."
-            ),
-            date: Date()
-        ),
-        Course(
-            name: "Veal",
-            pickedImage: nil,
-            food: PictureViews.PicturesAndNotes(
-                pictures: [
-                    "moon.stars.fill",
-                    "leaf.arrow.circlepath",
-                    "gearshape"
-                ],
-                notes: "A tender veal dish with a delicate balance of flavors, offering a melt-in-your-mouth experience."
-                ),
-            wine: PictureViews.PicturesAndNotes(
-                pictures: [
-                    "airplane.departure",
-                ],
-                notes: "A masterful wine pairing that elevates each dish, enhancing flavors and creating a harmonious dining experience."
-            ),
-            date: Date()
-        ),
-        Course(
-            name: "Dessert",
-            pickedImage: "airplane.departure",
-            food: PictureViews.PicturesAndNotes(
-                pictures: [
-                    "star.fill",
-                    "rectangle.on.rectangle.circle",
-                    "music.note"
-                ],
-                notes: "A delightful bite-sized explosion of flavors that sets the perfect tone for the culinary journey ahead."
-                ),
-            wine: PictureViews.PicturesAndNotes(
-                pictures: [
-                    "cart.circle",
-                    "airplane.departure"
-                ],
-                notes: "A masterful wine pairing that elevates each dish, enhancing flavors and creating a harmonious dining experience."
-            ),
-            date: Date()
-        )
-    ]
-    
+    typealias Meal = AppModel.Meal;
+    typealias Course = AppModel.Course;
+    typealias Picture = AppModel.Picture;
     
     struct CoursesViewSection : View {
-        // TODO: replace with view model
-        @State private var courses = testCourses;
-        
+        @EnvironmentObject private var viewModel:AppViewModel;
+        let mealId:String;
+        let courseId:String?;
+
         var body: some View {
+            let courses = viewModel.getMealFor(mealId)?.courses ?? []
             Section(header: Text("Courses")) {
                 List {
-                    ForEach(courses, id: \.self) { course in
-                        CourseItemView(course)
+                    ForEach(courses) { course in
+                        CourseItemView(mealId:mealId, courseId:courseId)
                     }
                 }
             }
@@ -122,14 +31,21 @@ struct CoursesViews {
     }
     
     struct CoursesEditSection : View {
-        // TODO: replace with view model
-        @State private var courses = testCourses;
-        
+        @EnvironmentObject private var viewModel:AppViewModel;
+        let mealId:String;
+        let courseId:String?;
+
+        init(mealId: String, courseId: String?) {
+            self.mealId = mealId
+            self.courseId = courseId
+        }
+
         var body: some View {
+            let courses = viewModel.getMealFor(mealId)?.courses ?? []
             Section(header: header) {
                 List {
-                    ForEach(courses, id: \.self) { course in
-                        CourseItemView(course)
+                    ForEach(courses) { course in
+                        CourseItemView(mealId:mealId, courseId:courseId)
                     }
                     .onDelete(perform: remove)
                 }
@@ -140,7 +56,7 @@ struct CoursesViews {
             HStack {
                 Text("Courses")
                 Spacer()
-                NavigationLink(destination: CourseCreateOrEditView()) {
+                NavigationLink(destination: CourseCreateOrEditView(courseId:courseId)) {
                     Image(systemName: "plus.circle")
                         .resizable()
                         .frame(width: 24, height: 24)
@@ -151,49 +67,51 @@ struct CoursesViews {
         }
         
         func remove(at offsets: IndexSet) {
-            // TODO: Implement delete
+            // TODO: implement
+            // TODO: do we need multiple index removal at once?
+            //viewModel.removeCourseFromMeal(mealId: mealId, at: offsets[0])
         }
     }
         
     struct CourseNameAndPickedImageView : View {
-        private let course:Course
-        
-        init(_ input:Course) {
-            course = input;
+        @EnvironmentObject private var viewModel:AppViewModel;
+        let mealId:String;
+        let courseId:String?;
+
+        init(mealId: String, courseId: String?) {
+            self.mealId = mealId
+            self.courseId = courseId
         }
         
         var body: some View {
+            let course = viewModel.getOrAddCourseFor(mealId: mealId, courseId: courseId)
             PictureViews.PictureAndNameView(name:course.name,
-                                       image:getPickedImage(from: course.pickedImage))
-        }
-    
-        func getPickedImage(from image:String?) -> String {
-            if let preferred = image {
-                return preferred
-            }
-            return missingImage
+                                            image:viewModel.getPreferredImageSrc(for: course))
         }
     }
     
     // Individual course in a list
     struct CourseItemView : View {
-        private let course:Course
-        
-        init(_ input:Course) {
-            course = input;
+        @EnvironmentObject private var viewModel:AppViewModel;
+        let mealId:String;
+        let courseId:String?;
+
+        init(mealId: String, courseId: String?) {
+            self.mealId = mealId
+            self.courseId = courseId
         }
-        
+
         var body: some View {
+            let course = viewModel.getOrAddCourseFor(mealId: mealId, courseId: courseId)
             HStack {
-                Image(systemName: getImage(from: course.pickedImage, in: course.food.pictures))
+                Image(systemName: viewModel.getPreferredImageSrc(for: course))
                     .resizable()
                     .frame(width: 64.0, height: 64.0)
-                // TODO: implement passing in the course for edit, or nil for create.
-                NavigationLink(destination: CourseCreateOrEditView()) {
+                NavigationLink(destination: CourseCreateOrEditView(courseId:courseId)) {
                     VStack(alignment: .leading) {
                         Text(course.name)
                             .bold()
-                        Text(course.food.notes)
+                        Text(course.food.notes ?? "")
                             .foregroundColor(.gray)
                         Spacer()
                     }
@@ -201,15 +119,6 @@ struct CoursesViews {
                 }
             }
         }
-        
-        // TODO: Move to view model
-        func getImage(from image:String?, in images:[String]) -> String {
-            if let preferred = image {
-                return preferred
-            }
-            return images.isEmpty ? missingImage : images.randomElement() ?? missingImage;
-        }
-        
     }
     
 }

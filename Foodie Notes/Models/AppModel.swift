@@ -13,6 +13,7 @@ struct AppModel {
     private var mealsById:[String:Meal] = [:];
     private var venuesByName:[String:Venue] = [:];
     private var mealsByVenue:[String:[Meal]] = [:];
+    private var coursedById:[String:Course] = [:];
         
     // MARK: - Public Intents
     
@@ -21,6 +22,30 @@ struct AppModel {
         let meal = Meal(venue: venue);
         index(meal)
         return meal;
+    }
+    
+    mutating func addCourseToMeal(mealId:String, course:Course) {
+        if let _ = getMealFor(mealId) {
+            mealsById[mealId]!.courses.append(course)
+            coursedById[course.id] = course
+        }
+    }
+    
+    mutating func addCourseToMeal(mealId: String) -> Course {
+        let course = Course(mealId: mealId)
+        addCourseToMeal(mealId: mealId, course: course)
+        return course
+    }
+
+    
+    mutating func removeCourseFromMeal(mealId:String, at:Int) {
+        if let _ = getMealFor(mealId) {
+            mealsById[mealId]!.courses.remove(at: at)
+        }
+    }
+    
+    func getCourse(id:String) -> Course? {
+        return coursedById[id];
     }
     
     func getMeals() -> [Meal] {
@@ -43,7 +68,7 @@ struct AppModel {
     }
     
     private mutating func addMeal(_ meal:Meal) {
-        let venue = getOrAddVenue(meal.getVenue().name);
+        _ = getOrAddVenue(meal.getVenue().name);
         index(meal)
     }
     
@@ -51,6 +76,9 @@ struct AppModel {
         let venue = getOrAddVenue(meal.getVenue().name);
         mealsByVenue[venue.id, default: []].append(meal)
         mealsById[meal.id] = meal;
+        for course in meal.courses {
+            coursedById[course.id] = course;
+        }
     }
     
     // MARK: - Component Models
@@ -99,14 +127,18 @@ struct AppModel {
         }
     }
     
-    struct Course {
+    struct Course : Hashable, Equatable, Identifiable {
         var id:String = Id.createId();
-        private let mealId:String;
-        private var name:String;
-        private var date:Date;
-        private var food:PicturesAndNotes = PicturesAndNotes();
-        private var wine:PicturesAndNotes?;
-        private var pickedImage:Picture?;
+        let mealId:String;
+        var name:String = "";
+        var date:Date = Date();
+        var food:PicturesAndNotes = PicturesAndNotes();
+        var wine:PicturesAndNotes?;
+        var pickedImage:Picture?;
+        
+        init(mealId: String) {
+            self.mealId = mealId
+        }
         
         init(id:String, mealId: String, name: String, date: Date, food: PicturesAndNotes, wine: PicturesAndNotes? = nil, pickedImage: Picture? = nil) {
             self.id = id
@@ -116,6 +148,14 @@ struct AppModel {
             self.food = food
             self.wine = wine
             self.pickedImage = pickedImage
+        }
+        
+        static func == (lhs: AppModel.Course, rhs: AppModel.Course) -> Bool {
+            return lhs.id == rhs.id
+        }
+        
+        func hash(into hasher: inout Hasher) {
+            hasher.combine(id)
         }
     }
     
@@ -217,7 +257,6 @@ extension AppModel {
                                 notes: "A masterful wine pairing that elevates each dish, enhancing flavors and creating a harmonious dining experience."),
                                pickedImage: Picture(src: "gearshape")
                               ),
-                        
                         Course(id: "c4",
                                mealId: "m\(index)",
                                name: "Amuse Bouche",

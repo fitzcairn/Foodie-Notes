@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct MealCreateOrEditView: View {
+    @EnvironmentObject var viewModel:AppViewModel;
     @Environment(\.dismiss) private var dismiss
     
     var body: some View {
@@ -41,7 +42,7 @@ struct MealCreateOrEditView: View {
         Form {
             LocationViews.LocationEditSection(venue:.constant(""))
             DateViews.DatePickerSection()
-            PictureViews.PictureAndNotesEditSection(title: "Menu[s]", data: PictureViews.PicturesAndNotes(pictures: ["plus", "gear"], notes: "Bonzer menus"))
+            PictureViews.PictureAndNotesEditSection(title: "Menu[s]", data:nil)
             CoursesViews.CoursesEditSection()
             NotesViews.NotesEditSection(title:"Additional Notes")
         }
@@ -51,4 +52,5 @@ struct MealCreateOrEditView: View {
 
 #Preview {
     MealCreateOrEditView()
+        .environmentObject(AppViewModel(numTestMeals:5))
 }

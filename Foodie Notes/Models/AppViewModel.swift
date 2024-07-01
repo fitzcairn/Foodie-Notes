@@ -9,8 +9,10 @@ import Foundation
 
 // View model for the app.
 class AppViewModel : ObservableObject {
-    // Map card type to String.
     typealias Meal = AppModel.Meal;
+    typealias Course = AppModel.Course;
+    
+    private static var missingImage = "fork.knife.circle";
 
     // App model
     @Published private var model: AppModel = createAppModel();
@@ -28,6 +30,21 @@ class AppViewModel : ObservableObject {
     
     // MARK: - Intents
     
+    func getCourseFor(id:String?) -> Course? {
+        if let courseId = id {
+            return model.getCourse(id:courseId);
+        }
+        return nil;
+    }
+    
+    func addNewCourseTo(mealId:String) -> Course {
+        return model.addCourseToMeal(mealId: mealId)
+    }
+    
+    func getOrAddCourseFor(mealId:String, courseId:String?) -> Course {
+        return getCourseFor(id: courseId) ?? addNewCourseTo(mealId:mealId)
+    }
+    
     func getMeals() -> [Meal] {
         // TODO: apply filter, for now return all.
         return model.getMeals();
@@ -35,6 +52,20 @@ class AppViewModel : ObservableObject {
     
     func getMealFor(_ mealId:String) -> Meal? {
         return model.getMealFor(mealId)
+    }
+    
+    func getPreferredImageSrc(for courseId:String, in mealId:String) -> String {
+        if let course = getMealFor(mealId)?.courses.first(where: { $0.id == courseId }) {
+            return getPreferredImageSrc(for: course)
+        }
+        return AppViewModel.missingImage;
+    }
+    
+    func getPreferredImageSrc(for course:AppModel.Course) -> String {
+        if let preferred = course.pickedImage {
+            return preferred.src
+        }
+        return course.food.pictures.isEmpty ? AppViewModel.missingImage : course.food.pictures.randomElement()!.src;
     }
 
     

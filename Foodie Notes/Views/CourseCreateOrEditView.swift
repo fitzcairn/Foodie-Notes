@@ -8,16 +8,24 @@
 import SwiftUI
 
 struct CourseCreateOrEditView: View {
+    @EnvironmentObject var viewModel:AppViewModel;
+    let courseId:String?;
+
     @Environment(\.dismiss) private var dismiss
-    
-    // TODO: This should be passed in.
-    private let course = CoursesViews.testCourses[0];
-    
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+
     var body: some View {
         NavigationStack {
             ZStack(alignment: .bottom) {
-                form
-                SaveButton()
+                // TODO: fully hook up model.
+                Form {
+                    PictureViews.PictureAndNameEditView(viewModel: viewModel, name: .constant("whee"), image: .constant("plus"))
+                    DateViews.DatePickerSection(selectedDate: Date())
+                    PictureViews.PictureAndNotesEditSection(title: "Food", data: nil)
+                    PictureViews.PictureAndNotesEditSection(title: "Wine", data: nil)
+                }
+
+                SaveButton() // TODO: Action to save this form
             }
             .navigationBarBackButtonHidden()
             .navigationBarItems(
@@ -37,19 +45,10 @@ struct CourseCreateOrEditView: View {
             )
         }
     }
-    
-    var form: some View {
-        // TODO: Pass in actual model values.
-        Form {
-            PictureViews.PictureAndNameEditView(name: .constant(course.name), image: .constant(course.pickedImage))
-            DateViews.DatePickerSection(selectedDate:course.date)
-            PictureViews.PictureAndNotesEditSection(title: "Food", data: course.food)
-            PictureViews.PictureAndNotesEditSection(title: "Wine", data: course.wine)
-        }
-    }
 }
 
 #Preview {
-    CourseCreateOrEditView()
+    CourseCreateOrEditView(courseId:"c1")
+        .environmentObject(AppViewModel(numTestMeals:5))
 }
 
