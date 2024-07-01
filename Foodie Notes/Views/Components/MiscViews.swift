@@ -42,7 +42,7 @@ struct DateViews {
 
     
     struct DatePickerSection: View {
-        @State var selectedDate: Date = Date()
+        @Binding var selectedDate:Date
         
         var body: some View {
             Section(title) {

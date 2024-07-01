@@ -8,15 +8,19 @@
 import SwiftUI
 
 struct MealCreateOrEditView: View {
+    typealias Meal = AppModel.Meal
     typealias PicturesAndNotes = AppModel.PicturesAndNotes
+
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @EnvironmentObject var viewModel:AppViewModel;
     var mealId:String?;
     
     var body: some View {
         // We're either editing or creating a new meal in the model.
-        let meal = viewModel.getOrAddMealFor(mealId)
+        var meal = viewModel.getOrAddMealFor(mealId)
         let mealId = meal.id;
+        var dirty = false;
+
         
         // TODO: Split my custom NavigationStack out into a custom view.
         NavigationStack {
@@ -25,30 +29,36 @@ struct MealCreateOrEditView: View {
                     LocationViews.LocationEditSection(
                         venue:Binding<String>(
                             get: { meal.venue.name },
-                            set: { viewModel.setVenueNameFor(mealId, name:$0) }),
+                            set: { meal.venue.name = $0; dirty.toggle() }),
                         rating:Binding<Int>(
                             get: { meal.venue.rating },
-                            set: { viewModel.setVenueRatingFor(mealId, rating:$0) })
+                            set: { meal.venue.rating = $0; dirty.toggle() })
                     )
-                    DateViews.DatePickerSection()
+                    DateViews.DatePickerSection(
+                        selectedDate: Binding<Date>(
+                            get: { meal.date },
+                            set: { meal.date = $0; dirty.toggle() })
+                    )
                     PictureViews.PictureAndNotesEditSection(
                         title: "Menu[s]",
                         data: Binding<PicturesAndNotes>(
                             get: { meal.menu },
-                            set: { viewModel.setMenuFor(mealId, menu:$0) }
+                            set: { meal.menu = $0; dirty.toggle() }
                         )
                     )
                     CoursesViews.CoursesEditSection(meal:meal)
                     NotesViews.NotesEditSection(title:"Additional Notes", inputText: Binding<String>(
                         get: { meal.notes },
-                        set: { viewModel.setNotesFor(mealId, notes:$0) }
+                        set: { meal.notes = $0; dirty.toggle() }
                     ))
                 }
 
                 SaveButton(
                     actionFunc: {
-                        viewModel.updateMeal(mealId, meal: meal)
-                        print("Saved course id: \(mealId)\n      meal: \(meal)")
+                        if (dirty) {
+                            viewModel.updateMeal(mealId, meal: meal)
+                            print("Saved course id: \(mealId)\n      meal: \(meal)")
+                        }
                     }
                 )
             }

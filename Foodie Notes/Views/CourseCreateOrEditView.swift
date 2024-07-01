@@ -15,8 +15,9 @@ struct CourseCreateOrEditView: View {
 
     var body: some View {
         // We're either editing or creating a new meal in the model.
-        let course = viewModel.getOrAddCourseFor(mealId: mealId, courseId:courseId)
+        var course = viewModel.getOrAddCourseFor(mealId: mealId, courseId:courseId)
         let courseId = course.id;
+        var dirty = false;
         
         NavigationStack {
             ZStack(alignment: .bottom) {
@@ -24,26 +25,36 @@ struct CourseCreateOrEditView: View {
                     PictureViews.PictureAndNameEditView(
                         name:Binding<String>(
                             get: { course.name },
-                            set: { viewModel.setVenueNameFor(mealId, name:$0) }),
-                        rating:Binding<Int>(
-                            get: { meal.venue.rating },
-                            set: { viewModel.setVenueRatingFor(mealId, rating:$0) })
+                            set: { course.name = $0; dirty.toggle() }),
+                        picture:Binding<AppModel.Picture>(
+                            get: { course.pickedImage },
+                            set: { course.pickedImage = $0; dirty.toggle() })
                     )
-                        
-                        
-                        
-                        name: .constant("whee"), image: .constant("plus"))
-                    DateViews.DatePickerSection(selectedDate: Date())
-                    PictureViews.PictureAndNotesEditSection(title: "Food", data: course.food)
-                    PictureViews.PictureAndNotesEditSection(title: "Wine", data: course.wine)
+                    DateViews.DatePickerSection(
+                        selectedDate: Binding<Date>(
+                            get: { course.date },
+                            set: { course.date = $0; dirty.toggle() })
+                    )
+                    PictureViews.PictureAndNotesEditSection(
+                        title: "Food",
+                        data: Binding<AppModel.PicturesAndNotes>(
+                            get: { course.food },
+                            set: { course.food = $0; dirty.toggle() })
+                    )
+                    PictureViews.PictureAndNotesEditSection(
+                        title: "Wine",
+                        data: Binding<AppModel.PicturesAndNotes>(
+                                get: { course.wine },
+                                set: { course.wine = $0; dirty.toggle() })
+                    )
                 }
 
                 SaveButton(
                     actionFunc: {
-                        
-                        // TODO: Write the course we built here back to the viewmodel.
-                        
-                        print("Saving course " + courseId)
+                        if dirty {
+                            viewModel.setMealCourseFor(mealId, course: course)
+                            print("Saving course id: \(courseId)\n    course: \(course)")
+                        }
                     }
                 )
             }
@@ -66,7 +77,7 @@ struct CourseCreateOrEditView: View {
 }
 
 #Preview {
-    CourseCreateOrEditView(courseId:"c1")
+    CourseCreateOrEditView(mealId:"m1", courseId:"c1")
         .environmentObject(AppViewModel(numTestMeals:5))
 }
 

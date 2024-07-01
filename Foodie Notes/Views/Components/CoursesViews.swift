@@ -20,7 +20,7 @@ struct CoursesViews {
         var body: some View {
             Section(header: Text("Courses")) {
                 List {
-                    ForEach(meal.courseIds) { course in
+                    ForEach(meal.courses) { course in
                         CourseItemView(course:course)
                     }
                 }
@@ -35,7 +35,7 @@ struct CoursesViews {
         var body: some View {
             Section(header: header) {
                 List {
-                    ForEach(meal.courseIds) { course in
+                    ForEach(meal.courses) { course in
                         CourseItemView(course:course)
                     }
                     .onDelete(perform: remove)

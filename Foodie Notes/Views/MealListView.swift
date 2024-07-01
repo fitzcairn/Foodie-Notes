@@ -17,7 +17,7 @@ struct MealListView: View {
         NavigationStack {
             List {
                 ForEach(viewModel.getMeals()) { meal in
-                    MealItem(meal:meal, viewModel: viewModel)
+                    MealItem(meal:meal)
                 }
                 .onDelete(perform: remove)
             }
@@ -57,23 +57,17 @@ struct MealListView: View {
 // MARK: - Element Views
 
 struct MealItem: View {
+    @EnvironmentObject private var viewModel:AppViewModel;
     let meal:AppModel.Meal;
-    @ObservedObject var viewModel:AppViewModel;
-    
-    init(meal: AppModel.Meal, viewModel: AppViewModel) {
-        self.meal = meal
-        self.viewModel = viewModel
-    }
     
     var body: some View {
         HStack {
-            Image(systemName: "sun.max.fill")
+            Image(systemName: viewModel.getOrAddMealPictureFor(meal).src)
                 .resizable()
                 .frame(width: 64.0, height: 64.0)
-            // TODO: implement passing in the meal for edit, or nil for create.
             NavigationLink(destination: MealView(mealId: meal.id)) {
                 VStack(alignment: .leading) {
-                    Text(meal.getVenue().name)
+                    Text(meal.venue.name)
                         .bold()
                     Text(meal.notes)
                         .foregroundColor(.gray)

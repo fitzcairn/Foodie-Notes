@@ -10,17 +10,12 @@ import Foundation
 
 // Backend model for all app state.
 struct AppModel {
-
-    // All app model storage.
+    
+    // All top-level storage.  Yes, there is duplication here.
     private var mealsById:[String:Meal] = [:];
     private var venuesByName:[String:Venue] = [:];
     private var coursesById:[String:Course] = [:];
-    private var picturesById:[String:Picture] = [:];
-
-    // Default value for empty image.
-    private static var missingPicture = Picture(src: "fork.knife.circle")
-            
-    
+               
     // MARK: - Public Setter Intents
     
     mutating func addMeal(at venueName:String?) -> Meal {
@@ -47,7 +42,7 @@ struct AppModel {
     
     mutating func addCourseToMeal(mealId:String, course:Course) {
         if let _ = getMealFor(mealId) {
-            mealsById[mealId]!.courseIds.append(course.id)
+            mealsById[mealId]!.courses.append(course)
             coursesById[course.id] = course
         }
     }
@@ -61,7 +56,7 @@ struct AppModel {
     
     mutating func removeCourseFromMeal(mealId:String, at:Int) {
         if let _ = getMealFor(mealId) {
-            mealsById[mealId]!.courseIds.remove(at: at)
+            mealsById[mealId]!.courses.remove(at: at)
         }
     }
     
@@ -76,7 +71,6 @@ struct AppModel {
             mealsById[mealId]!.notes = notes
         }
     }
-    
     
     
     // MARK: - Public Getter Intents
@@ -95,9 +89,10 @@ struct AppModel {
         }
         return nil;
     }
-   
-    func getPictureFor(_ pictureId:String) -> Picture? {
-        return picturesById[pictureId];
+    
+    // Default value for empty image.
+    static func missingPicture() -> Picture {
+        return Picture(src: "fork.knife.circle")
     }
 
     
@@ -115,7 +110,7 @@ struct AppModel {
     }
     
     private mutating func addMeal(_ meal:Meal) {
-        _ = getOrAddVenue(meal.getVenue().name);
+        _ = getOrAddVenue(meal.venue.name);
         index(meal)
     }
 
@@ -125,27 +120,15 @@ struct AppModel {
         return newMeal
     }
     
-    
-    // MARK: - Private Members: Index Updaters
-
-    private mutating func index(_ pictures:[Picture]) {
-        for picture in pictures {
-            picturesById[picture.id] = picture;
-        }
-    }
-   
-
-    
-    private mutating func index(_ courses:[Course]) {
-        for course in courses {
+    private mutating func index(_ meal:Meal) {
+        let venue = getOrAddVenue(meal.venue.name);
+        mealsById[meal.id] = meal;
+        for course in meal.courses {
             coursesById[course.id] = course;
         }
     }
-   
-    private mutating func index(_ meal:Meal) {
-        let venue = getOrAddVenue(meal.getVenue().name);
-        mealsById[meal.id] = meal;
-    }
+    
+
     
     // MARK: - Component Models
     
@@ -153,28 +136,23 @@ struct AppModel {
         var id:String = Id.createId();
         var venue: Venue;
         var menu: PicturesAndNotes = PicturesAndNotes()
-        var courseIds: [String] = [];
+        var courses: [Course] = [];
         var date:Date = Date();
         var notes:String = ""
-        
+        var pickedImage:Picture = AppModel.missingPicture();
+
         init(venue: Venue) {
             self.venue = venue
         }
         
-        init(id:String, venue: Venue, menu: PicturesAndNotes, courseIds: [String], date: Date, notes: notes) {
+        init(id:String, venue: Venue, menu: PicturesAndNotes, courses: [Course], date: Date, notes:String) {
             self.id = id
             self.venue = venue
             self.menu = menu
-            self.courseIds = courseIds
+            self.courses = courses
             self.date = date
             self.notes = notes
         }
-        
-        func getVenue() -> Venue {
-            return venue;
-        }
-        
-        
     }
     
     struct Venue {
@@ -200,7 +178,7 @@ struct AppModel {
         var date:Date = Date();
         var food:PicturesAndNotes = PicturesAndNotes();
         var wine:PicturesAndNotes = PicturesAndNotes();
-        var pickedImage:Picture = AppModel.missingPicture;
+        var pickedImage:Picture = AppModel.missingPicture();
         
         init(mealId: String) {
             self.mealId = mealId
@@ -226,14 +204,14 @@ struct AppModel {
     }
     
     struct PicturesAndNotes {
-        var pictureIds:[String] = [];
+        var pictures:[Picture] = [];
         var notes:String = "";
         
         init() {
         }
         
-        init(pictureIds: [String], notes: String) {
-            self.pictureIds = pictureIds
+        init(pictures: [Picture], notes: String) {
+            self.pictures = pictures
             self.notes = notes
         }
     }
@@ -265,10 +243,9 @@ extension AppModel {
     // Populate some test data.
     mutating func addTestData(numTestMeals:Int) {
         for index in 0..<numTestMeals {
-            let mealId = "m\(index)"
             addMeal(
                 Meal(
-                    id: mealId,
+                    id: "m\(index)",
                     venue: Venue(name: "McDonalds", rating:4),
                     menu: PicturesAndNotes(
                         pictures: [
@@ -276,77 +253,71 @@ extension AppModel {
                             Picture(src: "keyboard"),
                         ],
                         notes: "An amazing menu populated by amazing deals!"),
-                    courseIds: []
+                    courses: [
+                        Course(id: "c1",
+                               mealId: "m\(index)",
+                               name: "Amuse Bouche",
+                               date: Date(),
+                               food: PicturesAndNotes(
+                                pictures: [
+                                    Picture(src: "gearshape"),
+                                    Picture(src: "keyboard"),
+                                    Picture(src: "figure.walk"),
+                                ],
+                                notes: "A delightful bite-sized explosion of flavors that sets the perfect tone for the culinary journey ahead."),
+                               wine: PicturesAndNotes(),
+                               pickedImage: Picture(src: "gearshape")
+                              ),
+                        Course(id: "c2",
+                               mealId: "m\(index)",
+                               name: "Lobster",
+                               date: Date(),
+                               food: PicturesAndNotes(
+                                pictures: [
+                                    Picture(src: "gearshape"),
+                                    Picture(src: "keyboard"),
+                                    Picture(src: "figure.walk"),
+                                ],
+                                notes: "A succulent lobster dish that boasts tender, buttery meat perfectly complemented by a rich, flavorful sauce."),
+                               wine:PicturesAndNotes(),
+                               pickedImage: AppModel.missingPicture()
+                              ),
+                        Course(id: "c3",
+                               mealId: "m\(index)",
+                               name: "Veal",
+                               date: Date(),
+                               food: PicturesAndNotes(
+                                pictures: [
+                                    Picture(src: "gearshape"),
+                                    Picture(src: "keyboard"),
+                                    Picture(src: "figure.walk"),
+                                ],
+                                notes: "A tender veal dish with a delicate balance of flavors, offering a melt-in-your-mouth experience."),
+                               wine: PicturesAndNotes(
+                                pictures: [
+                                    Picture(src: "gearshape"),
+                                    Picture(src: "keyboard"),
+                                ],
+                                notes: "A masterful wine pairing that elevates each dish, enhancing flavors and creating a harmonious dining experience."),
+                               pickedImage: Picture(src: "gearshape")
+                              ),
+                        Course(id: "c4",
+                               mealId: "m\(index)",
+                               name: "Amuse Bouche",
+                               date: Date(),
+                               food: PicturesAndNotes(
+                                pictures: [
+                                    Picture(src: "gearshape"),
+                                ],
+                                notes: "Chocolate for days!"),
+                               wine:PicturesAndNotes(),
+                               pickedImage: AppModel.missingPicture()
+                              ),
+                    ],
                     date: Date(),
                     notes: "A lovely meal with amazingly mature cheese on the Big Mac."
                 )
             )
-            
-        courses: [
-            Course(id: "c1",
-                   mealId: "m\(index)",
-                   name: "Amuse Bouche",
-                   date: Date(),
-                   food: PicturesAndNotes(
-                    pictures: [
-                        Picture(src: "gearshape"),
-                        Picture(src: "keyboard"),
-                        Picture(src: "figure.walk"),
-                    ],
-                    notes: "A delightful bite-sized explosion of flavors that sets the perfect tone for the culinary journey ahead."),
-                   wine:nil,
-                   pickedImage: Picture(src: "gearshape")
-                  ),
-            Course(id: "c2",
-                   mealId: "m\(index)",
-                   name: "Lobster",
-                   date: Date(),
-                   food: PicturesAndNotes(
-                    pictures: [
-                        Picture(src: "gearshape"),
-                        Picture(src: "keyboard"),
-                        Picture(src: "figure.walk"),
-                    ],
-                    notes: "A succulent lobster dish that boasts tender, buttery meat perfectly complemented by a rich, flavorful sauce."),
-                   wine:nil,
-                   pickedImage: nil
-                  ),
-            Course(id: "c3",
-                   mealId: "m\(index)",
-                   name: "Veal",
-                   date: Date(),
-                   food: PicturesAndNotes(
-                    pictures: [
-                        Picture(src: "gearshape"),
-                        Picture(src: "keyboard"),
-                        Picture(src: "figure.walk"),
-                    ],
-                    notes: "A tender veal dish with a delicate balance of flavors, offering a melt-in-your-mouth experience."),
-                   wine: PicturesAndNotes(
-                    pictures: [
-                        Picture(src: "gearshape"),
-                        Picture(src: "keyboard"),
-                    ],
-                    notes: "A masterful wine pairing that elevates each dish, enhancing flavors and creating a harmonious dining experience."),
-                   pickedImage: Picture(src: "gearshape")
-                  ),
-            Course(id: "c4",
-                   mealId: "m\(index)",
-                   name: "Amuse Bouche",
-                   date: Date(),
-                   food: PicturesAndNotes(
-                    pictures: [
-                        Picture(src: "gearshape"),
-                    ],
-                    notes: "Chocolate for days!"),
-                   wine:nil,
-                   pickedImage: nil
-                  ),
-        ],
-            
-            for
-            
-            addCourseToMeal(mealId: mealId, course: Course)
         }
     }
 }

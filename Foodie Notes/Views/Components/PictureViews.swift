@@ -39,7 +39,7 @@ struct PictureViews {
         
         var body: some View {
             HStack {
-                EditablePictureView(image: image)
+                EditablePictureView(data: [picture])
                 NameViews.NameEditView(name:$name)
                 Spacer()
             }
@@ -49,20 +49,16 @@ struct PictureViews {
     struct PictureAndNotesViewSection: View {
         let title:String;
         let data:AppModel.PicturesAndNotes;
-        @EnvironmentObject var viewModel:AppViewModel;
-
+        
         var body: some View {
-            let vm:AppViewModel = viewModel;
             Section(header: Text(title)) {
                 HStack(alignment: .center) {
                     VStack(alignment: .center) {
                         LazyVGrid(columns: [GridItem(.adaptive(minimum: 64))], spacing:10) {
-                            ForEach(data.pictureIds.indices) { i in
-                                if let picture = vm.getPictureFor(data.pictureIds[i]) {
-                                    Image(systemName: picture.src)
-                                        .resizable()
-                                        .frame(width: 64.0, height: 64.0)
-                                }
+                            ForEach(data.pictures) { picture in
+                                Image(systemName: picture.src)
+                                    .resizable()
+                                    .frame(width: 64.0, height: 64.0)
                             }
                         }
                     }
@@ -76,7 +72,6 @@ struct PictureViews {
     
     struct PictureAndNotesEditSection: View {
         let title:String;
-        @EnvironmentObject var viewModel:AppViewModel;
         @Binding var data:AppModel.PicturesAndNotes;
         
         var body: some View {
@@ -84,7 +79,7 @@ struct PictureViews {
                 HStack(alignment: .center) {
                     VStack(alignment: .center) {
                         LazyVGrid(columns: [GridItem(.adaptive(minimum: 64))], spacing:10) {
-                            ForEach($data.pictureIds.indices) { i in
+                            ForEach($data.pictures.indices) { i in
                                 EditablePictureView(data:data, index:i, deleteAction:deletePhoto)
                             }
                             EditablePictureView(data:data)
@@ -103,7 +98,6 @@ struct PictureViews {
     
     // A Picture that you can click and remove
     struct EditablePictureView: View {
-        @EnvironmentObject var viewModel:AppViewModel;
         @Binding var data:AppModel.PicturesAndNotes;
         let index:Int;
         // Allow this to also delete.
@@ -122,10 +116,9 @@ struct PictureViews {
         }
 
         var body: some View {
-            let vm:AppViewModel = viewModel;
             ZStack(alignment: .top) {
-                if data.pictureIds.count > index {
-                    let picture = vm.getPictureFor(data.pictureIds[index])
+                if data.pictures.count > index {
+                    let picture = data.pictures[index]
                     Image(systemName: picture.src)
                         .resizable()
                         .frame(width: 64.0, height: 64.0)
