@@ -1,0 +1,238 @@
+//
+//  AppModel.swift
+//  Foodie Notes
+//
+//  Created by Steve Martin on 7/1/24.
+//
+
+import Foundation
+
+
+// Backend model for all app state.
+struct AppModel {
+    private var mealsById:[String:Meal] = [:];
+    private var venuesByName:[String:Venue] = [:];
+    private var mealsByVenue:[String:[Meal]] = [:];
+        
+    // MARK: - Public Intents
+    
+    mutating func addMeal(at venueName:String) -> Meal {
+        let venue = getOrAddVenue(venueName);
+        let meal = Meal(venue: venue);
+        index(meal)
+        return meal;
+    }
+    
+    func getMeals() -> [Meal] {
+        return Array(mealsById.values).sorted { $0.date > $1.date }
+    }
+    
+    func getMealFor(_ mealId:String) -> Meal? {
+        return mealsById[mealId]
+    }
+    
+    // MARK: - Private Members
+    
+    private mutating func getOrAddVenue(_ name:String) -> Venue {
+        if let venue = venuesByName[name] {
+            return venue
+        }
+        let newVenue = Venue(name:name);
+        venuesByName[name] = newVenue;
+        return newVenue;
+    }
+    
+    private mutating func addMeal(_ meal:Meal) {
+        let venue = getOrAddVenue(meal.getVenue().name);
+        index(meal)
+    }
+    
+    private mutating func index(_ meal:Meal) {
+        let venue = getOrAddVenue(meal.getVenue().name);
+        mealsByVenue[venue.id, default: []].append(meal)
+        mealsById[meal.id] = meal;
+    }
+    
+    // MARK: - Component Models
+    
+    struct Meal : Identifiable {
+        var id:String = Id.createId();
+        private var venue: Venue;
+        private var menu: PicturesAndNotes?
+        private var courses: [Course] = [];
+        var date:Date = Date();
+        var notes:String?
+        
+        init(venue: Venue) {
+            self.venue = venue
+        }
+        
+        init(id:String, venue: Venue, menu: PicturesAndNotes? = nil, courses: [Course], date: Date, notes: String? = nil) {
+            self.id = id
+            self.venue = venue
+            self.menu = menu
+            self.courses = courses
+            self.date = date
+            self.notes = notes
+        }
+        
+        func getVenue() -> Venue {
+            return venue;
+        }
+        
+        
+    }
+    
+    struct Venue {
+        let id:String = Id.createId();
+        let name: String;
+        var rating: Int = 0;
+        // Someday: lat/long/etc!
+        
+        init(name: String) {
+            self.name = name
+        }
+        
+        init(name: String, rating: Int) {
+            self.name = name
+            self.rating = rating
+        }
+    }
+    
+    struct Course {
+        var id:String = Id.createId();
+        private let mealId:String;
+        private var name:String;
+        private var date:Date;
+        private var food:PicturesAndNotes = PicturesAndNotes();
+        private var wine:PicturesAndNotes?;
+        private var pickedImage:Picture?;
+        
+        init(id:String, mealId: String, name: String, date: Date, food: PicturesAndNotes, wine: PicturesAndNotes? = nil, pickedImage: Picture? = nil) {
+            self.id = id
+            self.mealId = mealId
+            self.name = name
+            self.date = date
+            self.food = food
+            self.wine = wine
+            self.pickedImage = pickedImage
+        }
+    }
+    
+    struct PicturesAndNotes {
+        private var pictures:[Picture] = [];
+        private var notes:String?;
+        
+        init() {
+        }
+        
+        init(pictures: [Picture], notes: String? = nil) {
+            self.pictures = pictures
+            self.notes = notes
+        }
+    }
+    
+    // Encapsulate picture management
+    struct Picture {
+        // For now, string, until I can figure this one out.
+        let src:String;
+        
+        init(src: String) {
+            self.src = src
+        }
+    }
+    
+    // Encapsulate ID management.
+    struct Id {
+        // For now, just use UUID.
+        static func createId() -> String {
+            return UUID().uuidString
+        }
+    }
+}
+
+
+// For testing only.
+extension AppModel {
+    // Populate some test data.
+    mutating func addTestData(numTestMeals:Int) {
+        for index in 0..<numTestMeals {
+            addMeal(
+                Meal(
+                    id: "m\(index)",
+                    venue: Venue(name: "McDonalds", rating:4),
+                    menu: PicturesAndNotes(
+                        pictures: [
+                            Picture(src: "gearshape"),
+                            Picture(src: "keyboard"),
+                        ],
+                        notes: "An amazing menu populated by amazing deals!"),
+                    courses: [
+                        Course(id: "c1",
+                               mealId: "m\(index)",
+                               name: "Amuse Bouche",
+                               date: Date(),
+                               food: PicturesAndNotes(
+                                pictures: [
+                                    Picture(src: "gearshape"),
+                                    Picture(src: "keyboard"),
+                                    Picture(src: "figure.walk"),
+                                ],
+                                notes: "A delightful bite-sized explosion of flavors that sets the perfect tone for the culinary journey ahead."),
+                               wine:nil,
+                               pickedImage: Picture(src: "gearshape")
+                              ),
+                        Course(id: "c2",
+                               mealId: "m\(index)",
+                               name: "Lobster",
+                               date: Date(),
+                               food: PicturesAndNotes(
+                                pictures: [
+                                    Picture(src: "gearshape"),
+                                    Picture(src: "keyboard"),
+                                    Picture(src: "figure.walk"),
+                                ],
+                                notes: "A succulent lobster dish that boasts tender, buttery meat perfectly complemented by a rich, flavorful sauce."),
+                               wine:nil,
+                               pickedImage: nil
+                              ),
+                        Course(id: "c3",
+                               mealId: "m\(index)",
+                               name: "Veal",
+                               date: Date(),
+                               food: PicturesAndNotes(
+                                pictures: [
+                                    Picture(src: "gearshape"),
+                                    Picture(src: "keyboard"),
+                                    Picture(src: "figure.walk"),
+                                ],
+                                notes: "A tender veal dish with a delicate balance of flavors, offering a melt-in-your-mouth experience."),
+                               wine: PicturesAndNotes(
+                                pictures: [
+                                    Picture(src: "gearshape"),
+                                    Picture(src: "keyboard"),
+                                ],
+                                notes: "A masterful wine pairing that elevates each dish, enhancing flavors and creating a harmonious dining experience."),
+                               pickedImage: Picture(src: "gearshape")
+                              ),
+                        
+                        Course(id: "c4",
+                               mealId: "m\(index)",
+                               name: "Amuse Bouche",
+                               date: Date(),
+                               food: PicturesAndNotes(
+                                pictures: [
+                                    Picture(src: "gearshape"),
+                                ],
+                                notes: "Chocolate for days!"),
+                               wine:nil,
+                               pickedImage: nil
+                              ),
+                    ],
+                    date: Date(),
+                    notes: "A lovely meal with amazingly mature cheese on the Big Mac."
+                )
+            )
+        }
+    }
+}

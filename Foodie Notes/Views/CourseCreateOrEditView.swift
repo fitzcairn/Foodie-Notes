@@ -41,7 +41,7 @@ struct CourseCreateOrEditView: View {
     var form: some View {
         // TODO: Pass in actual model values.
         Form {
-            NameViews.NameAndImageEditView(name: .constant(course.name), image: .constant(course.pickedImage))
+            PictureViews.PictureAndNameEditView(name: .constant(course.name), image: .constant(course.pickedImage))
             DateViews.DatePickerSection(selectedDate:course.date)
             PictureViews.PictureAndNotesEditSection(title: "Food", data: course.food)
             PictureViews.PictureAndNotesEditSection(title: "Wine", data: course.wine)

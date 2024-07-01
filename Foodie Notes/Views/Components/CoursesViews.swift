@@ -163,7 +163,7 @@ struct CoursesViews {
         }
         
         var body: some View {
-            NameViews.NameAndImageView(name:course.name,
+            PictureViews.PictureAndNameView(name:course.name,
                                        image:getPickedImage(from: course.pickedImage))
         }
     

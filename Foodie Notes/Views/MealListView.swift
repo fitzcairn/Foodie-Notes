@@ -8,19 +8,17 @@
 import SwiftUI
 
 // View the list of meals.
+// This is effectively the main view.
 struct MealListView: View {
-    @Binding var searchText: String;
-
-    // TODO: replace with view model
-    @State private var meals = [["Sushi Jiro", "It was a delicious meal."],
-                                ["Manresa", "Too bad it closed."],
-                                ["St. Lawrence Restaurant", "Yummy side dishes!"]]
     
+    // Model is "owned" by this view.
+    @StateObject var viewModel : AppViewModel;
+        
     var body: some View {
         NavigationStack {
             List {
-                ForEach(meals, id: \.self) { meal in
-                    MealItem(meal[0], meal[1])
+                ForEach(viewModel.getMeals()) { meal in
+                    MealItem(meal:meal, viewModel: viewModel)
                 }
                 .onDelete(perform: remove)
             }
@@ -39,7 +37,7 @@ struct MealListView: View {
                         .foregroundColor(.white)
                 })
         }
-        .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always), prompt: "Type to Filter")
+        .searchable(text: $viewModel.filter, placement: .navigationBarDrawer(displayMode: .always), prompt: "Type to Filter")
         .searchSuggestions {
             Text("SwiftUI").searchCompletion("SwiftUI")
             Text("iOS 15").searchCompletion("iOS 15")
@@ -60,13 +58,12 @@ struct MealListView: View {
 // MARK: - Element Views
 
 struct MealItem: View {
-    // TODO: Change to model ASAP.
-    let venue: String
-    let review: String;
+    let meal:AppModel.Meal;
+    @ObservedObject var viewModel:AppViewModel;
     
-    init(_ venue: String, _ review: String) {
-        self.venue = venue
-        self.review = review
+    init(meal: AppModel.Meal, viewModel: AppViewModel) {
+        self.meal = meal
+        self.viewModel = viewModel
     }
     
     var body: some View {
@@ -75,11 +72,11 @@ struct MealItem: View {
                 .resizable()
                 .frame(width: 64.0, height: 64.0)
             // TODO: implement passing in the meal for edit, or nil for create.
-            NavigationLink(destination: MealView()) {
+            NavigationLink(destination: MealView(mealId: meal.id, viewModel: viewModel)) {
                 VStack(alignment: .leading) {
-                    Text(venue)
+                    Text(meal.getVenue().name)
                         .bold()
-                    Text(review)
+                    Text(meal.notes ?? "")
                         .foregroundColor(.gray)
                     Spacer()
                 }
@@ -91,5 +88,5 @@ struct MealItem: View {
 
 
 #Preview {
-    MealListView(searchText: .constant(""))
+    MealListView(viewModel: AppViewModel(numTestMeals:5))
 }

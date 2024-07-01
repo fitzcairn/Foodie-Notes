@@ -14,6 +14,42 @@ struct PictureViews {
         let pictures:[String]
         let notes:String
     }
+    
+    struct PictureAndNameView : View {
+        private let name:String
+        private let image:String
+        
+        init(name: String, image: String) {
+            self.name = name
+            self.image = image
+        }
+        
+        var body: some View {
+            HStack {
+                Image(systemName: image)
+                    .resizable()
+                    .frame(width: 64.0, height: 64.0)
+                Text(name)
+                    .padding(.leading, 10)
+                Spacer()
+            }
+        }
+    }
+    
+    struct PictureAndNameEditView : View {
+        // TODO: Needs to be in viewmodel.
+        @Binding var name: String
+        // TODO: Needs to be in viewmodel.
+        @Binding var image: String?
+        
+        var body: some View {
+            HStack {
+                EditablePictureView(image: image)
+                NameViews.NameEditView(name:$name)
+                Spacer()
+            }
+        }
+    }
 
     struct PictureAndNotesViewSection: View {
         let title:String;
@@ -116,10 +152,13 @@ struct PictureViews {
                     Button(
                         action: pickPhoto,
                         label: {
-                            Image(systemName: "plus.circle")
-                                .resizable()
-                                .frame(width: 24, height: 24)
-                                .foregroundColor(.black)
+                            VStack {
+                                Image(systemName: "plus.circle")
+                                    .resizable()
+                                    .frame(width: 24, height: 24)
+                                    .foregroundColor(.black)
+                            }
+                            .frame(width: 64, height: 64)
                         }
                     )
                 }

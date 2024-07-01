@@ -50,7 +50,7 @@ struct CourseView: View {
         // TODO: Pass in actual model values.
         Form {
             CoursesViews.CourseNameAndPickedImageView(course)
-            DateViews.DateSection(course.date)
+            DateViews.DateSection(course.date)           
             PictureViews.PictureAndNotesViewSection(title: "Food", data: course.food)
             if let wine = course.wine {
                 PictureViews.PictureAndNotesViewSection(title: "Wine", data: wine)

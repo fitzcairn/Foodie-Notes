@@ -41,6 +41,7 @@ struct MealCreateOrEditView: View {
         Form {
             LocationViews.LocationEditSection(venue:.constant(""))
             DateViews.DatePickerSection()
+            PictureViews.PictureAndNotesEditSection(title: "Menu[s]", data: PictureViews.PicturesAndNotes(pictures: ["plus", "gear"], notes: "Bonzer menus"))
             CoursesViews.CoursesEditSection()
             NotesViews.NotesEditSection(title:"Additional Notes")
         }
