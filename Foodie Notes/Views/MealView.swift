@@ -27,7 +27,7 @@ struct MealView: View {
                     }
                     
                     // Courses!
-                    CourseSubViews.CoursesViewSection(meal:meal)
+                    CourseSubViews.CoursesViewSection(courses:meal.courses)
                     
                     // Notes
                     if !meal.notes.isEmpty {

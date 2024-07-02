@@ -9,6 +9,7 @@ import SwiftUI
 
 struct MealCreateOrEditView: View {
     typealias Meal = AppModel.Meal
+    typealias Course = AppModel.Course
     typealias PicturesAndNotes = AppModel.PicturesAndNotes
 
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
@@ -18,9 +19,7 @@ struct MealCreateOrEditView: View {
     var body: some View {
         // We're either editing or creating a new meal in the model.
         var meal = viewModel.getOrAddMealFor(mealId)
-        let mealId = meal.id;
         var dirty = false;
-
         
         // TODO: Split my custom NavigationStack out into a custom view.
         NavigationStack {
@@ -45,7 +44,12 @@ struct MealCreateOrEditView: View {
                             get: { meal.menu },
                             set: { meal.menu = viewModel.removeDeletedImagesFor($0); dirty.toggle() })
                     )
-                    CourseSubViews.CoursesEditSection(meal:meal)
+                    CourseSubViews.CoursesEditSection(
+                        courses: Binding<[Course]>(
+                            get: { meal.courses },
+                            set: { meal.courses = $0; dirty.toggle() }),
+                        mealId:meal.id
+                    )
                     NotesSubViews.NotesEditSection(title:"Additional Notes", inputText: Binding<String>(
                         get: { meal.notes },
                         set: { meal.notes = $0; dirty.toggle() }
@@ -55,8 +59,8 @@ struct MealCreateOrEditView: View {
                 SaveButton(
                     actionFunc: {
                         if (dirty) {
-                            viewModel.updateMeal(mealId, meal: meal)
-                            print("Saved course id: \(mealId)\n      meal: \(meal)")
+                            viewModel.updateMeal(meal.id, meal: meal)
+                            print("Saved course id: \(String(describing: mealId))\n      meal: \(meal)")
                         }
                     }
                 )

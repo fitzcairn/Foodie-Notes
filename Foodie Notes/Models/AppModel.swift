@@ -207,6 +207,9 @@ struct AppModel {
         var pictures:[Picture] = [];
         var notes:String = "";
         
+        init() {
+        }
+        
         init(notes:String) {
             self.notes = notes;
         }

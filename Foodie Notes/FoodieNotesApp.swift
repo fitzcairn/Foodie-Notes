@@ -18,6 +18,7 @@ struct FoodieNotesApp: App {
         //    ContentView()
         //        .environment(\.managedObjectContext, persistenceController.container.viewContext)
             MealListView(viewModel: viewModel)
+                .environmentObject(viewModel)
         }
     }
 }

@@ -82,4 +82,5 @@ struct MealItem: View {
 
 #Preview {
     MealListView(viewModel:AppViewModel(numTestMeals:5))
+        .environmentObject(AppViewModel(numTestMeals:5))
 }

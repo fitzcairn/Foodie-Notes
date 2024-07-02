@@ -15,12 +15,12 @@ struct CourseSubViews {
     
     struct CoursesViewSection : View {
         @EnvironmentObject private var viewModel:AppViewModel;
-        let meal:Meal
+        let courses:[Course]
 
         var body: some View {
             Section(header: Text("Courses")) {
                 List {
-                    ForEach(meal.courses) { course in
+                    ForEach(courses) { course in
                         CourseItemView(course:course)
                     }
                 }
@@ -30,12 +30,13 @@ struct CourseSubViews {
     
     struct CoursesEditSection : View {
         @EnvironmentObject private var viewModel:AppViewModel;
-        let meal:Meal;
+        @Binding var courses:[Course];
+        let mealId:String;
 
         var body: some View {
             Section(header: header) {
                 List {
-                    ForEach(meal.courses) { course in
+                    ForEach(courses) { course in
                         CourseItemView(course:course)
                     }
                     .onDelete(perform: remove)
@@ -47,7 +48,7 @@ struct CourseSubViews {
             HStack {
                 Text("Courses")
                 Spacer()
-                NavigationLink(destination: CourseCreateOrEditView(mealId: meal.id, courseId:nil)) {
+                NavigationLink(destination: CourseCreateOrEditView(mealId: mealId, courseId:nil)) {
                     Image(systemName: "plus.circle")
                         .resizable()
                         .frame(width: 24, height: 24)
@@ -58,9 +59,13 @@ struct CourseSubViews {
         }
         
         func remove(at offsets: IndexSet) {
-            // TODO: implement
-            // TODO: do we need multiple index removal at once?
-            //viewModel.removeCourseFromMeal(mealId: mealId, at: offsets[0])
+            var new:[Course] = []
+            for (index, course) in courses.enumerated() {
+                if !offsets.contains(index) {
+                    new.append(course);
+                }
+            }
+            courses = new;
         }
     }
         
