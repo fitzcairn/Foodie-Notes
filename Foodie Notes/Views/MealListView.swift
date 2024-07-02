@@ -64,7 +64,7 @@ struct MealItem: View {
             Image(systemName: viewModel.getOrAddPickedPictureFor(meal).src)
                 .resizable()
                 .frame(width: 64.0, height: 64.0)
-            NavigationLink(destination: MealView(mealId: meal.id)) {
+            NavigationLink(destination: MealView(meal: meal)) {
                 VStack(alignment: .leading) {
                     Text(meal.venue.name)
                         .bold()

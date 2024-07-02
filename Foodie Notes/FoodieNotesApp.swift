@@ -11,7 +11,7 @@ import SwiftUI
 struct FoodieNotesApp: App {
     let persistenceController = PersistenceController.shared
     
-    @State var viewModel = AppViewModel(numTestMeals: 5);
+    @State var viewModel = AppViewModel(numTestMeals: 1);
 
     var body: some Scene {
         WindowGroup {

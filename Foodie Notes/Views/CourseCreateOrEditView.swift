@@ -57,6 +57,7 @@ struct CourseCreateOrEditView: View {
                 }
 
                 SaveButton(
+                    destination: CourseView(course: newCourse),
                     actionFunc: {
                         print(dirty)
                         if dirty {
@@ -67,6 +68,7 @@ struct CourseCreateOrEditView: View {
                                 viewModel.addCourseTo(mealId, course: newCourse)
                             }
                             print("Saved:\n-->course id: \(String(describing: newCourse.id))\n-->course: \(newCourse)")
+                            
                         }
                     }
                 )

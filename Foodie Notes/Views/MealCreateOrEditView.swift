@@ -58,6 +58,7 @@ struct MealCreateOrEditView: View {
                 }
 
                 SaveButton(
+                    destination: MealView(meal: newMeal),
                     actionFunc: {
                         if (dirty) {
                             viewModel.objectWillChange.send()
