@@ -39,22 +39,7 @@ struct PictureSubViews {
         
         var body: some View {
             HStack {
-                EditablePictureView(picture: picture,
-                                    deleteAction: {
-                                        picture.state = .deleted;
-                                    },
-                                    editAction: {
-                                        // TODO: Implement photo picker
-                                        // picture.src = NEW SRC
-                                        // picture.state = .filled
-                                        print("Replace image -- via photo picker")
-                                    },
-                                    newAction: {
-                                        // TODO: Implement camera
-                                        // picture.src = NEW SRC
-                                        // picture.state = .filled
-                                        print("Replace image -- via camera")
-                                    })
+                EditablePictureView(picture:$picture)
                 NameSubViews.NameEditView(name:$name)
                 Spacer()
             }
@@ -94,27 +79,12 @@ struct PictureSubViews {
                 HStack(alignment: .center) {
                     VStack(alignment: .center) {
                         LazyVGrid(columns: [GridItem(.adaptive(minimum: 64))], spacing:10) {
-                            ForEach($data.pictures.indices) { i in
-                                EditablePictureView(picture:data.pictures[i],
-                                                    deleteAction: {
-                                                        data.pictures[i].state = .deleted;
-                                                    },
-                                                    editAction: {
-                                                        // TODO: Implement photo picker
-                                                        // data.pictures[i].src = NEW SRC
-                                                        // data.pictures[i].state = .filled
-                                                        print("Replace image -- via photo picker")
-                                                    },
-                                                    newAction: {
-                                                        // TODO: Implement camera
-                                                        // data.pictures[i].src = NEW SRC
-                                                        // data.pictures[i].state = .filled
-                                                        print("Replace image -- via camera")
-                                                    }
-                                )
+                            ForEach($data.pictures) { picture in
+                                EditablePictureView(picture:picture)
                             }
                         }
                         // Last picture is always an "add" button
+                        // TODO: Add a camera AND album button, refactor buttons to MiscSubViews
                         Button(
                             action: {
                                 // TODO: Implement
@@ -142,10 +112,7 @@ struct PictureSubViews {
     // A Picture that you can click and remove
     struct EditablePictureView : View {
         // No binding needed -- changes to state are handled in callbacks.
-        let picture:AppModel.Picture;
-        let deleteAction: (() -> Void)
-        let editAction: (() -> Void)
-        let newAction: (() -> Void)
+        @Binding var picture:AppModel.Picture;
         
         var body: some View {
             ZStack(alignment: .top) {
@@ -153,54 +120,73 @@ struct PictureSubViews {
                     .resizable()
                     .frame(width: 64.0, height: 64.0)
                 HStack {
-                    // Delete button
-                    Button(
-                        action: deleteAction,
-                        label: {
-                            ZStack {
-                                Image(systemName: "minus.circle.fill")
+                    VStack(alignment: .leading) {
+                        // Delete button for filled impages.
+                        if (picture.state == .filled) {
+                            Button(
+                                action: {
+                                    picture.state = .deleted
+                                    print("Delete image!")
+                                },
+                                label: {
+                                    ZStack {
+                                        Image(systemName: "minus.circle.fill")
+                                            .resizable()
+                                            .frame(width: 20, height: 20)
+                                            .foregroundColor(Color.red)
+                                        Image(systemName: "minus.circle")
+                                            .resizable()
+                                            .frame(width: 20, height: 20)
+                                            .foregroundColor(Color.white)
+                                    }
+                                }
+                            )
+                        }
+                        // Edit button
+                        Button(
+                            action: {
+                                // TODO: Implement photo picker
+                                // data.pictures[i].src = NEW SRC
+                                // data.pictures[i].state = .filled
+                                print("Replace image -- via photo picker")
+                            },
+                            label: {
+                                Image(systemName: "rectangle.2.swap")
                                     .resizable()
-                                    .frame(width: 24, height: 24)
-                                    .foregroundColor(Color.red)
-                                Image(systemName: "x.circle")
-                                    .resizable()
-                                    .frame(width: 24, height: 24)
-                                    .foregroundColor(Color.white)
+                                    .padding(4)
+                                    .frame(width: 20, height: 20)
+                                    .background(Color.blue)
+                                    .clipShape(Circle())
+                                    .foregroundColor(.white)
                             }
-                        }
-                    )
-                    // Edit button
-                    Button(
-                        action: editAction,
-                        label: {
-                            Image(systemName: "rectangle.2.swap")
-                                .resizable()
-                                .padding(6)
-                                .frame(width: 24, height: 24)
-                                .background(Color.blue)
-                                .clipShape(Circle())
-                                .foregroundColor(.white)
-                        }
-                    )
-                    // New button
-                    Button(
-                        action: newAction,
-                        label: {
-                            Image(systemName: "camera.fill")
-                                .resizable()
-                                .padding(6)
-                                .frame(width: 24, height: 24)
-                                .background(Color.blue)
-                                .clipShape(Circle())
-                                .foregroundColor(.white)
-                        }
-                    )
-
+                        )
+                        .padding(.top, -5)
+                        // New button
+                        Button(
+                            action: {
+                                // TODO: Implement camera
+                                // data.pictures[i].src = NEW SRC
+                                // data.pictures[i].state = .filled
+                                print("Replace image -- via camera")
+                            },
+                            label: {
+                                Image(systemName: "camera.fill")
+                                    .resizable()
+                                    .padding(4)
+                                    .frame(width: 20, height: 20)
+                                    .background(Color.blue)
+                                    .clipShape(Circle())
+                                    .foregroundColor(.white)
+                            }
+                        )
+                        .padding(.top, -5)
+                    }
+                    Spacer()
+                        .frame(width: 40)
                 }
-                Spacer()
-                    .frame(width: 40)
             }
             .padding(.trailing, 10)
+            .buttonStyle(.plain)
         }
     }
 }

@@ -30,8 +30,8 @@ struct CourseSubViews {
     
     struct CoursesEditSection : View {
         @EnvironmentObject private var viewModel:AppViewModel;
-        @Binding var courses:[Course];
         let mealId:String;
+        @Binding var courses:[Course];
 
         var body: some View {
             Section(header: header) {
@@ -48,7 +48,7 @@ struct CourseSubViews {
             HStack {
                 Text("Courses")
                 Spacer()
-                NavigationLink(destination: CourseCreateOrEditView(mealId: mealId, courseId:nil)) {
+                NavigationLink(destination: CourseCreateOrEditView(mealId: mealId, course:nil)) {
                     Image(systemName: "plus.circle")
                         .resizable()
                         .frame(width: 24, height: 24)
@@ -72,17 +72,13 @@ struct CourseSubViews {
     struct CourseNameAndPickedImageView : View {
         @EnvironmentObject private var viewModel:AppViewModel;
         let mealId:String;
-        let courseId:String?;
-
-        init(mealId: String, courseId: String?) {
-            self.mealId = mealId
-            self.courseId = courseId
-        }
+        let course:Course;
         
         var body: some View {
-            let course = viewModel.getOrAddCourseFor(mealId: mealId, courseId: courseId)
-            PictureSubViews.PictureAndNameView(name:course.name,
-                                            image:viewModel.getPreferredImageSrc(for: course))
+            PictureSubViews.PictureAndNameView(
+                name:course.name,
+                image:viewModel.getPreferredImageSrc(for: course)
+            )
         }
     }
     
@@ -96,7 +92,7 @@ struct CourseSubViews {
                 Image(systemName: viewModel.getPreferredImageSrc(for: course))
                     .resizable()
                     .frame(width: 64.0, height: 64.0)
-                NavigationLink(destination: CourseCreateOrEditView(mealId:course.mealId, courseId:course.id)) {
+                NavigationLink(destination: CourseView(course:course)) {
                     VStack(alignment: .leading) {
                         Text(course.name)
                             .bold()

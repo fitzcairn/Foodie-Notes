@@ -10,63 +10,59 @@ import SwiftUI
 struct MealCreateOrEditView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @EnvironmentObject var viewModel:AppViewModel;
-
+    
     typealias Meal = AppModel.Meal
     typealias Course = AppModel.Course
     typealias PicturesAndNotes = AppModel.PicturesAndNotes
 
-    private let mealId:String?;
-    private var meal:Meal;
+    let meal:Meal?
 
-    init(mealId:String?) {
-        // We're either editing or creating a new meal in the model.
-        self.meal = viewModel.getOrAddMealFor(mealId)
-        self.mealId = meal.id;
-    }
-    
     var body: some View {
+        // New meal to send to child view via bindings.
+        var newMeal = self.meal ?? Meal()
         var dirty = false;
-        
+
         // TODO: Split my custom NavigationStack out into a custom view.
         NavigationStack {
             ZStack(alignment: .bottom) {
                 Form {
                     LocationSubViews.LocationEditSection(
                         venue:Binding<String>(
-                            get: { meal.venue.name },
-                            set: { meal.venue.name = $0; dirty.toggle() }),
+                            get: { newMeal.venue.name },
+                            set: { newMeal.venue.name = $0; dirty = true }),
                         rating:Binding<Int>(
-                            get: { meal.venue.rating },
-                            set: { meal.venue.rating = $0; dirty.toggle() })
+                            get: { newMeal.venue.rating },
+                            set: { newMeal.venue.rating = $0; dirty = true })
                     )
                     DateViews.DatePickerSection(
                         selectedDate: Binding<Date>(
-                            get: { meal.date },
-                            set: { meal.date = $0; dirty.toggle() })
+                            get: { newMeal.date },
+                            set: { newMeal.date = $0; dirty = true })
                     )
                     PictureSubViews.PictureAndNotesEditSection(
                         title: "Menu[s]",
                         data: Binding<PicturesAndNotes>(
-                            get: { meal.menu },
-                            set: { meal.menu = viewModel.removeDeletedImagesFor($0); dirty.toggle() })
+                            get: { newMeal.menu },
+                            set: { newMeal.menu = viewModel.removeDeletedImagesFor($0); dirty = true })
                     )
                     CourseSubViews.CoursesEditSection(
+                        mealId: newMeal.id,
                         courses: Binding<[Course]>(
-                            get: { meal.courses },
-                            set: { meal.courses = $0; dirty.toggle() }),
-                        mealId:meal.id
+                            get: { newMeal.courses },
+                            set: { newMeal.courses = $0; dirty = true })
                     )
                     NotesSubViews.NotesEditSection(title:"Additional Notes", inputText: Binding<String>(
-                        get: { meal.notes },
-                        set: { meal.notes = $0; dirty.toggle() }
+                        get: { newMeal.notes },
+                        set: { newMeal.notes = $0; dirty = true }
                     ))
                 }
 
                 SaveButton(
                     actionFunc: {
                         if (dirty) {
-                            viewModel.updateMeal(meal.id, meal: meal)
-                            print("Saved course id: \(String(describing: mealId))\n      meal: \(meal)")
+                            viewModel.objectWillChange.send()
+                            viewModel.updateMeal(newMeal.id, meal: newMeal)
+                            print("Saved:\n-->meal id: \(String(describing: newMeal.id))\n-->meal: \(newMeal)")
                         }
                     }
                 )
@@ -91,6 +87,6 @@ struct MealCreateOrEditView: View {
 }
 
 #Preview {
-    MealCreateOrEditView(mealId:"m1")
+    MealCreateOrEditView(meal:nil)
         .environmentObject(AppViewModel(numTestMeals:5))
 }

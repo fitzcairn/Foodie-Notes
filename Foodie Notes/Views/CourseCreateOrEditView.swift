@@ -10,13 +10,15 @@ import SwiftUI
 struct CourseCreateOrEditView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @EnvironmentObject var viewModel:AppViewModel;
+
+    typealias Course = AppModel.Course
+    
     let mealId:String;
-    let courseId:String?;
+    let course:Course?;
 
     var body: some View {
         // We're either editing or creating a new meal in the model.
-        var course = viewModel.getOrAddCourseFor(mealId: mealId, courseId:courseId)
-        let courseId = course.id;
+        var newCourse = course ?? Course(mealId: self.mealId);
         var dirty = false;
         
         NavigationStack {
@@ -24,36 +26,47 @@ struct CourseCreateOrEditView: View {
                 Form {
                     PictureSubViews.PictureAndNameEditView(
                         name:Binding<String>(
-                            get: { course.name },
-                            set: { course.name = $0; dirty.toggle() }),
+                            get: { newCourse.name },
+                            set: { newCourse.name = $0; dirty = true }),
                         picture:Binding<AppModel.Picture>(
-                            get: { course.pickedImage },
-                            set: { course.pickedImage = $0; dirty.toggle() })
+                            get: { newCourse.pickedImage },
+                            set: { newCourse.pickedImage = $0; dirty = true })
                     )
                     DateViews.DatePickerSection(
                         selectedDate: Binding<Date>(
-                            get: { course.date },
-                            set: { course.date = $0; dirty.toggle() })
+                            get: { newCourse.date },
+                            set: { newCourse.date = $0; dirty = true })
                     )
                     PictureSubViews.PictureAndNotesEditSection(
                         title: "Food",
                         data: Binding<AppModel.PicturesAndNotes>(
-                            get: { course.food },
-                            set: { course.food = viewModel.removeDeletedImagesFor($0); dirty.toggle() })
+                            get: { newCourse.food },
+                            set: {
+                                print("set for Food")
+                                newCourse.food = viewModel.removeDeletedImagesFor($0);
+                                dirty = true
+                            }
+                        )
                     )
                     PictureSubViews.PictureAndNotesEditSection(
                         title: "Wine",
                         data: Binding<AppModel.PicturesAndNotes>(
-                            get: { course.wine },
-                            set: { course.wine = viewModel.removeDeletedImagesFor($0); dirty.toggle() })
+                            get: { newCourse.wine },
+                            set: { newCourse.wine = viewModel.removeDeletedImagesFor($0); dirty = true })
                     )
                 }
 
                 SaveButton(
                     actionFunc: {
+                        print(dirty)
                         if dirty {
-                            viewModel.setMealCourseFor(mealId, course: course)
-                            print("Saving course id: \(courseId)\n    course: \(course)")
+                            viewModel.objectWillChange.send()
+                            if course != nil {
+                                viewModel.updateCourseFor(mealId, course: newCourse)
+                            } else {
+                                viewModel.addCourseTo(mealId, course: newCourse)
+                            }
+                            print("Saved:\n-->course id: \(String(describing: newCourse.id))\n-->course: \(newCourse)")
                         }
                     }
                 )
@@ -77,7 +90,6 @@ struct CourseCreateOrEditView: View {
 }
 
 #Preview {
-    CourseCreateOrEditView(mealId:"m1", courseId:"c1")
+    CourseCreateOrEditView(mealId:"m1", course:AppViewModel(numTestMeals:5).getCourseFor("c1")!)
         .environmentObject(AppViewModel(numTestMeals:5))
 }
-

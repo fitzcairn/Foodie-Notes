@@ -25,7 +25,7 @@ struct MealListView: View {
             .navigationBarItems(
                 leading: Text("Meals")
                     .font(.system(size:36, weight: .bold)),
-                trailing: NavigationLink(destination: MealCreateOrEditView(mealId:nil)) {
+                trailing: NavigationLink(destination: MealCreateOrEditView(meal:nil)) {
                     Image(systemName: "plus")
                         .resizable()
                         .padding(6)

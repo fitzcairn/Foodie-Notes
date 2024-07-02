@@ -40,21 +40,21 @@ struct AppModel {
         index(meal)
     }
     
-    mutating func addCourseToMeal(mealId:String, course:Course) {
-        if let _ = getMealFor(mealId) {
-            mealsById[mealId]!.courses.append(course)
+    mutating func addCourseTo(_ mealId:String, course:Course) {
+        if let meal = getMealFor(mealId) {
+            mealsById[meal.id]!.courses.append(course)
             coursesById[course.id] = course
         }
     }
     
-    mutating func addCourseToMeal(mealId: String) -> Course {
+    mutating func addNewCourseTo(_ mealId: String) -> Course {
         let course = Course(mealId: mealId)
-        addCourseToMeal(mealId: mealId, course: course)
+        addCourseTo(mealId, course: course)
         return course
     }
 
     
-    mutating func removeCourseFromMeal(mealId:String, at:Int) {
+    mutating func removeCourseFrom(_ mealId:String, at:Int) {
         if let _ = getMealFor(mealId) {
             mealsById[mealId]!.courses.remove(at: at)
         }
@@ -134,13 +134,16 @@ struct AppModel {
     
     struct Meal : Identifiable {
         var id:String = Id.createId();
-        var venue: Venue;
+        var venue: Venue = Venue();
         var menu: PicturesAndNotes = PicturesAndNotes()
         var courses: [Course] = [];
         var date:Date = Date();
         var notes:String = ""
         var pickedImage:Picture = AppModel.missingPicture();
 
+        init() {
+        }
+        
         init(venue: Venue) {
             self.venue = venue
         }
@@ -160,6 +163,9 @@ struct AppModel {
         var name: String = ""
         var rating: Int = 0;
         // Someday: lat/long/etc!
+ 
+        init() {
+        }
         
         init(name: String) {
             self.name = name
@@ -227,7 +233,7 @@ struct AppModel {
     }
     
     // Encapsulate picture management
-    struct Picture : Identifiable {
+    struct Picture : Identifiable, Hashable {
         var id:String = Id.createId()
         var state:PictureState = .empty
        

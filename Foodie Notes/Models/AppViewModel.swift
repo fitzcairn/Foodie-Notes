@@ -92,12 +92,16 @@ class AppViewModel : ObservableObject {
         return nil;
     }
     
-    func addNewCourseTo(mealId:String) -> Course {
-        return model.addCourseToMeal(mealId: mealId)
+    func addNewCourseTo(_ mealId:String) -> Course {
+        return model.addNewCourseTo(mealId)
+    }
+    
+    func addCourseTo(_ mealId:String, course:Course) {
+        model.addCourseTo(mealId, course:course)
     }
     
     func getOrAddCourseFor(mealId:String, courseId:String?) -> Course {
-        return getCourseFor(courseId) ?? addNewCourseTo(mealId:mealId)
+        return getCourseFor(courseId) ?? addNewCourseTo(mealId)
     }
     
     func getMeals() -> [Meal] {
@@ -151,14 +155,14 @@ class AppViewModel : ObservableObject {
     }
     
     // Course updators --
-    func setMealCourseFor(_ mealId:String, course:Course) {
-        updateMealCoursesFor(course) { oldCourse in
+    func updateCourseFor(_ mealId:String, course:Course) {
+        updateCoursesHelper(course) { oldCourse in
             return oldCourse.id == course.id ? course : oldCourse
         }
     }
     
     func setCourseNameFor(_ course:Course, name:String) {
-        updateMealCoursesFor(course) { oldCourse in
+        updateCoursesHelper(course) { oldCourse in
             var newCourse = oldCourse
             newCourse.name = newCourse.id == course.id ? name : oldCourse.name
             return newCourse
@@ -166,7 +170,7 @@ class AppViewModel : ObservableObject {
     }
     
     func setCoursePickedImageFor(_ course:Course, image:AppModel.Picture) {
-        updateMealCoursesFor(course) { oldCourse in
+        updateCoursesHelper(course) { oldCourse in
             var newCourse = oldCourse
             newCourse.pickedImage = newCourse.id == course.id ? image : oldCourse.pickedImage
             return newCourse
@@ -174,7 +178,7 @@ class AppViewModel : ObservableObject {
     }
     
     func setCourseDateFor(_ course:Course, date:Date) {
-        updateMealCoursesFor(course) { oldCourse in
+        updateCoursesHelper(course) { oldCourse in
             var newCourse = oldCourse
             newCourse.date = newCourse.id == course.id ? date : oldCourse.date
             return newCourse
@@ -182,7 +186,7 @@ class AppViewModel : ObservableObject {
     }
 
     func setCourseFoodFor(_ course:Course, food:AppModel.PicturesAndNotes) {
-        updateMealCoursesFor(course) { oldCourse in
+        updateCoursesHelper(course) { oldCourse in
             var newCourse = oldCourse
             newCourse.food = newCourse.id == course.id ? food : oldCourse.food
             return newCourse
@@ -190,7 +194,7 @@ class AppViewModel : ObservableObject {
     }
     
     func setCourseWineFor(_ course:Course, wine:AppModel.PicturesAndNotes) {
-        updateMealCoursesFor(course) { oldCourse in
+        updateCoursesHelper(course) { oldCourse in
             var newCourse = oldCourse
             newCourse.wine = newCourse.id == course.id ? wine : oldCourse.wine
             return newCourse
@@ -221,7 +225,7 @@ class AppViewModel : ObservableObject {
     // MARK: - Private Helper Intents
     
     // Yuck but efficiency via ID referencing is complicated. Should be small copying.
-    private func updateMealCoursesFor(_ course:Course, update:((Course) -> Course)) {
+    private func updateCoursesHelper(_ course:Course, update:((Course) -> Course)) {
         let meal = model.getMealFor(course.mealId)!
 
         var newCourses:[Course] = []
