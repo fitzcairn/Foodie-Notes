@@ -10,9 +10,8 @@ import SwiftUI
 // View the list of meals.
 // This is effectively the main view.
 struct MealListView: View {
-    // Model is "owned" by this view.
-    @StateObject var viewModel : AppViewModel;
-        
+    @EnvironmentObject var viewModel:AppViewModel;
+    
     var body: some View {
         NavigationStack {
             List {
@@ -81,6 +80,6 @@ struct MealItem: View {
 
 
 #Preview {
-    MealListView(viewModel:AppViewModel(numTestMeals:5))
+    MealListView()
         .environmentObject(AppViewModel(numTestMeals:5))
 }

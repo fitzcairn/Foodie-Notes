@@ -17,7 +17,7 @@ struct FoodieNotesApp: App {
         WindowGroup {
         //    ContentView()
         //        .environment(\.managedObjectContext, persistenceController.container.viewContext)
-            MealListView(viewModel: viewModel)
+            MealListView()
                 .environmentObject(viewModel)
         }
     }

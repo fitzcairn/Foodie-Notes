@@ -42,7 +42,7 @@ struct MealView: View {
                     leading: Text("View Meal")
                         .font(.system(size:36, weight: .bold)),
                     trailing: HStack {
-                        NavigationLink(destination: MealCreateOrEditView(mealId:mealId)) {
+                        NavigationLink(destination: MealCreateOrEditView(meal:meal)) {
                             Image(systemName: "pencil")
                                 .resizable()
                                 .padding(6)

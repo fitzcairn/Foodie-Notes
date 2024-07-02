@@ -8,17 +8,23 @@
 import SwiftUI
 
 struct MealCreateOrEditView: View {
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    @EnvironmentObject var viewModel:AppViewModel;
+
     typealias Meal = AppModel.Meal
     typealias Course = AppModel.Course
     typealias PicturesAndNotes = AppModel.PicturesAndNotes
 
-    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    @EnvironmentObject var viewModel:AppViewModel;
-    var mealId:String?;
+    private let mealId:String?;
+    private var meal:Meal;
+
+    init(mealId:String?) {
+        // We're either editing or creating a new meal in the model.
+        self.meal = viewModel.getOrAddMealFor(mealId)
+        self.mealId = meal.id;
+    }
     
     var body: some View {
-        // We're either editing or creating a new meal in the model.
-        var meal = viewModel.getOrAddMealFor(mealId)
         var dirty = false;
         
         // TODO: Split my custom NavigationStack out into a custom view.
