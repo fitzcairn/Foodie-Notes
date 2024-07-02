@@ -1,5 +1,5 @@
 //
-//  LocationViews.swift
+//  LocationSubViews.swift
 //  Foodie Notes
 //
 //  Created by Steve Martin on 7/1/24.
@@ -8,7 +8,7 @@
 import SwiftUI
 
 // All views and logic related to Location
-struct LocationViews {
+struct LocationSubViews {
     private static let title:String = "Venue and Rating"
     
     struct LocationViewSection : View {
@@ -35,7 +35,7 @@ struct LocationViews {
         var body: some View {
             Section(header: Text(title)) {
                 HStack {
-                    NameViews.NameEditView(name:$venue)
+                    NameSubViews.NameEditView(name:$venue)
                     Spacer()
                     RatingViews.RatingEditView(rating:$rating)
                 }

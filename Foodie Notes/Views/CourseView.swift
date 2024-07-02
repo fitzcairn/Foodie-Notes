@@ -18,11 +18,11 @@ struct CourseView: View {
             // TODO: Split my custom NavigationStack out into a custom view.
             NavigationStack {
                 Form {
-                    CoursesViews.CourseNameAndPickedImageView(mealId:course.mealId, courseId: courseId)
+                    CourseSubViews.CourseNameAndPickedImageView(mealId:course.mealId, courseId: courseId)
                     DateViews.DateSection(course.date)
-                    PictureViews.PictureAndNotesViewSection(title: "Food", data: course.food)
+                    PictureSubViews.PictureAndNotesViewSection(title: "Food", data: course.food)
                     if viewModel.checkShow(course.wine) {
-                        PictureViews.PictureAndNotesViewSection(title: "Wine", data: course.wine)
+                        PictureSubViews.PictureAndNotesViewSection(title: "Wine", data: course.wine)
                     }
                 }
                 

@@ -22,7 +22,7 @@ struct CourseCreateOrEditView: View {
         NavigationStack {
             ZStack(alignment: .bottom) {
                 Form {
-                    PictureViews.PictureAndNameEditView(
+                    PictureSubViews.PictureAndNameEditView(
                         name:Binding<String>(
                             get: { course.name },
                             set: { course.name = $0; dirty.toggle() }),
@@ -35,17 +35,17 @@ struct CourseCreateOrEditView: View {
                             get: { course.date },
                             set: { course.date = $0; dirty.toggle() })
                     )
-                    PictureViews.PictureAndNotesEditSection(
+                    PictureSubViews.PictureAndNotesEditSection(
                         title: "Food",
                         data: Binding<AppModel.PicturesAndNotes>(
                             get: { course.food },
-                            set: { course.food = $0; dirty.toggle() })
+                            set: { course.food = viewModel.removeDeletedImagesFor($0); dirty.toggle() })
                     )
-                    PictureViews.PictureAndNotesEditSection(
+                    PictureSubViews.PictureAndNotesEditSection(
                         title: "Wine",
                         data: Binding<AppModel.PicturesAndNotes>(
-                                get: { course.wine },
-                                set: { course.wine = $0; dirty.toggle() })
+                            get: { course.wine },
+                            set: { course.wine = viewModel.removeDeletedImagesFor($0); dirty.toggle() })
                     )
                 }
 

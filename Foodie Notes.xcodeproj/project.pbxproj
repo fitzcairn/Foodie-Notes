@@ -20,13 +20,13 @@
 		AA81D2822C309C3100FF0221 /* MealCreateOrEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D2812C309C3100FF0221 /* MealCreateOrEditView.swift */; };
 		AA81D2852C309C7F00FF0221 /* MealView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D2842C309C7F00FF0221 /* MealView.swift */; };
 		AA81D2872C309C9E00FF0221 /* CourseCreateOrEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D2862C309C9E00FF0221 /* CourseCreateOrEditView.swift */; };
-		AA81D28D2C30F20D00FF0221 /* MiscViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D28C2C30F20D00FF0221 /* MiscViews.swift */; };
+		AA81D28D2C30F20D00FF0221 /* MiscSubViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D28C2C30F20D00FF0221 /* MiscSubViews.swift */; };
 		AA81D2922C3209E100FF0221 /* CourseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D2912C3209E100FF0221 /* CourseView.swift */; };
-		AA81D2952C324C5800FF0221 /* CoursesViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D2942C324C5800FF0221 /* CoursesViews.swift */; };
-		AA81D2972C324C8E00FF0221 /* NameViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D2962C324C8E00FF0221 /* NameViews.swift */; };
-		AA81D2992C324CB000FF0221 /* PictureViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D2982C324CB000FF0221 /* PictureViews.swift */; };
-		AA81D29B2C324D7D00FF0221 /* NotesViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D29A2C324D7D00FF0221 /* NotesViews.swift */; };
-		AA81D29D2C324DA900FF0221 /* LocationViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D29C2C324DA900FF0221 /* LocationViews.swift */; };
+		AA81D2952C324C5800FF0221 /* CourseSubViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D2942C324C5800FF0221 /* CourseSubViews.swift */; };
+		AA81D2972C324C8E00FF0221 /* NameSubViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D2962C324C8E00FF0221 /* NameSubViews.swift */; };
+		AA81D2992C324CB000FF0221 /* PictureSubViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D2982C324CB000FF0221 /* PictureSubViews.swift */; };
+		AA81D29B2C324D7D00FF0221 /* NotesSubViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D29A2C324D7D00FF0221 /* NotesSubViews.swift */; };
+		AA81D29D2C324DA900FF0221 /* LocationSubViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D29C2C324DA900FF0221 /* LocationSubViews.swift */; };
 		AA81D29F2C325D0B00FF0221 /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D29E2C325D0B00FF0221 /* AppModel.swift */; };
 		AA81D2A22C3267C200FF0221 /* AppViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D2A12C3267C200FF0221 /* AppViewModel.swift */; };
 /* End PBXBuildFile section */
@@ -66,13 +66,13 @@
 		AA81D2812C309C3100FF0221 /* MealCreateOrEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealCreateOrEditView.swift; sourceTree = "<group>"; };
 		AA81D2842C309C7F00FF0221 /* MealView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealView.swift; sourceTree = "<group>"; };
 		AA81D2862C309C9E00FF0221 /* CourseCreateOrEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseCreateOrEditView.swift; sourceTree = "<group>"; };
-		AA81D28C2C30F20D00FF0221 /* MiscViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiscViews.swift; sourceTree = "<group>"; };
+		AA81D28C2C30F20D00FF0221 /* MiscSubViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiscSubViews.swift; sourceTree = "<group>"; };
 		AA81D2912C3209E100FF0221 /* CourseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseView.swift; sourceTree = "<group>"; };
-		AA81D2942C324C5800FF0221 /* CoursesViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoursesViews.swift; sourceTree = "<group>"; };
-		AA81D2962C324C8E00FF0221 /* NameViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameViews.swift; sourceTree = "<group>"; };
-		AA81D2982C324CB000FF0221 /* PictureViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PictureViews.swift; sourceTree = "<group>"; };
-		AA81D29A2C324D7D00FF0221 /* NotesViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesViews.swift; sourceTree = "<group>"; };
-		AA81D29C2C324DA900FF0221 /* LocationViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationViews.swift; sourceTree = "<group>"; };
+		AA81D2942C324C5800FF0221 /* CourseSubViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseSubViews.swift; sourceTree = "<group>"; };
+		AA81D2962C324C8E00FF0221 /* NameSubViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameSubViews.swift; sourceTree = "<group>"; };
+		AA81D2982C324CB000FF0221 /* PictureSubViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PictureSubViews.swift; sourceTree = "<group>"; };
+		AA81D29A2C324D7D00FF0221 /* NotesSubViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesSubViews.swift; sourceTree = "<group>"; };
+		AA81D29C2C324DA900FF0221 /* LocationSubViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSubViews.swift; sourceTree = "<group>"; };
 		AA81D29E2C325D0B00FF0221 /* AppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
 		AA81D2A12C3267C200FF0221 /* AppViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -179,12 +179,12 @@
 		AA81D2932C324BA800FF0221 /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				AA81D28C2C30F20D00FF0221 /* MiscViews.swift */,
-				AA81D2942C324C5800FF0221 /* CoursesViews.swift */,
-				AA81D2962C324C8E00FF0221 /* NameViews.swift */,
-				AA81D2982C324CB000FF0221 /* PictureViews.swift */,
-				AA81D29A2C324D7D00FF0221 /* NotesViews.swift */,
-				AA81D29C2C324DA900FF0221 /* LocationViews.swift */,
+				AA81D28C2C30F20D00FF0221 /* MiscSubViews.swift */,
+				AA81D2942C324C5800FF0221 /* CourseSubViews.swift */,
+				AA81D2962C324C8E00FF0221 /* NameSubViews.swift */,
+				AA81D2982C324CB000FF0221 /* PictureSubViews.swift */,
+				AA81D29A2C324D7D00FF0221 /* NotesSubViews.swift */,
+				AA81D29C2C324DA900FF0221 /* LocationSubViews.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -328,13 +328,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AA81D28D2C30F20D00FF0221 /* MiscViews.swift in Sources */,
+				AA81D28D2C30F20D00FF0221 /* MiscSubViews.swift in Sources */,
 				AA81D29F2C325D0B00FF0221 /* AppModel.swift in Sources */,
 				AA81D2872C309C9E00FF0221 /* CourseCreateOrEditView.swift in Sources */,
-				AA81D2972C324C8E00FF0221 /* NameViews.swift in Sources */,
-				AA81D29B2C324D7D00FF0221 /* NotesViews.swift in Sources */,
-				AA81D29D2C324DA900FF0221 /* LocationViews.swift in Sources */,
-				AA81D2952C324C5800FF0221 /* CoursesViews.swift in Sources */,
+				AA81D2972C324C8E00FF0221 /* NameSubViews.swift in Sources */,
+				AA81D29B2C324D7D00FF0221 /* NotesSubViews.swift in Sources */,
+				AA81D29D2C324DA900FF0221 /* LocationSubViews.swift in Sources */,
+				AA81D2952C324C5800FF0221 /* CourseSubViews.swift in Sources */,
 				AA81D2A22C3267C200FF0221 /* AppViewModel.swift in Sources */,
 				AA81D20F2C26EEA100FF0221 /* FoodieNotesApp.swift in Sources */,
 				AA81D2142C26EEA100FF0221 /* Foodie_Notes.xcdatamodeld in Sources */,
@@ -342,7 +342,7 @@
 				AA81D2852C309C7F00FF0221 /* MealView.swift in Sources */,
 				AA81D2922C3209E100FF0221 /* CourseView.swift in Sources */,
 				AA81D2112C26EEA100FF0221 /* Persistence.swift in Sources */,
-				AA81D2992C324CB000FF0221 /* PictureViews.swift in Sources */,
+				AA81D2992C324CB000FF0221 /* PictureSubViews.swift in Sources */,
 				AA81D2802C309BF000FF0221 /* MealListView.swift in Sources */,
 				AA81D2822C309C3100FF0221 /* MealCreateOrEditView.swift in Sources */,
 			);

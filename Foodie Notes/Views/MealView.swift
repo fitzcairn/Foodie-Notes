@@ -18,20 +18,20 @@ struct MealView: View {
             // TODO: Split my custom NavigationStack out into a custom view.
             NavigationStack {
                 Form {
-                    LocationViews.LocationViewSection(venue: meal.venue.name, rating: meal.venue.rating)
+                    LocationSubViews.LocationViewSection(venue: meal.venue.name, rating: meal.venue.rating)
                     DateViews.DateSection(Date())
                     
                     // Menu, if not empty.
                     if viewModel.checkShow(meal.menu) {
-                        PictureViews.PictureAndNotesViewSection(title: "Menu[s]", data:meal.menu)
+                        PictureSubViews.PictureAndNotesViewSection(title: "Menu[s]", data:meal.menu)
                     }
                     
                     // Courses!
-                    CoursesViews.CoursesViewSection(meal:meal)
+                    CourseSubViews.CoursesViewSection(meal:meal)
                     
                     // Notes
                     if !meal.notes.isEmpty {
-                        NotesViews.NotesSection(
+                        NotesSubViews.NotesSection(
                             title:"Additional Notes",
                             note: meal.notes
                         )

@@ -1,5 +1,5 @@
 //
-//  CoursesViews.swift
+//  CourseSubViews.swift
 //  Foodie Notes
 //
 //  Created by Steve Martin on 7/1/24.
@@ -8,7 +8,7 @@
 import SwiftUI
 
 // All views and logic related to courses.
-struct CoursesViews {
+struct CourseSubViews {
     typealias Meal = AppModel.Meal;
     typealias Course = AppModel.Course;
     typealias Picture = AppModel.Picture;
@@ -76,7 +76,7 @@ struct CoursesViews {
         
         var body: some View {
             let course = viewModel.getOrAddCourseFor(mealId: mealId, courseId: courseId)
-            PictureViews.PictureAndNameView(name:course.name,
+            PictureSubViews.PictureAndNameView(name:course.name,
                                             image:viewModel.getPreferredImageSrc(for: course))
         }
     }

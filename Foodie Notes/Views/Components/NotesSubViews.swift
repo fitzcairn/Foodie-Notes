@@ -1,5 +1,5 @@
 //
-//  NotesViews.swift
+//  NotesSubViews.swift
 //  Foodie Notes
 //
 //  Created by Steve Martin on 7/1/24.
@@ -8,7 +8,7 @@
 import SwiftUI
 
 //  All views related to notes.
-struct NotesViews {
+struct NotesSubViews {
     // Display a note in a section
     struct NotesSection: View {
         let title: String;

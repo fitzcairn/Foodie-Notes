@@ -11,6 +11,7 @@ import Foundation
 class AppViewModel : ObservableObject {
     typealias Meal = AppModel.Meal;
     typealias Picture = AppModel.Picture;
+    typealias PicturesAndNotes = AppModel.PicturesAndNotes;
     typealias Course = AppModel.Course;
 
     
@@ -32,10 +33,14 @@ class AppViewModel : ObservableObject {
     
     // MARK: - Intents
     
-    func getOrAddMealPictureFor(_ meal:Meal) -> Picture {
-        let empty = AppModel.missingPicture()
+    func getOrAddPickedPictureFor(_ meal:Meal) -> Picture {
         func isEmpty(_ image:Picture) -> Bool {
-            return image.src == empty.src
+            switch image.state {
+                case .deleted, .empty:
+                    return true
+                case.filled:
+                    return false
+            }
         }
 
         // Check cache first.
@@ -76,8 +81,8 @@ class AppViewModel : ObservableObject {
             }
         }
             
-        // ... Give up, no pictures found!
-        return empty;
+        // ... Give up, no pictures found!  Return the empty picture.
+        return meal.pickedImage;
     }
     
     func getCourseFor(_ id:String?) -> Course? {
@@ -191,6 +196,17 @@ class AppViewModel : ObservableObject {
             return newCourse
         }
     }
+    
+    func removeDeletedImagesFor(_ old:PicturesAndNotes) -> PicturesAndNotes {
+        var new = PicturesAndNotes(notes:old.notes)
+        for picture in old.pictures {
+            if picture.state != AppModel.PictureState.deleted {
+                new.pictures.append(picture)
+            }
+        }
+        return new
+    }
+    
 
     func updateMeal(_ mealId:String, meal:Meal) {
         model.updateMeal(mealId, meal:meal);

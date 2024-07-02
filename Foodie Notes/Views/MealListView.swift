@@ -62,7 +62,7 @@ struct MealItem: View {
     
     var body: some View {
         HStack {
-            Image(systemName: viewModel.getOrAddMealPictureFor(meal).src)
+            Image(systemName: viewModel.getOrAddPickedPictureFor(meal).src)
                 .resizable()
                 .frame(width: 64.0, height: 64.0)
             NavigationLink(destination: MealView(mealId: meal.id)) {

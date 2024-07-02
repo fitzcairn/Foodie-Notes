@@ -1,5 +1,5 @@
 //
-//  NameViews.swift
+//  NameSubViews.swift
 //  Foodie Notes
 //
 //  Created by Steve Martin on 7/1/24.
@@ -8,7 +8,7 @@
 import SwiftUI
 
 // Name of something
-struct NameViews {
+struct NameSubViews {
     private static let title:String = "Name"
   
     struct NameViewSection : View {

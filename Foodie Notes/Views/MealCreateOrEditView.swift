@@ -26,7 +26,7 @@ struct MealCreateOrEditView: View {
         NavigationStack {
             ZStack(alignment: .bottom) {
                 Form {
-                    LocationViews.LocationEditSection(
+                    LocationSubViews.LocationEditSection(
                         venue:Binding<String>(
                             get: { meal.venue.name },
                             set: { meal.venue.name = $0; dirty.toggle() }),
@@ -39,15 +39,14 @@ struct MealCreateOrEditView: View {
                             get: { meal.date },
                             set: { meal.date = $0; dirty.toggle() })
                     )
-                    PictureViews.PictureAndNotesEditSection(
+                    PictureSubViews.PictureAndNotesEditSection(
                         title: "Menu[s]",
                         data: Binding<PicturesAndNotes>(
                             get: { meal.menu },
-                            set: { meal.menu = $0; dirty.toggle() }
-                        )
+                            set: { meal.menu = viewModel.removeDeletedImagesFor($0); dirty.toggle() })
                     )
-                    CoursesViews.CoursesEditSection(meal:meal)
-                    NotesViews.NotesEditSection(title:"Additional Notes", inputText: Binding<String>(
+                    CourseSubViews.CoursesEditSection(meal:meal)
+                    NotesSubViews.NotesEditSection(title:"Additional Notes", inputText: Binding<String>(
                         get: { meal.notes },
                         set: { meal.notes = $0; dirty.toggle() }
                     ))

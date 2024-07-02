@@ -121,7 +121,7 @@ struct AppModel {
     }
     
     private mutating func index(_ meal:Meal) {
-        let venue = getOrAddVenue(meal.venue.name);
+        let _ = getOrAddVenue(meal.venue.name);
         mealsById[meal.id] = meal;
         for course in meal.courses {
             coursesById[course.id] = course;
@@ -207,7 +207,8 @@ struct AppModel {
         var pictures:[Picture] = [];
         var notes:String = "";
         
-        init() {
+        init(notes:String) {
+            self.notes = notes;
         }
         
         init(pictures: [Picture], notes: String) {
@@ -216,15 +217,23 @@ struct AppModel {
         }
     }
     
+    enum PictureState {
+        case empty
+        case deleted
+        case filled
+    }
+    
     // Encapsulate picture management
     struct Picture : Identifiable {
         var id:String = Id.createId()
-        
+        var state:PictureState = .empty
+       
         // For now, string, until I can figure this one out.
-        let src:String;
+        var src:String;
         
         init(src: String) {
             self.src = src
+            self.state = .filled
         }
     }
     
