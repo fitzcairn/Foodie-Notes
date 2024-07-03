@@ -22,7 +22,7 @@ struct MealView: View {
         NavigationStack {
             Form {
                 LocationSubViews.LocationViewSection(venue: meal.venue.name, rating: meal.venue.rating)
-                DateViews.DateSection(Date())
+                DateViews.DateSection(meal.date)
                 if !meal.notes.isEmpty {
                     NotesSubViews.NotesSection(
                         title:"Overall Notes",

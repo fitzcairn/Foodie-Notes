@@ -74,7 +74,7 @@ struct MealItem: View {
     let mealId:String;
     
     var body: some View {
-        // Should never get a miss on lookup here.  But for some reason, we do.  Handle it.
+        // Should never get a miss on lookup here.  But for some reason, we do whenever something is deleted.
         if let meal = viewModel.getMealFor(mealId) {
             HStack {
                 Image(systemName: viewModel.getOrAddPickedPictureFor(meal).src)

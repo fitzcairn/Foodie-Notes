@@ -14,6 +14,8 @@ struct CourseCreateOrEditView: View {
     
     typealias Course = AppModel.Course
     
+    @State private var showingAlert = false
+
     let mealId:String;
     var courseId:String?
 
@@ -53,9 +55,17 @@ struct CourseCreateOrEditView: View {
                 }
                 SaveButton(
                     actionFunc: {
-                        presentationMode.wrappedValue.dismiss()
+                        viewModel.objectWillChange.send()
+                        showingAlert = !viewModel.courseHasName(course.id);
+                        if !showingAlert {
+                            presentationMode.wrappedValue.dismiss()
+                        }
                     }
                 )
+                .alert("Oops!", isPresented: $showingAlert) {
+                    Text("Please add a name.")
+                    Button("OK", role: .cancel) { }
+                }
             }
             .navigationBarBackButtonHidden()
             .navigationBarItems(

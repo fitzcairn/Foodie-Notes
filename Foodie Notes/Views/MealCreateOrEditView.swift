@@ -15,6 +15,8 @@ struct MealCreateOrEditView: View {
     typealias Course = AppModel.Course
     typealias PicturesAndNotes = AppModel.PicturesAndNotes
 
+    @State private var showingAlert = false
+    
     let mealId:String?
     
     var body: some View {
@@ -53,9 +55,16 @@ struct MealCreateOrEditView: View {
                 SaveButton(
                     actionFunc: {
                         viewModel.objectWillChange.send()
-                        presentationMode.wrappedValue.dismiss()
+                        showingAlert = !viewModel.mealHasVenue(mealId);
+                        if !showingAlert {
+                            presentationMode.wrappedValue.dismiss()
+                        }
                     }
                 )
+                .alert("Oops!", isPresented: $showingAlert) {
+                    Text("Please add a venue.")
+                    Button("OK", role: .cancel) { }
+                }
             }
             .navigationBarBackButtonHidden()
             .navigationBarItems(

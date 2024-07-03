@@ -61,6 +61,12 @@ class AppViewModel : ObservableObject {
     func removeMeal(_ mealId:String) {
         model.removeMeal(mealId)
     }
+    func mealHasVenue(_ mealId:String) -> Bool{
+        if let meal = model.getMealFor(mealId) {
+            return meal.venue.name != ""
+        }
+        return false;
+    }
 
 
    
@@ -106,6 +112,9 @@ class AppViewModel : ObservableObject {
     }
     func getOrAddCourseFor(mealId:String, courseId:String?) -> Course {
         return try! courseId == nil ? addNewCourseTo(mealId) : getCourseFor(courseId!)
+    }
+    func courseHasName(_ courseId:String) -> Bool {
+        return model.getCourseFor(courseId).name != ""
     }
     
     
