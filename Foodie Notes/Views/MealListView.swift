@@ -11,9 +11,10 @@ import SwiftUI
 // This is effectively the main view.
 struct MealListView: View {
     @EnvironmentObject var viewModel:AppViewModel;
-    @State var refresh:Bool = true;
-    
-    typealias Meal = AppModel.Meal
+
+    typealias Meal = AppModel.Meal  
+
+    @State var needRefresh:Bool = true;
 
     var body: some View {
         NavigationStack {
@@ -30,7 +31,9 @@ struct MealListView: View {
             .navigationBarItems(
                 leading: Text("Meals")
                     .font(.system(size:36, weight: .bold)),
-                trailing: NavigationLink(destination: MealCreateOrEditView(mealId:nil)) {
+                trailing: NavigationLink(destination: MealCreateOrEditView(
+                    needRefresh:$needRefresh,
+                    mealId:nil)) {
                     Image(systemName: "plus")
                         .resizable()
                         .padding(6)

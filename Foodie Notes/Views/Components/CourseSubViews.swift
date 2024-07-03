@@ -16,13 +16,18 @@ struct CourseSubViews {
     struct CoursesViewSection : View {
         @EnvironmentObject private var viewModel:AppViewModel;
         let courses:[Course]
+        @State var needRefresh: Bool = false
+
         
         var body: some View {
             Section(header: Text("Courses")) {
                 List {
                     ForEach(courses) { course in
                         CourseItemView<CourseView>(isEdit:false, course:course) {
-                            CourseView(courseId:course.id, mealId: course.mealId)
+                            CourseView(
+                                needRefresh:$needRefresh,
+                                courseId:course.id,
+                                mealId: course.mealId)
                         }
                     }
                 }
@@ -33,21 +38,30 @@ struct CourseSubViews {
     struct CoursesEditSection : View {
         @EnvironmentObject private var viewModel:AppViewModel;
         let mealId:String;
+        @State var needRefresh: Bool = false
+
 
         var body: some View {
             let courses = viewModel.getCoursesFor(mealId)
-            Section(header: header) {
-                List {
-                    ForEach(courses.indices, id:\.self) { index in
-                        CourseItemView<CourseCreateOrEditView>(isEdit: true, course:courses[index]) {
-                            CourseCreateOrEditView(
-                                mealId:courses[index].mealId,
-                                courseId:courses[index].id
-                            )
+            if courses == nil {
+                EmptyView()
+            }
+            else {
+                let courses = courses!
+                Section(header: header) {
+                    List {
+                        ForEach(courses.indices, id:\.self) { index in
+                            CourseItemView<CourseCreateOrEditView>(isEdit: true, course:courses[index]) {
+                                CourseCreateOrEditView(
+                                    needRefresh:$needRefresh,
+                                    mealId:courses[index].mealId,
+                                    courseId:courses[index].id
+                                )
+                            }
                         }
-                    }
-                    .onDelete() { at in
-                        remove(at:at, courses: courses)
+                        .onDelete() { at in
+                            remove(at:at, courses: courses)
+                        }
                     }
                 }
             }
@@ -59,6 +73,7 @@ struct CourseSubViews {
                 Spacer()
                 NavigationLink(
                     destination:CourseCreateOrEditView(
+                        needRefresh:$needRefresh,
                         mealId:mealId,
                         courseId:nil
                     )

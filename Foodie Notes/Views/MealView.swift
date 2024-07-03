@@ -13,6 +13,9 @@ struct MealView: View {
 
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @EnvironmentObject var viewModel:AppViewModel;
+
+    @State var needRefresh: Bool = false
+    
     let mealId:String;
     
     var body: some View {
@@ -39,7 +42,10 @@ struct MealView: View {
                 leading: Text("View Meal")
                     .font(.system(size:36, weight: .bold)),
                 trailing: HStack {
-                    NavigationLink(destination: MealCreateOrEditView(mealId:mealId)) {
+                    NavigationLink(destination: MealCreateOrEditView(
+                        needRefresh:$needRefresh,
+                        mealId:mealId)
+                    ) {
                         Image(systemName: "pencil")
                             .resizable()
                             .padding(6)
@@ -50,7 +56,6 @@ struct MealView: View {
                     }
                     Button(
                         action: { 
-                            print(meal.courses.map() { $0.name})
                             self.presentationMode.wrappedValue.dismiss() },
                         label: {
                             Image(systemName: "x.circle.fill")

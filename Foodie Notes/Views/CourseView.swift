@@ -13,6 +13,8 @@ struct CourseView: View {
 
     typealias Course = AppModel.Course
     
+    @Binding var needRefresh: Bool;
+    
     let courseId:String;
     let mealId:String;
     
@@ -34,6 +36,7 @@ struct CourseView: View {
                     .font(.system(size:36, weight: .bold)),
                 trailing: HStack {
                     NavigationLink(destination: CourseCreateOrEditView(
+                        needRefresh:$needRefresh,
                         mealId:mealId,
                         courseId:course.id)) {
                         Image(systemName: "pencil")

@@ -15,6 +15,7 @@ struct CourseCreateOrEditView: View {
     typealias Course = AppModel.Course
     
     @State private var showingAlert = false
+    @Binding var needRefresh: Bool
 
     let mealId:String;
     var courseId:String?
@@ -58,6 +59,7 @@ struct CourseCreateOrEditView: View {
                         viewModel.objectWillChange.send()
                         showingAlert = !viewModel.courseHasName(course.id);
                         if !showingAlert {
+                            self.needRefresh.toggle()
                             presentationMode.wrappedValue.dismiss()
                         }
                     }

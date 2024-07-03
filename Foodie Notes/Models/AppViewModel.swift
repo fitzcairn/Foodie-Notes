@@ -92,8 +92,11 @@ class AppViewModel : ObservableObject {
     func getCourseFor(_ mealId:String) -> Course {
         return model.getCourseFor(mealId);
     }
-    func getCoursesFor(_ mealId:String) -> [Course] {
-        return model.getMealFor(mealId)!.courses;
+    func getCoursesFor(_ mealId:String) -> [Course]? {
+        if let meal = model.getMealFor(mealId) {
+            return meal.courses;
+        }
+        return nil;
     }
     func addNewCourseTo(_ mealId:String) -> Course {
         return model.addNewCourseTo(mealId)
