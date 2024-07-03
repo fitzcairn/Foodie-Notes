@@ -11,7 +11,10 @@ import SwiftUI
 // This is effectively the main view.
 struct MealListView: View {
     @EnvironmentObject var viewModel:AppViewModel;
+    @State var refresh:Bool = true;
     
+    typealias Meal = AppModel.Meal
+
     var body: some View {
         NavigationStack {
             List {
@@ -25,7 +28,7 @@ struct MealListView: View {
             .navigationBarItems(
                 leading: Text("Meals")
                     .font(.system(size:36, weight: .bold)),
-                trailing: NavigationLink(destination: MealCreateOrEditView(meal:nil)) {
+                trailing: NavigationLink(destination: MealCreateOrEditView(mealId:nil)) {
                     Image(systemName: "plus")
                         .resizable()
                         .padding(6)
@@ -33,7 +36,11 @@ struct MealListView: View {
                         .background(Color.blue)
                         .clipShape(Circle())
                         .foregroundColor(.white)
+                }
+                .simultaneousGesture(TapGesture().onEnded {
+                    _ = viewModel.addMeal(nil)
                 })
+            )
         }
         .searchable(text: $viewModel.filter, placement: .navigationBarDrawer(displayMode: .always), prompt: "Type to Filter")
         .searchSuggestions {
@@ -78,10 +85,4 @@ struct MealItem: View {
             }
         }
     }
-}
-
-
-#Preview {
-    MealListView()
-        .environmentObject(AppViewModel(numTestMeals:5))
 }

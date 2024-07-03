@@ -35,9 +35,10 @@ struct LocationSubViews {
         var body: some View {
             Section(header: Text(title)) {
                 HStack {
-                    NameSubViews.NameEditView(name:$venue)
+                    StyledTextField(inputText:$venue)
                     Spacer()
                     RatingViews.RatingEditView(rating:$rating)
+                        .padding(.trailing, 15)
                 }
             }
         }
@@ -83,7 +84,6 @@ struct LocationSubViews {
                     ForEach(1..<maximumRating + 1, id: \.self) { number in
                         Button(
                             action: {
-                                print("in EditView, rating: \(rating)")
                                 rating = number
                             }, label: {
                                 image(for: number, score:rating)
@@ -93,6 +93,8 @@ struct LocationSubViews {
                     }
                 }
                 .buttonStyle(.plain)
+                .padding(.leading, 10)
+                .padding(.trailing, -15)
             }
         }
     }

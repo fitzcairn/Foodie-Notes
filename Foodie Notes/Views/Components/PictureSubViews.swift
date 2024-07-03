@@ -40,7 +40,9 @@ struct PictureSubViews {
         var body: some View {
             HStack {
                 EditablePictureView(picture:$picture)
-                NameSubViews.NameEditView(name:$name)
+                StyledTextField(inputText:$name)
+                    .padding(.leading, 10)
+                    .padding(.trailing, -10)
                 Spacer()
             }
         }
@@ -62,6 +64,8 @@ struct PictureSubViews {
                             }
                         }
                     }
+                    .padding(.leading, -10)
+
                     NotesSubViews.NotesView(inputText:data.notes)
                         .frame(maxWidth: .infinity)
                         .fixedSize(horizontal: false, vertical: true)
@@ -76,13 +80,14 @@ struct PictureSubViews {
         
         var body: some View {
             Section(header: Text(title)) {
-                HStack(alignment: .center) {
+                HStack(alignment: .top) {
                     VStack(alignment: .center) {
                         LazyVGrid(columns: [GridItem(.adaptive(minimum: 64))], spacing:10) {
                             ForEach($data.pictures) { picture in
                                 EditablePictureView(picture:picture)
                             }
                         }
+                        
                         // Last picture is always an "add" button
                         // TODO: Add a camera AND album button, refactor buttons to MiscSubViews
                         Button(
@@ -93,17 +98,14 @@ struct PictureSubViews {
                             },
                             label: {
                                 VStack {
-                                    Image(systemName: "plus.circle")
-                                        .resizable()
-                                        .frame(width: 24, height: 24)
-                                        .foregroundColor(.black)
+                                    AddButtonImage()
                                 }
                                 .frame(width: 64, height: 64)
                             }
                         )
                         .padding(.trailing, 10)
                     }
-                    NotesSubViews.NotesEditView(inputText:$data.notes)
+                    StyledTextField(inputText:$data.notes)
                 }
             }
         }
@@ -111,7 +113,6 @@ struct PictureSubViews {
     
     // A Picture that you can click and remove
     struct EditablePictureView : View {
-        // No binding needed -- changes to state are handled in callbacks.
         @Binding var picture:AppModel.Picture;
         
         var body: some View {
@@ -182,10 +183,9 @@ struct PictureSubViews {
                         .padding(.top, -5)
                     }
                     Spacer()
-                        .frame(width: 40)
+                        .frame(width:30)
                 }
             }
-            .padding(.trailing, 10)
             .buttonStyle(.plain)
         }
     }

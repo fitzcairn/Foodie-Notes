@@ -15,60 +15,44 @@ struct CourseCreateOrEditView: View {
     typealias Course = AppModel.Course
     
     let mealId:String;
-    let course:Course?;
+    var courseId:String?
 
     var body: some View {
-        // We're either editing or creating a new meal in the model.
-        var newCourse = course ?? Course(mealId: self.mealId);
-        var dirty = false;
+        // Rely on new courses getting created by tap event before view render.
+        let course = courseId != nil ? viewModel.getCourseFor(courseId!) : viewModel.getLastCourseFor(mealId)
         
         NavigationStack {
             ZStack(alignment: .bottom) {
                 Form {
                     PictureSubViews.PictureAndNameEditView(
                         name:Binding<String>(
-                            get: { newCourse.name },
-                            set: { newCourse.name = $0; dirty = true }),
+                            get: { course.name },
+                            set: { viewModel.setCourseNameFor(course, name: $0) }),
                         picture:Binding<AppModel.Picture>(
-                            get: { newCourse.pickedImage },
-                            set: { newCourse.pickedImage = $0; dirty = true })
+                            get: { course.pickedImage },
+                            set: { viewModel.setCoursePickedImageFor(course, image:$0) })
                     )
                     DateViews.DatePickerSection(
                         selectedDate: Binding<Date>(
-                            get: { newCourse.date },
-                            set: { newCourse.date = $0; dirty = true })
+                            get: { course.date },
+                            set: { viewModel.setCourseDateFor(course, date:$0) })
                     )
                     PictureSubViews.PictureAndNotesEditSection(
                         title: "Food",
                         data: Binding<AppModel.PicturesAndNotes>(
-                            get: { newCourse.food },
-                            set: {
-                                print("set for Food")
-                                newCourse.food = viewModel.removeDeletedImagesFor($0);
-                                dirty = true
-                            }
+                            get: { course.food },
+                            set: { viewModel.setCourseFoodFor(course, food:$0); }
                         )
                     )
                     PictureSubViews.PictureAndNotesEditSection(
                         title: "Wine",
                         data: Binding<AppModel.PicturesAndNotes>(
-                            get: { newCourse.wine },
-                            set: { newCourse.wine = viewModel.removeDeletedImagesFor($0); dirty = true })
+                            get: { viewModel.getCourseFor(course.id).wine },
+                            set: { viewModel.setCourseWineFor(course, wine:$0) })
                     )
                 }
                 SaveButton(
                     actionFunc: {
-                        print(dirty)
-                        if dirty {
-                            viewModel.objectWillChange.send()
-                            if course != nil {
-                                viewModel.updateCourseFor(mealId, course: newCourse)
-                            } else {
-                                viewModel.addCourseTo(mealId, course: newCourse)
-                            }
-                            print("Saved:\n-->course id: \(String(describing: newCourse.id))\n-->course: \(newCourse)")
-                            
-                        }
                         presentationMode.wrappedValue.dismiss()
                     }
                 )
@@ -89,9 +73,4 @@ struct CourseCreateOrEditView: View {
             )
         }
     }
-}
-
-#Preview {
-    CourseCreateOrEditView(mealId:"m1", course:AppViewModel(numTestMeals:5).getCourseFor("c1")!)
-        .environmentObject(AppViewModel(numTestMeals:5))
 }

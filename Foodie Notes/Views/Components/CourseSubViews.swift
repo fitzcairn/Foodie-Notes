@@ -16,12 +16,14 @@ struct CourseSubViews {
     struct CoursesViewSection : View {
         @EnvironmentObject private var viewModel:AppViewModel;
         let courses:[Course]
-
+        
         var body: some View {
             Section(header: Text("Courses")) {
                 List {
                     ForEach(courses) { course in
-                        CourseItemView(course:course)
+                        CourseItemView<CourseView>(isEdit:false, course:course) {
+                            CourseView(courseId:course.id, mealId: course.mealId)
+                        }
                     }
                 }
             }
@@ -31,15 +33,22 @@ struct CourseSubViews {
     struct CoursesEditSection : View {
         @EnvironmentObject private var viewModel:AppViewModel;
         let mealId:String;
-        @Binding var courses:[Course];
 
         var body: some View {
+            let courses = viewModel.getCoursesFor(mealId)
             Section(header: header) {
                 List {
-                    ForEach(courses) { course in
-                        CourseItemView(course:course)
+                    ForEach(courses.indices, id:\.self) { index in
+                        CourseItemView<CourseCreateOrEditView>(isEdit: true, course:courses[index]) {
+                            CourseCreateOrEditView(
+                                mealId:courses[index].mealId,
+                                courseId:courses[index].id
+                            )
+                        }
                     }
-                    .onDelete(perform: remove)
+                    .onDelete() { at in
+                        remove(at:at, courses: courses)
+                    }
                 }
             }
         }
@@ -48,24 +57,28 @@ struct CourseSubViews {
             HStack {
                 Text("Courses")
                 Spacer()
-                NavigationLink(destination: CourseCreateOrEditView(mealId: mealId, course:nil)) {
-                    Image(systemName: "plus.circle")
-                        .resizable()
-                        .frame(width: 24, height: 24)
-                        .foregroundColor(.black)
-                        .padding(.trailing, -20)
+                NavigationLink(
+                    destination:CourseCreateOrEditView(
+                        mealId:mealId,
+                        courseId:nil
+                    )
+                ) {
+                    AddButtonImage()
                 }
+                .simultaneousGesture(TapGesture().onEnded {
+                    _ = viewModel.addNewCourseTo(mealId)
+                })
             }
         }
         
-        func remove(at offsets: IndexSet) {
-            var new:[Course] = []
+        func remove(at offsets: IndexSet, courses:[Course]) {
+            var newCourses:[Course] = []
             for (index, course) in courses.enumerated() {
                 if !offsets.contains(index) {
-                    new.append(course);
+                    newCourses.append(course);
                 }
             }
-            courses = new;
+            viewModel.setCoursesFor(mealId, courses:newCourses)
         }
     }
         
@@ -83,16 +96,24 @@ struct CourseSubViews {
     }
     
     // Individual course in a list
-    struct CourseItemView : View {
+    struct CourseItemView<Destination>: View where Destination : View {
         @EnvironmentObject private var viewModel:AppViewModel;
+        let isEdit:Bool;
         let course:Course
+        let destination: Destination
 
+        init(isEdit:Bool, course: Course, @ViewBuilder destination: @escaping () -> Destination) {
+            self.isEdit = isEdit
+            self.course = course
+            self.destination = destination()
+        }
+        
         var body: some View {
-            HStack {
-                Image(systemName: viewModel.getPreferredImageSrc(for: course))
-                    .resizable()
-                    .frame(width: 64.0, height: 64.0)
-                NavigationLink(destination: CourseView(course:course)) {
+            ZStack {
+                HStack {
+                    Image(systemName: viewModel.getPreferredImageSrc(for: course))
+                        .resizable()
+                        .frame(width: 64.0, height: 64.0)
                     VStack(alignment: .leading) {
                         Text(course.name)
                             .bold()
@@ -101,7 +122,15 @@ struct CourseSubViews {
                         Spacer()
                     }
                     .padding(8)
+                    Spacer()
+                    if (isEdit) {
+                        EditButtonImage()
+                    }
                 }
+                NavigationLink(destination: destination) {
+                    EmptyView()
+                }
+                .opacity(isEdit ? 0 : 1)
             }
         }
     }

@@ -16,7 +16,6 @@ struct MealView: View {
     let mealId:String;
     
     var body: some View {
-        // TODO: handle lookup errors, should never happen but let's not crash.
         let meal = viewModel.getMealFor(mealId) ?? Meal()
         
         // TODO: Split my custom NavigationStack out into a custom view.
@@ -24,21 +23,15 @@ struct MealView: View {
             Form {
                 LocationSubViews.LocationViewSection(venue: meal.venue.name, rating: meal.venue.rating)
                 DateViews.DateSection(Date())
-                
-                // Notes
                 if !meal.notes.isEmpty {
                     NotesSubViews.NotesSection(
                         title:"Overall Notes",
                         note: meal.notes
                     )
                 }
-                
-                // Menu, if not empty.
                 if viewModel.checkShow(meal.menu) {
                     PictureSubViews.PictureAndNotesViewSection(title: "Menu[s]", data:meal.menu)
                 }
-                
-                // Courses!
                 CourseSubViews.CoursesViewSection(courses:meal.courses)
             }
             .navigationBarBackButtonHidden()
@@ -46,7 +39,7 @@ struct MealView: View {
                 leading: Text("View Meal")
                     .font(.system(size:36, weight: .bold)),
                 trailing: HStack {
-                    NavigationLink(destination: MealCreateOrEditView(meal:meal)) {
+                    NavigationLink(destination: MealCreateOrEditView(mealId:mealId)) {
                         Image(systemName: "pencil")
                             .resizable()
                             .padding(6)
@@ -56,7 +49,9 @@ struct MealView: View {
                             .foregroundColor(.white)
                     }
                     Button(
-                        action: { self.presentationMode.wrappedValue.dismiss() },
+                        action: { 
+                            print(meal.courses.map() { $0.name})
+                            self.presentationMode.wrappedValue.dismiss() },
                         label: {
                             Image(systemName: "x.circle.fill")
                                 .resizable()
@@ -67,13 +62,5 @@ struct MealView: View {
                 }
             )
         }
-        .onAppear() {
-            self.viewModel.objectWillChange.send()
-        }
     }
-}
-
-#Preview {
-    MealView(mealId:"m1")
-        .environmentObject(AppViewModel(numTestMeals:5))
 }

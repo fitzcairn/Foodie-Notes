@@ -13,9 +13,11 @@ struct CourseView: View {
 
     typealias Course = AppModel.Course
     
-    let course:Course;
+    let courseId:String;
+    let mealId:String;
     
     var body: some View {
+        let course = viewModel.getCourseFor(courseId);
         // TODO: Split my custom NavigationStack out into a custom view.
         NavigationStack {
             Form {
@@ -26,13 +28,14 @@ struct CourseView: View {
                     PictureSubViews.PictureAndNotesViewSection(title: "Wine", data: course.wine)
                 }
             }
-            
             .navigationBarBackButtonHidden()
             .navigationBarItems(
                 leading: Text("View Course")
                     .font(.system(size:36, weight: .bold)),
                 trailing: HStack {
-                    NavigationLink(destination: CourseCreateOrEditView(mealId:course.mealId, course: course)) {
+                    NavigationLink(destination: CourseCreateOrEditView(
+                        mealId:mealId,
+                        courseId:course.id)) {
                         Image(systemName: "pencil")
                             .resizable()
                             .padding(6)
@@ -54,9 +57,4 @@ struct CourseView: View {
             )
         }
     }
-}
-
-#Preview {
-    CourseView(course:AppViewModel(numTestMeals:5).getCourseFor("c1")!)
-        .environmentObject(AppViewModel(numTestMeals:5))
 }

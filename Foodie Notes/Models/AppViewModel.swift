@@ -9,6 +9,9 @@ import Foundation
 
 // View model for the app.
 class AppViewModel : ObservableObject {
+    var id = AppModel.Id.createId();
+    
+    
     typealias Meal = AppModel.Meal;
     typealias Picture = AppModel.Picture;
     typealias PicturesAndNotes = AppModel.PicturesAndNotes;
@@ -30,8 +33,118 @@ class AppViewModel : ObservableObject {
         model.addTestData(numTestMeals: numTestMeals)
     }
     
-    // MARK: - Intents
+
+    // MARK: - Meal Management
     
+    // TODO: Do we need all of these?
+    
+    func addMeal(_ venue:String?) -> Meal {
+        return model.addMeal(at:venue ?? "")
+    }
+    func getMeals() -> [Meal] {
+        // TODO: apply filter, for now return all.
+        return model.getMeals();
+    }
+    func getMealFor(_ mealId:String?) -> Meal? {
+        return model.getMealFor(mealId)
+    }
+    func getOrAddMealFor(_ mealId:String?) -> Meal {
+        return model.getOrAddMealFor(mealId)
+    }
+    // Royal hacks to use model state for new courses.
+    func getLastCourseFor(_ mealId:String) -> Course {
+        return model.getCoursesFor(mealId).last!;
+    }
+    func getLastNewMealCreated() -> Meal? {
+        return model.getLastNewMealCreated();
+    }
+
+   
+    // MARK: - Meal Property Setters
+    func setRatingFor(_ mealId:String, rating:Int) {
+        model.setRatingFor(mealId, rating:rating)
+    }
+    func setVenueFor(_ mealId:String, name:String) {
+        model.setVenueFor(mealId, name:name)
+    }
+    func setDateFor(_ mealId:String, date:Date) {
+        model.setDateFor(mealId, date:date)
+    }
+    func setMenuFor(_ mealId:String, menu:PicturesAndNotes) {
+        let cleanMenu = removeDeletedImagesFor(menu);
+        return model.setMenuFor(mealId, menu:cleanMenu)
+    }
+    func setNotesFor(_ mealId:String, notes:String) {
+        return model.setNotesFor(mealId, notes:notes)
+    }
+    func setCoursesFor(_ mealId:String, courses:[Course]) {
+        return model.setCoursesFor(mealId, courses:courses)
+    }
+    func setCourseFor(_ mealId:String, course:Course) {
+        updateCoursesHelper(course) { oldCourse in
+            return oldCourse.id == course.id ? course : oldCourse
+        }
+    }
+    
+    
+    // MARK: - Course Management
+    func getCourseFor(_ mealId:String) -> Course {
+        return model.getCourseFor(mealId);
+    }
+    func getCoursesFor(_ mealId:String) -> [Course] {
+        return model.getMealFor(mealId)!.courses;
+    }
+    func addNewCourseTo(_ mealId:String) -> Course {
+        return model.addNewCourseTo(mealId)
+    }
+    func addCourseTo(_ mealId:String, course:Course) {
+        model.addCourseTo(mealId, course:course)
+    }
+    func getOrAddCourseFor(mealId:String, courseId:String?) -> Course {
+        return try! courseId == nil ? addNewCourseTo(mealId) : getCourseFor(courseId!)
+    }
+    
+    
+    // MARK: - Course Property Setters
+    func setCourseNameFor(_ course:Course, name:String) {
+        updateCoursesHelper(course) { oldCourse in
+            var newCourse = oldCourse
+            newCourse.name = newCourse.id == course.id ? name : oldCourse.name
+            return newCourse
+        }
+    }
+    func setCoursePickedImageFor(_ course:Course, image:AppModel.Picture) {
+        updateCoursesHelper(course) { oldCourse in
+            var newCourse = oldCourse
+            newCourse.pickedImage = newCourse.id == course.id ? image : oldCourse.pickedImage
+            return newCourse
+        }
+    }
+    func setCourseDateFor(_ course:Course, date:Date) {
+        updateCoursesHelper(course) { oldCourse in
+            var newCourse = oldCourse
+            newCourse.date = newCourse.id == course.id ? date : oldCourse.date
+            return newCourse
+        }
+    }
+    func setCourseFoodFor(_ course:Course, food:AppModel.PicturesAndNotes) {
+        updateCoursesHelper(course) { oldCourse in
+            var newCourse = oldCourse
+            newCourse.food = newCourse.id == course.id ? removeDeletedImagesFor(food) : oldCourse.food
+            return newCourse
+        }
+    }
+    func setCourseWineFor(_ course:Course, wine:AppModel.PicturesAndNotes) {
+        updateCoursesHelper(course) { oldCourse in
+            var newCourse = oldCourse
+            newCourse.wine = newCourse.id == course.id ? removeDeletedImagesFor(wine) : oldCourse.wine
+            return newCourse
+        }
+    }
+
+    
+    
+    // MARK: - Useful Helpers
     func getOrAddPickedPictureFor(_ meal:Meal) -> Picture {
         func isEmpty(_ image:Picture) -> Bool {
             switch image.state {
@@ -84,52 +197,19 @@ class AppViewModel : ObservableObject {
         return meal.pickedImage;
     }
     
-    func getCourseFor(_ id:String?) -> Course? {
-        if let courseId = id {
-            return model.getCourse(id:courseId);
+    func removeDeletedImagesFor(_ old:PicturesAndNotes) -> PicturesAndNotes {
+        var new = PicturesAndNotes(notes:old.notes)
+        for picture in old.pictures {
+            if picture.state != AppModel.PictureState.deleted {
+                new.pictures.append(picture)
+            }
         }
-        return nil;
+        return new
     }
     
-    func addNewCourseTo(_ mealId:String) -> Course {
-        return model.addNewCourseTo(mealId)
-    }
-    
-    func addCourseTo(_ mealId:String, course:Course) {
-        model.addCourseTo(mealId, course:course)
-    }
-    
-    func getOrAddCourseFor(mealId:String, courseId:String?) -> Course {
-        return getCourseFor(courseId) ?? addNewCourseTo(mealId)
-    }
-    
-    func getMeals() -> [Meal] {
-        // TODO: apply filter, for now return all.
-        return model.getMeals();
-    }
-    
-    func getMealFor(_ mealId:String?) -> Meal? {
-        return model.getMealFor(mealId)
-    }
-    
-    func setRatingFor(_ mealId:String, rating:Int) {
-        model.setRatingFor(mealId, rating:rating)
-    }
-    
-    func getRatingFor(_ mealId:String) -> Int {
-        return model.getRatingFor(mealId)
-    }
-    
-    func getOrAddMealFor(_ mealId:String?) -> Meal {
-        return model.getOrAddMealFor(mealId)
-    }
-    
-    func setMenuFor(_ mealId:String, menu:AppModel.PicturesAndNotes) {
-        return model.setMenuFor(mealId, menu:menu)
-    }
-    
-    func setNotesFor(_ mealId:String, notes:String) {
-        return model.setNotesFor(mealId, notes:notes)
+    // Consolidate business logic on when to show a section.
+    func checkShow(_ pictureAndNotes:AppModel.PicturesAndNotes) -> Bool {
+        return !pictureAndNotes.notes.isEmpty || !pictureAndNotes.pictures.isEmpty
     }
     
     func getPreferredImageSrc(for courseId:String, in mealId:String) -> String {
@@ -143,90 +223,12 @@ class AppViewModel : ObservableObject {
         return course.pickedImage.src
     }
     
-    func setVenueFor(_ mealId:String, venue:AppModel.Venue) {
-        var meal = model.getOrAddMealFor(mealId);
-        meal.venue = venue;
-        model.updateMeal(mealId, meal:meal);
-    }
-    
-    func setVenueNameFor(_ mealId:String, name:String) {
-        var meal = model.getOrAddMealFor(mealId);
-        meal.venue.name = name;
-        model.updateMeal(mealId, meal:meal);
-    }
-    
-    func setVenueRatingFor(_ mealId:String, rating:Int) {
-        var meal = model.getOrAddMealFor(mealId);
-        meal.venue.rating = rating;
-        model.updateMeal(mealId, meal:meal);
-    }
-    
-    // Course updators --
-    func updateCourseFor(_ mealId:String, course:Course) {
-        updateCoursesHelper(course) { oldCourse in
-            return oldCourse.id == course.id ? course : oldCourse
-        }
-    }
-    
-    func setCourseNameFor(_ course:Course, name:String) {
-        updateCoursesHelper(course) { oldCourse in
-            var newCourse = oldCourse
-            newCourse.name = newCourse.id == course.id ? name : oldCourse.name
-            return newCourse
-        }
-    }
-    
-    func setCoursePickedImageFor(_ course:Course, image:AppModel.Picture) {
-        updateCoursesHelper(course) { oldCourse in
-            var newCourse = oldCourse
-            newCourse.pickedImage = newCourse.id == course.id ? image : oldCourse.pickedImage
-            return newCourse
-        }
-    }
-    
-    func setCourseDateFor(_ course:Course, date:Date) {
-        updateCoursesHelper(course) { oldCourse in
-            var newCourse = oldCourse
-            newCourse.date = newCourse.id == course.id ? date : oldCourse.date
-            return newCourse
-        }
-    }
-
-    func setCourseFoodFor(_ course:Course, food:AppModel.PicturesAndNotes) {
-        updateCoursesHelper(course) { oldCourse in
-            var newCourse = oldCourse
-            newCourse.food = newCourse.id == course.id ? food : oldCourse.food
-            return newCourse
-        }
-    }
-    
-    func setCourseWineFor(_ course:Course, wine:AppModel.PicturesAndNotes) {
-        updateCoursesHelper(course) { oldCourse in
-            var newCourse = oldCourse
-            newCourse.wine = newCourse.id == course.id ? wine : oldCourse.wine
-            return newCourse
-        }
-    }
-    
-    func removeDeletedImagesFor(_ old:PicturesAndNotes) -> PicturesAndNotes {
-        var new = PicturesAndNotes(notes:old.notes)
-        for picture in old.pictures {
-            if picture.state != AppModel.PictureState.deleted {
-                new.pictures.append(picture)
-            }
-        }
-        return new
-    }
-    
-
     func updateMeal(_ mealId:String, meal:Meal) {
         model.updateMeal(mealId, meal:meal);
     }
+
     
-    // Consolidate business logic on when to show a section.
-    func checkShow(_ pictureAndNotes:AppModel.PicturesAndNotes) -> Bool {
-        return !pictureAndNotes.notes.isEmpty || !pictureAndNotes.pictures.isEmpty
-    }
+
     
     
     // MARK: - Private Helper Intents
@@ -234,13 +236,16 @@ class AppViewModel : ObservableObject {
     // Yuck but efficiency via ID referencing is complicated. Should be small copying.
     private func updateCoursesHelper(_ course:Course, update:((Course) -> Course)) {
         let meal = model.getMealFor(course.mealId)!
-
         var newCourses:[Course] = []
         for oldCourse in meal.courses {
             newCourses.append(update(oldCourse))
         }
         var newMeal = meal
         newMeal.courses = newCourses;
+        
+        //print("!! AFTER, meal \(newMeal.id): \(newMeal.courses.map() { "\($0.id): \($0.name)" })")
+
+        
         model.updateMeal(meal.id, meal:newMeal);
     }
     
