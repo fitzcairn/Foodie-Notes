@@ -15,13 +15,18 @@ struct MealCreateOrEditView: View {
     typealias Course = AppModel.Course
     typealias PicturesAndNotes = AppModel.PicturesAndNotes
 
-    let meal:Meal?
+    @State private var newMeal:Meal
+    @State private var dirty = false;
+    
+    init(meal:Meal?) {
+        if let realMeal = meal {
+            self.newMeal = realMeal
+        } else {
+            self.newMeal = Meal()
+        }
+    }
 
     var body: some View {
-        // New meal to send to child view via bindings.
-        var newMeal = self.meal ?? Meal()
-        var dirty = false;
-
         // TODO: Split my custom NavigationStack out into a custom view.
         NavigationStack {
             ZStack(alignment: .bottom) {
@@ -39,6 +44,11 @@ struct MealCreateOrEditView: View {
                             get: { newMeal.date },
                             set: { newMeal.date = $0; dirty = true })
                     )
+                    NotesSubViews.NotesEditSection(title:"Overall Notes", inputText: Binding<String>(
+                        get: { newMeal.notes },
+                        set: { newMeal.notes = $0; dirty = true }
+                    ))
+
                     PictureSubViews.PictureAndNotesEditSection(
                         title: "Menu[s]",
                         data: Binding<PicturesAndNotes>(
@@ -51,20 +61,17 @@ struct MealCreateOrEditView: View {
                             get: { newMeal.courses },
                             set: { newMeal.courses = $0; dirty = true })
                     )
-                    NotesSubViews.NotesEditSection(title:"Additional Notes", inputText: Binding<String>(
-                        get: { newMeal.notes },
-                        set: { newMeal.notes = $0; dirty = true }
-                    ))
                 }
 
                 SaveButton(
-                    destination: MealView(meal: newMeal),
                     actionFunc: {
+                        print("Dirty is: \(dirty)")
                         if (dirty) {
                             viewModel.objectWillChange.send()
                             viewModel.updateMeal(newMeal.id, meal: newMeal)
                             print("Saved:\n-->meal id: \(String(describing: newMeal.id))\n-->meal: \(newMeal)")
                         }
+                        presentationMode.wrappedValue.dismiss()
                     }
                 )
             }
@@ -88,6 +95,6 @@ struct MealCreateOrEditView: View {
 }
 
 #Preview {
-    MealCreateOrEditView(meal:nil)
+    MealCreateOrEditView(meal:AppViewModel(numTestMeals:5).getMealFor("m1")!)
         .environmentObject(AppViewModel(numTestMeals:5))
 }

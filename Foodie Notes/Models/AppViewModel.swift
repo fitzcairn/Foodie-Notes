@@ -13,12 +13,11 @@ class AppViewModel : ObservableObject {
     typealias Picture = AppModel.Picture;
     typealias PicturesAndNotes = AppModel.PicturesAndNotes;
     typealias Course = AppModel.Course;
-
-    
+     
     private static var missingImage = "fork.knife.circle";
     
     // App model
-    @Published private var model: AppModel = createAppModel();
+    @Published var model: AppModel = createAppModel();
     
     // Any filters
     var filter:String = "";
@@ -111,6 +110,14 @@ class AppViewModel : ObservableObject {
     
     func getMealFor(_ mealId:String?) -> Meal? {
         return model.getMealFor(mealId)
+    }
+    
+    func setRatingFor(_ mealId:String, rating:Int) {
+        model.setRatingFor(mealId, rating:rating)
+    }
+    
+    func getRatingFor(_ mealId:String) -> Int {
+        return model.getRatingFor(mealId)
     }
     
     func getOrAddMealFor(_ mealId:String?) -> Meal {

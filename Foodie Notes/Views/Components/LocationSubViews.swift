@@ -45,7 +45,6 @@ struct LocationSubViews {
     
     //  All views and logic related to rating.
     struct RatingViews {
-        // TODO: move to model
         private static let maximumRating = 5
         
         private static let offImage = Image(systemName: "star")
@@ -63,7 +62,6 @@ struct LocationSubViews {
         }
         
         struct RatingView : View {
-            // TODO: Needs to be in viewmodel.
             let rating:Int;
             
             var body: some View {
@@ -85,8 +83,8 @@ struct LocationSubViews {
                     ForEach(1..<maximumRating + 1, id: \.self) { number in
                         Button(
                             action: {
+                                print("in EditView, rating: \(rating)")
                                 rating = number
-                                print(number)
                             }, label: {
                                 image(for: number, score:rating)
                                     .foregroundColor(number > rating ? offColor : onColor)

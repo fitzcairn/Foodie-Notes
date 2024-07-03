@@ -8,32 +8,29 @@
 import SwiftUI
 
 
-struct SaveButton<TargetView: View>: View {
-    let destination:TargetView
+struct SaveButton: View {
     let actionFunc:(() -> Void)
     
     var body: some View {
-        NavigationLink(destination: destination) {
-            Button(
-                action: {
-                    // TODO: trigger model write.
-                    print("Save tapped")
-                    actionFunc()
-                },
-                label: {
-                    Text("Save")
-                        .frame(minWidth: 0, maxWidth: 200)
-                        .font(.system(size: 18))
-                        .padding()
-                        .foregroundColor(.white)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 25)
-                                .stroke(Color.white, lineWidth: 2)
-                        )
-                })
-            .background(Color.blue)
-            .cornerRadius(25)
-        }
+        Button(
+            action: {
+                // TODO: trigger model write.
+                print("Save tapped")
+                actionFunc()
+            },
+            label: {
+                Text("Save")
+                    .frame(minWidth: 0, maxWidth: 200)
+                    .font(.system(size: 18))
+                    .padding()
+                    .foregroundColor(.white)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 25)
+                            .stroke(Color.white, lineWidth: 2)
+                    )
+            })
+        .background(Color.blue)
+        .cornerRadius(25)
     }
 }
 

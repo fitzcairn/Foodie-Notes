@@ -7,10 +7,11 @@
 
 import SwiftUI
 
+
 struct CourseCreateOrEditView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @EnvironmentObject var viewModel:AppViewModel;
-
+    
     typealias Course = AppModel.Course
     
     let mealId:String;
@@ -55,9 +56,7 @@ struct CourseCreateOrEditView: View {
                             set: { newCourse.wine = viewModel.removeDeletedImagesFor($0); dirty = true })
                     )
                 }
-
                 SaveButton(
-                    destination: CourseView(course: newCourse),
                     actionFunc: {
                         print(dirty)
                         if dirty {
@@ -70,6 +69,7 @@ struct CourseCreateOrEditView: View {
                             print("Saved:\n-->course id: \(String(describing: newCourse.id))\n-->course: \(newCourse)")
                             
                         }
+                        presentationMode.wrappedValue.dismiss()
                     }
                 )
             }

@@ -16,7 +16,7 @@ struct MealListView: View {
         NavigationStack {
             List {
                 ForEach(viewModel.getMeals()) { meal in
-                    MealItem(meal:meal)
+                    MealItem(mealId:meal.id)
                 }
                 .onDelete(perform: remove)
             }
@@ -57,14 +57,16 @@ struct MealListView: View {
 
 struct MealItem: View {
     @EnvironmentObject private var viewModel:AppViewModel;
-    let meal:AppModel.Meal;
+    let mealId:String;
     
     var body: some View {
+        // Should never get a miss on lookup here.
+        let meal = viewModel.getMealFor(mealId)!
         HStack {
             Image(systemName: viewModel.getOrAddPickedPictureFor(meal).src)
                 .resizable()
                 .frame(width: 64.0, height: 64.0)
-            NavigationLink(destination: MealView(meal: meal)) {
+            NavigationLink(destination: MealView(mealId: meal.id)) {
                 VStack(alignment: .leading) {
                     Text(meal.venue.name)
                         .bold()

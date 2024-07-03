@@ -10,7 +10,6 @@ import Foundation
 
 // Backend model for all app state.
 struct AppModel {
-    
     // All top-level storage.  Yes, there is duplication here.
     private var mealsById:[String:Meal] = [:];
     private var venuesByName:[String:Venue] = [:];
@@ -36,6 +35,13 @@ struct AppModel {
         return addMeal(venue:venue)
     }
     
+    mutating func setRatingFor(_ mealId:String, rating:Int) {
+        mealsById[mealId]!.venue.rating = rating;
+    }
+    func getRatingFor(_ mealId:String) -> Int {
+        return mealsById[mealId]!.venue.rating;
+    }
+
     mutating func updateMeal(_ mealId:String, meal:Meal) {
         index(meal)
     }

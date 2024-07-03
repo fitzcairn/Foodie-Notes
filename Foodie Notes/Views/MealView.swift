@@ -13,14 +13,25 @@ struct MealView: View {
 
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @EnvironmentObject var viewModel:AppViewModel;
-    let meal:Meal
+    let mealId:String;
     
     var body: some View {
+        // TODO: handle lookup errors, should never happen but let's not crash.
+        let meal = viewModel.getMealFor(mealId) ?? Meal()
+        
         // TODO: Split my custom NavigationStack out into a custom view.
         NavigationStack {
             Form {
                 LocationSubViews.LocationViewSection(venue: meal.venue.name, rating: meal.venue.rating)
                 DateViews.DateSection(Date())
+                
+                // Notes
+                if !meal.notes.isEmpty {
+                    NotesSubViews.NotesSection(
+                        title:"Overall Notes",
+                        note: meal.notes
+                    )
+                }
                 
                 // Menu, if not empty.
                 if viewModel.checkShow(meal.menu) {
@@ -29,14 +40,6 @@ struct MealView: View {
                 
                 // Courses!
                 CourseSubViews.CoursesViewSection(courses:meal.courses)
-                
-                // Notes
-                if !meal.notes.isEmpty {
-                    NotesSubViews.NotesSection(
-                        title:"Additional Notes",
-                        note: meal.notes
-                    )
-                }
             }
             .navigationBarBackButtonHidden()
             .navigationBarItems(
@@ -64,10 +67,13 @@ struct MealView: View {
                 }
             )
         }
+        .onAppear() {
+            self.viewModel.objectWillChange.send()
+        }
     }
 }
 
 #Preview {
-    MealView(meal:AppViewModel(numTestMeals:5).getMealFor("m1")!)
+    MealView(mealId:"m1")
         .environmentObject(AppViewModel(numTestMeals:5))
 }
