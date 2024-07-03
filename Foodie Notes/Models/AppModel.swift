@@ -14,7 +14,7 @@ struct AppModel {
     private var mealsById:[String:Meal] = [:];
     private var venuesByName:[String:Venue] = [:];
     private var coursesById:[String:Course] = [:];
-    private var lastNewMealCreated:Meal?;
+    private var lastNewMealCreatedId:String?;
                
    
     // MARK: - Meal Creation
@@ -26,7 +26,7 @@ struct AppModel {
     mutating func addMeal(at venue:Venue) -> Meal {
         let meal = Meal(venue: venue);
         index(meal)
-        lastNewMealCreated = meal;
+        lastNewMealCreatedId = meal.id;
         return meal;
     }
     
@@ -109,7 +109,7 @@ struct AppModel {
         return nil;
     }
     func getLastNewMealCreated() -> Meal? {
-        return lastNewMealCreated;
+        return getMealFor(lastNewMealCreatedId);
     }
     // If we get a bad course ID, crash.
     func getCourseFor(_ courseId:String) -> Course {
