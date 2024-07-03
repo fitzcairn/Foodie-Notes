@@ -18,10 +18,12 @@ struct MealListView: View {
     var body: some View {
         NavigationStack {
             List {
-                ForEach(viewModel.getMeals()) { meal in
+                ForEach(viewModel.getMeals(), id: \.self) { meal in
                     MealItem(mealId:meal.id)
                 }
-                .onDelete(perform: remove)
+                .onDelete() { at in
+                    remove(at:at, meals:viewModel.getMeals())
+                }
             }
             .listStyle(.plain)
             .navigationBarBackButtonHidden()
@@ -54,8 +56,13 @@ struct MealListView: View {
             .edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
     }
         
-    func remove(at offsets: IndexSet) {
-        // TODO: Implement delete
+    func remove(at offsets: IndexSet, meals:[Meal]) {
+        print(offsets);
+        for (index, meal) in meals.enumerated() {
+            if offsets.contains(index) {
+                viewModel.removeMeal(meal.id);
+            }
+        }
     }
     
 }
@@ -67,22 +74,25 @@ struct MealItem: View {
     let mealId:String;
     
     var body: some View {
-        // Should never get a miss on lookup here.
-        let meal = viewModel.getMealFor(mealId)!
-        HStack {
-            Image(systemName: viewModel.getOrAddPickedPictureFor(meal).src)
-                .resizable()
-                .frame(width: 64.0, height: 64.0)
-            NavigationLink(destination: MealView(mealId: meal.id)) {
-                VStack(alignment: .leading) {
-                    Text(meal.venue.name)
-                        .bold()
-                    Text(meal.notes)
-                        .foregroundColor(.gray)
-                    Spacer()
+        // Should never get a miss on lookup here.  But for some reason, we do.  Handle it.
+        if let meal = viewModel.getMealFor(mealId) {
+            HStack {
+                Image(systemName: viewModel.getOrAddPickedPictureFor(meal).src)
+                    .resizable()
+                    .frame(width: 64.0, height: 64.0)
+                NavigationLink(destination: MealView(mealId: meal.id)) {
+                    VStack(alignment: .leading) {
+                        Text(meal.venue.name)
+                            .bold()
+                        Text(meal.notes)
+                            .foregroundColor(.gray)
+                        Spacer()
+                    }
+                    .padding(8)
                 }
-                .padding(8)
             }
+        } else {
+            EmptyView()
         }
     }
 }

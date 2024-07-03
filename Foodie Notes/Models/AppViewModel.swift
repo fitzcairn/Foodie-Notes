@@ -58,6 +58,10 @@ class AppViewModel : ObservableObject {
     func getLastNewMealCreated() -> Meal? {
         return model.getLastNewMealCreated();
     }
+    func removeMeal(_ mealId:String) {
+        model.removeMeal(mealId)
+    }
+
 
    
     // MARK: - Meal Property Setters

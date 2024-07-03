@@ -17,19 +17,17 @@ struct AppModel {
     private var lastNewMealCreatedId:String?;
                
    
-    // MARK: - Meal Creation
+    // MARK: - Meal Management
     mutating func addMeal(at venueName:String?) -> Meal {
         let venue = getOrAddVenue(venueName);
         return addMeal(at:venue);
     }
-
     mutating func addMeal(at venue:Venue) -> Meal {
         let meal = Meal(venue: venue);
         index(meal)
         lastNewMealCreatedId = meal.id;
         return meal;
     }
-    
     mutating func getOrAddMealFor(_ mealId:String?) -> Meal {
         let venue = getOrAddVenue(nil) // use null venue.
         if let mealId = mealId {
@@ -40,7 +38,17 @@ struct AppModel {
         }
         return addMeal(at:venue)
     }
-    
+    mutating func removeMeal(_ mealId:String) {
+        if let _ = mealsById[mealId] {
+            for course in getCoursesFor(mealId) {
+                coursesById.removeValue(forKey: course.id)
+            }
+            mealsById.removeValue(forKey: mealId)
+        }
+        if (lastNewMealCreatedId == mealId) {
+            lastNewMealCreatedId = nil;
+        }
+    }
     
     // MARK: - Property Setters
     
@@ -153,7 +161,7 @@ struct AppModel {
     
     // MARK: - Component Models
     
-    struct Meal : Identifiable {
+    struct Meal : Identifiable, Hashable {
         var id:String = Id.createId();
         var venue: Venue = Venue();
         var menu: PicturesAndNotes = PicturesAndNotes()
@@ -176,6 +184,14 @@ struct AppModel {
             self.courses = courses
             self.date = date
             self.notes = notes
+        }
+        
+        static func == (lhs: AppModel.Meal, rhs: AppModel.Meal) -> Bool {
+            return lhs.id == rhs.id
+        }
+        
+        func hash(into hasher: inout Hasher) {
+            hasher.combine(id)
         }
     }
     
