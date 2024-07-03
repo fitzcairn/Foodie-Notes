@@ -82,8 +82,12 @@ struct MealItem: View {
                     .frame(width: 64.0, height: 64.0)
                 NavigationLink(destination: MealView(mealId: meal.id)) {
                     VStack(alignment: .leading) {
-                        Text(meal.venue.name)
-                            .bold()
+                        HStack {
+                            Text(meal.venue.name)
+                                .bold()
+                            Spacer()
+                            LocationSubViews.RatingViews.RatingView(rating:meal.venue.rating)
+                        }
                         Text(meal.notes)
                             .foregroundColor(.gray)
                         Spacer()

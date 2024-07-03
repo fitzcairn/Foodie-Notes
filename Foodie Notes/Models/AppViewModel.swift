@@ -48,16 +48,6 @@ class AppViewModel : ObservableObject {
     func getMealFor(_ mealId:String?) -> Meal? {
         return model.getMealFor(mealId)
     }
-    func getOrAddMealFor(_ mealId:String?) -> Meal {
-        return model.getOrAddMealFor(mealId)
-    }
-    // Royal hacks to use model state for new courses.
-    func getLastCourseFor(_ mealId:String) -> Course {
-        return model.getCoursesFor(mealId).last!;
-    }
-    func getLastNewMealCreated() -> Meal? {
-        return model.getLastNewMealCreated();
-    }
     func removeMeal(_ mealId:String) {
         model.removeMeal(mealId)
     }
@@ -67,7 +57,13 @@ class AppViewModel : ObservableObject {
         }
         return false;
     }
-
+    // Royal hacks to use model state for new courses.
+    func getLastCourseFor(_ mealId:String) -> Course {
+        return model.getCoursesFor(mealId).last!;
+    }
+    func getLastNewMealCreated() -> Meal? {
+        return model.getLastNewMealCreated();
+    }
 
    
     // MARK: - Meal Property Setters
@@ -90,11 +86,6 @@ class AppViewModel : ObservableObject {
     func setCoursesFor(_ mealId:String, courses:[Course]) {
         return model.setCoursesFor(mealId, courses:courses)
     }
-    func setCourseFor(_ mealId:String, course:Course) {
-        updateCoursesHelper(course) { oldCourse in
-            return oldCourse.id == course.id ? course : oldCourse
-        }
-    }
     
     
     // MARK: - Course Management
@@ -106,12 +97,6 @@ class AppViewModel : ObservableObject {
     }
     func addNewCourseTo(_ mealId:String) -> Course {
         return model.addNewCourseTo(mealId)
-    }
-    func addCourseTo(_ mealId:String, course:Course) {
-        model.addCourseTo(mealId, course:course)
-    }
-    func getOrAddCourseFor(mealId:String, courseId:String?) -> Course {
-        return try! courseId == nil ? addNewCourseTo(mealId) : getCourseFor(courseId!)
     }
     func courseHasName(_ courseId:String) -> Bool {
         return model.getCourseFor(courseId).name != ""
@@ -154,7 +139,6 @@ class AppViewModel : ObservableObject {
             return newCourse
         }
     }
-
     
     
     // MARK: - Useful Helpers
@@ -177,7 +161,7 @@ class AppViewModel : ObservableObject {
         func setAndGo(_ image:Picture) -> Picture {
             var newMeal = meal
             newMeal.pickedImage = image
-            updateMeal(meal.id, meal: newMeal)
+            model.updateMeal(meal.id, meal:newMeal);
             return image
         }
         
@@ -209,7 +193,6 @@ class AppViewModel : ObservableObject {
         // ... Give up, no pictures found!  Return the empty picture.
         return meal.pickedImage;
     }
-    
     func removeDeletedImagesFor(_ old:PicturesAndNotes) -> PicturesAndNotes {
         var new = PicturesAndNotes(notes:old.notes)
         for picture in old.pictures {
@@ -219,29 +202,13 @@ class AppViewModel : ObservableObject {
         }
         return new
     }
-    
     // Consolidate business logic on when to show a section.
     func checkShow(_ pictureAndNotes:AppModel.PicturesAndNotes) -> Bool {
         return !pictureAndNotes.notes.isEmpty || !pictureAndNotes.pictures.isEmpty
     }
-    
-    func getPreferredImageSrc(for courseId:String, in mealId:String) -> String {
-        if let course = getMealFor(mealId)?.courses.first(where: { $0.id == courseId }) {
-            return getPreferredImageSrc(for: course)
-        }
-        return AppViewModel.missingImage;
-    }
-    
     func getPreferredImageSrc(for course:AppModel.Course) -> String {
         return course.pickedImage.src
     }
-    
-    func updateMeal(_ mealId:String, meal:Meal) {
-        model.updateMeal(mealId, meal:meal);
-    }
-
-    
-
     
     
     // MARK: - Private Helper Intents
@@ -261,12 +228,9 @@ class AppViewModel : ObservableObject {
         
         model.updateMeal(meal.id, meal:newMeal);
     }
+
     
     // MARK: - Factories
-    private static func createPicturesAndNotes() -> AppModel.PicturesAndNotes {
-        return AppModel.PicturesAndNotes()
-    }
-
     private static func createAppModel() -> AppModel {
         // Very simple for now, keeping this factory in case any new init is needed later.
         return AppModel();

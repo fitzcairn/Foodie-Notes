@@ -69,6 +69,7 @@ struct PictureSubViews {
                     NotesSubViews.NotesView(inputText:data.notes)
                         .frame(maxWidth: .infinity)
                         .fixedSize(horizontal: false, vertical: true)
+                    Spacer()
                 }
             }
         }
