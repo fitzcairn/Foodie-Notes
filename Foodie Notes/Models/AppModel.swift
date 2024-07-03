@@ -28,16 +28,6 @@ struct AppModel {
         lastNewMealCreatedId = meal.id;
         return meal;
     }
-    mutating func getOrAddMealFor(_ mealId:String?) -> Meal {
-        let venue = getOrAddVenue(nil) // use null venue.
-        if let mealId = mealId {
-            if let meal = getMealFor(mealId) {
-                return meal;
-            }
-            // Else we have a corrupt mealId.  Recover by discarding.
-        }
-        return addMeal(at:venue)
-    }
     mutating func removeMeal(_ mealId:String) {
         if let _ = mealsById[mealId] {
             for course in getCoursesFor(mealId) {
@@ -49,6 +39,7 @@ struct AppModel {
             lastNewMealCreatedId = nil;
         }
     }
+    
     
     // MARK: - Property Setters
     
@@ -82,11 +73,9 @@ struct AppModel {
             mealsById[mealId]!.courses = courses
         }
     }
-    
     mutating func updateMeal(_ mealId:String, meal:Meal) {
         index(meal)
     }
-
     mutating func addCourseTo(_ mealId:String, course:Course) {
         if let meal = getMealFor(mealId) {
             mealsById[meal.id]!.courses.append(course)
@@ -97,11 +86,6 @@ struct AppModel {
         let course = Course(mealId: mealId)
         addCourseTo(mealId, course: course)
         return course
-    }
-    mutating func removeCourseFrom(_ mealId:String, at:Int) {
-        if let _ = getMealFor(mealId) {
-            mealsById[mealId]!.courses.remove(at: at)
-        }
     }
     
     
@@ -128,6 +112,7 @@ struct AppModel {
         return getMealFor(mealId)!.courses;
     }
 
+    
     // MARK: - Statics
     
     // Default value for empty image.
@@ -148,7 +133,6 @@ struct AppModel {
         venuesByName[name] = newVenue;
         return newVenue;
     }
-        
     private mutating func index(_ meal:Meal) {
         let _ = getOrAddVenue(meal.venue.name);
         mealsById[meal.id] = meal;
