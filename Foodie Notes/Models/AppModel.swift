@@ -87,6 +87,13 @@ struct AppModel {
         addCourseTo(mealId, course: course)
         return course
     }
+    mutating func removeCourse(_ courseId:String) {
+        let course = getCourseFor(courseId);
+        if let meal = getMealFor(course.mealId) {
+            mealsById[meal.id]!.courses = mealsById[meal.id]!.courses.filter() { $0.id != courseId}
+            coursesById.removeValue(forKey: course.id)
+        }
+    }
     
     
     // MARK: - Public Getter Intents

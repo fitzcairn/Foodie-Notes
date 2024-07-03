@@ -58,8 +58,8 @@ class AppViewModel : ObservableObject {
         return false;
     }
     // Royal hacks to use model state for new courses.
-    func getLastCourseFor(_ mealId:String) -> Course {
-        return model.getCoursesFor(mealId).last!;
+    func getLastCourseFor(_ mealId:String) -> Course? {
+        return model.getCoursesFor(mealId).last;
     }
     func getLastNewMealCreated() -> Meal? {
         return model.getLastNewMealCreated();
@@ -103,6 +103,9 @@ class AppViewModel : ObservableObject {
     }
     func courseHasName(_ courseId:String) -> Bool {
         return model.getCourseFor(courseId).name != ""
+    }
+    func removeCourse(_ courseId:String) {
+        model.removeCourse(courseId)
     }
     
     
