@@ -115,8 +115,10 @@ struct AppModel {
         return coursesById[courseId]!;
     }
     func getCoursesFor(_ mealId:String) -> [Course] {
-        // If the mealId is wrong, we're hosed.
-        return getMealFor(mealId)!.courses;
+        if let meal = getMealFor(mealId) {
+            return meal.courses
+        }
+        return []
     }
 
     

@@ -14,10 +14,10 @@ struct MealCreateOrEditView: View {
     typealias Meal = AppModel.Meal
     typealias Course = AppModel.Course
     typealias PicturesAndNotes = AppModel.PicturesAndNotes
-
+    
     @State private var showingAlert = false
     @Binding var needRefresh: Bool
-
+    
     let mealId:String?
     
     var body: some View {
@@ -31,11 +31,11 @@ struct MealCreateOrEditView: View {
         } else {
             let meal = isNew ? viewModel.getLastNewMealCreated()! : viewModel.getMealFor(mealId)!
             let mealId = meal.id;
-
+            
             // TODO: Split my custom NavigationStack out into a custom view.
             NavigationStack {
                 ZStack(alignment: .bottom) {
-                    Form {
+                    ScrollForm {
                         LocationSubViews.LocationEditSection(
                             venue:Binding<String>(
                                 get: { meal.venue.name },
@@ -61,44 +61,32 @@ struct MealCreateOrEditView: View {
                         )
                         CourseSubViews.CoursesEditSection(mealId: meal.id)
                     }
-                    SaveButton(
-                        actionFunc: {
+                    EditScreenPrimaryButtons(
+                        cancelFunc: {
+                            // Make sure we don't save an empty meal.
+                            if isNew {
+                                viewModel.removeMeal(mealId)
+                            }
+                            self.presentationMode.wrappedValue.dismiss()
+                        },
+                        saveFunc: {
                             viewModel.objectWillChange.send()
                             showingAlert = !viewModel.mealHasVenue(mealId);
                             if !showingAlert {
                                 needRefresh.toggle()
                                 presentationMode.wrappedValue.dismiss()
                             }
-                        }
+                        },
+                        fieldName: "venue",
+                        showingAlert: $showingAlert
                     )
-                    .alert("Oops!", isPresented: $showingAlert) {
-                        Text("Please add a venue.")
-                        Button("OK", role: .cancel) { }
-                    }
                 }
-                .navigationBarBackButtonHidden()
-                .navigationBarItems(
-                    leading: Text(title)
-                        .font(.system(size:36, weight: .bold)),
-                    trailing: HStack {
-                        Button(
-                            action: {
-                                // Make sure we don't save an empty meal.
-                                if isNew {
-                                    viewModel.removeMeal(mealId)
-                                }
-                                self.presentationMode.wrappedValue.dismiss()
-                            },
-                            label: {
-                                Image(systemName: "x.circle.fill")
-                                    .resizable()
-                                    .frame(width: 24, height: 24)
-                                    .foregroundColor(.blue)
-                            }
-                        )
-                    }
-                )
             }
+            .navigationBarBackButtonHidden()
+            .navigationBarItems(
+                leading: Text(title)
+                    .font(.system(size:36, weight: .bold))
+            )
         }
     }
 }

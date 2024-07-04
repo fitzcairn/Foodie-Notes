@@ -18,40 +18,40 @@ struct MealListView: View {
 
     var body: some View {
         NavigationStack {
-            List {
-                ForEach(viewModel.getMeals(), id: \.self) { meal in
-                    MealItem(mealId:meal.id)
+            ZStack {
+                List {
+                    ForEach(viewModel.getMeals(), id: \.self) { meal in
+                        MealItem(mealId:meal.id)
+                    }
+                    .onDelete() { at in
+                        remove(at:at, meals:viewModel.getMeals())
+                    }
                 }
-                .onDelete() { at in
-                    remove(at:at, meals:viewModel.getMeals())
+                .listStyle(.plain)
+                .navigationBarBackButtonHidden()
+                .navigationBarItems(
+                    leading: Text("Meals")
+                        .font(.system(size:36, weight: .bold))
+                )
+                VStack {
+                    Spacer()
+                    NavigationLink(destination: MealCreateOrEditView(
+                        needRefresh:$needRefresh,
+                        mealId:nil)) {
+                            PrimaryNewButtonImage()
+                        }
+                    .simultaneousGesture(TapGesture().onEnded {
+                        _ = viewModel.addMeal(nil)
+                    })
                 }
             }
-            .listStyle(.plain)
-            .navigationBarBackButtonHidden()
-            .navigationBarItems(
-                leading: Text("Meals")
-                    .font(.system(size:36, weight: .bold)),
-                trailing: NavigationLink(destination: MealCreateOrEditView(
-                    needRefresh:$needRefresh,
-                    mealId:nil)) {
-                    Image(systemName: "plus")
-                        .resizable()
-                        .padding(6)
-                        .frame(width: 24, height: 24)
-                        .background(Color.blue)
-                        .clipShape(Circle())
-                        .foregroundColor(.white)
-                }
-                .simultaneousGesture(TapGesture().onEnded {
-                    _ = viewModel.addMeal(nil)
-                })
-            )
         }
-        .searchable(text: $viewModel.filter, placement: .navigationBarDrawer(displayMode: .always), prompt: "Type to Filter")
-        .searchSuggestions {
-            Text("SwiftUI").searchCompletion("SwiftUI")
-            Text("iOS 15").searchCompletion("iOS 15")
-        }
+        // TODO: Add filtering in V2!
+        /*.searchable(text: $viewModel.filter, placement: .navigationBarDrawer(displayMode: .always), prompt: "Type to Filter")
+         .searchSuggestions {
+         Text("SwiftUI").searchCompletion("SwiftUI")
+         Text("iOS 15").searchCompletion("iOS 15")
+         }*/
     }
     
     var background: some View {
@@ -103,3 +103,36 @@ struct MealItem: View {
         }
     }
 }
+
+
+/*
+ NavigationStack {
+     List {
+         ForEach(viewModel.getMeals(), id: \.self) { meal in
+             MealItem(mealId:meal.id)
+         }
+         .onDelete() { at in
+             remove(at:at, meals:viewModel.getMeals())
+         }
+     }
+     .listStyle(.plain)
+     .navigationBarBackButtonHidden()
+     .navigationBarItems(
+         leading: Text("Meals")
+             .font(.system(size:36, weight: .bold)),
+         trailing: NavigationLink(destination: MealCreateOrEditView(
+             needRefresh:$needRefresh,
+             mealId:nil)) {
+             Image(systemName: "plus")
+                 .resizable()
+                 .padding(6)
+                 .frame(width: 24, height: 24)
+                 .background(Color.blue)
+                 .clipShape(Circle())
+                 .foregroundColor(.white)
+         }
+         .simultaneousGesture(TapGesture().onEnded {
+             _ = viewModel.addMeal(nil)
+         })
+     )
+ */

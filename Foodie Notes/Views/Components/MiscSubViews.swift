@@ -7,6 +7,111 @@
 
 import SwiftUI
 
+// Wrap a form with scroll-friendly space at the bottom.
+struct ScrollForm<Content: View>: View {
+    @ViewBuilder let content: Content
+    
+    var body: some View {
+        Form {
+            content
+            Section(header:Text("")){ }
+                .padding(.bottom, 20)
+        }
+    }
+}
+
+
+
+struct ViewScreenPrimaryButtons<Destination>: View where Destination : View {
+    let backFunc:(() -> Void)
+    let editDest: Destination
+
+
+    var body: some View {
+        VStack {
+            Spacer()
+            HStack {
+                Button(
+                    action: backFunc,
+                    label: {
+                        Image(systemName: "arrowshape.backward.circle.fill")
+                            .resizable()
+                            .frame(width: 56, height: 56)
+                            .background(Color.white)
+                            .clipShape(Circle())
+                            .foregroundColor(.gray)
+
+                    }
+                )
+                Spacer()
+                    .frame(width:30)
+                NavigationLink(destination: editDest) {
+                    Image(systemName: "pencil.circle.fill")
+                        .resizable()
+                        .frame(width: 56, height: 56)
+                        .background(Color.white)
+                        .clipShape(Circle())
+                        .foregroundColor(.blue)
+                }
+            }
+        }
+    }
+}
+
+struct EditScreenPrimaryButtons : View {
+    let cancelFunc:(() -> Void)
+    let saveFunc:(() -> Void)
+    let fieldName:String;
+    @Binding var showingAlert:Bool;
+
+    var body: some View {
+        VStack {
+            Spacer()
+            HStack {
+                Button(
+                    action: cancelFunc,
+                    label: {
+                        Image(systemName: "x.circle.fill")
+                            .resizable()
+                            .frame(width: 56, height: 56)
+                            .background(Color.white)
+                            .clipShape(Circle())
+                            .foregroundColor(.red)
+                    }
+                )
+                Spacer()
+                    .frame(width:30)
+                Button(
+                    action: saveFunc,
+                    label: {
+                        Image(systemName: "checkmark.circle.fill")
+                            .resizable()
+                            .frame(width: 56, height: 56)
+                            .background(Color.white)
+                            .clipShape(Circle())
+                            .foregroundColor(.green)
+                    }
+                )
+                .alert("Oops!", isPresented: $showingAlert) {
+                    Text("Please add a \(fieldName).")
+                    Button("OK", role: .cancel) { }
+                }
+            }
+        }
+    }
+}
+
+struct PrimaryNewButtonImage: View {
+    var body: some View {
+        Image(systemName: "plus")
+            .resizable()
+            .padding(10)
+            .frame(width: 56, height: 56)
+            .background(Color.blue)
+            .clipShape(Circle())
+            .foregroundColor(.white)
+    }
+}
 
 
 struct EditButtonImage : View {

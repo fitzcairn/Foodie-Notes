@@ -23,7 +23,7 @@ struct CourseCreateOrEditView: View {
     var body: some View {
         let isNew = courseId == nil;
         let title = !isNew ? "Edit Course" : "Create Course"
-
+        
         if isNew && viewModel.getLastCourseFor(mealId) == nil {
             // Can happen on a back from a new course.  I can't stop one last refresh before the view
             // dismisses.  #SwiftUI.
@@ -33,7 +33,7 @@ struct CourseCreateOrEditView: View {
             
             NavigationStack {
                 ZStack(alignment: .bottom) {
-                    Form {
+                    ScrollForm {
                         PictureSubViews.PictureAndNameEditView(
                             name:Binding<String>(
                                 get: { course.name },
@@ -57,44 +57,34 @@ struct CourseCreateOrEditView: View {
                         PictureSubViews.PictureAndNotesEditSection(
                             title: "Wine",
                             data: Binding<AppModel.PicturesAndNotes>(
-                                get: { viewModel.getCourseFor(course.id).wine },
+                                get: { course.wine },
                                 set: { viewModel.setCourseWineFor(course, wine:$0) })
                         )
                     }
-                    SaveButton(
-                        actionFunc: {
-                            viewModel.objectWillChange.send()
-                            showingAlert = !viewModel.courseHasName(course.id);
-                            if !showingAlert {
-                                self.needRefresh.toggle()
-                                presentationMode.wrappedValue.dismiss()
-                            }
-                        }
-                    )
-                    .alert("Oops!", isPresented: $showingAlert) {
-                        Text("Please add a name.")
-                        Button("OK", role: .cancel) { }
-                    }
-                }
-                .navigationBarBackButtonHidden()
-                .navigationBarItems(
-                    leading: Text(title)
-                        .font(.system(size:36, weight: .bold)),
-                    trailing: Button(
-                        action: {
+                    EditScreenPrimaryButtons(
+                        cancelFunc: {
                             // Make sure we don't save an empty course.
                             if isNew {
                                 viewModel.removeCourse(course.id)
                             }
                             self.presentationMode.wrappedValue.dismiss()
                         },
-                        label: {
-                            Image(systemName: "x.circle.fill")
-                                .resizable()
-                                .frame(width: 24, height: 24)
-                                .foregroundColor(.blue)
-                        }
+                        saveFunc: {
+                            viewModel.objectWillChange.send()
+                            showingAlert = !viewModel.courseHasName(course.id);
+                            if !showingAlert {
+                                self.needRefresh.toggle()
+                                presentationMode.wrappedValue.dismiss()
+                            }
+                        },
+                        fieldName: "name",
+                        showingAlert: $showingAlert
                     )
+                }
+                .navigationBarBackButtonHidden()
+                .navigationBarItems(
+                    leading: Text(title)
+                        .font(.system(size:36, weight: .bold))
                 )
             }
         }
