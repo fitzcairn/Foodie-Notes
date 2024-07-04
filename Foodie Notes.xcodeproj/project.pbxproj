@@ -8,9 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		AA81D20F2C26EEA100FF0221 /* FoodieNotesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D20E2C26EEA100FF0221 /* FoodieNotesApp.swift */; };
-		AA81D2112C26EEA100FF0221 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D2102C26EEA100FF0221 /* Persistence.swift */; };
 		AA81D2142C26EEA100FF0221 /* Foodie_Notes.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AA81D2122C26EEA100FF0221 /* Foodie_Notes.xcdatamodeld */; };
-		AA81D2162C26EEA100FF0221 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D2152C26EEA100FF0221 /* ContentView.swift */; };
 		AA81D2182C26EEA200FF0221 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA81D2172C26EEA200FF0221 /* Assets.xcassets */; };
 		AA81D21C2C26EEA200FF0221 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA81D21B2C26EEA200FF0221 /* Preview Assets.xcassets */; };
 		AA81D2262C26EEA200FF0221 /* Foodie_NotesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D2252C26EEA200FF0221 /* Foodie_NotesTests.swift */; };
@@ -51,9 +49,7 @@
 /* Begin PBXFileReference section */
 		AA81D20B2C26EEA100FF0221 /* Foodie Notes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Foodie Notes.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA81D20E2C26EEA100FF0221 /* FoodieNotesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodieNotesApp.swift; sourceTree = "<group>"; };
-		AA81D2102C26EEA100FF0221 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		AA81D2132C26EEA100FF0221 /* Foodie_Notes.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Foodie_Notes.xcdatamodel; sourceTree = "<group>"; };
-		AA81D2152C26EEA100FF0221 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		AA81D2172C26EEA200FF0221 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AA81D2192C26EEA200FF0221 /* Foodie_Notes.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Foodie_Notes.entitlements; sourceTree = "<group>"; };
 		AA81D21B2C26EEA200FF0221 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -128,8 +124,6 @@
 				AA81D2A02C32636C00FF0221 /* Models */,
 				AA81D2832C309C3A00FF0221 /* Views */,
 				AA81D20E2C26EEA100FF0221 /* FoodieNotesApp.swift */,
-				AA81D2102C26EEA100FF0221 /* Persistence.swift */,
-				AA81D2152C26EEA100FF0221 /* ContentView.swift */,
 				AA81D2172C26EEA200FF0221 /* Assets.xcassets */,
 				AA81D2192C26EEA200FF0221 /* Foodie_Notes.entitlements */,
 				AA81D2122C26EEA100FF0221 /* Foodie_Notes.xcdatamodeld */,
@@ -338,10 +332,8 @@
 				AA81D2A22C3267C200FF0221 /* AppViewModel.swift in Sources */,
 				AA81D20F2C26EEA100FF0221 /* FoodieNotesApp.swift in Sources */,
 				AA81D2142C26EEA100FF0221 /* Foodie_Notes.xcdatamodeld in Sources */,
-				AA81D2162C26EEA100FF0221 /* ContentView.swift in Sources */,
 				AA81D2852C309C7F00FF0221 /* MealView.swift in Sources */,
 				AA81D2922C3209E100FF0221 /* CourseView.swift in Sources */,
-				AA81D2112C26EEA100FF0221 /* Persistence.swift in Sources */,
 				AA81D2992C324CB000FF0221 /* PictureSubViews.swift in Sources */,
 				AA81D2802C309BF000FF0221 /* MealListView.swift in Sources */,
 				AA81D2822C309C3100FF0221 /* MealCreateOrEditView.swift in Sources */,
