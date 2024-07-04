@@ -77,29 +77,26 @@ struct MealItem: View {
     let mealId:String;
     
     var body: some View {
-        // Should never get a miss on lookup here.  But for some reason, we do whenever something is deleted.
-        if let meal = viewModel.getMealFor(mealId) {
+        if viewModel.getMealFor(mealId) == nil {
+            ErrorDialog(text:"Something went wrong looking up your meal!")
+        } else {
             HStack {
-                Image(systemName: viewModel.getOrAddPickedPictureFor(meal).src)
-                    .resizable()
-                    .frame(width: 64.0, height: 64.0)
-                NavigationLink(destination: MealView(mealId: meal.id)) {
+                PictureSubViews.PictureView(picture:viewModel.getOrAddPickedPictureFor(viewModel.getMealFor(mealId)!))
+                NavigationLink(destination: MealView(mealId: mealId)) {
                     VStack(alignment: .leading) {
                         HStack {
-                            Text(meal.venue.name)
+                            Text(viewModel.getMealFor(mealId)!.venue.name)
                                 .bold()
                             Spacer()
-                            LocationSubViews.RatingViews.RatingView(rating:meal.venue.rating)
+                            LocationSubViews.RatingViews.RatingView(rating:viewModel.getMealFor(mealId)!.venue.rating)
                         }
-                        Text(meal.notes)
+                        Text(viewModel.getMealFor(mealId)!.notes)
                             .foregroundColor(.gray)
                         Spacer()
                     }
                     .padding(8)
                 }
             }
-        } else {
-            EmptyView()
         }
     }
 }

@@ -7,6 +7,23 @@
 
 import SwiftUI
 
+// Pop an error.
+struct ErrorDialog : View {
+    let text:String
+    @State var showingAlert:Bool = true;
+    
+    var body: some View {
+        EmptyView()
+            .alert("Error", isPresented: $showingAlert) {
+                Text(text)
+                Button("OK", role: .cancel) {
+                    showingAlert = false;
+                }
+            }
+    }
+}
+
+
 // Wrap a form with scroll-friendly space at the bottom.
 struct ScrollForm<Content: View>: View {
     @ViewBuilder let content: Content

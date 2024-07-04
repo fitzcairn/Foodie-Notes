@@ -6,71 +6,190 @@
 //
 
 import SwiftUI
-import PhotosUI
+import ExyteMediaPicker
+
+
+// For all photos.
+var photoWidth:CGFloat = 64;
+var photoHeight:CGFloat = 64;
 
 // All views related to showing pictures and annotations
 struct PictureSubViews {
     typealias PicturesAndNotes = AppModel.PicturesAndNotes
     typealias Picture = AppModel.Picture
 
-    struct PictureAndNameView : View {
-        private let name:String
-        private let image:String
-        
-        init(name: String, image: String) {
-            self.name = name
-            self.image = image
-        }
-        
+    struct NoPicturePlaceholderView: View {
         var body: some View {
-            HStack {
-                Image(systemName: image)
+            Image(systemName: "fork.knife.circle")
+                .resizable()
+                .padding(4)
+                .frame(width:photoWidth, height: photoHeight)
+                .background(Color.gray)
+                .clipShape(Circle())
+                .foregroundColor(.white)
+                .opacity(0.5)
+        }
+    }
+
+    // Actual picture
+    struct PictureView : View {
+        var picture: Picture?;
+                
+        var body: some View {
+            if picture == nil || picture!.deleted {
+                return NoPicturePlaceholderView()
+            }
+            if let media = picture!.src {
+                PhotoView(viewModel: PhotoViewModel(media: media))
+                    .aspectRatio(1, contentMode: .fill)
+            } else {
+                Image(systemName: "hourglass.circle")
                     .resizable()
-                    .frame(width: 64.0, height: 64.0)
-                Text(name)
-                    .padding(.leading, 10)
-                Spacer()
+                    .padding(4)
+                    .frame(width:photoWidth, height: photoHeight)
+                    .background(Color.gray)
+                    .clipShape(Circle())
+                    .foregroundColor(.white)
+                    .opacity(0.5)
             }
         }
     }
     
-    struct PictureAndNameEditView : View {
-        @Binding var name: String
-        @Binding var picture: Picture
+    // Show a picture, optionally with a delete.
+    struct PictureEditView: View {
+        @Binding var picture: Picture;
+                
+        var body: some View {
+            ZStack(alignment: .top) {
+                PictureView(picture:picture)
+                VStack(alignment: .leading) {
+                    Button(
+                        action: {
+                            picture.deleted = true
+                        },
+                        label: {
+                            Image(systemName: "minus.circle.fill")
+                                .resizable()
+                                .padding(4)
+                                .frame(width:20, height: 20)
+                                .background(Color.red)
+                                .clipShape(Circle())
+                                .foregroundColor(.white)
+                        }
+                    )
+                    .buttonStyle(.plain)
+                    Spacer()
+                }
+            }
+        }
+    }
+    
+    struct CameraButton: View {
+        @Binding var picture:Picture;
+        @State private var isTakingLivePhoto:Bool = false;
         
         var body: some View {
-            HStack {
-                EditablePictureView(picture:$picture)
-                StyledTextField(inputText:$name)
-                    .padding(.leading, 10)
-                    .padding(.trailing, -10)
-                Spacer()
+            Button(
+                action: {
+                    isTakingLivePhoto = true;
+                },
+                label: {
+                    Image(systemName: "camera.circle")
+                        .resizable()
+                        .padding(4)
+                        .frame(width:24, height: 24)
+                        .background(Color.gray)
+                        .clipShape(Circle())
+                        .foregroundColor(.white)
+                }
+            )
+            .sheet(isPresented: $isTakingLivePhoto) {
+                MediaPicker(
+                    isPresented: $isTakingLivePhoto,
+                    onChange: {
+                        picture.src = $0.first
+                    })
+                .mediaSelectionLimit(1)
+                .mediaSelectionType(.photo)
             }
         }
     }
 
-    struct PictureAndNotesViewSection: View {
-        let title:String;
-        let data:AppModel.PicturesAndNotes;
+    struct PhotoRollButton: View {
+        @Binding var picture:Picture;
+        var limit:Int = Int.max // Get around bug in MediaPicker
+
+        @State private var ispickingPhoto:Bool = false;
         
         var body: some View {
-            Section(header: Text(title)) {
-                HStack(alignment: .center) {
-                    VStack(alignment: .center) {
-                        LazyVGrid(columns: [GridItem(.adaptive(minimum: 64))], spacing:10) {
-                            ForEach(data.pictures) { picture in
-                                Image(systemName: picture.src)
-                                    .resizable()
-                                    .frame(width: 64.0, height: 64.0)
-                            }
+            Button(
+                action: {
+                    ispickingPhoto = true;
+                },
+                label: {
+                    Image(systemName: "photo.circle")
+                        .resizable()
+                        .padding(4)
+                        .frame(width:24, height: 24)
+                        .background(Color.gray)
+                        .clipShape(Circle())
+                        .foregroundColor(.white)
+                }
+            )
+            .sheet(isPresented: $ispickingPhoto) {
+                MediaPicker(
+                    isPresented: $ispickingPhoto,
+                    onChange: {
+                        picture.src = $0.first
+                    })
+                .mediaSelectionLimit(limit)
+                .mediaSelectionType(.photo)
+            }
+        }
+    }
+
+    struct SinglePictureEdit: View {
+        @Binding var picture:Picture;
+
+        var body: some View {
+            VStack {
+                PictureEditView(picture:$picture)
+                Spacer()
+                    .frame(height:20)
+                HStack {
+                    CameraButton(picture: $picture)
+                    PhotoRollButton(picture: $picture, limit:1)
+                }
+            }
+        }
+    }
+    
+    // Multi picture grid
+    struct MultiPictureView: View {
+        @Binding var pictures:[Picture]
+        var edit:Bool = false;
+
+        var body: some View {
+            VStack(alignment: .center) {
+                LazyVGrid(columns: [GridItem(.adaptive(minimum: 64))], spacing:10) {
+                    ForEach(pictures.indices, id: \.self) { index in
+                        if edit {
+                            PictureView(picture:pictures[index])
+                        } else {
+                            PictureEditView(picture:$pictures[index])
                         }
                     }
-                    .padding(.leading, -10)
-
-                    NotesSubViews.NotesView(inputText:data.notes)
-                        .frame(maxWidth: .infinity)
-                        .fixedSize(horizontal: false, vertical: true)
+                }
+                if edit {
                     Spacer()
+                        .frame(height:20)
+                    HStack {
+                        var newPicture = Binding<Picture>(
+                            get: { Picture() },
+                            set: { pictures.append($0) })
+                        CameraButton(picture:newPicture)
+                        PhotoRollButton(picture: newPicture)
+                    }
                 }
             }
         }
@@ -83,118 +202,60 @@ struct PictureSubViews {
         var body: some View {
             Section(header: Text(title)) {
                 HStack(alignment: .top) {
-                    VStack(alignment: .center) {
-                        LazyVGrid(columns: [GridItem(.adaptive(minimum: 64))], spacing:10) {
-                            ForEach($data.pictures) { picture in
-                                EditablePictureView(picture:picture)
-                            }
-                        }
-                        
-                        // Last picture is always an "add" button
-                        // TODO: Add a camera AND album button, refactor buttons to MiscSubViews
-                        Button(
-                            action: {
-                                // TODO: Implement
-                                // data.pictures.append(Picture(NEW))
-                                print("Add image -- via photo picker")
-                            },
-                            label: {
-                                VStack {
-                                    SecondaryAddButtonImage()
-                                }
-                                .frame(width: 64, height: 64)
-                            }
-                        )
-                        .padding(.trailing, 10)
-                    }
+                    MultiPictureView(pictures:$data.pictures, edit:true)
                     StyledTextField(inputText:$data.notes)
+                    Spacer()
                 }
             }
         }
     }
     
-    
-    // A Picture that you can click and remove
-    struct EditablePictureView : View {
-        @Binding var picture:AppModel.Picture;
-        @State private var image:Image?;
-        @State private var pickerItem: PhotosPickerItem?
+    struct PictureAndNotesViewSection: View {
+        let title:String;
+        let data:AppModel.PicturesAndNotes;
         
         var body: some View {
-            ZStack(alignment: .top) {
-                
-                // If we have a picture loaded, show it.
-                switch(picture.type) {
-                case .system:
-                    Image(systemName: picture.src)
-                        .foregroundColor(.gray)
-                case.photo:
-                    if (image != nil) {
-                    } else {
-                        Image(systemName: "hourglass.circle.fill")
-                            .foregroundColor(.gray)
-                    }
-                }
-                
-                Image(systemName: picture.src)
-                    .resizable()
-                    .frame(width: 64.0, height: 64.0)
-                HStack {
-                    VStack(alignment: .leading) {
-                        // Delete button for filled impages.
-                        if (picture.state == .filled) {
-                            Button(
-                                action: {
-                                    picture.state = .deleted
-                                },
-                                label: {
-                                    ZStack {
-                                        Image(systemName: "minus.circle.fill")
-                                            .resizable()
-                                            .frame(width: 20, height: 20)
-                                            .foregroundColor(Color.red)
-                                        Image(systemName: "minus.circle")
-                                            .resizable()
-                                            .frame(width: 20, height: 20)
-                                            .foregroundColor(Color.white)
-                                    }
-                                }
-                            )
-                        }
-                        // Edit button
-                        SelectFromRollButton(selectedImage:$image, pickerItem:$pickerItem)                        .padding(.top, -5)
-                        // New button
-                        Button(
-                            action: {
-                                // TODO: Implement camera
-                                // data.pictures[i].src = NEW SRC
-                                // data.pictures[i].state = .filled
-                                print("Replace image -- via camera")
-                            },
-                            label: {
-                                Image(systemName: "camera.fill")
-                                    .resizable()
-                                    .padding(4)
-                                    .frame(width: 20, height: 20)
-                                    .background(Color.blue)
-                                    .clipShape(Circle())
-                                    .foregroundColor(.white)
-                            }
-                        )
-                        .padding(.top, -5)
-                    }
+            Section(header: Text(title)) {
+                HStack(alignment: .top) {
+                    MultiPictureView(pictures:Binding(
+                        get: { data.pictures },
+                        set: { _ = $0 })
+                    )
+                    NotesSubViews.NotesView(inputText:data.notes)
+                        .frame(maxWidth: .infinity)
+                        .fixedSize(horizontal: false, vertical: true)
                     Spacer()
-                        .frame(width:30)
                 }
             }
-            .buttonStyle(.plain)
-            .onChange(of: pickerItem) {
-                Task {
-                    image = try await pickerItem?.loadTransferable(type: Image.self)
-                    print("done loading!")
-                }
+        }
+    }
+    
+    struct PictureAndNameEditView : View {
+        @Binding var name: String
+        @Binding var picture: Picture
+        
+        var body: some View {
+            HStack {
+                PictureEditView(picture:$picture)
+                StyledTextField(inputText:$name)
+                    .padding(.leading, 10)
+                    .padding(.trailing, -10)
+                Spacer()
+            }
+        }
+    }
+    
+    struct PictureAndNameView : View {
+        let name: String
+        let picture: Picture?
+        
+        var body: some View {
+            HStack {
+                PictureView(picture:picture)
+                Text(name)
+                    .padding(.leading, 10)
+                Spacer()
             }
         }
     }
 }
-

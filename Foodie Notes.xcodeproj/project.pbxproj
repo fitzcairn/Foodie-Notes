@@ -27,9 +27,10 @@
 		AA81D29D2C324DA900FF0221 /* LocationSubViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D29C2C324DA900FF0221 /* LocationSubViews.swift */; };
 		AA81D29F2C325D0B00FF0221 /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D29E2C325D0B00FF0221 /* AppModel.swift */; };
 		AA81D2A22C3267C200FF0221 /* AppViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D2A12C3267C200FF0221 /* AppViewModel.swift */; };
-		AA81D2A42C36CC0E00FF0221 /* PhotoViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D2A32C36CC0E00FF0221 /* PhotoViews.swift */; };
+		AA81D2A42C36CC0E00FF0221 /* PhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D2A32C36CC0E00FF0221 /* PhotoView.swift */; };
 		AA81D2A62C36D65E00FF0221 /* PropertyWrappers.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D2A52C36D65E00FF0221 /* PropertyWrappers.swift */; };
 		AA81D2A92C37065300FF0221 /* ExyteMediaPicker in Frameworks */ = {isa = PBXBuildFile; productRef = AA81D2A82C37065300FF0221 /* ExyteMediaPicker */; };
+		AA81D2AC2C3749D200FF0221 /* PhotoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D2AB2C3749D200FF0221 /* PhotoViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,8 +75,10 @@
 		AA81D29C2C324DA900FF0221 /* LocationSubViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSubViews.swift; sourceTree = "<group>"; };
 		AA81D29E2C325D0B00FF0221 /* AppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
 		AA81D2A12C3267C200FF0221 /* AppViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppViewModel.swift; sourceTree = "<group>"; };
-		AA81D2A32C36CC0E00FF0221 /* PhotoViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViews.swift; sourceTree = "<group>"; };
+		AA81D2A32C36CC0E00FF0221 /* PhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoView.swift; sourceTree = "<group>"; };
 		AA81D2A52C36D65E00FF0221 /* PropertyWrappers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PropertyWrappers.swift; sourceTree = "<group>"; };
+		AA81D2AA2C37090100FF0221 /* Foodie-Notes-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Foodie-Notes-Info.plist"; sourceTree = SOURCE_ROOT; };
+		AA81D2AB2C3749D200FF0221 /* PhotoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,6 +130,7 @@
 		AA81D20D2C26EEA100FF0221 /* Foodie Notes */ = {
 			isa = PBXGroup;
 			children = (
+				AA81D2AA2C37090100FF0221 /* Foodie-Notes-Info.plist */,
 				AA81D2A02C32636C00FF0221 /* Models */,
 				AA81D2832C309C3A00FF0221 /* Views */,
 				AA81D20E2C26EEA100FF0221 /* FoodieNotesApp.swift */,
@@ -186,7 +190,7 @@
 				AA81D2982C324CB000FF0221 /* PictureSubViews.swift */,
 				AA81D29A2C324D7D00FF0221 /* NotesSubViews.swift */,
 				AA81D29C2C324DA900FF0221 /* LocationSubViews.swift */,
-				AA81D2A32C36CC0E00FF0221 /* PhotoViews.swift */,
+				AA81D2A32C36CC0E00FF0221 /* PhotoView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -196,6 +200,7 @@
 			children = (
 				AA81D29E2C325D0B00FF0221 /* AppModel.swift */,
 				AA81D2A12C3267C200FF0221 /* AppViewModel.swift */,
+				AA81D2AB2C3749D200FF0221 /* PhotoViewModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -339,7 +344,7 @@
 				AA81D28D2C30F20D00FF0221 /* MiscSubViews.swift in Sources */,
 				AA81D29F2C325D0B00FF0221 /* AppModel.swift in Sources */,
 				AA81D2872C309C9E00FF0221 /* CourseCreateOrEditView.swift in Sources */,
-				AA81D2A42C36CC0E00FF0221 /* PhotoViews.swift in Sources */,
+				AA81D2A42C36CC0E00FF0221 /* PhotoView.swift in Sources */,
 				AA81D2972C324C8E00FF0221 /* NameSubViews.swift in Sources */,
 				AA81D29B2C324D7D00FF0221 /* NotesSubViews.swift in Sources */,
 				AA81D29D2C324DA900FF0221 /* LocationSubViews.swift in Sources */,
@@ -349,6 +354,7 @@
 				AA81D2142C26EEA100FF0221 /* Foodie_Notes.xcdatamodeld in Sources */,
 				AA81D2852C309C7F00FF0221 /* MealView.swift in Sources */,
 				AA81D2922C3209E100FF0221 /* CourseView.swift in Sources */,
+				AA81D2AC2C3749D200FF0221 /* PhotoViewModel.swift in Sources */,
 				AA81D2A62C36D65E00FF0221 /* PropertyWrappers.swift in Sources */,
 				AA81D2992C324CB000FF0221 /* PictureSubViews.swift in Sources */,
 				AA81D2802C309BF000FF0221 /* MealListView.swift in Sources */,
@@ -517,8 +523,12 @@
 				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Foodie-Notes-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Foodie Notes";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Grant access to camera to be able to take photos and videos";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Grant access to microphone to be able to take videos";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Grant access to photo library to be able to select photos";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -558,8 +568,12 @@
 				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Foodie-Notes-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Foodie Notes";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Grant access to camera to be able to take photos and videos";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Grant access to microphone to be able to take videos";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Grant access to photo library to be able to select photos";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;

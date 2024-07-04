@@ -89,8 +89,8 @@ class AppViewModel : ObservableObject {
     
     
     // MARK: - Course Management
-    func getCourseFor(_ mealId:String) -> Course {
-        return model.getCourseFor(mealId);
+    func getCourseFor(_ courseId:String) -> Course {
+        return model.getCourseFor(courseId);
     }
     func getCoursesFor(_ mealId:String) -> [Course]? {
         if let meal = model.getMealFor(mealId) {
@@ -148,14 +148,9 @@ class AppViewModel : ObservableObject {
     
     
     // MARK: - Useful Helpers
-    func getOrAddPickedPictureFor(_ meal:Meal) -> Picture {
-        func isEmpty(_ image:Picture) -> Bool {
-            switch image.state {
-                case .deleted, .empty:
-                    return true
-                case.filled:
-                    return false
-            }
+    func getOrAddPickedPictureFor(_ meal:Meal) -> Picture? {
+        func isEmpty(_ image:Picture?) -> Bool {
+            return image == nil || image!.src == nil || image!.deleted
         }
 
         // Check cache first.
@@ -164,7 +159,7 @@ class AppViewModel : ObservableObject {
         }
         
         // Ok, let's pick one.  Setup...
-        func setAndGo(_ image:Picture) -> Picture {
+        func setAndGo(_ image:Picture) -> Picture? {
             var newMeal = meal
             newMeal.pickedImage = image
             model.updateMeal(meal.id, meal:newMeal);
@@ -176,7 +171,7 @@ class AppViewModel : ObservableObject {
             // First picked course picture we find.
             for course in meal.courses {
                 if (!isEmpty(course.pickedImage)) {
-                    return setAndGo(course.pickedImage)
+                    return setAndGo(course.pickedImage!)
                 }
             }
             
@@ -202,7 +197,7 @@ class AppViewModel : ObservableObject {
     func removeDeletedImagesFor(_ old:PicturesAndNotes) -> PicturesAndNotes {
         var new = PicturesAndNotes(notes:old.notes)
         for picture in old.pictures {
-            if picture.state != AppModel.Picture.PictureState.deleted {
+            if !picture.deleted {
                 new.pictures.append(picture)
             }
         }
@@ -211,9 +206,6 @@ class AppViewModel : ObservableObject {
     // Consolidate business logic on when to show a section.
     func checkShow(_ pictureAndNotes:AppModel.PicturesAndNotes) -> Bool {
         return !pictureAndNotes.notes.isEmpty || !pictureAndNotes.pictures.isEmpty
-    }
-    func getPreferredImageSrc(for course:AppModel.Course) -> String {
-        return course.pickedImage.src
     }
     
     

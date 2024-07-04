@@ -19,39 +19,40 @@ struct MealView: View {
     let mealId:String;
     
     var body: some View {
-        let meal = viewModel.getMealFor(mealId) ?? Meal()
-        
-        // TODO: Split my custom NavigationStack out into a custom view.
-        NavigationStack {
-            ZStack(alignment: .bottom) {
-                ScrollForm {
-                    LocationSubViews.LocationViewSection(venue: meal.venue.name, rating: meal.venue.rating)
-                    DateViews.DateSection(meal.date)
-                    if !meal.notes.isEmpty {
-                        NotesSubViews.NotesSection(
-                            title:"Overall Notes",
-                            note: meal.notes
-                        )
+        if viewModel.getMealFor(mealId) == nil {
+            ErrorDialog(text:"Something went wrong looking up your meal!")
+        } else {
+            NavigationStack {
+                ZStack(alignment: .bottom) {
+                    ScrollForm {
+                        LocationSubViews.LocationViewSection(venue: viewModel.getMealFor(mealId)!.venue.name, rating: viewModel.getMealFor(mealId)!.venue.rating)
+                        DateViews.DateSection(viewModel.getMealFor(mealId)!.date)
+                        if !viewModel.getMealFor(mealId)!.notes.isEmpty {
+                            NotesSubViews.NotesSection(
+                                title:"Overall Notes",
+                                note: viewModel.getMealFor(mealId)!.notes
+                            )
+                        }
+                        if viewModel.checkShow(viewModel.getMealFor(mealId)!.menu) {
+                            PictureSubViews.PictureAndNotesViewSection(title: "Menu[s]", data:viewModel.getMealFor(mealId)!.menu)
+                        }
+                        CourseSubViews.CoursesViewSection(courses:viewModel.getMealFor(mealId)!.courses)
                     }
-                    if viewModel.checkShow(meal.menu) {
-                        PictureSubViews.PictureAndNotesViewSection(title: "Menu[s]", data:meal.menu)
-                    }
-                    CourseSubViews.CoursesViewSection(courses:meal.courses)
+                    ViewScreenPrimaryButtons(
+                        backFunc: {
+                            self.presentationMode.wrappedValue.dismiss()
+                        },
+                        editDest: MealCreateOrEditView(
+                            needRefresh:$needRefresh,
+                            mealId:mealId)
+                    )
                 }
-                ViewScreenPrimaryButtons(
-                    backFunc: {
-                        self.presentationMode.wrappedValue.dismiss()
-                    },
-                    editDest: MealCreateOrEditView(
-                        needRefresh:$needRefresh,
-                        mealId:mealId)
+                .navigationBarBackButtonHidden()
+                .navigationBarItems(
+                    leading: Text("View Meal")
+                        .font(.system(size:36, weight: .bold))
                 )
             }
-            .navigationBarBackButtonHidden()
-            .navigationBarItems(
-                leading: Text("View Meal")
-                    .font(.system(size:36, weight: .bold))
-            )
         }
     }
 }

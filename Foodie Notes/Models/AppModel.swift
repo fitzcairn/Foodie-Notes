@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import ExyteMediaPicker
 
 
 // Backend model for all app state.
@@ -120,16 +121,7 @@ struct AppModel {
         }
         return []
     }
-
-    
-    // MARK: - Statics
-    
-    // Default value for empty image.
-    static func missingPicture() -> Picture {
-        return Picture(src: "fork.knife.circle")
-    }
-
-    
+  
     
     // MARK: - Private Members
     
@@ -151,7 +143,6 @@ struct AppModel {
     }
     
 
-    
     // MARK: - Component Models
     
     struct Meal : Identifiable, Hashable {
@@ -161,7 +152,7 @@ struct AppModel {
         var courses: [Course] = [];
         var date:Date = Date();
         var notes:String = ""
-        var pickedImage:Picture = AppModel.missingPicture();
+        var pickedImage:Picture?
 
         init() {
         }
@@ -214,13 +205,13 @@ struct AppModel {
         var date:Date = Date();
         var food:PicturesAndNotes = PicturesAndNotes();
         var wine:PicturesAndNotes = PicturesAndNotes();
-        var pickedImage:Picture = AppModel.missingPicture();
+        var pickedImage:Picture?
         
         init(mealId: String) {
             self.mealId = mealId
         }
         
-        init(id:String, mealId: String, name: String, date: Date, food: PicturesAndNotes, wine: PicturesAndNotes, pickedImage: Picture) {
+        init(id:String, mealId: String, name: String, date: Date, food: PicturesAndNotes, wine: PicturesAndNotes, pickedImage: Picture?) {
             self.id = id
             self.mealId = mealId
             self.name = name
@@ -259,47 +250,24 @@ struct AppModel {
     // Encapsulate picture management
     struct Picture : Identifiable, Hashable {
         var id:String = Id.createId()
-        var state:PictureState = .empty
-        var type:PictureType = .system
-        var src:String;
+        var deleted:Bool = false;
+        var src:Media?;
         
-        init(src: String, type: PictureType = PictureType.system) {
-            self.src = src
-            self.state = .filled
-            self.type = type
-        }
-        
-        mutating func updateToPhoto(src:String) {
+        mutating func updateToPhoto(src:Media?) {
             self.src = src;
-            self.state = .filled
-            self.type = .photo
         }
         
         static func == (lhs: AppModel.Picture, rhs: AppModel.Picture) -> Bool {
             return (
                 lhs.id == rhs.id &&
-                lhs.state == rhs.state &&
-                lhs.type == rhs.type &&
+                lhs.deleted == rhs.deleted &&
                 lhs.src == rhs.src
             )
         }
         
         func hash(into hasher: inout Hasher) {
             hasher.combine(id)
-            hasher.combine(state)
-            hasher.combine(type)
-            hasher.combine(src)
-        }
-        
-        enum PictureState {
-            case empty
-            case deleted
-            case filled
-        }
-        
-        enum PictureType {
-            case system
-            case photo
+            hasher.combine(deleted)
         }
     }
     
@@ -328,8 +296,8 @@ extension AppModel {
                     venue: Venue(name: "McDonalds", rating:4),
                     menu: PicturesAndNotes(
                         pictures: [
-                            Picture(src: "gearshape"),
-                            Picture(src: "keyboard"),
+                            Picture(),
+                            Picture(),
                         ],
                         notes: "An amazing menu populated by amazing deals!"),
                     courses: [
@@ -339,13 +307,13 @@ extension AppModel {
                                date: Date(),
                                food: PicturesAndNotes(
                                 pictures: [
-                                    Picture(src: "gearshape"),
-                                    Picture(src: "keyboard"),
-                                    Picture(src: "figure.walk"),
+                                    Picture(),
+                                    Picture(),
+                                    Picture(),
                                 ],
                                 notes: "A delightful bite-sized explosion of flavors that sets the perfect tone for the culinary journey ahead."),
                                wine: PicturesAndNotes(),
-                               pickedImage: Picture(src: "gearshape")
+                               pickedImage: Picture()
                               ),
                         Course(id: "c2",
                                mealId: "m\(index)",
@@ -353,13 +321,13 @@ extension AppModel {
                                date: Date(),
                                food: PicturesAndNotes(
                                 pictures: [
-                                    Picture(src: "gearshape"),
-                                    Picture(src: "keyboard"),
-                                    Picture(src: "figure.walk"),
+                                    Picture(),
+                                    Picture(),
+                                    Picture(),
                                 ],
                                 notes: "A succulent lobster dish that boasts tender, buttery meat perfectly complemented by a rich, flavorful sauce."),
                                wine:PicturesAndNotes(),
-                               pickedImage: AppModel.missingPicture()
+                               pickedImage: nil
                               ),
                         Course(id: "c3",
                                mealId: "m\(index)",
@@ -367,18 +335,18 @@ extension AppModel {
                                date: Date(),
                                food: PicturesAndNotes(
                                 pictures: [
-                                    Picture(src: "gearshape"),
-                                    Picture(src: "keyboard"),
-                                    Picture(src: "figure.walk"),
+                                    Picture(),
+                                    Picture(),
+                                    Picture(),
                                 ],
                                 notes: "A tender veal dish with a delicate balance of flavors, offering a melt-in-your-mouth experience."),
                                wine: PicturesAndNotes(
                                 pictures: [
-                                    Picture(src: "gearshape"),
-                                    Picture(src: "keyboard"),
+                                    Picture(),
+                                    Picture(),
                                 ],
                                 notes: "A masterful wine pairing that elevates each dish, enhancing flavors and creating a harmonious dining experience."),
-                               pickedImage: Picture(src: "gearshape")
+                               pickedImage: Picture()
                               ),
                         Course(id: "c4",
                                mealId: "m\(index)",
@@ -386,11 +354,11 @@ extension AppModel {
                                date: Date(),
                                food: PicturesAndNotes(
                                 pictures: [
-                                    Picture(src: "gearshape"),
+                                    Picture(),
                                 ],
                                 notes: "Chocolate for days!"),
                                wine:PicturesAndNotes(),
-                               pickedImage: AppModel.missingPicture()
+                               pickedImage: nil
                               ),
                     ],
                     date: Date(),

@@ -21,7 +21,6 @@ struct NotesSubViews {
         }
     }
 
-
     // Display a note
     struct NotesView: View {
         var inputText:String;

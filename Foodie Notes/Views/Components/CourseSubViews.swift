@@ -104,8 +104,8 @@ struct CourseSubViews {
         
         var body: some View {
             PictureSubViews.PictureAndNameView(
-                name:course.name,
-                image:viewModel.getPreferredImageSrc(for: course)
+                name:viewModel.getCourseFor(course.id).name,
+                picture:viewModel.getCourseFor(course.id).pickedImage
             )
         }
     }
@@ -126,9 +126,14 @@ struct CourseSubViews {
         var body: some View {
             ZStack {
                 HStack {
-                    Image(systemName: viewModel.getPreferredImageSrc(for: course))
-                        .resizable()
-                        .frame(width: 64.0, height: 64.0)
+                    if let image = viewModel.getCourseFor(course.id).pickedImage {
+                        PictureSubViews.PictureView(picture:Binding(
+                            get: { image },
+                            set: { _ = $0})
+                        )
+                    } else {
+                        PictureSubViews.NoPicturePlaceholderView()
+                    }
                     VStack(alignment: .leading) {
                         Text(course.name)
                             .bold()
