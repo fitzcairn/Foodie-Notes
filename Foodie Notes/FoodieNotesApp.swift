@@ -9,6 +9,7 @@ import SwiftUI
 
 @main
 struct FoodieNotesApp: App {
+    // TODO: Add/load data here, and get rid of the testing insert.
     @State var viewModel = AppViewModel(numTestMeals: 1);
 
     var body: some Scene {

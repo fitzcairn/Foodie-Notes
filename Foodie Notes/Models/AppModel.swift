@@ -256,23 +256,50 @@ struct AppModel {
         }
     }
     
-    enum PictureState {
-        case empty
-        case deleted
-        case filled
-    }
-    
     // Encapsulate picture management
     struct Picture : Identifiable, Hashable {
         var id:String = Id.createId()
         var state:PictureState = .empty
-       
-        // For now, string, until I can figure this one out.
+        var type:PictureType = .system
         var src:String;
         
-        init(src: String) {
+        init(src: String, type: PictureType = PictureType.system) {
             self.src = src
             self.state = .filled
+            self.type = type
+        }
+        
+        mutating func updateToPhoto(src:String) {
+            self.src = src;
+            self.state = .filled
+            self.type = .photo
+        }
+        
+        static func == (lhs: AppModel.Picture, rhs: AppModel.Picture) -> Bool {
+            return (
+                lhs.id == rhs.id &&
+                lhs.state == rhs.state &&
+                lhs.type == rhs.type &&
+                lhs.src == rhs.src
+            )
+        }
+        
+        func hash(into hasher: inout Hasher) {
+            hasher.combine(id)
+            hasher.combine(state)
+            hasher.combine(type)
+            hasher.combine(src)
+        }
+        
+        enum PictureState {
+            case empty
+            case deleted
+            case filled
+        }
+        
+        enum PictureType {
+            case system
+            case photo
         }
     }
     

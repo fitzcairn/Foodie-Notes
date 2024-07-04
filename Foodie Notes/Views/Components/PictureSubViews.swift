@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import PhotosUI
 
 // All views related to showing pictures and annotations
 struct PictureSubViews {
@@ -99,7 +100,7 @@ struct PictureSubViews {
                             },
                             label: {
                                 VStack {
-                                    AddButtonImage()
+                                    SecondaryAddButtonImage()
                                 }
                                 .frame(width: 64, height: 64)
                             }
@@ -112,12 +113,29 @@ struct PictureSubViews {
         }
     }
     
+    
     // A Picture that you can click and remove
     struct EditablePictureView : View {
         @Binding var picture:AppModel.Picture;
+        @State private var image:Image?;
+        @State private var pickerItem: PhotosPickerItem?
         
         var body: some View {
             ZStack(alignment: .top) {
+                
+                // If we have a picture loaded, show it.
+                switch(picture.type) {
+                case .system:
+                    Image(systemName: picture.src)
+                        .foregroundColor(.gray)
+                case.photo:
+                    if (image != nil) {
+                    } else {
+                        Image(systemName: "hourglass.circle.fill")
+                            .foregroundColor(.gray)
+                    }
+                }
+                
                 Image(systemName: picture.src)
                     .resizable()
                     .frame(width: 64.0, height: 64.0)
@@ -128,7 +146,6 @@ struct PictureSubViews {
                             Button(
                                 action: {
                                     picture.state = .deleted
-                                    print("Delete image!")
                                 },
                                 label: {
                                     ZStack {
@@ -145,24 +162,7 @@ struct PictureSubViews {
                             )
                         }
                         // Edit button
-                        Button(
-                            action: {
-                                // TODO: Implement photo picker
-                                // data.pictures[i].src = NEW SRC
-                                // data.pictures[i].state = .filled
-                                print("Replace image -- via photo picker")
-                            },
-                            label: {
-                                Image(systemName: "rectangle.2.swap")
-                                    .resizable()
-                                    .padding(4)
-                                    .frame(width: 20, height: 20)
-                                    .background(Color.blue)
-                                    .clipShape(Circle())
-                                    .foregroundColor(.white)
-                            }
-                        )
-                        .padding(.top, -5)
+                        SelectFromRollButton(selectedImage:$image, pickerItem:$pickerItem)                        .padding(.top, -5)
                         // New button
                         Button(
                             action: {
@@ -188,6 +188,13 @@ struct PictureSubViews {
                 }
             }
             .buttonStyle(.plain)
+            .onChange(of: pickerItem) {
+                Task {
+                    image = try await pickerItem?.loadTransferable(type: Image.self)
+                    print("done loading!")
+                }
+            }
         }
     }
 }
+

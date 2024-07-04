@@ -20,12 +20,9 @@ struct ScrollForm<Content: View>: View {
     }
 }
 
-
-
 struct ViewScreenPrimaryButtons<Destination>: View where Destination : View {
     let backFunc:(() -> Void)
     let editDest: Destination
-
 
     var body: some View {
         VStack {
@@ -113,25 +110,7 @@ struct PrimaryNewButtonImage: View {
     }
 }
 
-
-struct EditButtonImage : View {
-    var body: some View {
-        ZStack {
-            Circle()
-                //.strokeBorder(lineWidth:2)
-                .foregroundColor(.gray)
-                .opacity(0.5)
-                .frame(width: 24, height: 24)
-            Image(systemName: "pencil")
-                .resizable()
-                .frame(width: 14, height: 14)
-                .foregroundColor(.white)
-        }
-    }
-}
-
-
-struct AddButtonImage : View {
+struct SecondaryAddButtonImage : View {
     var body: some View {
         Image(systemName: "plus.circle")
             .resizable()
@@ -174,33 +153,6 @@ struct StyledTextField : View {
         }
     }
 }
-
-struct SaveButton: View {
-    let actionFunc:(() -> Void)
-    
-    var body: some View {
-        Button(
-            action: {
-                // TODO: trigger model write.
-                print("Save tapped")
-                actionFunc()
-            },
-            label: {
-                Text("Save")
-                    .frame(minWidth: 0, maxWidth: 200)
-                    .font(.system(size: 18))
-                    .padding()
-                    .foregroundColor(.white)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 25)
-                            .stroke(Color.white, lineWidth: 2)
-                    )
-            })
-        .background(Color.blue)
-        .cornerRadius(25)
-    }
-}
-
 
 // All views related to showing and editing dates.
 struct DateViews {

@@ -27,6 +27,9 @@
 		AA81D29D2C324DA900FF0221 /* LocationSubViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D29C2C324DA900FF0221 /* LocationSubViews.swift */; };
 		AA81D29F2C325D0B00FF0221 /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D29E2C325D0B00FF0221 /* AppModel.swift */; };
 		AA81D2A22C3267C200FF0221 /* AppViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D2A12C3267C200FF0221 /* AppViewModel.swift */; };
+		AA81D2A42C36CC0E00FF0221 /* PhotoViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D2A32C36CC0E00FF0221 /* PhotoViews.swift */; };
+		AA81D2A62C36D65E00FF0221 /* PropertyWrappers.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D2A52C36D65E00FF0221 /* PropertyWrappers.swift */; };
+		AA81D2A92C37065300FF0221 /* ExyteMediaPicker in Frameworks */ = {isa = PBXBuildFile; productRef = AA81D2A82C37065300FF0221 /* ExyteMediaPicker */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,6 +74,8 @@
 		AA81D29C2C324DA900FF0221 /* LocationSubViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSubViews.swift; sourceTree = "<group>"; };
 		AA81D29E2C325D0B00FF0221 /* AppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
 		AA81D2A12C3267C200FF0221 /* AppViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppViewModel.swift; sourceTree = "<group>"; };
+		AA81D2A32C36CC0E00FF0221 /* PhotoViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViews.swift; sourceTree = "<group>"; };
+		AA81D2A52C36D65E00FF0221 /* PropertyWrappers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PropertyWrappers.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +83,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA81D2A92C37065300FF0221 /* ExyteMediaPicker in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -124,6 +130,7 @@
 				AA81D2A02C32636C00FF0221 /* Models */,
 				AA81D2832C309C3A00FF0221 /* Views */,
 				AA81D20E2C26EEA100FF0221 /* FoodieNotesApp.swift */,
+				AA81D2A52C36D65E00FF0221 /* PropertyWrappers.swift */,
 				AA81D2172C26EEA200FF0221 /* Assets.xcassets */,
 				AA81D2192C26EEA200FF0221 /* Foodie_Notes.entitlements */,
 				AA81D2122C26EEA100FF0221 /* Foodie_Notes.xcdatamodeld */,
@@ -179,6 +186,7 @@
 				AA81D2982C324CB000FF0221 /* PictureSubViews.swift */,
 				AA81D29A2C324D7D00FF0221 /* NotesSubViews.swift */,
 				AA81D29C2C324DA900FF0221 /* LocationSubViews.swift */,
+				AA81D2A32C36CC0E00FF0221 /* PhotoViews.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -208,6 +216,9 @@
 			dependencies = (
 			);
 			name = "Foodie Notes";
+			packageProductDependencies = (
+				AA81D2A82C37065300FF0221 /* ExyteMediaPicker */,
+			);
 			productName = "Foodie Notes";
 			productReference = AA81D20B2C26EEA100FF0221 /* Foodie Notes.app */;
 			productType = "com.apple.product-type.application";
@@ -280,6 +291,9 @@
 				Base,
 			);
 			mainGroup = AA81D2022C26EEA100FF0221;
+			packageReferences = (
+				AA81D2A72C37065300FF0221 /* XCRemoteSwiftPackageReference "ExyteMediaPicker" */,
+			);
 			productRefGroup = AA81D20C2C26EEA100FF0221 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -325,6 +339,7 @@
 				AA81D28D2C30F20D00FF0221 /* MiscSubViews.swift in Sources */,
 				AA81D29F2C325D0B00FF0221 /* AppModel.swift in Sources */,
 				AA81D2872C309C9E00FF0221 /* CourseCreateOrEditView.swift in Sources */,
+				AA81D2A42C36CC0E00FF0221 /* PhotoViews.swift in Sources */,
 				AA81D2972C324C8E00FF0221 /* NameSubViews.swift in Sources */,
 				AA81D29B2C324D7D00FF0221 /* NotesSubViews.swift in Sources */,
 				AA81D29D2C324DA900FF0221 /* LocationSubViews.swift in Sources */,
@@ -334,6 +349,7 @@
 				AA81D2142C26EEA100FF0221 /* Foodie_Notes.xcdatamodeld in Sources */,
 				AA81D2852C309C7F00FF0221 /* MealView.swift in Sources */,
 				AA81D2922C3209E100FF0221 /* CourseView.swift in Sources */,
+				AA81D2A62C36D65E00FF0221 /* PropertyWrappers.swift in Sources */,
 				AA81D2992C324CB000FF0221 /* PictureSubViews.swift in Sources */,
 				AA81D2802C309BF000FF0221 /* MealListView.swift in Sources */,
 				AA81D2822C309C3100FF0221 /* MealCreateOrEditView.swift in Sources */,
@@ -699,6 +715,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		AA81D2A72C37065300FF0221 /* XCRemoteSwiftPackageReference "ExyteMediaPicker" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/exyte/ExyteMediaPicker.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.2.3;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		AA81D2A82C37065300FF0221 /* ExyteMediaPicker */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AA81D2A72C37065300FF0221 /* XCRemoteSwiftPackageReference "ExyteMediaPicker" */;
+			productName = ExyteMediaPicker;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		AA81D2122C26EEA100FF0221 /* Foodie_Notes.xcdatamodeld */ = {

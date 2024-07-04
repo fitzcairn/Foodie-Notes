@@ -78,7 +78,7 @@ struct CourseSubViews {
                         courseId:nil
                     )
                 ) {
-                    AddButtonImage()
+                    SecondaryAddButtonImage()
                 }
                 .simultaneousGesture(TapGesture().onEnded {
                     _ = viewModel.addNewCourseTo(mealId)
@@ -139,7 +139,11 @@ struct CourseSubViews {
                     .padding(8)
                     Spacer()
                     if (isEdit) {
-                        EditButtonImage()
+                        Image(systemName: "pencil.circle.fill")
+                            .resizable()
+                            .frame(width: 24, height: 24)
+                            .foregroundColor(.gray)
+                            .opacity(0.6)
                     }
                 }
                 NavigationLink(destination: destination) {

@@ -202,7 +202,7 @@ class AppViewModel : ObservableObject {
     func removeDeletedImagesFor(_ old:PicturesAndNotes) -> PicturesAndNotes {
         var new = PicturesAndNotes(notes:old.notes)
         for picture in old.pictures {
-            if picture.state != AppModel.PictureState.deleted {
+            if picture.state != AppModel.Picture.PictureState.deleted {
                 new.pictures.append(picture)
             }
         }
