@@ -36,7 +36,7 @@ struct CourseCreateOrEditView: View {
                         PictureSubViews.PictureAndNameEditView(
                             name:Binding<String>(
                                 get: { viewModel.getCourseFor(courseId).name },
-                                set: { viewModel.setCourseNameFor(course, name: $0) }),
+                                set: { viewModel.setCourseNameFor(viewModel.getCourseFor(courseId), name: $0) }),
                             picture:Binding<Picture>(
                                 get: { viewModel.getCourseFor(courseId).pickedImage },
                                 set: { _ = $0 })
@@ -44,20 +44,22 @@ struct CourseCreateOrEditView: View {
                         DateViews.DatePickerSection(
                             selectedDate: Binding<Date>(
                                 get: { viewModel.getCourseFor(courseId).date },
-                                set: { viewModel.setCourseDateFor(course, date:$0) })
+                                set: { viewModel.setCourseDateFor(viewModel.getCourseFor(courseId), date:$0) })
                         )
                         PictureSubViews.PictureAndNotesEditSection(
                             title: "Food",
                             data: Binding<PicturesAndNotes>(
                                 get: { viewModel.getCourseFor(courseId).food },
-                                set: { viewModel.setCourseFoodFor(course, food:$0); }
+                                set: { viewModel.setCourseFoodFor(viewModel.getCourseFor(courseId), food:$0);
+                                       viewModel.updatePickedPicturesFor(viewModel.getMealFor(mealId)!)}
                             )
                         )
                         PictureSubViews.PictureAndNotesEditSection(
                             title: "Wine",
                             data: Binding<PicturesAndNotes>(
                                 get: { course.wine },
-                                set: { viewModel.setCourseWineFor(course, wine:$0) })
+                                set: { viewModel.setCourseWineFor(viewModel.getCourseFor(courseId), wine:$0);
+                                       viewModel.updatePickedPicturesFor(viewModel.getMealFor(mealId)!) })
                         )
                     }
                     EditScreenPrimaryButtons(

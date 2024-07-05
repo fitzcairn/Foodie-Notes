@@ -17,16 +17,15 @@ struct CourseView: View {
     let mealId:String;
     
     var body: some View {
-        let course = viewModel.getCourseFor(courseId);
         // TODO: Split my custom NavigationStack out into a custom view.
         NavigationStack {
             ZStack(alignment: .bottom) {
                 ScrollForm {
-                    CourseSubViews.CourseNameAndPickedImageView(mealId:course.mealId, course: course)
-                    DateViews.DateSection(course.date)
-                    PictureSubViews.PictureAndNotesViewSection(title: "Food", data: course.food)
-                    if viewModel.checkShow(course.wine) {
-                        PictureSubViews.PictureAndNotesViewSection(title: "Wine", data: course.wine)
+                    CourseSubViews.CourseNameAndPickedImageView(mealId:mealId, course: viewModel.getCourseFor(courseId))
+                    DateViews.DateSection(viewModel.getCourseFor(courseId).date)
+                    PictureSubViews.PictureAndNotesViewSection(title: "Food", data: viewModel.getCourseFor(courseId).food)
+                    if viewModel.checkShow(viewModel.getCourseFor(courseId).wine) {
+                        PictureSubViews.PictureAndNotesViewSection(title: "Wine", data: viewModel.getCourseFor(courseId).wine)
                     }
                 }
                 ViewScreenPrimaryButtons(
@@ -36,7 +35,7 @@ struct CourseView: View {
                     editDest: CourseCreateOrEditView(
                         needRefresh:$needRefresh,
                         mealId:mealId,
-                        courseId:course.id)
+                        courseId:courseId)
                 )
             }
             .navigationBarBackButtonHidden()

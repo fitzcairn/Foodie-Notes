@@ -9,12 +9,14 @@ import Foundation
 import ExyteMediaPicker
 
 
+
+
 // Encapsulate picture management
 struct Picture : Identifiable, Hashable {
     var id:String = Id.createId()
     var deleted:Bool = false;
     var src:Media?;
-    
+
     init() {
     }
     

@@ -19,7 +19,6 @@ struct Course : Hashable, Equatable, Identifiable {
     init(mealId: String) {
         self.mealId = mealId
     }
-          
 
     init(id:String, mealId: String, name: String, date: Date, food: PicturesAndNotes, wine: PicturesAndNotes) {
         self.id = id
