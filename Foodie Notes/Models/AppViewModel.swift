@@ -118,11 +118,7 @@ class AppViewModel : ObservableObject {
         }
     }
     func setCoursePickedImageFor(_ course:Course, image:AppModel.Picture) {
-        updateCoursesHelper(course) { oldCourse in
-            var newCourse = oldCourse
-            newCourse.pickedImage = newCourse.id == course.id ? image : oldCourse.pickedImage
-            return newCourse
-        }
+        model.setCoursePickedImageFor(course.id, picture:image)
     }
     func setCourseDateFor(_ course:Course, date:Date) {
         updateCoursesHelper(course) { oldCourse in
@@ -148,22 +144,26 @@ class AppViewModel : ObservableObject {
     
     
     // MARK: - Useful Helpers
-    func getOrAddPickedPictureFor(_ meal:Meal) -> Picture? {
+    func updatePickedPicturesFor(_ meal:Meal) {
         func isEmpty(_ image:Picture?) -> Bool {
             return image == nil || image!.src == nil || image!.deleted
         }
 
-        // Check cache first.
-        if (!isEmpty(meal.pickedImage)) {
-            return meal.pickedImage
+        // Update picked images for every course.
+        if !meal.courses.isEmpty {
+            for course in meal.courses {
+                if !course.wine.pictures.isEmpty || !course.food.pictures.isEmpty {
+                    setCoursePickedImageFor(course,
+                                            image: (course.food.pictures + course.wine.pictures).first!)
+                }
+            }
         }
         
         // Ok, let's pick one.  Setup...
-        func setAndGo(_ image:Picture) -> Picture? {
+        func setAndGo(_ image:Picture) {
             var newMeal = meal
             newMeal.pickedImage = image
             model.updateMeal(meal.id, meal:newMeal);
-            return image
         }
         
         // First: any courses?
@@ -171,16 +171,7 @@ class AppViewModel : ObservableObject {
             // First picked course picture we find.
             for course in meal.courses {
                 if (!isEmpty(course.pickedImage)) {
-                    return setAndGo(course.pickedImage!)
-                }
-            }
-            
-            // ... Followed by first food or wine picture we find.
-            for course in meal.courses {
-                for img in course.food.pictures + course.wine.pictures {
-                    if (!isEmpty(img)) {
-                        return setAndGo(img)
-                    }
+                    return setAndGo(course.pickedImage)
                 }
             }
         }
@@ -190,9 +181,6 @@ class AppViewModel : ObservableObject {
                 return setAndGo(img)
             }
         }
-            
-        // ... Give up, no pictures found!  Return the empty picture.
-        return meal.pickedImage;
     }
     func removeDeletedImagesFor(_ old:PicturesAndNotes) -> PicturesAndNotes {
         var new = PicturesAndNotes(notes:old.notes)

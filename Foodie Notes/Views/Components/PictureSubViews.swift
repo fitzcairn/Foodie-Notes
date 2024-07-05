@@ -30,27 +30,78 @@ struct PictureSubViews {
                 .opacity(0.5)
         }
     }
+    
+    struct PhotoView: View {
+        @StateObject var viewModel: PhotoViewModel
 
+        var body: some View {
+            GeometryReader { g in
+                VStack {
+                    if let url = viewModel.imageUrl {
+                        AsyncImage(url: url) { phase in
+                            if case let .success(image) = phase {
+                                image
+                                    .resizable()
+                                    .scaledToFill()
+                            }
+                        }
+                    } else {
+                        ProgressView()
+                    }
+                }
+                .frame(width: g.size.width, height: g.size.height)
+                .clipped()
+            }
+            .task {
+                await viewModel.onStart()
+            }
+            .onDisappear {
+                viewModel.onStop()
+            }
+        }
+    }
+    
+    class PhotoViewModel: ObservableObject {
+        let media: Media
+
+        @Published var imageUrl: URL? = nil
+
+        init(media: Media) {
+            self.media = media
+        }
+
+        func onStart() async {
+            guard imageUrl == nil && media.type == .image else { return }
+
+            let url = await media.getURL()
+            guard let url = url else { return }
+
+            DispatchQueue.main.async {
+                self.imageUrl = url
+            }
+        }
+
+        func onStop() {
+            imageUrl = nil
+        }
+    }
+    
+
+    
     // Actual picture
     struct PictureView : View {
         var picture: Picture?;
                 
         var body: some View {
             if picture == nil || picture!.deleted {
-                return NoPicturePlaceholderView()
+                NoPicturePlaceholderView()
             }
-            if let media = picture!.src {
+            else if let media = picture!.src {
                 PhotoView(viewModel: PhotoViewModel(media: media))
                     .aspectRatio(1, contentMode: .fill)
-            } else {
-                Image(systemName: "hourglass.circle")
-                    .resizable()
-                    .padding(4)
                     .frame(width:photoWidth, height: photoHeight)
-                    .background(Color.gray)
-                    .clipShape(Circle())
-                    .foregroundColor(.white)
-                    .opacity(0.5)
+            } else {
+                NoPicturePlaceholderView()
             }
         }
     }
@@ -84,7 +135,9 @@ struct PictureSubViews {
         }
     }
     
-    struct CameraButton: View {
+    /*
+     TODO: Figure out live camera support.
+     struct CameraButton: View {
         @Binding var picture:Picture;
         @State private var isTakingLivePhoto:Bool = false;
         
@@ -103,23 +156,15 @@ struct PictureSubViews {
                         .foregroundColor(.white)
                 }
             )
-            .sheet(isPresented: $isTakingLivePhoto) {
-                MediaPicker(
-                    isPresented: $isTakingLivePhoto,
-                    onChange: {
-                        picture.src = $0.first
-                    })
-                .mediaSelectionLimit(1)
-                .mediaSelectionType(.photo)
-            }
         }
-    }
+    }*/
 
     struct PhotoRollButton: View {
-        @Binding var picture:Picture;
+        @Binding var pictures:[Picture]
         var limit:Int = Int.max // Get around bug in MediaPicker
 
         @State private var ispickingPhoto:Bool = false;
+        @State var newMedia:[Media] = [];
         
         var body: some View {
             Button(
@@ -127,39 +172,31 @@ struct PictureSubViews {
                     ispickingPhoto = true;
                 },
                 label: {
-                    Image(systemName: "photo.circle")
+                    Image(systemName: "plus.circle.fill")
                         .resizable()
                         .padding(4)
-                        .frame(width:24, height: 24)
+                        .frame(width:photoWidth, height: photoHeight)
                         .background(Color.gray)
                         .clipShape(Circle())
                         .foregroundColor(.white)
+                        .opacity(0.5)
                 }
             )
-            .sheet(isPresented: $ispickingPhoto) {
+            .sheet(isPresented: $ispickingPhoto, onDismiss: {
+                var newPictures:[Picture] = []
+                for media in newMedia {
+                    newPictures.append(Picture(src:media));
+                }
+                pictures = pictures + newPictures;
+            }) {
                 MediaPicker(
                     isPresented: $ispickingPhoto,
                     onChange: {
-                        picture.src = $0.first
+                        if !$0.isEmpty { newMedia = $0 }
                     })
                 .mediaSelectionLimit(limit)
                 .mediaSelectionType(.photo)
-            }
-        }
-    }
-
-    struct SinglePictureEdit: View {
-        @Binding var picture:Picture;
-
-        var body: some View {
-            VStack {
-                PictureEditView(picture:$picture)
-                Spacer()
-                    .frame(height:20)
-                HStack {
-                    CameraButton(picture: $picture)
-                    PhotoRollButton(picture: $picture, limit:1)
-                }
+                .showLiveCameraCell()
             }
         }
     }
@@ -171,27 +208,21 @@ struct PictureSubViews {
 
         var body: some View {
             VStack(alignment: .center) {
-                LazyVGrid(columns: [GridItem(.adaptive(minimum: 64))], spacing:10) {
+                LazyVGrid(columns: [GridItem(.adaptive(minimum: 64))], spacing:5) {
                     ForEach(pictures.indices, id: \.self) { index in
                         if edit {
-                            PictureView(picture:pictures[index])
-                        } else {
                             PictureEditView(picture:$pictures[index])
+                        } else {
+                            PictureView(picture:pictures[index])
                         }
                     }
-                }
-                if edit {
-                    Spacer()
-                        .frame(height:20)
-                    HStack {
-                        var newPicture = Binding<Picture>(
-                            get: { Picture() },
-                            set: { pictures.append($0) })
-                        CameraButton(picture:newPicture)
-                        PhotoRollButton(picture: newPicture)
+                    if edit {
+                        PhotoRollButton(pictures: $pictures)
+                            .buttonStyle(.plain)
                     }
                 }
             }
+            .padding(.horizontal, -10)
         }
     }
     
@@ -202,7 +233,14 @@ struct PictureSubViews {
         var body: some View {
             Section(header: Text(title)) {
                 HStack(alignment: .top) {
-                    MultiPictureView(pictures:$data.pictures, edit:true)
+                    MultiPictureView(pictures:Binding<[Picture]>(
+                        get: {
+                            data.pictures
+                        },
+                        set: {
+                            data.pictures = $0;
+                        }),
+                        edit:true)
                     StyledTextField(inputText:$data.notes)
                     Spacer()
                 }
@@ -236,7 +274,7 @@ struct PictureSubViews {
         
         var body: some View {
             HStack {
-                PictureEditView(picture:$picture)
+                PictureView(picture:picture)
                 StyledTextField(inputText:$name)
                     .padding(.leading, 10)
                     .padding(.trailing, -10)

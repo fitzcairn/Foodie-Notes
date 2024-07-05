@@ -126,14 +126,7 @@ struct CourseSubViews {
         var body: some View {
             ZStack {
                 HStack {
-                    if let image = viewModel.getCourseFor(course.id).pickedImage {
-                        PictureSubViews.PictureView(picture:Binding(
-                            get: { image },
-                            set: { _ = $0})
-                        )
-                    } else {
-                        PictureSubViews.NoPicturePlaceholderView()
-                    }
+                    PictureSubViews.PictureView(picture:viewModel.getCourseFor(course.id).pickedImage)
                     VStack(alignment: .leading) {
                         Text(course.name)
                             .bold()

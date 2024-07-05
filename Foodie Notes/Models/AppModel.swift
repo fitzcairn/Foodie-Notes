@@ -95,6 +95,9 @@ struct AppModel {
             coursesById.removeValue(forKey: course.id)
         }
     }
+    mutating func setCoursePickedImageFor(_ courseId:String, picture:Picture) {
+        coursesById[courseId]?.pickedImage = picture;
+    }
     
     
     // MARK: - Public Getter Intents
@@ -205,20 +208,20 @@ struct AppModel {
         var date:Date = Date();
         var food:PicturesAndNotes = PicturesAndNotes();
         var wine:PicturesAndNotes = PicturesAndNotes();
-        var pickedImage:Picture?
+        var pickedImage:Picture = Picture()
         
         init(mealId: String) {
             self.mealId = mealId
         }
-        
-        init(id:String, mealId: String, name: String, date: Date, food: PicturesAndNotes, wine: PicturesAndNotes, pickedImage: Picture?) {
+              
+
+        init(id:String, mealId: String, name: String, date: Date, food: PicturesAndNotes, wine: PicturesAndNotes) {
             self.id = id
             self.mealId = mealId
             self.name = name
             self.date = date
             self.food = food
             self.wine = wine
-            self.pickedImage = pickedImage
         }
         
         static func == (lhs: AppModel.Course, rhs: AppModel.Course) -> Bool {
@@ -252,6 +255,13 @@ struct AppModel {
         var id:String = Id.createId()
         var deleted:Bool = false;
         var src:Media?;
+        
+        init() {
+        }
+        
+        init(src:Media) {
+            self.src = src;
+        }
         
         mutating func updateToPhoto(src:Media?) {
             self.src = src;
@@ -296,8 +306,6 @@ extension AppModel {
                     venue: Venue(name: "McDonalds", rating:4),
                     menu: PicturesAndNotes(
                         pictures: [
-                            Picture(),
-                            Picture(),
                         ],
                         notes: "An amazing menu populated by amazing deals!"),
                     courses: [
@@ -307,13 +315,9 @@ extension AppModel {
                                date: Date(),
                                food: PicturesAndNotes(
                                 pictures: [
-                                    Picture(),
-                                    Picture(),
-                                    Picture(),
                                 ],
                                 notes: "A delightful bite-sized explosion of flavors that sets the perfect tone for the culinary journey ahead."),
-                               wine: PicturesAndNotes(),
-                               pickedImage: Picture()
+                               wine: PicturesAndNotes()
                               ),
                         Course(id: "c2",
                                mealId: "m\(index)",
@@ -321,13 +325,9 @@ extension AppModel {
                                date: Date(),
                                food: PicturesAndNotes(
                                 pictures: [
-                                    Picture(),
-                                    Picture(),
-                                    Picture(),
                                 ],
                                 notes: "A succulent lobster dish that boasts tender, buttery meat perfectly complemented by a rich, flavorful sauce."),
-                               wine:PicturesAndNotes(),
-                               pickedImage: nil
+                               wine:PicturesAndNotes()
                               ),
                         Course(id: "c3",
                                mealId: "m\(index)",
@@ -335,18 +335,12 @@ extension AppModel {
                                date: Date(),
                                food: PicturesAndNotes(
                                 pictures: [
-                                    Picture(),
-                                    Picture(),
-                                    Picture(),
                                 ],
                                 notes: "A tender veal dish with a delicate balance of flavors, offering a melt-in-your-mouth experience."),
                                wine: PicturesAndNotes(
                                 pictures: [
-                                    Picture(),
-                                    Picture(),
                                 ],
-                                notes: "A masterful wine pairing that elevates each dish, enhancing flavors and creating a harmonious dining experience."),
-                               pickedImage: Picture()
+                                notes: "A masterful wine pairing that elevates each dish, enhancing flavors and creating a harmonious dining experience.")
                               ),
                         Course(id: "c4",
                                mealId: "m\(index)",
@@ -357,8 +351,7 @@ extension AppModel {
                                     Picture(),
                                 ],
                                 notes: "Chocolate for days!"),
-                               wine:PicturesAndNotes(),
-                               pickedImage: nil
+                               wine:PicturesAndNotes()
                               ),
                     ],
                     date: Date(),

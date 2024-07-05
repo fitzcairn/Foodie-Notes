@@ -13,7 +13,8 @@ struct CourseCreateOrEditView: View {
     @EnvironmentObject var viewModel:AppViewModel;
     
     typealias Course = AppModel.Course
-    
+    typealias Picture = AppModel.Picture
+
     @State private var showingAlert = false
     @Binding var needRefresh: Bool
 
@@ -30,27 +31,28 @@ struct CourseCreateOrEditView: View {
             EmptyView()
         } else {
             let course = !isNew ? viewModel.getCourseFor(courseId!) : viewModel.getLastCourseFor(mealId)!
+            let courseId = course.id
             
             NavigationStack {
                 ZStack(alignment: .bottom) {
                     ScrollForm {
                         PictureSubViews.PictureAndNameEditView(
                             name:Binding<String>(
-                                get: { course.name },
+                                get: { viewModel.getCourseFor(courseId).name },
                                 set: { viewModel.setCourseNameFor(course, name: $0) }),
-                            picture:Binding<AppModel.Picture>(
-                                get: { course.pickedImage },
-                                set: { viewModel.setCoursePickedImageFor(course, image:$0) })
+                            picture:Binding<Picture>(
+                                get: { viewModel.getCourseFor(courseId).pickedImage },
+                                set: { _ = $0 })
                         )
                         DateViews.DatePickerSection(
                             selectedDate: Binding<Date>(
-                                get: { course.date },
+                                get: { viewModel.getCourseFor(courseId).date },
                                 set: { viewModel.setCourseDateFor(course, date:$0) })
                         )
                         PictureSubViews.PictureAndNotesEditSection(
                             title: "Food",
                             data: Binding<AppModel.PicturesAndNotes>(
-                                get: { course.food },
+                                get: { viewModel.getCourseFor(courseId).food },
                                 set: { viewModel.setCourseFoodFor(course, food:$0); }
                             )
                         )

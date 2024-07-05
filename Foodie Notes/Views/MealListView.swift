@@ -81,7 +81,7 @@ struct MealItem: View {
             ErrorDialog(text:"Something went wrong looking up your meal!")
         } else {
             HStack {
-                PictureSubViews.PictureView(picture:viewModel.getOrAddPickedPictureFor(viewModel.getMealFor(mealId)!))
+                PictureSubViews.PictureView(picture:viewModel.getMealFor(mealId)!.pickedImage)
                 NavigationLink(destination: MealView(mealId: mealId)) {
                     VStack(alignment: .leading) {
                         HStack {
@@ -100,36 +100,3 @@ struct MealItem: View {
         }
     }
 }
-
-
-/*
- NavigationStack {
-     List {
-         ForEach(viewModel.getMeals(), id: \.self) { meal in
-             MealItem(mealId:meal.id)
-         }
-         .onDelete() { at in
-             remove(at:at, meals:viewModel.getMeals())
-         }
-     }
-     .listStyle(.plain)
-     .navigationBarBackButtonHidden()
-     .navigationBarItems(
-         leading: Text("Meals")
-             .font(.system(size:36, weight: .bold)),
-         trailing: NavigationLink(destination: MealCreateOrEditView(
-             needRefresh:$needRefresh,
-             mealId:nil)) {
-             Image(systemName: "plus")
-                 .resizable()
-                 .padding(6)
-                 .frame(width: 24, height: 24)
-                 .background(Color.blue)
-                 .clipShape(Circle())
-                 .foregroundColor(.white)
-         }
-         .simultaneousGesture(TapGesture().onEnded {
-             _ = viewModel.addMeal(nil)
-         })
-     )
- */

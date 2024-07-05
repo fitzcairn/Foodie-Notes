@@ -73,6 +73,7 @@ struct MealCreateOrEditView: View {
                             viewModel.objectWillChange.send()
                             showingAlert = !viewModel.mealHasVenue(mealId);
                             if !showingAlert {
+                                viewModel.updatePickedPicturesFor(viewModel.getMealFor(mealId)!)
                                 needRefresh.toggle()
                                 presentationMode.wrappedValue.dismiss()
                             }
