@@ -16,6 +16,8 @@ struct AppModel {
     private var venuesByName:[String:Venue] = [:];
     private var coursesById:[String:Course] = [:];
     private var lastNewMealCreatedId:String?;
+    
+    var skipSplash:Bool = false;
                
    
     // MARK: - Meal Management
@@ -40,10 +42,6 @@ struct AppModel {
             lastNewMealCreatedId = nil;
         }
     }
-    
-    
-    // MARK: - Property Setters
-    
     mutating func setRatingFor(_ mealId:String, rating:Int) {
         if mealsById[mealId] != nil {
             mealsById[mealId]!.venue.rating = rating;

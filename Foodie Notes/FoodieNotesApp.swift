@@ -14,8 +14,14 @@ struct FoodieNotesApp: App {
 
     var body: some Scene {
         WindowGroup {
-            MealListView()
-                .environmentObject(viewModel)
+            if viewModel.model.skipSplash {
+                MealListView()
+                    .environmentObject(viewModel)
+            }
+            else {
+                SplashView()
+                    .environmentObject(viewModel)
+            }
         }
     }
 }

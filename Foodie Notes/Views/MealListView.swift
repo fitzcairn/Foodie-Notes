@@ -67,7 +67,6 @@ struct MealListView: View {
             }
         }
     }
-    
 }
 
 // MARK: - Element Views

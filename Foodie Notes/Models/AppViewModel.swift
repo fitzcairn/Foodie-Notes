@@ -11,14 +11,11 @@ import Foundation
 class AppViewModel : ObservableObject {
     var id = AppModel.Id.createId();
     
-    
     typealias Meal = AppModel.Meal;
     typealias Picture = AppModel.Picture;
     typealias PicturesAndNotes = AppModel.PicturesAndNotes;
     typealias Course = AppModel.Course;
-     
-    private static var missingImage = "fork.knife.circle";
-    
+         
     // App model
     @Published var model: AppModel = createAppModel();
     
