@@ -134,30 +134,6 @@ struct PictureSubViews {
             }
         }
     }
-    
-    /*
-     TODO: Figure out live camera support.
-     struct CameraButton: View {
-        @Binding var picture:Picture;
-        @State private var isTakingLivePhoto:Bool = false;
-        
-        var body: some View {
-            Button(
-                action: {
-                    isTakingLivePhoto = true;
-                },
-                label: {
-                    Image(systemName: "camera.circle")
-                        .resizable()
-                        .padding(4)
-                        .frame(width:24, height: 24)
-                        .background(Color.gray)
-                        .clipShape(Circle())
-                        .foregroundColor(.white)
-                }
-            )
-        }
-    }*/
 
     struct PhotoRollButton: View {
         @Binding var pictures:[Picture]
