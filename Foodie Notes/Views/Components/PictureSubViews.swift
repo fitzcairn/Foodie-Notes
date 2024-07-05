@@ -183,13 +183,18 @@ struct PictureSubViews {
         var edit:Bool = false;
 
         var body: some View {
+            let columns = pictures.isEmpty ?
+                [GridItem(.flexible(minimum: photoWidth))] :
+                [GridItem(.flexible(minimum: photoWidth)), GridItem(.flexible(minimum: photoWidth))]
+
             VStack(alignment: .center) {
-                LazyVGrid(columns: [GridItem(.adaptive(minimum: 64))], spacing:5) {
+                LazyVGrid(columns: columns, spacing:10) {
                     ForEach(pictures.indices, id: \.self) { index in
                         if edit {
                             PictureEditView(picture:$pictures[index])
                         } else {
                             PictureView(picture:pictures[index])
+                                .padding(.horizontal, -5)
                         }
                     }
                     if edit {
@@ -198,7 +203,6 @@ struct PictureSubViews {
                     }
                 }
             }
-            .padding(.horizontal, -10)
         }
     }
     
@@ -209,14 +213,16 @@ struct PictureSubViews {
         var body: some View {
             Section(header: Text(title)) {
                 HStack(alignment: .top) {
-                    MultiPictureView(pictures:Binding<[Picture]>(
-                        get: {
-                            data.pictures
-                        },
-                        set: {
-                            data.pictures = $0;
-                        }),
+                    MultiPictureView(
+                        pictures:Binding<[Picture]>(
+                            get: {
+                                data.pictures
+                            },
+                            set: {
+                                data.pictures = $0;
+                            }),
                         edit:true)
+                    .frame(width:data.pictures.isEmpty ? photoWidth : 2 * photoWidth)
                     StyledTextField(inputText:$data.notes)
                     Spacer()
                 }
@@ -231,12 +237,14 @@ struct PictureSubViews {
         var body: some View {
             Section(header: Text(title)) {
                 HStack(alignment: .top) {
-                    MultiPictureView(pictures:Binding(
-                        get: { data.pictures },
-                        set: { _ = $0 })
-                    )
+                    if !data.pictures.isEmpty {
+                        MultiPictureView(pictures:Binding(
+                            get: { data.pictures },
+                            set: { _ = $0 })
+                        )
+                    }
                     NotesSubViews.NotesView(inputText:data.notes)
-                        .frame(maxWidth: .infinity)
+                        //.frame(maxWidth: .infinity)
                         .fixedSize(horizontal: false, vertical: true)
                     Spacer()
                 }
