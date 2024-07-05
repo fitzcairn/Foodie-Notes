@@ -12,8 +12,6 @@ import SwiftUI
 struct MealListView: View {
     @EnvironmentObject var viewModel:AppViewModel;
 
-    typealias Meal = AppModel.Meal  
-
     @State var needRefresh:Bool = true;
 
     var body: some View {

@@ -12,9 +12,6 @@ struct CourseCreateOrEditView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @EnvironmentObject var viewModel:AppViewModel;
     
-    typealias Course = AppModel.Course
-    typealias Picture = AppModel.Picture
-
     @State private var showingAlert = false
     @Binding var needRefresh: Bool
 
@@ -51,14 +48,14 @@ struct CourseCreateOrEditView: View {
                         )
                         PictureSubViews.PictureAndNotesEditSection(
                             title: "Food",
-                            data: Binding<AppModel.PicturesAndNotes>(
+                            data: Binding<PicturesAndNotes>(
                                 get: { viewModel.getCourseFor(courseId).food },
                                 set: { viewModel.setCourseFoodFor(course, food:$0); }
                             )
                         )
                         PictureSubViews.PictureAndNotesEditSection(
                             title: "Wine",
-                            data: Binding<AppModel.PicturesAndNotes>(
+                            data: Binding<PicturesAndNotes>(
                                 get: { course.wine },
                                 set: { viewModel.setCourseWineFor(course, wine:$0) })
                         )

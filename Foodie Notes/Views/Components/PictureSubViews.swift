@@ -15,8 +15,6 @@ var photoHeight:CGFloat = 64;
 
 // All views related to showing pictures and annotations
 struct PictureSubViews {
-    typealias PicturesAndNotes = AppModel.PicturesAndNotes
-    typealias Picture = AppModel.Picture
 
     struct NoPicturePlaceholderView: View {
         var body: some View {
@@ -208,7 +206,7 @@ struct PictureSubViews {
     
     struct PictureAndNotesEditSection: View {
         let title:String;
-        @Binding var data:AppModel.PicturesAndNotes;
+        @Binding var data:PicturesAndNotes;
         
         var body: some View {
             Section(header: Text(title)) {
@@ -232,7 +230,7 @@ struct PictureSubViews {
     
     struct PictureAndNotesViewSection: View {
         let title:String;
-        let data:AppModel.PicturesAndNotes;
+        let data:PicturesAndNotes;
         
         var body: some View {
             Section(header: Text(title)) {

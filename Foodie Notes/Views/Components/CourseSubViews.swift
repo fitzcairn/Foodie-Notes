@@ -9,9 +9,6 @@ import SwiftUI
 
 // All views and logic related to courses.
 struct CourseSubViews {
-    typealias Meal = AppModel.Meal;
-    typealias Course = AppModel.Course;
-    typealias Picture = AppModel.Picture;
     
     struct CoursesViewSection : View {
         @EnvironmentObject private var viewModel:AppViewModel;

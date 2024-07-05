@@ -9,13 +9,8 @@ import Foundation
 
 // View model for the app.
 class AppViewModel : ObservableObject {
-    var id = AppModel.Id.createId();
+    var id = Id.createId();
     
-    typealias Meal = AppModel.Meal;
-    typealias Picture = AppModel.Picture;
-    typealias PicturesAndNotes = AppModel.PicturesAndNotes;
-    typealias Course = AppModel.Course;
-         
     // App model
     @Published var model: AppModel = createAppModel();
     
@@ -114,7 +109,7 @@ class AppViewModel : ObservableObject {
             return newCourse
         }
     }
-    func setCoursePickedImageFor(_ course:Course, image:AppModel.Picture) {
+    func setCoursePickedImageFor(_ course:Course, image:Picture) {
         model.setCoursePickedImageFor(course.id, picture:image)
     }
     func setCourseDateFor(_ course:Course, date:Date) {
@@ -124,14 +119,14 @@ class AppViewModel : ObservableObject {
             return newCourse
         }
     }
-    func setCourseFoodFor(_ course:Course, food:AppModel.PicturesAndNotes) {
+    func setCourseFoodFor(_ course:Course, food:PicturesAndNotes) {
         updateCoursesHelper(course) { oldCourse in
             var newCourse = oldCourse
             newCourse.food = newCourse.id == course.id ? removeDeletedImagesFor(food) : oldCourse.food
             return newCourse
         }
     }
-    func setCourseWineFor(_ course:Course, wine:AppModel.PicturesAndNotes) {
+    func setCourseWineFor(_ course:Course, wine:PicturesAndNotes) {
         updateCoursesHelper(course) { oldCourse in
             var newCourse = oldCourse
             newCourse.wine = newCourse.id == course.id ? removeDeletedImagesFor(wine) : oldCourse.wine
@@ -189,7 +184,7 @@ class AppViewModel : ObservableObject {
         return new
     }
     // Consolidate business logic on when to show a section.
-    func checkShow(_ pictureAndNotes:AppModel.PicturesAndNotes) -> Bool {
+    func checkShow(_ pictureAndNotes:PicturesAndNotes) -> Bool {
         return !pictureAndNotes.notes.isEmpty || !pictureAndNotes.pictures.isEmpty
     }
     

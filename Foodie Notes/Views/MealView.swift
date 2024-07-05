@@ -8,9 +8,6 @@
 import SwiftUI
 
 struct MealView: View {
-    typealias PicturesAndNotes = AppModel.PicturesAndNotes
-    typealias Meal = AppModel.Meal
-
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @EnvironmentObject var viewModel:AppViewModel;
 

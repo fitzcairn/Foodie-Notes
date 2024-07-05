@@ -11,8 +11,6 @@ struct CourseView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @EnvironmentObject var viewModel:AppViewModel;
 
-    typealias Course = AppModel.Course
-    
     @Binding var needRefresh: Bool;
     
     let courseId:String;

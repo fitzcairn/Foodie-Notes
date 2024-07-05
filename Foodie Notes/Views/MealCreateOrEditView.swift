@@ -10,11 +10,7 @@ import SwiftUI
 struct MealCreateOrEditView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @EnvironmentObject var viewModel:AppViewModel;
-    
-    typealias Meal = AppModel.Meal
-    typealias Course = AppModel.Course
-    typealias PicturesAndNotes = AppModel.PicturesAndNotes
-    
+        
     @State private var showingAlert = false
     @Binding var needRefresh: Bool
     

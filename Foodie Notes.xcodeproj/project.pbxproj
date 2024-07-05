@@ -30,6 +30,10 @@
 		AA81D2A62C36D65E00FF0221 /* PropertyWrappers.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D2A52C36D65E00FF0221 /* PropertyWrappers.swift */; };
 		AA81D2A92C37065300FF0221 /* ExyteMediaPicker in Frameworks */ = {isa = PBXBuildFile; productRef = AA81D2A82C37065300FF0221 /* ExyteMediaPicker */; };
 		AA81D2AE2C38025100FF0221 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D2AD2C38025100FF0221 /* SplashView.swift */; };
+		AA81D2B12C3818E000FF0221 /* MealModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D2B02C3818E000FF0221 /* MealModel.swift */; };
+		AA81D2B32C38190800FF0221 /* CourseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D2B22C38190800FF0221 /* CourseModel.swift */; };
+		AA81D2B52C38192400FF0221 /* PictureModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D2B42C38192400FF0221 /* PictureModels.swift */; };
+		AA81D2B72C38193500FF0221 /* VenueModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D2B62C38193500FF0221 /* VenueModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,6 +81,10 @@
 		AA81D2A52C36D65E00FF0221 /* PropertyWrappers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PropertyWrappers.swift; sourceTree = "<group>"; };
 		AA81D2AA2C37090100FF0221 /* Foodie-Notes-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Foodie-Notes-Info.plist"; sourceTree = SOURCE_ROOT; };
 		AA81D2AD2C38025100FF0221 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
+		AA81D2B02C3818E000FF0221 /* MealModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealModel.swift; sourceTree = "<group>"; };
+		AA81D2B22C38190800FF0221 /* CourseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseModel.swift; sourceTree = "<group>"; };
+		AA81D2B42C38192400FF0221 /* PictureModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PictureModels.swift; sourceTree = "<group>"; };
+		AA81D2B62C38193500FF0221 /* VenueModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VenueModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -196,10 +204,22 @@
 		AA81D2A02C32636C00FF0221 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				AA81D2AF2C3818C100FF0221 /* Components */,
 				AA81D29E2C325D0B00FF0221 /* AppModel.swift */,
 				AA81D2A12C3267C200FF0221 /* AppViewModel.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		AA81D2AF2C3818C100FF0221 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				AA81D2B02C3818E000FF0221 /* MealModel.swift */,
+				AA81D2B22C38190800FF0221 /* CourseModel.swift */,
+				AA81D2B42C38192400FF0221 /* PictureModels.swift */,
+				AA81D2B62C38193500FF0221 /* VenueModel.swift */,
+			);
+			path = Components;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -339,6 +359,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AA81D28D2C30F20D00FF0221 /* MiscSubViews.swift in Sources */,
+				AA81D2B32C38190800FF0221 /* CourseModel.swift in Sources */,
 				AA81D29F2C325D0B00FF0221 /* AppModel.swift in Sources */,
 				AA81D2AE2C38025100FF0221 /* SplashView.swift in Sources */,
 				AA81D2872C309C9E00FF0221 /* CourseCreateOrEditView.swift in Sources */,
@@ -349,11 +370,14 @@
 				AA81D2A22C3267C200FF0221 /* AppViewModel.swift in Sources */,
 				AA81D20F2C26EEA100FF0221 /* FoodieNotesApp.swift in Sources */,
 				AA81D2142C26EEA100FF0221 /* Foodie_Notes.xcdatamodeld in Sources */,
+				AA81D2B72C38193500FF0221 /* VenueModel.swift in Sources */,
 				AA81D2852C309C7F00FF0221 /* MealView.swift in Sources */,
 				AA81D2922C3209E100FF0221 /* CourseView.swift in Sources */,
 				AA81D2A62C36D65E00FF0221 /* PropertyWrappers.swift in Sources */,
 				AA81D2992C324CB000FF0221 /* PictureSubViews.swift in Sources */,
 				AA81D2802C309BF000FF0221 /* MealListView.swift in Sources */,
+				AA81D2B12C3818E000FF0221 /* MealModel.swift in Sources */,
+				AA81D2B52C38192400FF0221 /* PictureModels.swift in Sources */,
 				AA81D2822C309C3100FF0221 /* MealCreateOrEditView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -142,153 +142,15 @@ struct AppModel {
             coursesById[course.id] = course;
         }
     }
-    
-
-    // MARK: - Component Models
-    
-    struct Meal : Identifiable, Hashable {
-        var id:String = Id.createId();
-        var venue: Venue = Venue();
-        var menu: PicturesAndNotes = PicturesAndNotes()
-        var courses: [Course] = [];
-        var date:Date = Date();
-        var notes:String = ""
-        var pickedImage:Picture?
-
-        init() {
-        }
-        
-        init(venue: Venue) {
-            self.venue = venue
-        }
-        
-        init(id:String, venue: Venue, menu: PicturesAndNotes, courses: [Course], date: Date, notes:String) {
-            self.id = id
-            self.venue = venue
-            self.menu = menu
-            self.courses = courses
-            self.date = date
-            self.notes = notes
-        }
-        
-        static func == (lhs: AppModel.Meal, rhs: AppModel.Meal) -> Bool {
-            return lhs.id == rhs.id
-        }
-        
-        func hash(into hasher: inout Hasher) {
-            hasher.combine(id)
-        }
-    }
-    
-    struct Venue {
-        let id:String = Id.createId();
-        var name: String = ""
-        var rating: Int = 0;
-        // Someday: lat/long/etc!
- 
-        init() {
-        }
-        
-        init(name: String) {
-            self.name = name
-        }
-        
-        init(name: String, rating: Int) {
-            self.name = name
-            self.rating = rating
-        }
-    }
-    
-    struct Course : Hashable, Equatable, Identifiable {
-        var id:String = Id.createId();
-        let mealId:String;
-        var name:String = "";
-        var date:Date = Date();
-        var food:PicturesAndNotes = PicturesAndNotes();
-        var wine:PicturesAndNotes = PicturesAndNotes();
-        var pickedImage:Picture = Picture()
-        
-        init(mealId: String) {
-            self.mealId = mealId
-        }
-              
-
-        init(id:String, mealId: String, name: String, date: Date, food: PicturesAndNotes, wine: PicturesAndNotes) {
-            self.id = id
-            self.mealId = mealId
-            self.name = name
-            self.date = date
-            self.food = food
-            self.wine = wine
-        }
-        
-        static func == (lhs: AppModel.Course, rhs: AppModel.Course) -> Bool {
-            return lhs.id == rhs.id
-        }
-        
-        func hash(into hasher: inout Hasher) {
-            hasher.combine(id)
-        }
-    }
-    
-    struct PicturesAndNotes {
-        var pictures:[Picture] = [];
-        var notes:String = "";
-        
-        init() {
-        }
-        
-        init(notes:String) {
-            self.notes = notes;
-        }
-        
-        init(pictures: [Picture], notes: String) {
-            self.pictures = pictures
-            self.notes = notes
-        }
-    }
-    
-    // Encapsulate picture management
-    struct Picture : Identifiable, Hashable {
-        var id:String = Id.createId()
-        var deleted:Bool = false;
-        var src:Media?;
-        
-        init() {
-        }
-        
-        init(src:Media) {
-            self.src = src;
-        }
-        
-        mutating func updateToPhoto(src:Media?) {
-            self.src = src;
-        }
-        
-        static func == (lhs: AppModel.Picture, rhs: AppModel.Picture) -> Bool {
-            return (
-                lhs.id == rhs.id &&
-                lhs.deleted == rhs.deleted &&
-                lhs.src == rhs.src
-            )
-        }
-        
-        func hash(into hasher: inout Hasher) {
-            hasher.combine(id)
-            hasher.combine(deleted)
-        }
-    }
-    
-    // Encapsulate ID management.
-    struct Id {
-        // For now, just use UUID.
-        static func createId() -> String {
-            return UUID().uuidString
-        }
-    }
 }
 
 
+
+
+
+
+
+// TODO: Remove
 // For testing only.
 extension AppModel {
     private mutating func addMeal(_ meal:Meal) {
