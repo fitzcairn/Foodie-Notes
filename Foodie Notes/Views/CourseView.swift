@@ -30,6 +30,7 @@ struct CourseView: View {
                 }
                 ViewScreenPrimaryButtons(
                     backFunc: {
+                        viewModel.updatePickedPicturesFor(viewModel.getMealFor(mealId)!);
                         self.presentationMode.wrappedValue.dismiss()
                     },
                     editDest: CourseCreateOrEditView(

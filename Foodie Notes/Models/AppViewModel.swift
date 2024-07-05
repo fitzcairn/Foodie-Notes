@@ -78,7 +78,10 @@ class AppViewModel : ObservableObject {
     func setCoursesFor(_ mealId:String, courses:[Course]) {
         return model.setCoursesFor(mealId, courses:courses)
     }
-    
+    func setMealPickedImageFor(_ mealId:String, image:Picture) {
+        model.setMealPickedImageFor(mealId, picture:image)
+    }
+
     
     // MARK: - Course Management
     func getCourseFor(_ courseId:String) -> Course {
@@ -143,37 +146,27 @@ class AppViewModel : ObservableObject {
 
         // Update picked images for every course.
         if !meal.courses.isEmpty {
-            for course in meal.courses {
+            for course in model.getMealFor(meal.id)!.courses {
                 if !course.wine.pictures.isEmpty || !course.food.pictures.isEmpty {
+                    let img:Picture = (course.food.pictures + course.wine.pictures).filter() { !isEmpty($0) }.first ?? course.pickedImage
                     setCoursePickedImageFor(course,
-                                            image: (course.food.pictures + course.wine.pictures).first!)
+                                            image: img)
+                    setMealPickedImageFor(meal.id, image: img)
+                    return;
                 }
             }
         }
         
-        // Ok, let's pick one.  Setup...
-        func setAndGo(_ image:Picture) {
-            var newMeal = meal
-            newMeal.pickedImage = image
-            model.updateMeal(meal.id, meal:newMeal);
-        }
-        
-        // First: any courses?
-        if !meal.courses.isEmpty {
-            // First picked course picture we find.
-            for course in meal.courses {
-                if (!isEmpty(course.pickedImage)) {
-                    return setAndGo(course.pickedImage)
+        // ... Followed by first menu picture we find, if needed
+        if isEmpty (model.getMealFor(meal.id)!.pickedImage) {
+            for img in meal.menu.pictures {
+                if (!isEmpty(img)) {
+                    return setMealPickedImageFor(meal.id, image: img)
                 }
-            }
-        }
-        // ... Followed by first menu picture we find.
-        for img in meal.menu.pictures {
-            if (!isEmpty(img)) {
-                return setAndGo(img)
             }
         }
     }
+    
     func removeDeletedImagesFor(_ old:PicturesAndNotes) -> PicturesAndNotes {
         var new = PicturesAndNotes(notes:old.notes)
         for picture in old.pictures {

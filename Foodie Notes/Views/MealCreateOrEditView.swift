@@ -63,6 +63,7 @@ struct MealCreateOrEditView: View {
                             if isNew {
                                 viewModel.removeMeal(mealId)
                             }
+                            needRefresh.toggle()
                             self.presentationMode.wrappedValue.dismiss()
                         },
                         saveFunc: {

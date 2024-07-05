@@ -18,8 +18,28 @@ struct MealListView: View {
         NavigationStack {
             ZStack {
                 List {
-                    ForEach(viewModel.getMeals(), id: \.self) { meal in
-                        MealItem(mealId:meal.id)
+                    ForEach(viewModel.model.mealsById.values.sorted(by: {$0.date > $1.date }), id: \.self) { meal in
+                        HStack {
+                            let pickedImage = meal.pickedImage
+                            PictureSubViews.PictureView(picture:meal.pickedImage)
+                            NavigationLink(destination: MealView(
+                                needListRefresh: $needRefresh,
+                                mealId: meal.id)
+                            ) {
+                                VStack(alignment: .leading) {
+                                    HStack {
+                                        Text(viewModel.getMealFor(meal.id)!.venue.name)
+                                            .bold()
+                                        Spacer()
+                                        LocationSubViews.RatingViews.RatingView(rating:viewModel.getMealFor(meal.id)!.venue.rating)
+                                    }
+                                    Text(viewModel.getMealFor(meal.id)!.notes)
+                                        .foregroundColor(.gray)
+                                    Spacer()
+                                }
+                                .padding(8)
+                            }
+                        }
                     }
                     .onDelete() { at in
                         remove(at:at, meals:viewModel.getMeals())
@@ -67,33 +87,3 @@ struct MealListView: View {
     }
 }
 
-// MARK: - Element Views
-
-struct MealItem: View {
-    @EnvironmentObject private var viewModel:AppViewModel;
-    let mealId:String;
-    
-    var body: some View {
-        if viewModel.getMealFor(mealId) == nil {
-            ErrorDialog(text:"Something went wrong looking up your meal!")
-        } else {
-            HStack {
-                PictureSubViews.PictureView(picture:viewModel.getMealFor(mealId)!.pickedImage)
-                NavigationLink(destination: MealView(mealId: mealId)) {
-                    VStack(alignment: .leading) {
-                        HStack {
-                            Text(viewModel.getMealFor(mealId)!.venue.name)
-                                .bold()
-                            Spacer()
-                            LocationSubViews.RatingViews.RatingView(rating:viewModel.getMealFor(mealId)!.venue.rating)
-                        }
-                        Text(viewModel.getMealFor(mealId)!.notes)
-                            .foregroundColor(.gray)
-                        Spacer()
-                    }
-                    .padding(8)
-                }
-            }
-        }
-    }
-}

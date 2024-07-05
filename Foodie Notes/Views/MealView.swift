@@ -11,7 +11,8 @@ struct MealView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @EnvironmentObject var viewModel:AppViewModel;
 
-    @State var needRefresh: Bool = false
+    @State var needMealRefresh: Bool = false
+    @Binding var needListRefresh: Bool;
     
     let mealId:String;
     
@@ -37,10 +38,12 @@ struct MealView: View {
                     }
                     ViewScreenPrimaryButtons(
                         backFunc: {
+                            needListRefresh.toggle()
+                            viewModel.objectWillChange.send()
                             self.presentationMode.wrappedValue.dismiss()
                         },
                         editDest: MealCreateOrEditView(
-                            needRefresh:$needRefresh,
+                            needRefresh:$needMealRefresh,
                             mealId:mealId)
                     )
                 }

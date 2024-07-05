@@ -12,7 +12,7 @@ import ExyteMediaPicker
 // Backend model for all app state.
 struct AppModel { //}: Codable {
     // All top-level storage.  Yes, there is duplication here.
-    private var mealsById:[String:Meal] = [:];
+    var mealsById:[String:Meal] = [:];
     private var venuesByName:[String:Venue] = [:];
     private var coursesById:[String:Course] = [:];
     private var lastNewMealCreatedId:String?;
@@ -96,7 +96,10 @@ struct AppModel { //}: Codable {
     mutating func setCoursePickedImageFor(_ courseId:String, picture:Picture) {
         coursesById[courseId]?.pickedImage = picture;
     }
-    
+    mutating func setMealPickedImageFor(_ mealId:String, picture:Picture) {
+        mealsById[mealId]?.pickedImage = picture;
+    }
+
     
     // MARK: - Public Getter Intents
     
