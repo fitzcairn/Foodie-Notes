@@ -181,7 +181,7 @@ struct PictureSubViews {
         var edit:Bool = false;
 
         var body: some View {
-            let columns = pictures.isEmpty ?
+            let columns = (edit && pictures.isEmpty) || (!edit && pictures.count == 1) ?
                 [GridItem(.flexible(minimum: photoWidth))] :
                 [GridItem(.flexible(minimum: photoWidth)), GridItem(.flexible(minimum: photoWidth))]
 
@@ -221,6 +221,7 @@ struct PictureSubViews {
                             }),
                         edit:true)
                     .frame(width:data.pictures.isEmpty ? photoWidth : 2 * photoWidth)
+                    .padding(.trailing, 5)
                     StyledTextField(inputText:$data.notes)
                     Spacer()
                 }
@@ -240,9 +241,10 @@ struct PictureSubViews {
                             get: { data.pictures },
                             set: { _ = $0 })
                         )
+                        .frame(width:data.pictures.count <= 1 ? photoWidth : 2 * photoWidth)
+                        .padding(.trailing, 5)
                     }
                     NotesSubViews.NotesView(inputText:data.notes)
-                        //.frame(maxWidth: .infinity)
                         .fixedSize(horizontal: false, vertical: true)
                     Spacer()
                 }
