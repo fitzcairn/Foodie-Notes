@@ -35,7 +35,7 @@ class AppViewModel : ObservableObject {
     }
     func getMeals() -> [Meal] {
         // TODO: apply filter, for now return all.
-        return model.getMeals();
+        return model.getMeals().sorted(by: {$0.date > $1.date });
     }
     func getMealFor(_ mealId:String?) -> Meal? {
         return model.getMealFor(mealId)

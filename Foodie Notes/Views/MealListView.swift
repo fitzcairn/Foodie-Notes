@@ -18,9 +18,8 @@ struct MealListView: View {
         NavigationStack {
             ZStack {
                 List {
-                    ForEach(viewModel.model.mealsById.values.sorted(by: {$0.date > $1.date }), id: \.self) { meal in
+                    ForEach(viewModel.getMeals(), id: \.self) { meal in
                         HStack {
-                            let pickedImage = meal.pickedImage
                             PictureSubViews.PictureView(picture:meal.pickedImage)
                             NavigationLink(destination: MealView(
                                 needListRefresh: $needRefresh,

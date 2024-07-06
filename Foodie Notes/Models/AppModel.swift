@@ -12,7 +12,7 @@ import ExyteMediaPicker
 // Backend model for all app state.
 struct AppModel { //}: Codable {
     // All top-level storage.  Yes, there is duplication here.
-    var mealsById:[String:Meal] = [:];
+    private var mealsById:[String:Meal] = [:];
     private var venuesByName:[String:Venue] = [:];
     private var coursesById:[String:Course] = [:];
     private var lastNewMealCreatedId:String?;
