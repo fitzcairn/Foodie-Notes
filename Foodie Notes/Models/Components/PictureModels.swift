@@ -6,38 +6,32 @@
 //
 
 import Foundation
-import ExyteMediaPicker
-
-
 
 
 // Encapsulate picture management
 struct Picture : Identifiable, Hashable {
     var id:String = Id.createId()
     var deleted:Bool = false;
-    var src:Media?;
-
+    var url:URL? = nil
+    
     init() {
     }
     
-    init(src:Media) {
-        self.src = src;
-    }
-    
-    mutating func updateToPhoto(src:Media?) {
-        self.src = src;
+    init(url:URL) {
+        self.url = url
     }
     
     static func == (lhs: Picture, rhs: Picture) -> Bool {
         return (
             lhs.id == rhs.id &&
             lhs.deleted == rhs.deleted &&
-            lhs.src == rhs.src
+            lhs.url == rhs.url
         )
     }
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
+        hasher.combine(url)
         hasher.combine(deleted)
     }
 }

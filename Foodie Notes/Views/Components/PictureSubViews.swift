@@ -30,62 +30,25 @@ struct PictureSubViews {
     }
     
     struct PhotoView: View {
-        @StateObject var viewModel: PhotoViewModel
-
+        let url:URL;
+                
         var body: some View {
             GeometryReader { g in
                 VStack {
-                    if let url = viewModel.imageUrl {
-                        AsyncImage(url: url) { phase in
-                            if case let .success(image) = phase {
-                                image
-                                    .resizable()
-                                    .scaledToFill()
-                            }
-                        }
-                    } else {
+                    AsyncImage(url: url) { image in
+                        image
+                            .resizable()
+                            .scaledToFill()
+                    } placeholder: {
                         ProgressView()
                     }
                 }
                 .frame(width: g.size.width, height: g.size.height)
                 .clipped()
             }
-            .task {
-                await viewModel.onStart()
-            }
-            .onDisappear {
-                viewModel.onStop()
-            }
         }
     }
-    
-    class PhotoViewModel: ObservableObject {
-        let media: Media
-
-        @Published var imageUrl: URL? = nil
-
-        init(media: Media) {
-            self.media = media
-        }
-
-        func onStart() async {
-            guard imageUrl == nil && media.type == .image else { return }
-
-            let url = await media.getURL()
-            guard let url = url else { return }
-
-            DispatchQueue.main.async {
-                self.imageUrl = url
-            }
-        }
-
-        func onStop() {
-            imageUrl = nil
-        }
-    }
-    
-
-    
+     
     // Actual picture
     struct PictureView : View {
         var picture: Picture?;
@@ -94,8 +57,8 @@ struct PictureSubViews {
             if picture == nil || picture!.deleted {
                 NoPicturePlaceholderView()
             }
-            else if let media = picture!.src {
-                PhotoView(viewModel: PhotoViewModel(media: media))
+            else if let url = picture!.url {
+                PhotoView(url:url)
                     .aspectRatio(1, contentMode: .fill)
                     .frame(width:photoWidth, height: photoHeight)
             } else {
@@ -137,13 +100,15 @@ struct PictureSubViews {
         @Binding var pictures:[Picture]
         var limit:Int = Int.max // Get around bug in MediaPicker
 
-        @State private var ispickingPhoto:Bool = false;
-        @State var newMedia:[Media] = [];
+        @StateObject var photoPickerModel: PhotoPickerModel = PhotoPickerModel();
+
+        @State private var isPickingPhoto: Bool = false;
+        @State var newMedia: [Media] = [];
         
         var body: some View {
             Button(
                 action: {
-                    ispickingPhoto = true;
+                    isPickingPhoto = true;
                 },
                 label: {
                     Image(systemName: "plus.circle.fill")
@@ -156,21 +121,30 @@ struct PictureSubViews {
                         .opacity(0.5)
                 }
             )
-            .sheet(isPresented: $ispickingPhoto, onDismiss: {
+            .sheet(isPresented: $isPickingPhoto, onDismiss: {
                 var newPictures:[Picture] = []
-                for media in newMedia {
-                    newPictures.append(Picture(src:media));
-                }
-                pictures = pictures + newPictures;
+                
+                photoPickerModel.load(
+                    pickedMedia: newMedia,
+                    onLoaded: { urls in
+                        for url in urls {
+                            newPictures.append(Picture(url:url));
+                        }
+                        pictures = pictures + newPictures;
+                    })
+                
             }) {
                 MediaPicker(
-                    isPresented: $ispickingPhoto,
+                    isPresented: $isPickingPhoto,
                     onChange: {
                         if !$0.isEmpty { newMedia = $0 }
                     })
                 .mediaSelectionLimit(limit)
                 .mediaSelectionType(.photo)
                 .showLiveCameraCell()
+            }
+            .task(id:photoPickerModel.hasNewPickedImages) {
+                await photoPickerModel.onStart()
             }
         }
     }

@@ -17,7 +17,7 @@ struct AppModel { //}: Codable {
     private var coursesById:[String:Course] = [:];
     private var lastNewMealCreatedId:String?;
     
-    var skipSplash:Bool = false;
+    var skipSplash:Bool = true;
                
    
     // MARK: - Meal Management

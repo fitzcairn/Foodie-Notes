@@ -34,6 +34,7 @@
 		AA81D2B32C38190800FF0221 /* CourseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D2B22C38190800FF0221 /* CourseModel.swift */; };
 		AA81D2B52C38192400FF0221 /* PictureModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D2B42C38192400FF0221 /* PictureModels.swift */; };
 		AA81D2B72C38193500FF0221 /* VenueModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D2B62C38193500FF0221 /* VenueModel.swift */; };
+		AA81D2BB2C39ECAC00FF0221 /* PhotoPickerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D2BA2C39ECAC00FF0221 /* PhotoPickerModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -85,6 +86,7 @@
 		AA81D2B22C38190800FF0221 /* CourseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseModel.swift; sourceTree = "<group>"; };
 		AA81D2B42C38192400FF0221 /* PictureModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PictureModels.swift; sourceTree = "<group>"; };
 		AA81D2B62C38193500FF0221 /* VenueModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VenueModel.swift; sourceTree = "<group>"; };
+		AA81D2BA2C39ECAC00FF0221 /* PhotoPickerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -218,6 +220,7 @@
 				AA81D2B22C38190800FF0221 /* CourseModel.swift */,
 				AA81D2B42C38192400FF0221 /* PictureModels.swift */,
 				AA81D2B62C38193500FF0221 /* VenueModel.swift */,
+				AA81D2BA2C39ECAC00FF0221 /* PhotoPickerModel.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -368,6 +371,7 @@
 				AA81D29D2C324DA900FF0221 /* LocationSubViews.swift in Sources */,
 				AA81D2952C324C5800FF0221 /* CourseSubViews.swift in Sources */,
 				AA81D2A22C3267C200FF0221 /* AppViewModel.swift in Sources */,
+				AA81D2BB2C39ECAC00FF0221 /* PhotoPickerModel.swift in Sources */,
 				AA81D20F2C26EEA100FF0221 /* FoodieNotesApp.swift in Sources */,
 				AA81D2142C26EEA100FF0221 /* Foodie_Notes.xcdatamodeld in Sources */,
 				AA81D2B72C38193500FF0221 /* VenueModel.swift in Sources */,

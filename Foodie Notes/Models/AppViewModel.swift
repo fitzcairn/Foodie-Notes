@@ -141,7 +141,7 @@ class AppViewModel : ObservableObject {
     // MARK: - Useful Helpers
     func updatePickedPicturesFor(_ meal:Meal) {
         func isEmpty(_ image:Picture?) -> Bool {
-            return image == nil || image!.src == nil || image!.deleted
+            return image == nil || image!.url == nil || image!.deleted
         }
 
         // Update picked images for every course.
