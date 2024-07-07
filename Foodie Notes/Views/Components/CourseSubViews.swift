@@ -44,7 +44,7 @@ struct CourseSubViews {
                 EmptyView()
             }
             else {
-                let courses = courses!
+                var courses = courses!
                 Section(header: header) {
                     List {
                         ForEach(courses.indices, id:\.self) { index in
@@ -55,6 +55,10 @@ struct CourseSubViews {
                                     courseId:courses[index].id
                                 )
                             }
+                        }
+                        .onMove { from, to in
+                            courses.move(fromOffsets: from, toOffset: to)
+                            viewModel.setCoursesFor(mealId, courses: courses)
                         }
                         .onDelete() { at in
                             remove(at:at, courses: courses)
