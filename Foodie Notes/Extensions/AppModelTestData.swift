@@ -15,7 +15,7 @@ extension AppModel {
             self.index(
                 Meal(
                     id: "m\(index)",
-                    venue: Venue(name: "McDonalds", rating:4),
+                    venue: Venue(name: "McDonalds"),
                     menu: PicturesAndNotes(
                         pictures: [
                         ],
@@ -29,7 +29,8 @@ extension AppModel {
                                 pictures: [
                                 ],
                                 notes: "A delightful bite-sized explosion of flavors that sets the perfect tone for the culinary journey ahead."),
-                               beveragePairing: PicturesAndNotes()
+                               beveragePairing: PicturesAndNotes(),
+                               rating:4
                               ),
                         Course(id: "c2",
                                mealId: "m\(index)",
@@ -39,7 +40,8 @@ extension AppModel {
                                 pictures: [
                                 ],
                                 notes: "A succulent lobster dish that boasts tender, buttery meat perfectly complemented by a rich, flavorful sauce."),
-                               beveragePairing:PicturesAndNotes()
+                               beveragePairing:PicturesAndNotes(),
+                               rating:4
                               ),
                         Course(id: "c3",
                                mealId: "m\(index)",
@@ -52,7 +54,9 @@ extension AppModel {
                                beveragePairing: PicturesAndNotes(
                                 pictures: [
                                 ],
-                                notes: "A masterful wine pairing that elevates each dish, enhancing flavors and creating a harmonious dining experience.")
+                                notes: "A masterful wine pairing that elevates each dish, enhancing flavors and creating a harmonious dining experience."
+                                ),
+                               rating:4
                               ),
                         Course(id: "c4",
                                mealId: "m\(index)",
@@ -63,11 +67,13 @@ extension AppModel {
                                     Picture(),
                                 ],
                                 notes: "Chocolate for days!"),
-                               beveragePairing:PicturesAndNotes()
+                                beveragePairing:PicturesAndNotes(),
+                               rating:4
                               ),
                     ],
                     date: Date(),
-                    notes: "A lovely meal with amazingly mature cheese on the Big Mac."
+                    notes: "A lovely meal with amazingly mature cheese on the Big Mac.",
+                    rating:2
                 )
             )
         }

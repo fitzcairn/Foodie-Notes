@@ -85,12 +85,47 @@ class AppViewModel : ObservableObject {
     }
 
    
-    // MARK: - Meal Property Setters
-    func setRatingFor(_ mealId:String, rating:Int) {
-        model.setRatingFor(mealId, rating:rating)
+    // MARK: - Meal Property Getter/Setters
+    func setMealPickedPictureFor(_ mealId:String, img:Picture) {
+        model.setMealPickedPictureFor(mealId, img:img)
     }
-    func setVenueFor(_ mealId:String, name:String) {
-        model.setVenueFor(mealId, name:name)
+
+    func getMealImageFor(_ mealId:String) -> Picture? {
+        guard let meal = model.getMealFor(mealId) else { return nil }
+        
+        // Do we have a manually picked image already?
+        if !isPictureEmpty(meal.pickedImage) { return meal.pickedImage }
+
+        // First choice: any course picked images?
+        for course in model.getMealFor(meal.id)!.courses {
+            if !isPictureEmpty(course.pickedImage) { return course.pickedImage }
+        }
+        
+        // ... Followed by first menu picture we find, if needed
+        for img in meal.menu.pictures {
+            if (!isPictureEmpty(img)) {
+                return img;
+            }
+        }
+
+        // ... Any pictures at all?
+        for course in model.getMealFor(meal.id)!.courses {
+            if !course.beveragePairing.pictures.isEmpty || !course.food.pictures.isEmpty {
+                return (course.food.pictures + course.beveragePairing.pictures).filter() { !isPictureEmpty($0) }.first ?? nil
+            }
+        }
+        
+        // None!
+        return nil
+    }
+    func getMealRatingFor(_ mealId:String) -> Int? {
+        model.getMealRatingFor(mealId)
+    }
+    func setMealRatingFor(_ mealId:String, rating:Int) {
+        model.setMealRatingFor(mealId, rating:rating)
+    }
+    func setVenueNameFor(_ mealId:String, name:String) {
+        model.setVenueNameFor(mealId, name:name)
     }
     func setDateFor(_ mealId:String, date:Date) {
         model.setDateFor(mealId, date:date)
@@ -105,93 +140,70 @@ class AppViewModel : ObservableObject {
     func setCoursesFor(_ mealId:String, courses:[Course]) {
         return model.setCoursesFor(mealId, courses:courses)
     }
-    func setMealPickedImageFor(_ mealId:String, image:Picture) {
-        model.setMealPickedImageFor(mealId, picture:image)
-    }
 
     
     // MARK: - Course Management
-    func getCourseFor(_ courseId:String) -> Course {
+    func getCourseFor(_ courseId:String) -> Course? {
         return model.getCourseFor(courseId);
     }
-    func getCoursesFor(_ mealId:String) -> [Course]? {
-        if let meal = model.getMealFor(mealId) {
-            return meal.courses;
-        }
-        return nil;
+    func getCoursesFor(_ mealId:String) -> [Course] {
+        return model.getCoursesFor(mealId)
+    }
+    func addCourseTo(_ mealId:String, course:Course) {
+        model.addCourseTo(mealId, course:course)
     }
     func addNewCourseTo(_ mealId:String) -> Course {
         return model.addNewCourseTo(mealId)
     }
     func courseHasName(_ courseId:String) -> Bool {
-        return model.getCourseFor(courseId).name != ""
+        if let course = model.getCourseFor(courseId) {
+            return course.name != ""
+        }
+        return false
     }
     func removeCourse(_ courseId:String) {
         model.removeCourse(courseId)
     }
     
     
-    // MARK: - Course Property Setters
-    func setCourseNameFor(_ course:Course, name:String) {
-        updateCoursesHelper(course) { oldCourse in
-            var newCourse = oldCourse
-            newCourse.name = newCourse.id == course.id ? name : oldCourse.name
-            return newCourse
-        }
+    // MARK: - Course Property Getter/Setters
+    func setCourseRatingFor(_ courseId:String, rating:Int) {
+        model.setCourseRatingFor(courseId, rating:rating)
     }
-    func setCoursePickedImageFor(_ course:Course, image:Picture) {
-        model.setCoursePickedImageFor(course.id, picture:image)
-    }
-    func setCourseDateFor(_ course:Course, date:Date) {
-        updateCoursesHelper(course) { oldCourse in
-            var newCourse = oldCourse
-            newCourse.date = newCourse.id == course.id ? date : oldCourse.date
-            return newCourse
-        }
-    }
-    func setCourseFoodFor(_ course:Course, food:PicturesAndNotes) {
-        updateCoursesHelper(course) { oldCourse in
-            var newCourse = oldCourse
-            newCourse.food = newCourse.id == course.id ? removeDeletedImagesFor(food) : oldCourse.food
-            return newCourse
-        }
-    }
-    func setCourseBeveragePairingFor(_ course:Course, beveragePairing:PicturesAndNotes) {
-        updateCoursesHelper(course) { oldCourse in
-            var newCourse = oldCourse
-            newCourse.beveragePairing = newCourse.id == course.id ? removeDeletedImagesFor(beveragePairing) : oldCourse.beveragePairing
-            return newCourse
-        }
-    }
-    
-    
-    // MARK: - Useful Helpers
-    func updatePickedPicturesFor(_ meal:Meal) {
-        func isEmpty(_ image:Picture?) -> Bool {
-            return image == nil || image!.url == nil || image!.deleted
-        }
-
-        // Update picked images for every course.
-        if !meal.courses.isEmpty {
-            for course in model.getMealFor(meal.id)!.courses {
-                if !course.beveragePairing.pictures.isEmpty || !course.food.pictures.isEmpty {
-                    let img:Picture = (course.food.pictures + course.beveragePairing.pictures).filter() { !isEmpty($0) }.first ?? course.pickedImage
-                    setCoursePickedImageFor(course,
-                                            image: img)
-                    setMealPickedImageFor(meal.id, image: img)
-                    return;
-                }
-            }
+    func getCourseImageFor(_ courseId:String) -> Picture? {
+        guard let course = model.getCourseFor(courseId) else { return nil }
+        
+        // Do we have a manually picked image already?
+        if !isPictureEmpty(course.pickedImage) { return course.pickedImage }
+        
+        // Any images?
+        if !course.beveragePairing.pictures.isEmpty || !course.food.pictures.isEmpty {
+            return (course.food.pictures + course.beveragePairing.pictures).filter() { !isPictureEmpty($0) }.first ?? nil
         }
         
-        // ... Followed by first menu picture we find, if needed
-        if isEmpty (model.getMealFor(meal.id)!.pickedImage) {
-            for img in meal.menu.pictures {
-                if (!isEmpty(img)) {
-                    return setMealPickedImageFor(meal.id, image: img)
-                }
-            }
-        }
+        // None
+        return nil;
+    }
+    func setCourseNameFor(_ courseId:String, name:String) {
+        model.setCourseNameFor(courseId, name:name)
+    }
+    func setCoursePickedPictureFor(_ courseId:String, img:Picture) {
+        model.setCoursePickedPictureFor(courseId, img:img)
+    }
+    func setCourseDateFor(_ courseId:String, date:Date) {
+        model.setCourseDateFor(courseId, date:date)
+    }
+    func setCourseFoodFor(_ courseId:String, food:PicturesAndNotes) {
+        model.setCourseFoodFor(courseId, food:food)
+    }
+    func setCourseBeveragePairingFor(_ courseId:String, pairing:PicturesAndNotes) {
+        model.setCourseBeveragePairingFor(courseId, pairing:pairing)
+    }
+    
+    
+    // MARK: - Other Useful Helpers
+    func isPictureEmpty(_ image:Picture?) -> Bool {
+        return image == nil || image!.url == nil || image!.deleted
     }
     
     func removeDeletedImagesFor(_ old:PicturesAndNotes) -> PicturesAndNotes {
@@ -204,8 +216,8 @@ class AppViewModel : ObservableObject {
         return new
     }
     // Consolidate business logic on when to show a section.
-    func checkShow(_ pictureAndNotes:PicturesAndNotes) -> Bool {
-        return !pictureAndNotes.notes.isEmpty || !pictureAndNotes.pictures.isEmpty
+    func checkShow(_ pictureAndNotes:PicturesAndNotes?) -> Bool {
+        return pictureAndNotes != nil && (!pictureAndNotes!.notes.isEmpty || !pictureAndNotes!.pictures.isEmpty)
     }
     
     
@@ -215,22 +227,6 @@ class AppViewModel : ObservableObject {
         self.model.addTestData(numTestMeals: numTestMeals)
     }
     
-
-    
-    // MARK: - Private Helper Intents
-    
-    // Yuck but efficiency via ID referencing is complicated. Should be small copying.
-    private func updateCoursesHelper(_ course:Course, update:((Course) -> Course)) {
-        let meal = model.getMealFor(course.mealId)!
-        var newCourses:[Course] = []
-        for oldCourse in meal.courses {
-            newCourses.append(update(oldCourse))
-        }
-        var newMeal = meal
-        newMeal.courses = newCourses;
-        model.updateMeal(meal.id, meal:newMeal);
-    }
-
     
     // MARK: - Factories
     private static func createAppModel() -> AppModel {

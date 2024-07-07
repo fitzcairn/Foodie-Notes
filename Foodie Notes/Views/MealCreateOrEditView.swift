@@ -32,13 +32,16 @@ struct MealCreateOrEditView: View {
             NavigationStack {
                 ZStack(alignment: .bottom) {
                     ScrollForm {
-                        LocationSubViews.LocationEditSection(
-                            venue:Binding<String>(
-                                get: { meal.venue.name },
-                                set: { viewModel.setVenueFor(mealId, name: $0) }),
+                        PictureSubViews.PictureNameRatingEditView(
+                            name:Binding<String>(
+                                get: { viewModel.getMealFor(mealId)?.venue.name ?? "" },
+                                set: { viewModel.setVenueNameFor(mealId, name: $0) }),
+                            picture:Binding<Picture?>(
+                                get: { viewModel.getMealImageFor(mealId) },
+                                set: { viewModel.setMealPickedPictureFor(mealId, img: $0!) }),
                             rating:Binding<Int>(
-                                get: { meal.venue.rating },
-                                set: { viewModel.setRatingFor(mealId, rating:$0) })
+                                get: { viewModel.getMealFor(mealId)?.rating ?? 0 },
+                                set: { viewModel.setMealRatingFor(mealId, rating:$0) })
                         )
                         DateViews.DatePickerSection(
                             selectedDate: Binding<Date>(
@@ -70,7 +73,6 @@ struct MealCreateOrEditView: View {
                             viewModel.objectWillChange.send()
                             showingAlert = !viewModel.mealHasVenue(mealId);
                             if !showingAlert {
-                                viewModel.updatePickedPicturesFor(viewModel.getMealFor(mealId)!)
                                 needRefresh.toggle()
                                 presentationMode.wrappedValue.dismiss()
                             }

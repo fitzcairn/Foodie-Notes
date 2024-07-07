@@ -63,28 +63,37 @@ struct PhotoSubViews {
     
     // Show a picture with a delete.
     struct PhotoEditView: View {
-        @Binding var picture: Picture;
+        @Binding var picture: Picture?;
         
         var body: some View {
-            ZStack(alignment: .top) {
-                PhotoShowView(picture:picture)
-                VStack(alignment: .leading) {
-                    Button(
-                        action: {
-                            picture.deleted = true
-                        },
-                        label: {
-                            Image(systemName: "minus.circle.fill")
-                                .resizable()
-                                .padding(4)
-                                .frame(width:20, height: 20)
-                                .background(Color.red)
-                                .clipShape(Circle())
-                                .foregroundColor(.white)
-                        }
-                    )
-                    .buttonStyle(.plain)
-                    Spacer()
+            ZStack(alignment: .center) {
+                if (picture == nil || picture!.deleted) {
+                    PhotoPickerButton(
+                        pictures: Binding<[Picture]>(
+                            get: { [] },
+                            set: { if !$0.isEmpty { picture = $0[0] } }
+                        ),
+                        limit:1)
+                } else {
+                    PhotoShowView(picture:picture)
+                    VStack(alignment: .leading) {
+                        Button(
+                            action: {
+                                picture!.deleted = true
+                            },
+                            label: {
+                                Image(systemName: "minus.circle.fill")
+                                    .resizable()
+                                    .padding(4)
+                                    .frame(width:Constant.photoWidth * 0.8, height: Constant.photoWidth * 0.8)
+                                    .background(Color.gray)
+                                    .clipShape(Circle())
+                                    .foregroundColor(.white)
+                            }
+                        )
+                        .opacity(0.5)
+                        .buttonStyle(.plain)
+                    }
                 }
             }
         }

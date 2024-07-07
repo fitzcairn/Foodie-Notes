@@ -27,39 +27,40 @@ struct CourseCreateOrEditView: View {
             // dismisses.  #SwiftUI.
             EmptyView()
         } else {
-            let course = !isNew ? viewModel.getCourseFor(courseId!) : viewModel.getLastCourseFor(mealId)!
+            let course = !isNew ? viewModel.getCourseFor(courseId!)! : viewModel.getLastCourseFor(mealId)!
             let courseId = course.id
             
             NavigationStack {
                 ZStack(alignment: .bottom) {
                     ScrollForm {
-                        PictureSubViews.PictureAndNameEditView(
+                        PictureSubViews.PictureNameRatingEditView(
                             name:Binding<String>(
-                                get: { viewModel.getCourseFor(courseId).name },
-                                set: { viewModel.setCourseNameFor(viewModel.getCourseFor(courseId), name: $0) }),
-                            picture:Binding<Picture>(
-                                get: { viewModel.getCourseFor(courseId).pickedImage },
-                                set: { _ = $0 })
+                                get: { viewModel.getCourseFor(courseId)?.name ?? "" },
+                                set: { viewModel.setCourseNameFor(courseId, name: $0) }),
+                            picture:Binding<Picture?>(
+                                get: { viewModel.getCourseFor(courseId)?.pickedImage },
+                                set: { viewModel.setCoursePickedPictureFor(courseId, img: $0!) }),
+                            rating:Binding<Int>(
+                                get: { viewModel.getCourseFor(courseId)?.rating ?? 0 },
+                                set: { viewModel.setCourseRatingFor(courseId, rating: $0) })
                         )
                         DateViews.DatePickerSection(
                             selectedDate: Binding<Date>(
-                                get: { viewModel.getCourseFor(courseId).date },
-                                set: { viewModel.setCourseDateFor(viewModel.getCourseFor(courseId), date:$0) })
+                                get: { viewModel.getCourseFor(courseId)?.date ?? Date() },
+                                set: { viewModel.setCourseDateFor(courseId, date:$0) })
                         )
                         PictureSubViews.PictureAndNotesEditSection(
                             title: "Food",
                             data: Binding<PicturesAndNotes>(
-                                get: { viewModel.getCourseFor(courseId).food },
-                                set: { viewModel.setCourseFoodFor(viewModel.getCourseFor(courseId), food:$0);
-                                       viewModel.updatePickedPicturesFor(viewModel.getMealFor(mealId)!)}
+                                get: { viewModel.getCourseFor(courseId)!.food },
+                                set: { viewModel.setCourseFoodFor(courseId, food:$0 )}
                             )
                         )
                         PictureSubViews.PictureAndNotesEditSection(
                             title: "Beverage Pairing",
                             data: Binding<PicturesAndNotes>(
-                                get: { course.beveragePairing },
-                                set: { viewModel.setCourseBeveragePairingFor(viewModel.getCourseFor(courseId), beveragePairing:$0);
-                                       viewModel.updatePickedPicturesFor(viewModel.getMealFor(mealId)!) })
+                                get: { viewModel.getCourseFor(courseId)!.beveragePairing },
+                                set: { viewModel.setCourseBeveragePairingFor(courseId, pairing:$0) })
                         )
                     }
                     EditScreenPrimaryButtons(

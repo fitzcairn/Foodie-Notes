@@ -13,9 +13,6 @@ struct MealListView: View {
     @Environment(\.scenePhase) private var scenePhase
     @EnvironmentObject var viewModel:AppViewModel;
     
-    
-    
-    
     @State var needRefresh:Bool = true;
     let saveAction: () -> Void
     
@@ -69,7 +66,7 @@ struct MealListView: View {
             do {
                 try await viewModel.load()
             } catch {
-                fatalError(error.localizedDescription)
+                //fatalError(error.localizedDescription)
             }
         }
     }
@@ -80,7 +77,7 @@ struct MealListView: View {
                 List {
                     ForEach(viewModel.getMeals(), id: \.self) { meal in
                         HStack {
-                            PhotoSubViews.PhotoShowView(picture:meal.pickedImage)
+                            PhotoSubViews.PhotoShowView(picture:viewModel.getMealImageFor(meal.id))
                             NavigationLink(destination: MealView(
                                 needListRefresh: $needRefresh,
                                 mealId: meal.id)
@@ -90,7 +87,7 @@ struct MealListView: View {
                                         Text(viewModel.getMealFor(meal.id)!.venue.name)
                                             .bold()
                                         Spacer()
-                                        LocationSubViews.RatingViews.RatingView(rating:viewModel.getMealFor(meal.id)!.venue.rating)
+                                        RatingSubViews.RatingView(rating:viewModel.getMealRatingFor(meal.id))
                                     }
                                     Text(viewModel.getMealFor(meal.id)!.notes)
                                         .foregroundColor(.gray)

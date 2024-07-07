@@ -12,15 +12,16 @@ struct CourseSubViews {
     
     struct CoursesViewSection : View {
         @EnvironmentObject private var viewModel:AppViewModel;
-        let courses:[Course]
+        let mealId:String;
         @State var needRefresh: Bool = false
 
         
         var body: some View {
             Section(header: Text("Courses")) {
+                let courses = viewModel.getCoursesFor(mealId)
                 List {
                     ForEach(courses) { course in
-                        CourseItemView<CourseView>(isEdit:false, course:course) {
+                        CourseItemView<CourseView>(isEdit:false, courseId:course.id) {
                             CourseView(
                                 needRefresh:$needRefresh,
                                 courseId:course.id,
@@ -39,30 +40,24 @@ struct CourseSubViews {
 
 
         var body: some View {
-            let courses = viewModel.getCoursesFor(mealId)
-            if courses == nil {
-                EmptyView()
-            }
-            else {
-                var courses = courses!
-                Section(header: header) {
-                    List {
-                        ForEach(courses.indices, id:\.self) { index in
-                            CourseItemView<CourseCreateOrEditView>(isEdit: true, course:courses[index]) {
-                                CourseCreateOrEditView(
-                                    needRefresh:$needRefresh,
-                                    mealId:courses[index].mealId,
-                                    courseId:courses[index].id
-                                )
-                            }
+            var courses = viewModel.getCoursesFor(mealId)
+            Section(header: header) {
+                List {
+                    ForEach(courses.indices, id:\.self) { index in
+                        CourseItemView<CourseCreateOrEditView>(isEdit: true, courseId:courses[index].id) {
+                            CourseCreateOrEditView(
+                                needRefresh:$needRefresh,
+                                mealId:courses[index].mealId,
+                                courseId:courses[index].id
+                            )
                         }
-                        .onMove { from, to in
-                            courses.move(fromOffsets: from, toOffset: to)
-                            viewModel.setCoursesFor(mealId, courses: courses)
-                        }
-                        .onDelete() { at in
-                            remove(at:at, courses: courses)
-                        }
+                    }
+                    .onMove { from, to in
+                        courses.move(fromOffsets: from, toOffset: to)
+                        viewModel.setCoursesFor(mealId, courses: courses)
+                    }
+                    .onDelete() { at in
+                        remove(at:at, courses: courses)
                     }
                 }
             }
@@ -82,7 +77,7 @@ struct CourseSubViews {
                     SecondaryAddButtonImage()
                 }
                 .simultaneousGesture(TapGesture().onEnded {
-                    _ = viewModel.addNewCourseTo(mealId)
+                    //_ = viewModel.addNewCourseTo(mealId)
                 })
             }
         }
@@ -101,12 +96,13 @@ struct CourseSubViews {
     struct CourseNameAndPickedImageView : View {
         @EnvironmentObject private var viewModel:AppViewModel;
         let mealId:String;
-        let course:Course;
+        let courseId:String;
         
         var body: some View {
-            PictureSubViews.PictureAndNameView(
-                name:viewModel.getCourseFor(course.id).name,
-                picture:viewModel.getCourseFor(course.id).pickedImage
+            PictureSubViews.PictureNameRatingView(
+                name:viewModel.getCourseFor(courseId)?.name,
+                picture:viewModel.getCourseImageFor(courseId),
+                rating:viewModel.getCourseFor(courseId)?.rating
             )
         }
     }
@@ -115,25 +111,26 @@ struct CourseSubViews {
     struct CourseItemView<Destination>: View where Destination : View {
         @EnvironmentObject private var viewModel:AppViewModel;
         let isEdit:Bool;
-        let course:Course
+        let courseId:String;
         let destination: Destination
 
-        init(isEdit:Bool, course: Course, @ViewBuilder destination: @escaping () -> Destination) {
+        init(isEdit:Bool, courseId:String, @ViewBuilder destination: @escaping () -> Destination) {
             self.isEdit = isEdit
-            self.course = course
+            self.courseId = courseId
             self.destination = destination()
         }
         
         var body: some View {
             ZStack {
                 HStack {
-                    PhotoSubViews.PhotoShowView(picture:viewModel.getCourseFor(course.id).pickedImage)
+                    PhotoSubViews.PhotoShowView(picture:viewModel.getCourseImageFor(courseId))
                     VStack(alignment: .leading) {
-                        Text(course.name)
+                        Text(viewModel.getCourseFor(courseId)?.name ?? "")
                             .bold()
-                        Text(course.food.notes)
+                        Text(viewModel.getCourseFor(courseId)?.food.notes ?? "")
                             .foregroundColor(.gray)
                         Spacer()
+                        RatingSubViews.RatingView(rating: viewModel.getCourseFor(courseId)?.rating)
                     }
                     .padding(8)
                     Spacer()

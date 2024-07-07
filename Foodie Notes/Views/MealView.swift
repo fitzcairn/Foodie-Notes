@@ -23,7 +23,10 @@ struct MealView: View {
             NavigationStack {
                 ZStack(alignment: .bottom) {
                     ScrollForm {
-                        LocationSubViews.LocationViewSection(venue: viewModel.getMealFor(mealId)!.venue.name, rating: viewModel.getMealFor(mealId)!.venue.rating)
+                        PictureSubViews.PictureNameRatingView(
+                            name: viewModel.getMealFor(mealId)?.venue.name,
+                            picture: viewModel.getMealImageFor(mealId),
+                            rating: viewModel.getMealFor(mealId)?.rating)
                         DateViews.DateSection(viewModel.getMealFor(mealId)!.date)
                         if !viewModel.getMealFor(mealId)!.notes.isEmpty {
                             NotesSubViews.NotesSection(
@@ -34,7 +37,7 @@ struct MealView: View {
                         if viewModel.checkShow(viewModel.getMealFor(mealId)!.menu) {
                             PictureSubViews.PictureAndNotesViewSection(title: "Menu[s]", data:viewModel.getMealFor(mealId)!.menu)
                         }
-                        CourseSubViews.CoursesViewSection(courses:viewModel.getMealFor(mealId)!.courses)
+                        CourseSubViews.CoursesViewSection(mealId: mealId)
                     }
                     ViewScreenPrimaryButtons(
                         backFunc: {

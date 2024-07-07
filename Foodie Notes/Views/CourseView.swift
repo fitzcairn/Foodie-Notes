@@ -21,16 +21,15 @@ struct CourseView: View {
         NavigationStack {
             ZStack(alignment: .bottom) {
                 ScrollForm {
-                    CourseSubViews.CourseNameAndPickedImageView(mealId:mealId, course: viewModel.getCourseFor(courseId))
-                    DateViews.DateSection(viewModel.getCourseFor(courseId).date)
-                    PictureSubViews.PictureAndNotesViewSection(title: "Food", data: viewModel.getCourseFor(courseId).food)
-                    if viewModel.checkShow(viewModel.getCourseFor(courseId).beveragePairing) {
-                        PictureSubViews.PictureAndNotesViewSection(title: "Beverage Pairing", data: viewModel.getCourseFor(courseId).beveragePairing)
+                    CourseSubViews.CourseNameAndPickedImageView(mealId:mealId, courseId: courseId)
+                    DateViews.DateSection(viewModel.getCourseFor(courseId)?.date)
+                    PictureSubViews.PictureAndNotesViewSection(title: "Food", data: viewModel.getCourseFor(courseId)?.food)
+                    if viewModel.checkShow(viewModel.getCourseFor(courseId)?.beveragePairing) {
+                        PictureSubViews.PictureAndNotesViewSection(title: "Beverage Pairing", data: viewModel.getCourseFor(courseId)?.beveragePairing)
                     }
                 }
                 ViewScreenPrimaryButtons(
                     backFunc: {
-                        viewModel.updatePickedPicturesFor(viewModel.getMealFor(mealId)!);
                         self.presentationMode.wrappedValue.dismiss()
                     },
                     editDest: CourseCreateOrEditView(

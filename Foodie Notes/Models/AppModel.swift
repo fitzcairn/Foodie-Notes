@@ -41,12 +41,49 @@ struct AppModel : Codable {
             lastNewMealCreatedId = nil;
         }
     }
-    mutating func setRatingFor(_ mealId:String, rating:Int) {
+    func getMeals() -> [Meal] {
+        return Array(mealsById.values).sorted { $0.date > $1.date }
+    }
+    func getMealFor(_ mealId:String?) -> Meal? {
+        if let mealId = mealId {
+            return mealsById[mealId]
+        }
+        return nil;
+    }
+    func getLastNewMealCreated() -> Meal? {
+        return getMealFor(lastNewMealCreatedId);
+    }
+    // If we get a bad course ID, crash.
+    func getCourseFor(_ courseId:String) -> Course? {
+        return coursesById[courseId];
+    }
+    func getCoursesFor(_ mealId:String) -> [Course] {
+        if let meal = getMealFor(mealId) {
+            return meal.courses
+        }
+        return []
+    }
+    // Index a meal.
+    mutating func index(_ meal:Meal) {
+       let _ = getOrAddVenue(meal.venue.name);
+       mealsById[meal.id] = meal;
+       for course in meal.courses {
+           coursesById[course.id] = course;
+       }
+   }
+    mutating func setMealRatingFor(_ mealId:String, rating:Int) {
         if mealsById[mealId] != nil {
-            mealsById[mealId]!.venue.rating = rating;
+            mealsById[mealId]!.rating = rating;
         }
     }
-    mutating func setVenueFor(_ mealId:String, name:String) {
+    
+    // MARK: - Meal Property Getter/Setters
+    mutating func setMealPickedPictureFor(_ mealId:String, img:Picture) {
+        if mealsById[mealId] != nil {
+            mealsById[mealId]!.pickedImage = img;
+        }
+    }
+    mutating func setVenueNameFor(_ mealId:String, name:String) {
         if mealsById[mealId] != nil {
             mealsById[mealId]!.venue.name = name;
         }
@@ -86,53 +123,54 @@ struct AppModel : Codable {
         return course
     }
     mutating func removeCourse(_ courseId:String) {
-        let course = getCourseFor(courseId);
+        guard let course = getCourseFor(courseId) else { return }
         if let meal = getMealFor(course.mealId) {
             mealsById[meal.id]!.courses = mealsById[meal.id]!.courses.filter() { $0.id != courseId}
-            coursesById.removeValue(forKey: course.id)
+            coursesById.removeValue(forKey: courseId)
         }
     }
-    mutating func setCoursePickedImageFor(_ courseId:String, picture:Picture) {
-        coursesById[courseId]?.pickedImage = picture;
+    func getMealRatingFor(_ mealId:String) -> Int? {
+        return mealsById[mealId]?.rating
     }
-    mutating func setMealPickedImageFor(_ mealId:String, picture:Picture) {
-        mealsById[mealId]?.pickedImage = picture;
+    
+    // MARK: - Course Property Getter/Setters
+    mutating func setCourseRatingFor(_ courseId:String, rating:Int) {
+        if coursesById[courseId] != nil {
+            coursesById[courseId]!.rating = rating;
+        }
     }
+    mutating func setCourseNameFor(_ courseId:String, name:String) {
+        if coursesById[courseId] != nil {
+            coursesById[courseId]!.name = name;
+        }
+    }
+    mutating func setCoursePickedPictureFor(_ courseId:String, img:Picture) {
+        if coursesById[courseId] != nil {
+            coursesById[courseId]!.pickedImage = img;
+        }
+    }
+    mutating func setCourseDateFor(_ courseId:String, date:Date) {
+        if coursesById[courseId] != nil {
+            coursesById[courseId]!.date = date;
+        }
+    }
+    mutating func setCourseFoodFor(_ courseId:String, food:PicturesAndNotes) {
+        if coursesById[courseId] != nil {
+            coursesById[courseId]!.food = food;
+        }
+    }
+    mutating func setCourseBeveragePairingFor(_ courseId:String, pairing:PicturesAndNotes) {
+        if coursesById[courseId] != nil {
+            coursesById[courseId]!.beveragePairing = pairing;
+        }
+    }
+
+
 
     
     // MARK: - Public Getter Intents
     
-    func getMeals() -> [Meal] {
-        return Array(mealsById.values).sorted { $0.date > $1.date }
-    }
-    func getMealFor(_ mealId:String?) -> Meal? {
-        if let mealId = mealId {
-            return mealsById[mealId]
-        }
-        return nil;
-    }
-    func getLastNewMealCreated() -> Meal? {
-        return getMealFor(lastNewMealCreatedId);
-    }
-    // If we get a bad course ID, crash.
-    func getCourseFor(_ courseId:String) -> Course {
-        return coursesById[courseId]!;
-    }
-    func getCoursesFor(_ mealId:String) -> [Course] {
-        if let meal = getMealFor(mealId) {
-            return meal.courses
-        }
-        return []
-    }
-    
-    // Index a meal.
-    mutating func index(_ meal:Meal) {
-       let _ = getOrAddVenue(meal.venue.name);
-       mealsById[meal.id] = meal;
-       for course in meal.courses {
-           coursesById[course.id] = course;
-       }
-   }
+
   
     
     // MARK: - Private Members

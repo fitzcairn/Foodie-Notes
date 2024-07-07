@@ -195,10 +195,10 @@ struct DateViews {
     }
     
     struct DateSection: View {
-        let date: Date;
+        let date: Date?
         let dateFormatter: DateFormatter;
         
-        init(_ date: Date) {
+        init(_ date: Date?) {
             self.date = date
             self.dateFormatter = DateFormatter()
             dateFormatter.dateStyle = .medium
@@ -208,7 +208,7 @@ struct DateViews {
         var body: some View {
             Section(title) {
                 HStack {
-                    Text(dateFormatter.string(from: date))
+                    Text(dateFormatter.string(from: date ?? Date()))
                 }
             }
         }

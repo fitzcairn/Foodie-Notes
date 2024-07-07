@@ -23,7 +23,7 @@ struct FoodieNotesApp: App {
                     }
                 }
             }
-            .environmentObject(viewModel)//, numTestMeals: 2)) // TODO: remove test meals.
+            .environmentObject(viewModel)
         }
     }
 }
