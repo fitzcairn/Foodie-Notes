@@ -156,10 +156,10 @@ class AppViewModel : ObservableObject {
             return newCourse
         }
     }
-    func setCourseWineFor(_ course:Course, wine:PicturesAndNotes) {
+    func setCourseBeveragePairingFor(_ course:Course, beveragePairing:PicturesAndNotes) {
         updateCoursesHelper(course) { oldCourse in
             var newCourse = oldCourse
-            newCourse.wine = newCourse.id == course.id ? removeDeletedImagesFor(wine) : oldCourse.wine
+            newCourse.beveragePairing = newCourse.id == course.id ? removeDeletedImagesFor(beveragePairing) : oldCourse.beveragePairing
             return newCourse
         }
     }
@@ -174,8 +174,8 @@ class AppViewModel : ObservableObject {
         // Update picked images for every course.
         if !meal.courses.isEmpty {
             for course in model.getMealFor(meal.id)!.courses {
-                if !course.wine.pictures.isEmpty || !course.food.pictures.isEmpty {
-                    let img:Picture = (course.food.pictures + course.wine.pictures).filter() { !isEmpty($0) }.first ?? course.pickedImage
+                if !course.beveragePairing.pictures.isEmpty || !course.food.pictures.isEmpty {
+                    let img:Picture = (course.food.pictures + course.beveragePairing.pictures).filter() { !isEmpty($0) }.first ?? course.pickedImage
                     setCoursePickedImageFor(course,
                                             image: img)
                     setMealPickedImageFor(meal.id, image: img)

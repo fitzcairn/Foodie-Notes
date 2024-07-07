@@ -13,20 +13,20 @@ struct Course : Hashable, Equatable, Identifiable, Codable {
     var name:String = "";
     var date:Date = Date();
     var food:PicturesAndNotes = PicturesAndNotes();
-    var wine:PicturesAndNotes = PicturesAndNotes();
+    var beveragePairing:PicturesAndNotes = PicturesAndNotes();
     var pickedImage:Picture = Picture()
     
     init(mealId: String) {
         self.mealId = mealId
     }
 
-    init(id:String, mealId: String, name: String, date: Date, food: PicturesAndNotes, wine: PicturesAndNotes) {
+    init(id:String, mealId: String, name: String, date: Date, food: PicturesAndNotes, beveragePairing: PicturesAndNotes) {
         self.id = id
         self.mealId = mealId
         self.name = name
         self.date = date
         self.food = food
-        self.wine = wine
+        self.beveragePairing = beveragePairing
     }
     
     static func == (lhs: Course, rhs: Course) -> Bool {

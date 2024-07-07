@@ -179,7 +179,7 @@ extension AppModel {
                                 pictures: [
                                 ],
                                 notes: "A delightful bite-sized explosion of flavors that sets the perfect tone for the culinary journey ahead."),
-                               wine: PicturesAndNotes()
+                               beveragePairing: PicturesAndNotes()
                               ),
                         Course(id: "c2",
                                mealId: "m\(index)",
@@ -189,7 +189,7 @@ extension AppModel {
                                 pictures: [
                                 ],
                                 notes: "A succulent lobster dish that boasts tender, buttery meat perfectly complemented by a rich, flavorful sauce."),
-                               wine:PicturesAndNotes()
+                               beveragePairing:PicturesAndNotes()
                               ),
                         Course(id: "c3",
                                mealId: "m\(index)",
@@ -199,7 +199,7 @@ extension AppModel {
                                 pictures: [
                                 ],
                                 notes: "A tender veal dish with a delicate balance of flavors, offering a melt-in-your-mouth experience."),
-                               wine: PicturesAndNotes(
+                               beveragePairing: PicturesAndNotes(
                                 pictures: [
                                 ],
                                 notes: "A masterful wine pairing that elevates each dish, enhancing flavors and creating a harmonious dining experience.")
@@ -213,7 +213,7 @@ extension AppModel {
                                     Picture(),
                                 ],
                                 notes: "Chocolate for days!"),
-                               wine:PicturesAndNotes()
+                               beveragePairing:PicturesAndNotes()
                               ),
                     ],
                     date: Date(),

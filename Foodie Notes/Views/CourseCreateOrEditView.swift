@@ -55,10 +55,10 @@ struct CourseCreateOrEditView: View {
                             )
                         )
                         PictureSubViews.PictureAndNotesEditSection(
-                            title: "Wine",
+                            title: "Beverage Pairing",
                             data: Binding<PicturesAndNotes>(
-                                get: { course.wine },
-                                set: { viewModel.setCourseWineFor(viewModel.getCourseFor(courseId), wine:$0);
+                                get: { course.beveragePairing },
+                                set: { viewModel.setCourseBeveragePairingFor(viewModel.getCourseFor(courseId), beveragePairing:$0);
                                        viewModel.updatePickedPicturesFor(viewModel.getMealFor(mealId)!) })
                         )
                     }

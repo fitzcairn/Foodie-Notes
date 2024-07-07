@@ -24,8 +24,8 @@ struct CourseView: View {
                     CourseSubViews.CourseNameAndPickedImageView(mealId:mealId, course: viewModel.getCourseFor(courseId))
                     DateViews.DateSection(viewModel.getCourseFor(courseId).date)
                     PictureSubViews.PictureAndNotesViewSection(title: "Food", data: viewModel.getCourseFor(courseId).food)
-                    if viewModel.checkShow(viewModel.getCourseFor(courseId).wine) {
-                        PictureSubViews.PictureAndNotesViewSection(title: "Wine", data: viewModel.getCourseFor(courseId).wine)
+                    if viewModel.checkShow(viewModel.getCourseFor(courseId).beveragePairing) {
+                        PictureSubViews.PictureAndNotesViewSection(title: "Beverage Pairing", data: viewModel.getCourseFor(courseId).beveragePairing)
                     }
                 }
                 ViewScreenPrimaryButtons(
