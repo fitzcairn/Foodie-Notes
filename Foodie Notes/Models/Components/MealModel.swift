@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Meal : Identifiable, Hashable {
+struct Meal : Identifiable, Hashable, Codable {
     var id:String = Id.createId();
     var venue: Venue = Venue();
     var menu: PicturesAndNotes = PicturesAndNotes()

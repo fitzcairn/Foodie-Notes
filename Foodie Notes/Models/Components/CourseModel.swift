@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Course : Hashable, Equatable, Identifiable {
+struct Course : Hashable, Equatable, Identifiable, Codable {
     var id:String = Id.createId();
     let mealId:String;
     var name:String = "";

@@ -9,19 +9,21 @@ import SwiftUI
 
 @main
 struct FoodieNotesApp: App {
-    // TODO: Add/load data here, and get rid of the testing insert.
-    @State var viewModel = AppViewModel(numTestMeals: 1);
+    @StateObject private var viewModel = AppViewModel()
 
     var body: some Scene {
         WindowGroup {
-            if viewModel.model.skipSplash {
-                MealListView()
-                    .environmentObject(viewModel)
+            MealListView() {
+                Task {
+                    do {
+                        try await viewModel.save()
+                    } catch {
+                        // Blow up
+                        fatalError(error.localizedDescription)
+                    }
+                }
             }
-            else {
-                SplashView()
-                    .environmentObject(viewModel)
-            }
+            .environmentObject(viewModel)//, numTestMeals: 2)) // TODO: remove test meals.
         }
     }
 }

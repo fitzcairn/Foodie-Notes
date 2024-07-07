@@ -9,7 +9,7 @@ import Foundation
 
 
 // Encapsulate picture management
-struct Picture : Identifiable, Hashable {
+struct Picture : Identifiable, Hashable, Codable {
     var id:String = Id.createId()
     var deleted:Bool = false;
     var url:URL? = nil
@@ -36,7 +36,7 @@ struct Picture : Identifiable, Hashable {
     }
 }
 
-struct PicturesAndNotes {
+struct PicturesAndNotes: Codable {
     var pictures:[Picture] = [];
     var notes:String = "";
     

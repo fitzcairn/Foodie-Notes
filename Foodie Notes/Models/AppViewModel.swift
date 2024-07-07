@@ -8,28 +8,55 @@
 import Foundation
 
 // View model for the app.
+@MainActor
 class AppViewModel : ObservableObject {
     var id = Id.createId();
     
+    enum AppState { case loading, splash, list }
+    @Published var state = AppState.loading
+
     // App model
-    @Published var model: AppModel = createAppModel();
+    @Published var model: AppModel = AppModel()
     
     // Any filters
     var filter:String = "";
     
-    init() {
-    }
-    
-    // Populate some test data.
-    init(numTestMeals:Int) {
-        model.addTestData(numTestMeals: numTestMeals)
-    }
-    
+       
+    // MARK: - Save/Load functionality
 
+    private static func fileURL() throws -> URL {
+        try FileManager.default.url(for: .documentDirectory,
+                                    in: .userDomainMask,
+                                    appropriateFor: nil,
+                                    create: false)
+        .appendingPathComponent("appmodel.data")
+    }
+    
+    func load() async throws {
+        let task = Task<AppModel, Error> {
+            let fileURL = try AppViewModel.fileURL()
+            guard let data = try? Data(contentsOf: fileURL) else {
+                return AppModel()
+            }
+            let appModel = try JSONDecoder().decode(AppModel.self, from: data)
+            return appModel
+        }
+        let appModel = try await task.value
+        self.model = appModel
+        state = self.model.showSplash ? .splash : .list
+    }
+    
+    func save() async throws {
+        let task = Task {
+            let data = try JSONEncoder().encode(model)
+            let outfile = try Self.fileURL()
+            try data.write(to: outfile)
+        }
+        _ = try await task.value
+    }
+    
+    
     // MARK: - Meal Management
-    
-    // TODO: Do we need all of these?
-    
     func addMeal(_ venue:String?) -> Meal {
         return model.addMeal(at:venue ?? "")
     }
@@ -182,6 +209,14 @@ class AppViewModel : ObservableObject {
     }
     
     
+    // MARK: - Test Only
+
+    func addTestData(numTestMeals:Int) {
+        self.model.addTestData(numTestMeals: numTestMeals)
+    }
+    
+
+    
     // MARK: - Private Helper Intents
     
     // Yuck but efficiency via ID referencing is complicated. Should be small copying.
@@ -193,10 +228,6 @@ class AppViewModel : ObservableObject {
         }
         var newMeal = meal
         newMeal.courses = newCourses;
-        
-        //print("!! AFTER, meal \(newMeal.id): \(newMeal.courses.map() { "\($0.id): \($0.name)" })")
-
-        
         model.updateMeal(meal.id, meal:newMeal);
     }
 
