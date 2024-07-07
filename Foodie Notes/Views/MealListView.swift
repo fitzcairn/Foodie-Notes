@@ -80,7 +80,7 @@ struct MealListView: View {
                 List {
                     ForEach(viewModel.getMeals(), id: \.self) { meal in
                         HStack {
-                            PictureSubViews.PictureView(picture:meal.pickedImage)
+                            PhotoSubViews.PhotoShowView(picture:meal.pickedImage)
                             NavigationLink(destination: MealView(
                                 needListRefresh: $needRefresh,
                                 mealId: meal.id)

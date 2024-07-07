@@ -127,7 +127,7 @@ struct CourseSubViews {
         var body: some View {
             ZStack {
                 HStack {
-                    PictureSubViews.PictureView(picture:viewModel.getCourseFor(course.id).pickedImage)
+                    PhotoSubViews.PhotoShowView(picture:viewModel.getCourseFor(course.id).pickedImage)
                     VStack(alignment: .leading) {
                         Text(course.name)
                             .bold()
