@@ -92,6 +92,8 @@ struct CourseSubViews {
         var course:Course
         let showEditIcon:Bool;
         let destination: Destination
+        
+        @State var isTapped = false;
 
         init(showEditIcon:Bool, course:Course, @ViewBuilder destination: @escaping () -> Destination) {
             self.showEditIcon = showEditIcon
@@ -104,12 +106,15 @@ struct CourseSubViews {
                 HStack {
                     PhotoSubViews.PhotoShowView(picture:viewModel.getCourseImageFor(course))
                     VStack(alignment: .leading) {
-                        Text(course.name)
-                            .bold()
+                        HStack {
+                            Text(course.name)
+                                .bold()
+                            Spacer()
+                            RatingSubViews.RatingView(rating:course.rating)
+                        }
                         Text(course.food.notes)
                             .foregroundColor(.gray)
                         Spacer()
-                        RatingSubViews.RatingView(rating:course.rating)
                     }
                     .padding(8)
                     Spacer()
@@ -121,17 +126,21 @@ struct CourseSubViews {
                             .opacity(0.6)
                     }
                 }
-                NavigationLink(destination: destination) {
+                // TODO: once I solve passing a binding to course correctly, remove this hack.
+                NavigationLink(destination: destination,
+                               isActive: Binding<Bool>(
+                                get: { isTapped },
+                                set: {
+                                    isTapped = $0;
+                                    if (showEditIcon) {
+                                        viewModel.setNewCourse(course)
+                                    }
+                                })
+                ) {
                     EmptyView()
                 }
-                .simultaneousGesture(TapGesture().onEnded {
-                    if (showEditIcon) {
-                        viewModel.setNewCourse(course)
-                    }
-                })
                 .opacity(showEditIcon ? 0 : 1)
             }
         }
     }
-    
 }
