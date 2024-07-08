@@ -77,17 +77,14 @@ struct MealListView: View {
                 List {
                     ForEach(viewModel.getMeals(), id: \.self) { meal in
                         HStack {
-                            PhotoSubViews.PhotoShowView(picture:viewModel.getMealImageFor(meal.id))
-                            NavigationLink(destination: MealView(
-                                needListRefresh: $needRefresh,
-                                mealId: meal.id)
-                            ) {
+                            PhotoSubViews.PhotoShowView(picture:viewModel.getMealImageFor(meal))
+                            NavigationLink(destination: MealView(meal: meal)) {
                                 VStack(alignment: .leading) {
                                     HStack {
-                                        Text(viewModel.getMealFor(meal.id)!.venue.name)
+                                        Text(meal.venue.name)
                                             .bold()
                                         Spacer()
-                                        RatingSubViews.RatingView(rating:viewModel.getMealRatingFor(meal.id))
+                                        RatingSubViews.RatingView(rating:meal.rating)
                                     }
                                     Text(viewModel.getMealFor(meal.id)!.notes)
                                         .foregroundColor(.gray)
@@ -109,14 +106,12 @@ struct MealListView: View {
                 )
                 VStack {
                     Spacer()
-                    NavigationLink(destination: MealCreateOrEditView(
-                        needRefresh:$needRefresh,
-                        mealId:nil)) {
-                            PrimaryNewButtonImage()
-                        }
-                        .simultaneousGesture(TapGesture().onEnded {
-                            _ = viewModel.addMeal(nil)
-                        })
+                    NavigationLink(destination: MealCreateOrEditView(title: "Create New Meal")) {
+                        PrimaryNewButtonImage()
+                    }
+                    .simultaneousGesture(TapGesture().onEnded {
+                        viewModel.beginCreatingNewMeal()
+                    })
                 }
             }
         }

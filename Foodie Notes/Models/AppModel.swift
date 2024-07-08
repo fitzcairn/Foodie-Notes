@@ -20,15 +20,9 @@ struct AppModel : Codable {
     var showSplash:Bool = true;
     
     // MARK: - Meal Management
-    mutating func addMeal(at venueName:String?) -> Meal {
-        let venue = getOrAddVenue(venueName);
-        return addMeal(at:venue);
-    }
-    mutating func addMeal(at venue:Venue) -> Meal {
-        let meal = Meal(venue: venue);
+    mutating func addMeal(_ meal:Meal) {
         index(meal)
         lastNewMealCreatedId = meal.id;
-        return meal;
     }
     mutating func removeMeal(_ mealId:String) {
         if let _ = mealsById[mealId] {
@@ -63,20 +57,45 @@ struct AppModel : Codable {
         }
         return []
     }
-    // Index a meal.
-    mutating func index(_ meal:Meal) {
-       let _ = getOrAddVenue(meal.venue.name);
-       mealsById[meal.id] = meal;
-       for course in meal.courses {
-           coursesById[course.id] = course;
-       }
-   }
     mutating func setMealRatingFor(_ mealId:String, rating:Int) {
         if mealsById[mealId] != nil {
             mealsById[mealId]!.rating = rating;
         }
     }
-    
+    mutating func index(_ meal:Meal) {
+        let _ = getOrAddVenue(meal.venue.name);
+        mealsById[meal.id] = meal;
+        for course in meal.courses {
+            coursesById[course.id] = course;
+        }
+    }
+    mutating func indexCourse(_ course:Course) {
+        guard(mealsById[course.mealId] != nil) else {return}
+
+        // Do we know about this course?
+        if coursesById[course.id] == nil {
+            // Add and index.
+            mealsById[course.mealId]!.courses.append(course)
+            coursesById[course.id] = course
+        } else {
+            // Replace in the meal and index.
+            coursesById[course.id] = course
+            if let index = mealsById[course.mealId]!.courses.firstIndex(where: {$0.id == course.id}) {
+                mealsById[course.mealId]!.courses[index] = course;
+            }
+        }
+    }
+    func getUpdatedMealWithCourse(meal:Meal, course:Course) -> Meal {
+        var meal = meal;
+        if let index = meal.courses.firstIndex(where: {$0.id == course.id}) {
+            meal.courses[index] = course;
+        } else {
+            meal.courses.append(course)
+        }
+        return meal
+    }
+
+
     // MARK: - Meal Property Getter/Setters
     mutating func setMealPickedPictureFor(_ mealId:String, img:Picture) {
         if mealsById[mealId] != nil {

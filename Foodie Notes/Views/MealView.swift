@@ -10,52 +10,46 @@ import SwiftUI
 struct MealView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @EnvironmentObject var viewModel:AppViewModel;
+    
+    var meal:Meal;
 
-    @State var needMealRefresh: Bool = false
-    @Binding var needListRefresh: Bool;
-    
-    let mealId:String;
-    
     var body: some View {
-        if viewModel.getMealFor(mealId) == nil {
-            ErrorDialog(text:"Something went wrong looking up your meal!")
-        } else {
-            NavigationStack {
-                ZStack(alignment: .bottom) {
-                    ScrollForm {
-                        PictureSubViews.PictureNameRatingView(
-                            name: viewModel.getMealFor(mealId)?.venue.name,
-                            picture: viewModel.getMealImageFor(mealId),
-                            rating: viewModel.getMealFor(mealId)?.rating)
-                        DateViews.DateSection(viewModel.getMealFor(mealId)!.date)
-                        if !viewModel.getMealFor(mealId)!.notes.isEmpty {
-                            NotesSubViews.NotesSection(
-                                title:"Overall Notes",
-                                note: viewModel.getMealFor(mealId)!.notes
-                            )
-                        }
-                        if viewModel.checkShow(viewModel.getMealFor(mealId)!.menu) {
-                            PictureSubViews.PictureAndNotesViewSection(title: "Menu[s]", data:viewModel.getMealFor(mealId)!.menu)
-                        }
-                        CourseSubViews.CoursesViewSection(mealId: mealId)
+        var meal = viewModel.getMealFor(meal.id)!
+        NavigationStack {
+            ZStack(alignment: .bottom) {
+                ScrollForm {
+                    PictureSubViews.PictureNameRatingView(
+                        name: meal.venue.name,
+                        picture: viewModel.getMealImageFor(meal),
+                        rating: meal.rating)
+                    DateViews.DateSection(meal.date)
+                    if !meal.notes.isEmpty {
+                        NotesSubViews.NotesSection(
+                            title:"Overall Notes",
+                            note: meal.notes
+                        )
                     }
-                    ViewScreenPrimaryButtons(
-                        backFunc: {
-                            needListRefresh.toggle()
-                            viewModel.objectWillChange.send()
-                            self.presentationMode.wrappedValue.dismiss()
-                        },
-                        editDest: MealCreateOrEditView(
-                            needRefresh:$needMealRefresh,
-                            mealId:mealId)
-                    )
+                    if viewModel.checkShow(meal.menu) {
+                        PictureSubViews.PictureAndNotesViewSection(title: "Menu[s]", data:meal.menu)
+                    }
+                    CourseSubViews.CoursesViewSection(courses:meal.courses)
                 }
-                .navigationBarBackButtonHidden()
-                .navigationBarItems(
-                    leading: Text("View Meal")
-                        .font(.system(size:36, weight: .bold))
+                ViewScreenPrimaryButtons(
+                    backClosure: {
+                        self.presentationMode.wrappedValue.dismiss()
+                    },
+                    editDest: MealCreateOrEditView(
+                        title: "Edit Meal"),
+                    editClosure: {
+                        viewModel.beginEditingMeal(meal)
+                    }
                 )
             }
+            .navigationBarBackButtonHidden()
+            .navigationBarItems(
+                leading: Text("View Meal")
+                    .font(.system(size:36, weight: .bold))
+            )
         }
     }
 }

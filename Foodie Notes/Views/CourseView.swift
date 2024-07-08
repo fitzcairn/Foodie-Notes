@@ -11,8 +11,6 @@ struct CourseView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @EnvironmentObject var viewModel:AppViewModel;
 
-    @Binding var needRefresh: Bool;
-    
     let courseId:String;
     let mealId:String;
     
@@ -29,13 +27,13 @@ struct CourseView: View {
                     }
                 }
                 ViewScreenPrimaryButtons(
-                    backFunc: {
+                    backClosure: {
                         self.presentationMode.wrappedValue.dismiss()
                     },
-                    editDest: CourseCreateOrEditView(
-                        needRefresh:$needRefresh,
-                        mealId:mealId,
-                        courseId:courseId)
+                    editDest: CourseCreateOrEditView(title:"Edit Course"),
+                    editClosure: {
+                        viewModel.setNewCourse(courseId: courseId, mealId: mealId)
+                    }
                 )
             }
             .navigationBarBackButtonHidden()

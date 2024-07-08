@@ -38,15 +38,16 @@ struct ScrollForm<Content: View>: View {
 }
 
 struct ViewScreenPrimaryButtons<Destination>: View where Destination : View {
-    let backFunc:(() -> Void)
+    let backClosure:(() -> Void)
     let editDest: Destination
+    var editClosure:(() -> Void) = {}
 
     var body: some View {
         VStack {
             Spacer()
             HStack {
                 Button(
-                    action: backFunc,
+                    action: backClosure,
                     label: {
                         Image(systemName: "arrowshape.backward.circle.fill")
                             .resizable()
@@ -67,6 +68,9 @@ struct ViewScreenPrimaryButtons<Destination>: View where Destination : View {
                         .clipShape(Circle())
                         .foregroundColor(.blue)
                 }
+                .simultaneousGesture(TapGesture().onEnded {
+                    editClosure()
+                })
             }
         }
     }

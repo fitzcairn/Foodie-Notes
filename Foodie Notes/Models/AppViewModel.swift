@@ -18,10 +18,13 @@ class AppViewModel : ObservableObject {
     // App model
     @Published var model: AppModel = AppModel()
     
-    // Any filters
-    var filter:String = "";
-    
-       
+    // State for editing a meal.
+    @Published var mealBeingViewed: Meal = Meal()
+    @Published var mealBeingEdited: Meal = Meal()
+    @Published var courseBeingEdited: Course = Course(mealId: "") // Hack
+    @Published var isEditingMeal: Bool = false;
+
+                                              
     // MARK: - Save/Load functionality
 
     private static func fileURL() throws -> URL {
@@ -54,11 +57,53 @@ class AppViewModel : ObservableObject {
         }
         _ = try await task.value
     }
+
     
+    // MARK: - View State Management
+    func setMealBeingViewed(_ meal:Meal) {
+        self.mealBeingViewed = meal;
+    }
+    func beginEditingMeal(_ mealId:String?) {
+        self.mealBeingEdited = getMealFor(mealId) ?? Meal()
+        isEditingMeal = true;
+    }
+    func beginEditingMeal(_ meal:Meal) {
+        self.mealBeingEdited = meal
+        isEditingMeal = true;
+    }
+    func beginCreatingNewMeal() {
+        self.mealBeingEdited = Meal()
+        isEditingMeal = true;
+    }
+    func saveEditedMealFor(_ meal:Meal) {
+        model.index(meal)
+        isEditingMeal = false;
+    }
+
+    func setNewCourse(courseId:String?, mealId:String) {
+        self.courseBeingEdited = courseId == nil ? Course(mealId: mealId) : getCourseFor(courseId!) ?? Course(mealId: mealId)
+    }
+    func setNewCourse(_ course:Course) {
+        self.courseBeingEdited = course;
+    }
+    func updateMealBeingEditedlWith(_ course:Course) {
+        guard(isEditingMeal) else { return }
+        mealBeingEdited = model.getUpdatedMealWithCourse(meal: mealBeingEdited, course:course)
+    }
+    func saveEditedCourse() {
+        guard(!self.courseBeingEdited.mealId.isEmpty) else {return}
+        model.indexCourse(self.courseBeingEdited)
+    }
+
     
     // MARK: - Meal Management
-    func addMeal(_ venue:String?) -> Meal {
-        return model.addMeal(at:venue ?? "")
+    func addMeal(_ meal:Meal) {
+        return model.addMeal(meal)
+    }
+    func addEmptyMeal() -> Meal {
+        let meal = Meal()
+        model.addMeal(meal)
+        return meal;
     }
     func getMeals() -> [Meal] {
         // TODO: apply filter, for now return all.
@@ -67,8 +112,10 @@ class AppViewModel : ObservableObject {
     func getMealFor(_ mealId:String?) -> Meal? {
         return model.getMealFor(mealId)
     }
-    func removeMeal(_ mealId:String) {
-        model.removeMeal(mealId)
+    func removeMeal(_ mealId:String?) {
+        if let mealId = mealId {
+            model.removeMeal(mealId)
+        }
     }
     func mealHasVenue(_ mealId:String) -> Bool{
         if let meal = model.getMealFor(mealId) {
@@ -89,10 +136,11 @@ class AppViewModel : ObservableObject {
     func setMealPickedPictureFor(_ mealId:String, img:Picture) {
         model.setMealPickedPictureFor(mealId, img:img)
     }
-
     func getMealImageFor(_ mealId:String) -> Picture? {
         guard let meal = model.getMealFor(mealId) else { return nil }
-        
+        return getMealImageFor(meal)
+    }
+    func getMealImageFor(_ meal:Meal) -> Picture? {
         // Do we have a manually picked image already?
         if !isPictureEmpty(meal.pickedImage) { return meal.pickedImage }
 
@@ -172,7 +220,9 @@ class AppViewModel : ObservableObject {
     }
     func getCourseImageFor(_ courseId:String) -> Picture? {
         guard let course = model.getCourseFor(courseId) else { return nil }
-        
+        return getCourseImageFor(course)
+    }
+    func getCourseImageFor(_ course:Course) -> Picture? {
         // Do we have a manually picked image already?
         if !isPictureEmpty(course.pickedImage) { return course.pickedImage }
         

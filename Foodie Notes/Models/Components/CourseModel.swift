@@ -14,7 +14,7 @@ struct Course : Hashable, Equatable, Identifiable, Codable {
     var date:Date = Date();
     var food:PicturesAndNotes = PicturesAndNotes();
     var beveragePairing:PicturesAndNotes = PicturesAndNotes();
-    var pickedImage:Picture = Picture()
+    var pickedImage:Picture?
     var rating: Int = 0;
     
     init(mealId: String) {

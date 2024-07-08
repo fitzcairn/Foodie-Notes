@@ -12,18 +12,16 @@ struct CourseSubViews {
     
     struct CoursesViewSection : View {
         @EnvironmentObject private var viewModel:AppViewModel;
-        let mealId:String;
-        @State var needRefresh: Bool = false
-
+        let courses:[Course];
         
         var body: some View {
             Section(header: Text("Courses")) {
-                let courses = viewModel.getCoursesFor(mealId)
                 List {
                     ForEach(courses) { course in
-                        CourseItemView<CourseView>(isEdit:false, courseId:course.id) {
+                        CourseItemView<CourseView>(
+                            showEditIcon:false,
+                            course:course) {
                             CourseView(
-                                needRefresh:$needRefresh,
                                 courseId:course.id,
                                 mealId: course.mealId)
                         }
@@ -36,29 +34,25 @@ struct CourseSubViews {
     struct CoursesEditSection : View {
         @EnvironmentObject private var viewModel:AppViewModel;
         let mealId:String;
+        @Binding var courses:[Course]
         @State var needRefresh: Bool = false
 
-
         var body: some View {
-            var courses = viewModel.getCoursesFor(mealId)
             Section(header: header) {
                 List {
-                    ForEach(courses.indices, id:\.self) { index in
-                        CourseItemView<CourseCreateOrEditView>(isEdit: true, courseId:courses[index].id) {
-                            CourseCreateOrEditView(
-                                needRefresh:$needRefresh,
-                                mealId:courses[index].mealId,
-                                courseId:courses[index].id
-                            )
-                        }
+                    ForEach(Array(zip(courses.indices, courses)), id: \.0) { index, item in
+                        CourseItemView<CourseCreateOrEditView>(
+                            showEditIcon: true,
+                            course:courses[index]) {
+                                CourseCreateOrEditView(title: "Edit Course")
+                            }
                     }
                     .onMove { from, to in
                         courses.move(fromOffsets: from, toOffset: to)
-                        viewModel.setCoursesFor(mealId, courses: courses)
                     }
-                    .onDelete() { at in
-                        remove(at:at, courses: courses)
-                    }
+                    .onDelete(perform: { indexSet in
+                        courses.remove(atOffsets: indexSet)
+                    })
                 }
             }
         }
@@ -67,29 +61,14 @@ struct CourseSubViews {
             HStack {
                 Text("Courses")
                 Spacer()
-                NavigationLink(
-                    destination:CourseCreateOrEditView(
-                        needRefresh:$needRefresh,
-                        mealId:mealId,
-                        courseId:nil
-                    )
-                ) {
+                NavigationLink(destination:CourseCreateOrEditView(title: "Create New Course"))
+                {
                     SecondaryAddButtonImage()
                 }
                 .simultaneousGesture(TapGesture().onEnded {
-                    //_ = viewModel.addNewCourseTo(mealId)
+                    viewModel.setNewCourse(courseId: nil, mealId: mealId)
                 })
             }
-        }
-        
-        func remove(at offsets: IndexSet, courses:[Course]) {
-            var newCourses:[Course] = []
-            for (index, course) in courses.enumerated() {
-                if !offsets.contains(index) {
-                    newCourses.append(course);
-                }
-            }
-            viewModel.setCoursesFor(mealId, courses:newCourses)
         }
     }
         
@@ -110,31 +89,31 @@ struct CourseSubViews {
     // Individual course in a list
     struct CourseItemView<Destination>: View where Destination : View {
         @EnvironmentObject private var viewModel:AppViewModel;
-        let isEdit:Bool;
-        let courseId:String;
+        var course:Course
+        let showEditIcon:Bool;
         let destination: Destination
 
-        init(isEdit:Bool, courseId:String, @ViewBuilder destination: @escaping () -> Destination) {
-            self.isEdit = isEdit
-            self.courseId = courseId
+        init(showEditIcon:Bool, course:Course, @ViewBuilder destination: @escaping () -> Destination) {
+            self.showEditIcon = showEditIcon
+            self.course = course
             self.destination = destination()
         }
         
         var body: some View {
             ZStack {
                 HStack {
-                    PhotoSubViews.PhotoShowView(picture:viewModel.getCourseImageFor(courseId))
+                    PhotoSubViews.PhotoShowView(picture:viewModel.getCourseImageFor(course))
                     VStack(alignment: .leading) {
-                        Text(viewModel.getCourseFor(courseId)?.name ?? "")
+                        Text(course.name)
                             .bold()
-                        Text(viewModel.getCourseFor(courseId)?.food.notes ?? "")
+                        Text(course.food.notes)
                             .foregroundColor(.gray)
                         Spacer()
-                        RatingSubViews.RatingView(rating: viewModel.getCourseFor(courseId)?.rating)
+                        RatingSubViews.RatingView(rating:course.rating)
                     }
                     .padding(8)
                     Spacer()
-                    if (isEdit) {
+                    if (showEditIcon) {
                         Image(systemName: "pencil.circle.fill")
                             .resizable()
                             .frame(width: 24, height: 24)
@@ -145,7 +124,12 @@ struct CourseSubViews {
                 NavigationLink(destination: destination) {
                     EmptyView()
                 }
-                .opacity(isEdit ? 0 : 1)
+                .simultaneousGesture(TapGesture().onEnded {
+                    if (showEditIcon) {
+                        viewModel.setNewCourse(course)
+                    }
+                })
+                .opacity(showEditIcon ? 0 : 1)
             }
         }
     }
