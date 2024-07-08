@@ -43,18 +43,48 @@ struct PhotoSubViews {
         }
     }
     
+    // Photo expand
+    struct PhotoExpandView : View {
+        @Environment(\.dismiss) var dismiss
+        let url:URL
+        @Binding var sheetShowing:Bool;
+        
+        var body: some View {
+            PhotoView(url:url)
+                .background(.black)
+                .onTapGesture {
+                    sheetShowing = false;
+                }
+        }
+    }
+    
     // Actual picture
     struct PhotoShowView : View {
         var picture: Picture?;
+        var isEditMode:Bool = false
+        @State var sheetShowing:Bool = false;
         
         var body: some View {
             if picture == nil || picture!.deleted {
                 NoPhotoPlaceholderView()
             }
             else if let url = picture!.url {
-                PhotoView(url:url)
-                    .aspectRatio(1, contentMode: .fill)
-                    .frame(width:Constant.photoWidth, height: Constant.photoHeight)
+                if (!isEditMode) {
+                    // Only allow on-tap expands if not editing.
+                    PhotoView(url:url)
+                        .aspectRatio(1, contentMode: .fill)
+                        .frame(width:Constant.photoWidth, height: Constant.photoHeight)
+                        .onTapGesture {
+                            sheetShowing = true;
+                        }
+                        .sheet(isPresented: $sheetShowing) {
+                            PhotoExpandView(url:url, sheetShowing: $sheetShowing)
+                        }
+                } else {
+                    PhotoView(url:url)
+                        .aspectRatio(1, contentMode: .fill)
+                        .frame(width:Constant.photoWidth, height: Constant.photoHeight)
+                }
             } else {
                 NoPhotoPlaceholderView()
             }
@@ -75,7 +105,7 @@ struct PhotoSubViews {
                         ),
                         limit:1)
                 } else {
-                    PhotoShowView(picture:picture)
+                    PhotoShowView(picture:picture, isEditMode:true)
                     VStack(alignment: .leading) {
                         Button(
                             action: {
