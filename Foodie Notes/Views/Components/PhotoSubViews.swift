@@ -24,17 +24,16 @@ struct PhotoSubViews {
     }
     
     struct PhotoView: View {
-        let url:URL;
+        let picture:Picture
         
         var body: some View {
             GeometryReader { g in
                 VStack {
-                    AsyncImage(url: url) { image in
-                        image
+                    if let data = picture.data {
+                        let image: UIImage = UIImage(data: data) ?? UIImage()
+                        Image(uiImage: image)
                             .resizable()
                             .scaledToFill()
-                    } placeholder: {
-                        ProgressView()
                     }
                 }
                 .frame(width: g.size.width, height: g.size.height)
@@ -46,15 +45,16 @@ struct PhotoSubViews {
     // Photo expand
     struct PhotoExpandView : View {
         @Environment(\.dismiss) var dismiss
-        let url:URL
+        let picture:Picture
         @Binding var sheetShowing:Bool;
         
         var body: some View {
-            PhotoView(url:url)
+            PhotoView(picture: picture)
                 .background(.black)
                 .onTapGesture {
                     sheetShowing = false;
                 }
+            EmptyView()
         }
     }
     
@@ -68,20 +68,20 @@ struct PhotoSubViews {
             if picture == nil || picture!.deleted {
                 NoPhotoPlaceholderView()
             }
-            else if let url = picture!.url {
+            else if picture?.data != nil {
                 if (!isEditMode) {
                     // Only allow on-tap expands if not editing.
-                    PhotoView(url:url)
+                    PhotoView(picture:picture!)
                         .aspectRatio(1, contentMode: .fill)
                         .frame(width:Constant.photoWidth, height: Constant.photoHeight)
                         .onTapGesture {
                             sheetShowing = true;
                         }
                         .sheet(isPresented: $sheetShowing) {
-                            PhotoExpandView(url:url, sheetShowing: $sheetShowing)
+                            PhotoExpandView(picture:picture!, sheetShowing: $sheetShowing)
                         }
                 } else {
-                    PhotoView(url:url)
+                    PhotoView(picture:picture!)
                         .aspectRatio(1, contentMode: .fill)
                         .frame(width:Constant.photoWidth, height: Constant.photoHeight)
                 }
@@ -159,9 +159,9 @@ struct PhotoSubViews {
                 
                 photoPickerModel.load(
                     pickedMedia: newMedia,
-                    onLoaded: { urls in
-                        for url in urls {
-                            newPictures.append(Picture(url:url));
+                    onLoaded: { images in
+                        for image in images {
+                            newPictures.append(Picture(data:image));
                         }
                         pictures = pictures + newPictures;
                     })

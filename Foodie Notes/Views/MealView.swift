@@ -37,6 +37,7 @@ struct MealView: View {
                 }
                 ViewScreenPrimaryButtons(
                     backClosure: {
+                        viewModel.isEditingMeal = false;
                         self.presentationMode.wrappedValue.dismiss()
                     },
                     editDest: MealCreateOrEditView(

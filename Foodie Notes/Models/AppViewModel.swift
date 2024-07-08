@@ -275,7 +275,7 @@ I ate \(meal.courses.count) courses during a meal at \(meal.venue.name) on \(mea
     
     // MARK: - Other Useful Helpers
     func isPictureEmpty(_ image:Picture?) -> Bool {
-        return image == nil || image!.url == nil || image!.deleted
+        return image == nil || image!.data == nil || image!.deleted
     }
     
     func removeDeletedImagesFor(_ old:PicturesAndNotes) -> PicturesAndNotes {

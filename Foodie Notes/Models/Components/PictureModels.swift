@@ -12,13 +12,14 @@ import Foundation
 struct Picture : Identifiable, Hashable, Codable {
     var id:String = Id.createId()
     var deleted:Bool = false;
-    var url:URL? = nil
+    var url:URL? = nil // Kept for future compatibility with web images.
+    var data:Data? = nil;
     
     init() {
     }
     
-    init(url:URL) {
-        self.url = url
+    init(data:Data?) {
+        self.data = data
     }
     
     static func == (lhs: Picture, rhs: Picture) -> Bool {

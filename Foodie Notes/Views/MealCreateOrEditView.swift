@@ -46,7 +46,7 @@ struct MealCreateOrEditView: View {
                         self.presentationMode.wrappedValue.dismiss()
                     },
                     saveFunc: {
-                        showingAlert = viewModel.mealBeingEdited.venue.name.isEmpty //!viewModel.mealHasVenue(mealId);
+                        showingAlert = viewModel.mealBeingEdited.venue.name.isEmpty
                         if !showingAlert {
                             viewModel.saveEditedMealFor(viewModel.mealBeingEdited)
                             presentationMode.wrappedValue.dismiss()
