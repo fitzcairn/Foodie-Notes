@@ -142,4 +142,3 @@ struct MealListView: View {
         }
     }
 }
-

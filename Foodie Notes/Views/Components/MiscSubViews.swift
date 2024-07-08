@@ -164,7 +164,8 @@ struct StyledTextField : View {
                     }
                 )
                 .padding(.trailing, 2)
-                .padding(.top,2)
+                .padding(.top, 2)
+                .padding(.bottom, 2)
             }
             .buttonStyle(.plain)
             .overlay(
@@ -179,7 +180,6 @@ struct StyledTextField : View {
 struct DateViews {
     private static let title:String = "When Enjoyed"
     private static let prompt:String = "Date/Time:"
-
     
     struct DatePickerSection: View {
         @Binding var selectedDate:Date
