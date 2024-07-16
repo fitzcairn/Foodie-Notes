@@ -16,7 +16,7 @@ struct FoodieNotesApp: App {
             MealListView() {
                 Task {
                     do {
-                        try await viewModel.save()
+                        try await ModelIOService.save(model: viewModel.model)
                     } catch {
                         // Blow up
                         fatalError(error.localizedDescription)

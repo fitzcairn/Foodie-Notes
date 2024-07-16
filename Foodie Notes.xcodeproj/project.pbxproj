@@ -37,6 +37,7 @@
 		AA81D30F2C3AA30E00FF0221 /* PictureSubViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D3072C3AA30E00FF0221 /* PictureSubViews.swift */; };
 		AA81D31F2C3ADB1300FF0221 /* RatingSubViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D29C2C324DA900FF0221 /* RatingSubViews.swift */; };
 		AA8446942C3B33BF00781115 /* MiscSubViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D3032C3AA30E00FF0221 /* MiscSubViews.swift */; };
+		AAA064C72C46A084005397EA /* ModelIOService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA064C62C46A084005397EA /* ModelIOService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -98,6 +99,7 @@
 		AA81D3052C3AA30E00FF0221 /* NotesSubViews.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotesSubViews.swift; sourceTree = "<group>"; };
 		AA81D3062C3AA30E00FF0221 /* PhotoSubViews.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoSubViews.swift; sourceTree = "<group>"; };
 		AA81D3072C3AA30E00FF0221 /* PictureSubViews.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PictureSubViews.swift; sourceTree = "<group>"; };
+		AAA064C62C46A084005397EA /* ModelIOService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelIOService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -152,6 +154,7 @@
 				AA81D2FA2C3A1CBC00FF0221 /* Extensions */,
 				AA81D2AA2C37090100FF0221 /* Foodie-Notes-Info.plist */,
 				AA81D2A02C32636C00FF0221 /* Models */,
+				AAA064C52C46A052005397EA /* Services */,
 				AA81D2832C309C3A00FF0221 /* Views */,
 				AA81D20E2C26EEA100FF0221 /* FoodieNotesApp.swift */,
 				AA81D2A52C36D65E00FF0221 /* PropertyWrappers.swift */,
@@ -259,6 +262,14 @@
 				AA81D3072C3AA30E00FF0221 /* PictureSubViews.swift */,
 			);
 			name = Components;
+			sourceTree = "<group>";
+		};
+		AAA064C52C46A052005397EA /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				AAA064C62C46A084005397EA /* ModelIOService.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -398,6 +409,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AA8446942C3B33BF00781115 /* MiscSubViews.swift in Sources */,
+				AAA064C72C46A084005397EA /* ModelIOService.swift in Sources */,
 				AA81D31F2C3ADB1300FF0221 /* RatingSubViews.swift in Sources */,
 				AA81D2B32C38190800FF0221 /* CourseModel.swift in Sources */,
 				AA81D29F2C325D0B00FF0221 /* AppModel.swift in Sources */,

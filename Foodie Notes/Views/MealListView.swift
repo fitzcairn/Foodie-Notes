@@ -47,7 +47,7 @@ struct MealListView: View {
         }
         .task {
             do {
-                try await viewModel.load()
+                try await viewModel.fromLoad(model:ModelIOService.load())
             } catch {
                 fatalError(error.localizedDescription)
             }
@@ -61,7 +61,7 @@ struct MealListView: View {
                     ForEach(viewModel.getMeals(), id: \.self) { meal in
                         HStack {
                             PhotoSubViews.PhotoShowView(picture:viewModel.getMealImageFor(meal))
-                            NavigationLink(destination: MealView(meal: meal, saveAction: saveAction)) {
+                            NavigationLink(destination: MealView(meal: meal)) {
                                 VStack(alignment: .leading) {
                                     HStack {
                                         Text(meal.venue.name)

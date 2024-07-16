@@ -14,8 +14,7 @@ struct MealView: View {
     @EnvironmentObject var viewModel:AppViewModel;
     
     var meal:Meal;
-    let saveAction: () -> Void
-    
+
     var body: some View {
         let meal = viewModel.getMealFor(meal.id)!
         NavigationStack {
@@ -56,7 +55,7 @@ struct MealView: View {
                 trailing: ShareLink(
                     item: "",
                     subject: Text("Notes about my meal at \(meal.venue.name) on \(meal.date.formatted(date: .complete, time: .omitted))"),
-                    message: Text(viewModel.exportAsString(meal)),
+                    message: Text(ModelIOService.exportAsString(meal)),
                     preview: SharePreview(
                         "Notes about my meal at \(meal.venue.name) on \(meal.date.formatted(date: .complete, time: .omitted))",
                         image: Image(uiImage: UIImage(named: "AppIcon") ?? UIImage())
@@ -68,11 +67,6 @@ struct MealView: View {
                         .foregroundColor(.gray)
                 }
             )
-        }
-        .onChange(of: scenePhase) { oldPhase, newPhase in
-            if newPhase == .inactive {
-                saveAction()
-            }
         }
     }
 }
