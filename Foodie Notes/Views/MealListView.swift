@@ -101,13 +101,7 @@ struct MealListView: View {
                 VStack {
                     Spacer()
                     NavigationLink(
-                        destination: MealCreateOrEditView(
-                            title: "Create New Meal",
-                            meal: Binding<Meal>(
-                                get: { Meal() },
-                                set: { viewModel.saveEditedMealFor($0) }
-                                )
-                            )
+                        destination: MealCreateView()
                         )
                     {
                         PrimaryButtonSubViews.MealListViewPrimaryNewButtonImage()

@@ -18,8 +18,29 @@ struct CourseSubViews {
             Section(header: Text("Courses")) {
                 List {
                     ForEach(courses) { course in
-                        CourseItemView(course:course)
+                     CourseItemView(course:course)
+                     }
+                }
+            }
+        }
+    }
+    
+    struct CoursesEditSection : View {
+        @EnvironmentObject private var viewModel:AppViewModel;
+        @Binding var courses:[Course];
+        
+        var body: some View {
+            Section(header: Text("Courses")) {
+                List {
+                    ForEach(Array(zip(courses.indices, courses)), id: \.0) { index, item in
+                        CourseItemView(course:courses[index])
                     }
+                    .onMove { from, to in
+                        courses.move(fromOffsets: from, toOffset: to)
+                    }
+                    .onDelete(perform: { indexSet in
+                        courses.remove(atOffsets: indexSet)
+                    })
                 }
             }
         }

@@ -1,5 +1,5 @@
 //
-//  CourseCreateOrEditView.swift
+//  CourseEditView.swift
 //  Foodie Notes
 //
 //  Created by Steve Martin on 6/29/24.
@@ -7,11 +7,10 @@
 
 import SwiftUI
 
-struct CourseCreateOrEditView: View {
+struct CourseEditView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @EnvironmentObject var viewModel:AppViewModel;
     
-    let title:String;
     @Binding var course:Course;
     
     @State private var showingAlert = false
@@ -51,7 +50,7 @@ struct CourseCreateOrEditView: View {
             }
             .navigationBarBackButtonHidden()
             .navigationBarItems(
-                leading: Text(title)
+                leading: Text("Edit Your Course")
                     .font(.system(size:36, weight: .bold))
             )
         }

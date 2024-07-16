@@ -29,8 +29,7 @@ struct CourseView: View {
                     backClosure: {
                         self.presentationMode.wrappedValue.dismiss()
                     },
-                    editCourseDest: CourseCreateOrEditView(
-                        title:"Edit Course",
+                    editCourseDest: CourseEditView(
                         course:Binding<Course>(
                             get: { viewModel.getCourseFor(course.id)! },
                             set: { viewModel.saveEditedCourse($0) }

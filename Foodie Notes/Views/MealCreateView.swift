@@ -1,20 +1,18 @@
 //
-//  MealCreateOrEditView.swift
+//  MealCreateView.swift
 //  Foodie Notes
 //
-//  Created by Steve Martin on 6/29/24.
+//  Created by Steve Martin on 7/16/24.
 //
 
 import SwiftUI
 
-struct MealCreateOrEditView: View {
+struct MealCreateView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @EnvironmentObject var viewModel:AppViewModel;
     
     @State private var showingAlert = false
-
-    let title:String
-    @Binding var meal:Meal;
+    @ObservedObject private var meal:WrappedStruct<Meal> = WrappedStruct(withItem:Meal())
         
     var body: some View {
         // TODO: Split my custom NavigationStack out into a custom view.
@@ -22,20 +20,20 @@ struct MealCreateOrEditView: View {
             ZStack(alignment: .bottom) {
                 ScrollForm {
                     PictureSubViews.PictureNameRatingEditView(
-                        name: $meal.venue.name,
-                        picture: $meal.pickedImage,
-                        rating: $meal.rating
+                        name: $meal.item.venue.name,
+                        picture: $meal.item.pickedImage,
+                        rating: $meal.item.rating
                     )
                     DateViews.DatePickerSection(
-                        selectedDate: $meal.date
+                        selectedDate: $meal.item.date
                     )
                     NotesSubViews.NotesEditSection(
                         title:"Overall Notes",
-                        inputText: $meal.notes
+                        inputText: $meal.item.notes
                     )
                     PictureSubViews.PictureAndNotesEditSection(
                         title: "Menu[s]",
-                        data: $meal.menu
+                        data: $meal.item.menu
                     )
                 }
                 PrimaryButtonSubViews.EditViewPrimaryButtons(
@@ -43,8 +41,9 @@ struct MealCreateOrEditView: View {
                         self.presentationMode.wrappedValue.dismiss()
                     },
                     saveFunc: {
-                        showingAlert = meal.venue.name.isEmpty
+                        showingAlert = meal.item.venue.name.isEmpty
                         if !showingAlert {
+                            viewModel.saveEditedMealFor(meal.item)
                             presentationMode.wrappedValue.dismiss()
                         }
                     },
@@ -55,9 +54,8 @@ struct MealCreateOrEditView: View {
         }
         .navigationBarBackButtonHidden()
         .navigationBarItems(
-            leading: Text(title)
+            leading: Text("Create a New Meal")
                 .font(.system(size:36, weight: .bold))
         )
     }
 }
-
