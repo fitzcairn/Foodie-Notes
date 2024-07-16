@@ -46,8 +46,6 @@ struct MealView: View {
                             set: { viewModel.saveEditedMealFor($0) }
                             )
                     ),
-                    editClosure: {
-                    },
                     addCourseClosure: {
                     }
                 )

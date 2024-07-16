@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AA45C07D2C471B23009F6DEC /* CourseCreateOrEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA45C07C2C471B22009F6DEC /* CourseCreateOrEditView.swift */; };
 		AA81D20F2C26EEA100FF0221 /* FoodieNotesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D20E2C26EEA100FF0221 /* FoodieNotesApp.swift */; };
 		AA81D2142C26EEA100FF0221 /* Foodie_Notes.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AA81D2122C26EEA100FF0221 /* Foodie_Notes.xcdatamodeld */; };
 		AA81D2182C26EEA200FF0221 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA81D2172C26EEA200FF0221 /* Assets.xcassets */; };
@@ -17,7 +18,6 @@
 		AA81D2802C309BF000FF0221 /* MealListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D27F2C309BF000FF0221 /* MealListView.swift */; };
 		AA81D2822C309C3100FF0221 /* MealCreateOrEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D2812C309C3100FF0221 /* MealCreateOrEditView.swift */; };
 		AA81D2852C309C7F00FF0221 /* MealView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D2842C309C7F00FF0221 /* MealView.swift */; };
-		AA81D2872C309C9E00FF0221 /* CourseCreateOrEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D2862C309C9E00FF0221 /* CourseCreateOrEditView.swift */; };
 		AA81D2922C3209E100FF0221 /* CourseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D2912C3209E100FF0221 /* CourseView.swift */; };
 		AA81D29F2C325D0B00FF0221 /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D29E2C325D0B00FF0221 /* AppModel.swift */; };
 		AA81D2A22C3267C200FF0221 /* AppViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D2A12C3267C200FF0221 /* AppViewModel.swift */; };
@@ -58,6 +58,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		AA45C07C2C471B22009F6DEC /* CourseCreateOrEditView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseCreateOrEditView.swift; sourceTree = "<group>"; };
 		AA81D20B2C26EEA100FF0221 /* Foodie Notes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Foodie Notes.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA81D20E2C26EEA100FF0221 /* FoodieNotesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodieNotesApp.swift; sourceTree = "<group>"; };
 		AA81D2132C26EEA100FF0221 /* Foodie_Notes.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Foodie_Notes.xcdatamodel; sourceTree = "<group>"; };
@@ -72,7 +73,6 @@
 		AA81D27F2C309BF000FF0221 /* MealListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealListView.swift; sourceTree = "<group>"; };
 		AA81D2812C309C3100FF0221 /* MealCreateOrEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealCreateOrEditView.swift; sourceTree = "<group>"; };
 		AA81D2842C309C7F00FF0221 /* MealView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealView.swift; sourceTree = "<group>"; };
-		AA81D2862C309C9E00FF0221 /* CourseCreateOrEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseCreateOrEditView.swift; sourceTree = "<group>"; };
 		AA81D2912C3209E100FF0221 /* CourseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseView.swift; sourceTree = "<group>"; };
 		AA81D29E2C325D0B00FF0221 /* AppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
 		AA81D2A12C3267C200FF0221 /* AppViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppViewModel.swift; sourceTree = "<group>"; };
@@ -190,9 +190,9 @@
 			children = (
 				AA81D2932C324BA800FF0221 /* Components */,
 				AA81D27F2C309BF000FF0221 /* MealListView.swift */,
+				AA45C07C2C471B22009F6DEC /* CourseCreateOrEditView.swift */,
 				AA81D2812C309C3100FF0221 /* MealCreateOrEditView.swift */,
 				AA81D2842C309C7F00FF0221 /* MealView.swift */,
-				AA81D2862C309C9E00FF0221 /* CourseCreateOrEditView.swift */,
 				AA81D2912C3209E100FF0221 /* CourseView.swift */,
 			);
 			path = Views;
@@ -404,13 +404,13 @@
 				AA81D2A62C36D65E00FF0221 /* PropertyWrappers.swift in Sources */,
 				AAA064D42C46A7DA005397EA /* NameSubViews.swift in Sources */,
 				AA81D2142C26EEA100FF0221 /* Foodie_Notes.xcdatamodeld in Sources */,
-				AA81D2872C309C9E00FF0221 /* CourseCreateOrEditView.swift in Sources */,
 				AA81D2822C309C3100FF0221 /* MealCreateOrEditView.swift in Sources */,
 				AA81D2852C309C7F00FF0221 /* MealView.swift in Sources */,
 				AAA064D32C46A7DA005397EA /* PhotoSubViews.swift in Sources */,
 				AAA064D22C46A7DA005397EA /* PictureSubViews.swift in Sources */,
 				AA81D2922C3209E100FF0221 /* CourseView.swift in Sources */,
 				AA81D2802C309BF000FF0221 /* MealListView.swift in Sources */,
+				AA45C07D2C471B23009F6DEC /* CourseCreateOrEditView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

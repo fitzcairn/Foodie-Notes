@@ -12,11 +12,11 @@ struct CourseCreateOrEditView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @EnvironmentObject var viewModel:AppViewModel;
     
-    @State private var showingAlert = false
-    
-    let title:String
+    let title:String;
     @Binding var course:Course;
     
+    @State private var showingAlert = false
+        
     var body: some View {
         NavigationStack {
             ZStack(alignment: .bottom) {

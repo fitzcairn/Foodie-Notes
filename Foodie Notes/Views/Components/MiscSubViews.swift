@@ -40,7 +40,6 @@ struct ScrollForm<Content: View>: View {
 struct ViewScreenPrimaryButtons<Destination>: View where Destination : View {
     let backClosure:(() -> Void)
     let editDest: Destination
-    var editClosure:(() -> Void) = {}
     var addCourseClosure:(() -> Void)?
 
     var body: some View {
@@ -69,9 +68,6 @@ struct ViewScreenPrimaryButtons<Destination>: View where Destination : View {
                         .clipShape(Circle())
                         .foregroundColor(.blue)
                 }
-                .simultaneousGesture(TapGesture().onEnded {
-                    editClosure()
-                })
                 // TODO: this is a hack for now -- will be addressed with UI refresh.
                 if let addCourseClosure = addCourseClosure {
                     Spacer()
