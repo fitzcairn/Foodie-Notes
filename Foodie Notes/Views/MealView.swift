@@ -9,10 +9,12 @@ import SwiftUI
 import UIKit.UIImage
 
 struct MealView: View {
+    @Environment(\.scenePhase) var scenePhase
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @EnvironmentObject var viewModel:AppViewModel;
     
     var meal:Meal;
+    let saveAction: () -> Void
     
     var body: some View {
         let meal = viewModel.getMealFor(meal.id)!
@@ -66,6 +68,11 @@ struct MealView: View {
                         .foregroundColor(.gray)
                 }
             )
+        }
+        .onChange(of: scenePhase) { oldPhase, newPhase in
+            if newPhase == .inactive {
+                saveAction()
+            }
         }
     }
 }

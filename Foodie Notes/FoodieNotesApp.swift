@@ -24,6 +24,7 @@ struct FoodieNotesApp: App {
                 }
             }
             .environmentObject(viewModel)
+            
         }
     }
 }

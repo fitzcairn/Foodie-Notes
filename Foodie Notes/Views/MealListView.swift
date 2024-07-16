@@ -10,7 +10,7 @@ import SwiftUI
 // View the list of meals.
 // This is effectively the main view.
 struct MealListView: View {
-    @Environment(\.scenePhase) private var scenePhase
+    @Environment(\.scenePhase) var scenePhase
     @EnvironmentObject var viewModel:AppViewModel;
     
     @State var needRefresh:Bool = true;
@@ -24,22 +24,10 @@ struct MealListView: View {
                 endPoint: .bottomTrailing)
             .edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
             VStack() {
-                Text("Happy Birthday, Ying!")
-                    .font(Font.custom("ChalkboardSE-Bold", size: 30))
-                    .padding(.top, 40)
-                    .foregroundColor(.black)
-                
                 Image("icon")
                     .resizable()
                     .frame(width:300, height:300)
                     .padding(.vertical, 10)
-                
-                Text("Love always,\nSteve")
-                    .multilineTextAlignment(.center)
-                    .font(Font.custom("ChalkboardSE-Bold", size: 20))
-                    .padding(.bottom, 60)
-                    .foregroundColor(.black)
-                
                 Text("Tap anywhere to continue...")
                     .font(.system(size:14))
                     .foregroundColor(.black)
@@ -51,11 +39,6 @@ struct MealListView: View {
             viewModel.model.showSplash = false;
             viewModel.state = .list
         }
-        .onChange(of: scenePhase) {
-            if scenePhase == .inactive {
-                saveAction()
-            }
-        }
     }
     
     var loadingView: some View {
@@ -66,7 +49,7 @@ struct MealListView: View {
             do {
                 try await viewModel.load()
             } catch {
-                //fatalError(error.localizedDescription)
+                fatalError(error.localizedDescription)
             }
         }
     }
@@ -78,7 +61,7 @@ struct MealListView: View {
                     ForEach(viewModel.getMeals(), id: \.self) { meal in
                         HStack {
                             PhotoSubViews.PhotoShowView(picture:viewModel.getMealImageFor(meal))
-                            NavigationLink(destination: MealView(meal: meal)) {
+                            NavigationLink(destination: MealView(meal: meal, saveAction: saveAction)) {
                                 VStack(alignment: .leading) {
                                     HStack {
                                         Text(meal.venue.name)
@@ -115,8 +98,8 @@ struct MealListView: View {
                 }
             }
         }
-        .onChange(of: scenePhase) {
-            if scenePhase == .inactive {
+        .onChange(of: scenePhase) { oldPhase, newPhase in
+            if newPhase == .inactive {
                 saveAction()
             }
         }
