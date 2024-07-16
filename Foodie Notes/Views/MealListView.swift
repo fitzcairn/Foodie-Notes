@@ -110,7 +110,7 @@ struct MealListView: View {
                             )
                         )
                     {
-                        PrimaryNewButtonImage()
+                        PrimaryButtonSubViews.MealListViewPrimaryNewButtonImage()
                     }
                 }
             }

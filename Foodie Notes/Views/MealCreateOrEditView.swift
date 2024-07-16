@@ -38,7 +38,7 @@ struct MealCreateOrEditView: View {
                         data: $meal.menu
                     )
                 }
-                EditScreenPrimaryButtons(
+                PrimaryButtonSubViews.EditViewPrimaryButtons(
                     cancelFunc: {
                         self.presentationMode.wrappedValue.dismiss()
                     },

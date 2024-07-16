@@ -14,8 +14,7 @@ struct CourseView: View {
     var course:Course
     
     var body: some View {
-        // TODO: this course should be a binding.
-        //let course = viewModel.getCourseFor(course.id)!
+        let course = viewModel.getCourseFor(course.id)!
         NavigationStack {
             ZStack(alignment: .bottom) {
                 ScrollForm {
@@ -26,16 +25,17 @@ struct CourseView: View {
                         PictureSubViews.PictureAndNotesViewSection(title: "Beverage Pairing", data: course.beveragePairing)
                     }
                 }
-                ViewScreenPrimaryButtons(
+                PrimaryButtonSubViews.CourseViewPrimaryButtons(
                     backClosure: {
                         self.presentationMode.wrappedValue.dismiss()
                     },
-                    editDest: CourseCreateOrEditView(title:"Edit Course",
-                                                     course:Binding<Course>(
-                                                        get: { viewModel.getCourseFor(course.id)! },
-                                                        set: { viewModel.saveEditedCourse($0) }
-                                                     )
-                                                    )
+                    editCourseDest: CourseCreateOrEditView(
+                        title:"Edit Course",
+                        course:Binding<Course>(
+                            get: { viewModel.getCourseFor(course.id)! },
+                            set: { viewModel.saveEditedCourse($0) }
+                        )
+                    )
                 )
             }
             .navigationBarBackButtonHidden()

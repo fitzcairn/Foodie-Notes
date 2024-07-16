@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-
 struct CourseCreateOrEditView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @EnvironmentObject var viewModel:AppViewModel;
@@ -36,9 +35,8 @@ struct CourseCreateOrEditView: View {
                         data: $course.beveragePairing
                     )
                 }
-                EditScreenPrimaryButtons(
+                PrimaryButtonSubViews.EditViewPrimaryButtons(
                     cancelFunc: {
-                        
                         self.presentationMode.wrappedValue.dismiss()
                     },
                     saveFunc: {

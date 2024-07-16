@@ -16,6 +16,8 @@ struct MealView: View {
     let meal:Meal;
 
     var body: some View {
+        let meal = viewModel.getMealFor(meal.id)!
+        let newCourse = Course(mealId: meal.id)
         NavigationStack {
             ZStack(alignment: .bottom) {
                 ScrollForm {
@@ -35,19 +37,24 @@ struct MealView: View {
                     }
                     CourseSubViews.CoursesViewSection(courses:meal.courses)
                 }
-                ViewScreenPrimaryButtons(
+                PrimaryButtonSubViews.MealViewPrimaryButtons(
                     backClosure: {
                         self.presentationMode.wrappedValue.dismiss()
                     },
-                    editDest: MealCreateOrEditView(
+                    editMealDest: MealCreateOrEditView(
                         title: "Edit Meal",
                         meal: Binding<Meal>(
                             get: { viewModel.getMealFor(meal.id)! },
                             set: { viewModel.saveEditedMealFor($0) }
                             )
                     ),
-                    addCourseClosure: {
-                    }
+                    createCourseDest: CourseCreateOrEditView(
+                        title: "Create New Course",
+                        course:Binding<Course>(
+                            get: { viewModel.getCourseFor(newCourse.id) ?? newCourse },
+                            set: { viewModel.saveEditedCourse($0) }
+                        )
+                    )
                 )
             }
             .navigationBarBackButtonHidden()

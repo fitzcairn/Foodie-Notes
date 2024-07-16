@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		AA45C07D2C471B23009F6DEC /* CourseCreateOrEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA45C07C2C471B22009F6DEC /* CourseCreateOrEditView.swift */; };
+		AA45C0992C471D09009F6DEC /* PrimaryButtonSubViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA45C0982C471D09009F6DEC /* PrimaryButtonSubViews.swift */; };
 		AA81D20F2C26EEA100FF0221 /* FoodieNotesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D20E2C26EEA100FF0221 /* FoodieNotesApp.swift */; };
 		AA81D2142C26EEA100FF0221 /* Foodie_Notes.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AA81D2122C26EEA100FF0221 /* Foodie_Notes.xcdatamodeld */; };
 		AA81D2182C26EEA200FF0221 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA81D2172C26EEA200FF0221 /* Assets.xcassets */; };
@@ -59,6 +60,7 @@
 
 /* Begin PBXFileReference section */
 		AA45C07C2C471B22009F6DEC /* CourseCreateOrEditView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseCreateOrEditView.swift; sourceTree = "<group>"; };
+		AA45C0982C471D09009F6DEC /* PrimaryButtonSubViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryButtonSubViews.swift; sourceTree = "<group>"; };
 		AA81D20B2C26EEA100FF0221 /* Foodie Notes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Foodie Notes.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA81D20E2C26EEA100FF0221 /* FoodieNotesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodieNotesApp.swift; sourceTree = "<group>"; };
 		AA81D2132C26EEA100FF0221 /* Foodie_Notes.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Foodie_Notes.xcdatamodel; sourceTree = "<group>"; };
@@ -208,6 +210,7 @@
 				AAA064CC2C46A7DA005397EA /* PhotoSubViews.swift */,
 				AAA064CB2C46A7DA005397EA /* PictureSubViews.swift */,
 				AAA064D12C46A7DA005397EA /* RatingSubViews.swift */,
+				AA45C0982C471D09009F6DEC /* PrimaryButtonSubViews.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -398,6 +401,7 @@
 				AA81D2B72C38193500FF0221 /* VenueModel.swift in Sources */,
 				AA81D2FC2C3A1CD000FF0221 /* AppModelTestData.swift in Sources */,
 				AAA064D52C46A7DA005397EA /* MiscSubViews.swift in Sources */,
+				AA45C0992C471D09009F6DEC /* PrimaryButtonSubViews.swift in Sources */,
 				AA81D3002C3AA1DD00FF0221 /* Constants.swift in Sources */,
 				AA81D20F2C26EEA100FF0221 /* FoodieNotesApp.swift in Sources */,
 				AAA064D82C46A7DA005397EA /* RatingSubViews.swift in Sources */,
