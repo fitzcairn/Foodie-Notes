@@ -6,8 +6,6 @@
 //
 
 import Foundation
-import ExyteMediaPicker
-
 
 // Backend model for all app state.
 struct AppModel : Codable, Equatable {
@@ -62,7 +60,7 @@ struct AppModel : Codable, Equatable {
 
         // Do we know about this course?
         if coursesById[course.id] == nil {
-            // Add and index.
+            // Add to index.
             mealsById[course.mealId]!.courses.append(course)
             coursesById[course.id] = course
         } else {
