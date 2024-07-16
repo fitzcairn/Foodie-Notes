@@ -12,43 +12,42 @@ struct MealCreateOrEditView: View {
     @EnvironmentObject var viewModel:AppViewModel;
     
     @State private var showingAlert = false
-    
+
     let title:String
-    
+    @Binding var meal:Meal;
+        
     var body: some View {
         // TODO: Split my custom NavigationStack out into a custom view.
         NavigationStack {
             ZStack(alignment: .bottom) {
                 ScrollForm {
                     PictureSubViews.PictureNameRatingEditView(
-                        name: $viewModel.mealBeingEdited.venue.name,
-                        picture: $viewModel.mealBeingEdited.pickedImage,
-                        rating: $viewModel.mealBeingEdited.rating
+                        name: $meal.venue.name,
+                        picture: $meal.pickedImage,
+                        rating: $meal.rating
                     )
                     DateViews.DatePickerSection(
-                        selectedDate: $viewModel.mealBeingEdited.date
+                        selectedDate: $meal.date
                     )
                     NotesSubViews.NotesEditSection(
                         title:"Overall Notes",
-                        inputText: $viewModel.mealBeingEdited.notes
+                        inputText: $meal.notes
                     )
                     PictureSubViews.PictureAndNotesEditSection(
                         title: "Menu[s]",
-                        data: $viewModel.mealBeingEdited.menu
+                        data: $meal.menu
                     )
                     CourseSubViews.CoursesEditSection(
-                        mealId: viewModel.mealBeingEdited.id,
-                        courses: $viewModel.mealBeingEdited.courses)
+                        mealId: meal.id,
+                        courses: $meal.courses)
                 }
                 EditScreenPrimaryButtons(
                     cancelFunc: {
-                        viewModel.beginCreatingNewMeal();
                         self.presentationMode.wrappedValue.dismiss()
                     },
                     saveFunc: {
-                        showingAlert = viewModel.mealBeingEdited.venue.name.isEmpty
+                        showingAlert = meal.venue.name.isEmpty
                         if !showingAlert {
-                            viewModel.saveEditedMealFor(viewModel.mealBeingEdited)
                             presentationMode.wrappedValue.dismiss()
                         }
                     },

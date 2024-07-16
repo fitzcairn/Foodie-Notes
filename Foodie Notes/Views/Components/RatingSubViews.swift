@@ -40,7 +40,6 @@ struct RatingSubViews {
     }
     
     struct RatingEditView : View {
-        // TODO: Needs to be in viewmodel.
         @Binding var rating: Int
         
         var body: some View {

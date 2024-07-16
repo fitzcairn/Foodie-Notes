@@ -43,7 +43,18 @@ struct MealListView: View {
     
     var loadingView: some View {
         VStack {
-            ProgressView()
+            LinearGradient(
+                gradient: Gradient(colors: [Color(red:1, green:0.988, blue:0.914), Color.white]),
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing)
+            .edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
+            VStack() {
+                Image("icon")
+                    .resizable()
+                    .frame(width:300, height:300)
+                    .padding(.vertical, 10)
+                ProgressView()
+            }
         }
         .task {
             do {
@@ -89,12 +100,18 @@ struct MealListView: View {
                 )
                 VStack {
                     Spacer()
-                    NavigationLink(destination: MealCreateOrEditView(title: "Create New Meal")) {
+                    NavigationLink(
+                        destination: MealCreateOrEditView(
+                            title: "Create New Meal",
+                            meal: Binding<Meal>(
+                                get: { Meal() },
+                                set: { viewModel.saveEditedMealFor($0) }
+                                )
+                            )
+                        )
+                    {
                         PrimaryNewButtonImage()
                     }
-                    .simultaneousGesture(TapGesture().onEnded {
-                        viewModel.beginCreatingNewMeal()
-                    })
                 }
             }
         }

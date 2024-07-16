@@ -13,9 +13,10 @@ struct MealView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @EnvironmentObject var viewModel:AppViewModel;
     
-    var meal:Meal;
+    let meal:Meal;
 
     var body: some View {
+        // TODO: this meal should be a binding from MealListView.
         let meal = viewModel.getMealFor(meal.id)!
         NavigationStack {
             ZStack(alignment: .bottom) {
@@ -38,16 +39,18 @@ struct MealView: View {
                 }
                 ViewScreenPrimaryButtons(
                     backClosure: {
-                        viewModel.isEditingMeal = false;
                         self.presentationMode.wrappedValue.dismiss()
                     },
                     editDest: MealCreateOrEditView(
-                        title: "Edit Meal"),
+                        title: "Edit Meal",
+                        meal: Binding<Meal>(
+                            get: { meal },
+                            set: { viewModel.saveEditedMealFor($0) }
+                            )
+                    ),
                     editClosure: {
-                        viewModel.beginEditingMeal(meal)
                     },
                     addCourseClosure: {
-                        viewModel.setNewCourse(courseId: nil, mealId: meal.id)
                     }
                 )
             }

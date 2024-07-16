@@ -32,17 +32,9 @@ class AppViewModel : ObservableObject {
     
     
     // MARK: - View State Management
-    func beginEditingMeal(_ meal:Meal) {
-        self.mealBeingEdited = meal
-        isEditingMeal = true;
-    }
-    func beginCreatingNewMeal() {
-        self.mealBeingEdited = Meal()
-        isEditingMeal = true;
-    }
     func saveEditedMealFor(_ meal:Meal) {
         model.index(meal)
-        isEditingMeal = false;
+        self.objectWillChange.send()
     }
 
     func setNewCourse(courseId:String?, mealId:String) {
@@ -58,6 +50,7 @@ class AppViewModel : ObservableObject {
     func saveEditedCourse() {
         guard(!self.courseBeingEdited.mealId.isEmpty) else {return}
         model.indexCourse(self.courseBeingEdited)
+        self.objectWillChange.send()
     }
 
     

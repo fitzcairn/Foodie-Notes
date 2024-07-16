@@ -72,6 +72,7 @@ struct ViewScreenPrimaryButtons<Destination>: View where Destination : View {
                 .simultaneousGesture(TapGesture().onEnded {
                     editClosure()
                 })
+                // TODO: this is a hack for now -- will be addressed with UI refresh.
                 if let addCourseClosure = addCourseClosure {
                     Spacer()
                         .frame(width:30)
