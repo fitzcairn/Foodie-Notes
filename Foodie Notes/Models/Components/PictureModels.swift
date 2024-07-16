@@ -34,10 +34,11 @@ struct Picture : Identifiable, Hashable, Codable {
         hasher.combine(id)
         hasher.combine(url)
         hasher.combine(deleted)
+        hasher.combine(data)
     }
 }
 
-struct PicturesAndNotes: Codable {
+struct PicturesAndNotes: Codable, Hashable {
     var pictures:[Picture] = [];
     var notes:String = "";
     
@@ -51,6 +52,11 @@ struct PicturesAndNotes: Codable {
     init(pictures: [Picture], notes: String) {
         self.pictures = pictures
         self.notes = notes
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(notes)
+        hasher.combine(pictures)
     }
 }
 

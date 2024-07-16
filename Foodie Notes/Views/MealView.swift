@@ -16,8 +16,6 @@ struct MealView: View {
     let meal:Meal;
 
     var body: some View {
-        // TODO: this meal should be a binding from MealListView.
-        let meal = viewModel.getMealFor(meal.id)!
         NavigationStack {
             ZStack(alignment: .bottom) {
                 ScrollForm {
@@ -44,7 +42,7 @@ struct MealView: View {
                     editDest: MealCreateOrEditView(
                         title: "Edit Meal",
                         meal: Binding<Meal>(
-                            get: { meal },
+                            get: { viewModel.getMealFor(meal.id)! },
                             set: { viewModel.saveEditedMealFor($0) }
                             )
                     ),

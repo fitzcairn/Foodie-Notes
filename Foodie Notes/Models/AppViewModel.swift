@@ -27,6 +27,9 @@ class AppViewModel : ObservableObject {
     
     func fromLoad(model:AppModel) {
         self.model = model;
+        // TODO: REMOVE
+        self.model.addTestData(numTestMeals: 2)
+
         state = self.model.showSplash ? .splash : .list
     }
     
@@ -50,7 +53,11 @@ class AppViewModel : ObservableObject {
     func saveEditedCourse() {
         guard(!self.courseBeingEdited.mealId.isEmpty) else {return}
         model.indexCourse(self.courseBeingEdited)
-        self.objectWillChange.send()
+        //self.objectWillChange.send()
+    }
+    func saveEditedCourse(_ course:Course) {
+        model.indexCourse(course)
+        //self.objectWillChange.send()
     }
 
     

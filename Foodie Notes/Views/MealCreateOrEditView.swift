@@ -37,9 +37,6 @@ struct MealCreateOrEditView: View {
                         title: "Menu[s]",
                         data: $meal.menu
                     )
-                    CourseSubViews.CoursesEditSection(
-                        mealId: meal.id,
-                        courses: $meal.courses)
                 }
                 EditScreenPrimaryButtons(
                     cancelFunc: {

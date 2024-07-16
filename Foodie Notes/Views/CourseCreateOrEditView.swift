@@ -15,24 +15,25 @@ struct CourseCreateOrEditView: View {
     @State private var showingAlert = false
     
     let title:String
+    @Binding var course:Course;
     
     var body: some View {
         NavigationStack {
             ZStack(alignment: .bottom) {
                 ScrollForm {
                     PictureSubViews.PictureNameRatingEditView(
-                        name:$viewModel.courseBeingEdited.name,
-                        picture:$viewModel.courseBeingEdited.pickedImage,
-                        rating:$viewModel.courseBeingEdited.rating
+                        name:$course.name,
+                        picture:$course.pickedImage,
+                        rating:$course.rating
                     )
-                    DateViews.DatePickerSection(selectedDate:$viewModel.courseBeingEdited.date)
+                    DateViews.DatePickerSection(selectedDate:$course.date)
                     PictureSubViews.PictureAndNotesEditSection(
                         title: "Food",
-                        data: $viewModel.courseBeingEdited.food
+                        data: $course.food
                     )
                     PictureSubViews.PictureAndNotesEditSection(
                         title: "Beverage Pairing",
-                        data: $viewModel.courseBeingEdited.beveragePairing
+                        data: $course.beveragePairing
                     )
                 }
                 EditScreenPrimaryButtons(
@@ -41,15 +42,8 @@ struct CourseCreateOrEditView: View {
                         self.presentationMode.wrappedValue.dismiss()
                     },
                     saveFunc: {
-                        showingAlert = viewModel.courseBeingEdited.name.isEmpty;
+                        showingAlert = course.name.isEmpty;
                         if !showingAlert {
-                            // If we're editing a meal, we want to make sure to update the meal being edited.
-                            if (viewModel.isEditingMeal) {
-                                viewModel.updateMealBeingEditedlWith(viewModel.courseBeingEdited)
-                            } else {
-                                // Persist the changes to the existing meal.
-                                viewModel.saveEditedCourse()
-                            }
                             presentationMode.wrappedValue.dismiss()
                         }
                     },

@@ -76,8 +76,14 @@ struct ViewScreenPrimaryButtons<Destination>: View where Destination : View {
                 if let addCourseClosure = addCourseClosure {
                     Spacer()
                         .frame(width:30)
-                    NavigationLink(destination:CourseCreateOrEditView(title: "Create New Course"))
-                    {
+                    NavigationLink(destination:CourseCreateOrEditView(
+                        title: "Create New Course",
+                        course:Binding<Course>(
+                            get: { Course(mealId:"") },
+                            set: { _ = $0 }
+                            )
+                        )
+                    ) {
                         ZStack {
                             Image(systemName: "fork.knife.circle.fill")
                                 .resizable()
@@ -93,9 +99,6 @@ struct ViewScreenPrimaryButtons<Destination>: View where Destination : View {
                                 .foregroundColor(.white)
                         }
                     }
-                    .simultaneousGesture(TapGesture().onEnded {
-                        addCourseClosure()
-                    })
                 }
             }
         }
