@@ -41,6 +41,7 @@ struct ViewScreenPrimaryButtons<Destination>: View where Destination : View {
     let backClosure:(() -> Void)
     let editDest: Destination
     var editClosure:(() -> Void) = {}
+    var addCourseClosure:(() -> Void)?
 
     var body: some View {
         VStack {
@@ -71,6 +72,32 @@ struct ViewScreenPrimaryButtons<Destination>: View where Destination : View {
                 .simultaneousGesture(TapGesture().onEnded {
                     editClosure()
                 })
+                if let addCourseClosure = addCourseClosure {
+                    Spacer()
+                        .frame(width:30)
+                    NavigationLink(destination:CourseCreateOrEditView(title: "Create New Course"))
+                    {
+                        ZStack {
+                            Image(systemName: "fork.knife.circle.fill")
+                                .resizable()
+                                .frame(width: 56, height: 56)
+                                .background(Color.white)
+                                .clipShape(Circle())
+                                .foregroundColor(.green)
+                            Image(systemName: "plus.circle")
+                                .resizable()
+                                .frame(width: 18, height: 18)
+                                .background(Color.green)
+                                .clipShape(Circle())
+                                .foregroundColor(.white)
+                                //.padding(.trailing, 36)
+
+                        }
+                    }
+                    .simultaneousGesture(TapGesture().onEnded {
+                        addCourseClosure()
+                    })
+                }
             }
         }
     }

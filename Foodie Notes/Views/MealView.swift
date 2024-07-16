@@ -45,6 +45,9 @@ struct MealView: View {
                         title: "Edit Meal"),
                     editClosure: {
                         viewModel.beginEditingMeal(meal)
+                    },
+                    addCourseClosure: {
+                        viewModel.setNewCourse(courseId: nil, mealId: meal.id)
                     }
                 )
             }
