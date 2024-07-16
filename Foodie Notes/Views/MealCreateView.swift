@@ -15,7 +15,6 @@ struct MealCreateView: View {
     @ObservedObject private var meal:WrappedStruct<Meal> = WrappedStruct(withItem:Meal())
         
     var body: some View {
-        // TODO: Split my custom NavigationStack out into a custom view.
         NavigationStack {
             ZStack(alignment: .bottom) {
                 ScrollForm {

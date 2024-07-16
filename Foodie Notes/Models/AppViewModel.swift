@@ -10,55 +10,25 @@ import Foundation
 // View model for the app.
 @MainActor
 class AppViewModel : ObservableObject {
+    enum AppState { case loading, splash, list }
+
     var id = Id.createId();
     
-    enum AppState { case loading, splash, list }
     @Published var state = AppState.loading
-
-    // App model
     @Published var model: AppModel = AppModel()
     
-    // State for editing a meal.
-    @Published var mealBeingViewed: Meal = Meal()
-    @Published var mealBeingEdited: Meal = Meal()
-    @Published var courseBeingEdited: Course = Course(mealId: "") // Hack
-    @Published var isEditingMeal: Bool = false;
-
-    
+    // Set initial app state.
     func fromLoad(model:AppModel) {
         self.model = model;
         state = self.model.showSplash ? .splash : .list
     }
+
     
-    
-    // MARK: - View State Management
+    // MARK: - Meal Management
     func saveEditedMealFor(_ meal:Meal) {
         model.index(meal)
         self.objectWillChange.send()
     }
-
-    func setNewCourse(courseId:String?, mealId:String) {
-        self.courseBeingEdited = courseId == nil ? Course(mealId: mealId) : getCourseFor(courseId!) ?? Course(mealId: mealId)
-    }
-    func setNewCourse(_ course:Course) {
-        self.courseBeingEdited = course;
-    }
-    func updateMealBeingEditedlWith(_ course:Course) {
-        guard(isEditingMeal) else { return }
-        mealBeingEdited = model.getUpdatedMealWithCourse(meal: mealBeingEdited, course:course)
-    }
-    func saveEditedCourse() {
-        guard(!self.courseBeingEdited.mealId.isEmpty) else {return}
-        model.indexCourse(self.courseBeingEdited)
-        //self.objectWillChange.send()
-    }
-    func saveEditedCourse(_ course:Course) {
-        model.indexCourse(course)
-        self.objectWillChange.send()
-    }
-
-    
-    // MARK: - Meal Management
     func getMeals() -> [Meal] {
         // TODO: apply filter, for now return all.
         return model.getMeals().sorted(by: {$0.date > $1.date });
@@ -71,8 +41,6 @@ class AppViewModel : ObservableObject {
             model.removeMeal(mealId)
         }
     }
-   
-    // MARK: - Meal Property Getter/Setters
     func getMealImageFor(_ meal:Meal) -> Picture? {
         // Do we have a manually picked image already?
         if !isPictureEmpty(meal.pickedImage) { return meal.pickedImage }
@@ -105,15 +73,9 @@ class AppViewModel : ObservableObject {
     func getCourseFor(_ courseId:String) -> Course? {
         return model.getCourseFor(courseId);
     }
-    func addNewCourseTo(_ mealId:String) -> Course {
-        return model.addNewCourseTo(mealId)
-    }
-    
-    
-    // MARK: - Course Property Getter/Setters
-    func getCourseImageFor(_ courseId:String) -> Picture? {
-        guard let course = model.getCourseFor(courseId) else { return nil }
-        return getCourseImageFor(course)
+    func saveEditedCourse(_ course:Course) {
+        model.indexCourse(course)
+        self.objectWillChange.send()
     }
     func getCourseImageFor(_ course:Course) -> Picture? {
         // Do we have a manually picked image already?
@@ -132,16 +94,6 @@ class AppViewModel : ObservableObject {
     // MARK: - Other Useful Helpers
     func isPictureEmpty(_ image:Picture?) -> Bool {
         return image == nil || image!.data == nil || image!.deleted
-    }
-    
-    func removeDeletedImagesFor(_ old:PicturesAndNotes) -> PicturesAndNotes {
-        var new = PicturesAndNotes(notes:old.notes)
-        for picture in old.pictures {
-            if !picture.deleted {
-                new.pictures.append(picture)
-            }
-        }
-        return new
     }
     // Consolidate business logic on when to show a section.
     func checkShow(_ pictureAndNotes:PicturesAndNotes?) -> Bool {
