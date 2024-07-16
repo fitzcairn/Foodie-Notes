@@ -90,8 +90,6 @@ struct ViewScreenPrimaryButtons<Destination>: View where Destination : View {
                                 .background(Color.green)
                                 .clipShape(Circle())
                                 .foregroundColor(.white)
-                                //.padding(.trailing, 36)
-
                         }
                     }
                     .simultaneousGesture(TapGesture().onEnded {
