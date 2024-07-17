@@ -20,7 +20,8 @@ class AppViewModel : ObservableObject {
     // Set initial app state.
     func fromLoad(model:AppModel) {
         self.model = model;
-        state = self.model.showSplash ? .splash : .list
+        // Skip a the splash screen for now.
+        state = .list
     }
 
     
