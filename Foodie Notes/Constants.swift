@@ -19,7 +19,7 @@ enum SectionTitle {
     static let notes = "Overall Notes"
     static let menus = "Menu[s]"
     static let courses = "Courses"
-    static let cuisine = "Cuisine"
+    static let cuisine = "Cuisine[s]"
 }
 
 enum ViewTitle {

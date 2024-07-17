@@ -51,14 +51,19 @@ struct StyledTitleText : View {
 
 struct StyledTextField : View {
     @Binding var inputText:String;
+    var prompt = "Tap to Add/Edit"
+    var onChangeClosure:(() -> Void) = {}
 
     var body: some View {
         ZStack {
             HStack(alignment: .top) {
-                TextField("Tap to Add/Edit", text:$inputText, axis:.vertical)
+                TextField(prompt, text:$inputText, axis:.vertical)
                     .padding(.horizontal, 4)
                     .padding(.top, 3)
                     .padding(.bottom, 1)
+                    .onChange(of: inputText) {
+                        onChangeClosure()
+                    }
                 Spacer()
                 Button(
                     action: {
