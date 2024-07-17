@@ -19,6 +19,7 @@ enum SectionTitle {
     static let notes = "Overall Notes"
     static let menus = "Menu[s]"
     static let courses = "Courses"
+    static let cuisine = "Cuisine"
 }
 
 enum ViewTitle {
@@ -31,7 +32,7 @@ enum ViewTitle {
     static let listMeals = "Your Meals"
 }
 
-enum Cuisine: String, Codable {
+enum Cuisine: String, Codable, CaseIterable {
     case afghan = "Afghan"
     case american = "American"
     case americanCalifornia = "American (California)"

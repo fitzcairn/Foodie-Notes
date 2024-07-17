@@ -38,12 +38,11 @@
 		AAA064C72C46A084005397EA /* ModelIOService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA064C62C46A084005397EA /* ModelIOService.swift */; };
 		AAA064D22C46A7DA005397EA /* PictureSubViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA064CB2C46A7DA005397EA /* PictureSubViews.swift */; };
 		AAA064D32C46A7DA005397EA /* PhotoSubViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA064CC2C46A7DA005397EA /* PhotoSubViews.swift */; };
-		AAA064D42C46A7DA005397EA /* NameSubViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA064CD2C46A7DA005397EA /* NameSubViews.swift */; };
 		AAA064D52C46A7DA005397EA /* MiscSubViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA064CE2C46A7DA005397EA /* MiscSubViews.swift */; };
 		AAA064D62C46A7DA005397EA /* NotesSubViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA064CF2C46A7DA005397EA /* NotesSubViews.swift */; };
 		AAA064D72C46A7DA005397EA /* CourseSubViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA064D02C46A7DA005397EA /* CourseSubViews.swift */; };
 		AAA064D82C46A7DA005397EA /* RatingSubViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA064D12C46A7DA005397EA /* RatingSubViews.swift */; };
-		AACB64842C47F41A0008084D /* iOSDropDown in Frameworks */ = {isa = PBXBuildFile; productRef = AACB64832C47F41A0008084D /* iOSDropDown */; };
+		AACB64862C47F47B0008084D /* CuisineSubViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AACB64852C47F47B0008084D /* CuisineSubViews.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -99,11 +98,11 @@
 		AAA064C62C46A084005397EA /* ModelIOService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelIOService.swift; sourceTree = "<group>"; };
 		AAA064CB2C46A7DA005397EA /* PictureSubViews.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PictureSubViews.swift; sourceTree = "<group>"; };
 		AAA064CC2C46A7DA005397EA /* PhotoSubViews.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoSubViews.swift; sourceTree = "<group>"; };
-		AAA064CD2C46A7DA005397EA /* NameSubViews.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NameSubViews.swift; sourceTree = "<group>"; };
 		AAA064CE2C46A7DA005397EA /* MiscSubViews.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MiscSubViews.swift; sourceTree = "<group>"; };
 		AAA064CF2C46A7DA005397EA /* NotesSubViews.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotesSubViews.swift; sourceTree = "<group>"; };
 		AAA064D02C46A7DA005397EA /* CourseSubViews.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseSubViews.swift; sourceTree = "<group>"; };
 		AAA064D12C46A7DA005397EA /* RatingSubViews.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RatingSubViews.swift; sourceTree = "<group>"; };
+		AACB64852C47F47B0008084D /* CuisineSubViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CuisineSubViews.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,7 +111,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				AA81D2A92C37065300FF0221 /* ExyteMediaPicker in Frameworks */,
-				AACB64842C47F41A0008084D /* iOSDropDown in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -216,14 +214,14 @@
 			isa = PBXGroup;
 			children = (
 				AAA064D02C46A7DA005397EA /* CourseSubViews.swift */,
+				AACB64852C47F47B0008084D /* CuisineSubViews.swift */,
+				AA4BF4BB2C47D26D00D01CF1 /* DateSubViews.swift */,
 				AAA064CE2C46A7DA005397EA /* MiscSubViews.swift */,
-				AAA064CD2C46A7DA005397EA /* NameSubViews.swift */,
 				AAA064CF2C46A7DA005397EA /* NotesSubViews.swift */,
 				AAA064CC2C46A7DA005397EA /* PhotoSubViews.swift */,
 				AAA064CB2C46A7DA005397EA /* PictureSubViews.swift */,
-				AAA064D12C46A7DA005397EA /* RatingSubViews.swift */,
 				AA45C0982C471D09009F6DEC /* PrimaryButtonSubViews.swift */,
-				AA4BF4BB2C47D26D00D01CF1 /* DateSubViews.swift */,
+				AAA064D12C46A7DA005397EA /* RatingSubViews.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -285,7 +283,6 @@
 			name = "Foodie Notes";
 			packageProductDependencies = (
 				AA81D2A82C37065300FF0221 /* ExyteMediaPicker */,
-				AACB64832C47F41A0008084D /* iOSDropDown */,
 			);
 			productName = "Foodie Notes";
 			productReference = AA81D20B2C26EEA100FF0221 /* Foodie Notes.app */;
@@ -419,13 +416,13 @@
 				AA81D2B72C38193500FF0221 /* VenueModel.swift in Sources */,
 				AA81D2FC2C3A1CD000FF0221 /* AppModelTestData.swift in Sources */,
 				AAA064D52C46A7DA005397EA /* MiscSubViews.swift in Sources */,
+				AACB64862C47F47B0008084D /* CuisineSubViews.swift in Sources */,
 				AA45C0992C471D09009F6DEC /* PrimaryButtonSubViews.swift in Sources */,
 				AA4BF4BC2C47D26D00D01CF1 /* DateSubViews.swift in Sources */,
 				AA81D3002C3AA1DD00FF0221 /* Constants.swift in Sources */,
 				AA81D20F2C26EEA100FF0221 /* FoodieNotesApp.swift in Sources */,
 				AAA064D82C46A7DA005397EA /* RatingSubViews.swift in Sources */,
 				AA81D2A62C36D65E00FF0221 /* PropertyWrappers.swift in Sources */,
-				AAA064D42C46A7DA005397EA /* NameSubViews.swift in Sources */,
 				AA81D2142C26EEA100FF0221 /* Foodie_Notes.xcdatamodeld in Sources */,
 				AA81D2822C309C3100FF0221 /* MealEditView.swift in Sources */,
 				AA81D2852C309C7F00FF0221 /* MealView.swift in Sources */,
@@ -830,11 +827,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = AA81D2A72C37065300FF0221 /* XCRemoteSwiftPackageReference "ExyteMediaPicker" */;
 			productName = ExyteMediaPicker;
-		};
-		AACB64832C47F41A0008084D /* iOSDropDown */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = AACB64822C47F41A0008084D /* XCRemoteSwiftPackageReference "iOSDropDown" */;
-			productName = iOSDropDown;
 		};
 /* End XCSwiftPackageProductDependency section */
 
