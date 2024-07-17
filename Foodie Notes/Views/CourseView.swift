@@ -20,9 +20,9 @@ struct CourseView: View {
                 ScrollForm {
                     CourseSubViews.CourseNameAndPickedImageView(course:course)
                     DateSubViews.DateSection(course.date)
-                    PictureSubViews.PictureAndNotesViewSection(title: "Food", data: course.food)
+                    PictureSubViews.PictureAndNotesViewSection(title: SectionTitle.food, data: course.food)
                     if viewModel.checkShow(course.beveragePairing) {
-                        PictureSubViews.PictureAndNotesViewSection(title: "Beverage Pairing", data: course.beveragePairing)
+                        PictureSubViews.PictureAndNotesViewSection(title: SectionTitle.beverage, data: course.beveragePairing)
                     }
                 }
                 PrimaryButtonSubViews.CourseViewPrimaryButtons(
@@ -39,8 +39,7 @@ struct CourseView: View {
             }
             .navigationBarBackButtonHidden()
             .navigationBarItems(
-                leading: Text("View Course")
-                    .font(.system(size:36, weight: .bold))
+                leading: StyledTitleText(ViewTitle.viewCourse)
             )
         }
     }

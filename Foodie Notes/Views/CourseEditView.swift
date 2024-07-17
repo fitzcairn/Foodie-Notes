@@ -26,11 +26,11 @@ struct CourseEditView: View {
                     )
                     DateSubViews.DatePickerSection(selectedDate:$course.date)
                     PictureSubViews.PictureAndNotesEditSection(
-                        title: "Food",
+                        title: SectionTitle.food,
                         data: $course.food
                     )
                     PictureSubViews.PictureAndNotesEditSection(
-                        title: "Beverage Pairing",
+                        title: SectionTitle.beverage,
                         data: $course.beveragePairing
                     )
                 }
@@ -50,8 +50,7 @@ struct CourseEditView: View {
             }
             .navigationBarBackButtonHidden()
             .navigationBarItems(
-                leading: Text("Edit Your Course")
-                    .font(.system(size:36, weight: .bold))
+                leading: StyledTitleText(ViewTitle.editCourse)
             )
         }
     }

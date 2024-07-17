@@ -27,11 +27,11 @@ struct MealCreateView: View {
                         selectedDate: $meal.item.date
                     )
                     NotesSubViews.NotesEditSection(
-                        title:"Overall Notes",
+                        title: SectionTitle.notes,
                         inputText: $meal.item.notes
                     )
                     PictureSubViews.PictureAndNotesEditSection(
-                        title: "Menu[s]",
+                        title: SectionTitle.menus,
                         data: $meal.item.menu
                     )
                 }
@@ -53,8 +53,7 @@ struct MealCreateView: View {
         }
         .navigationBarBackButtonHidden()
         .navigationBarItems(
-            leading: Text("Create a New Meal")
-                .font(.system(size:36, weight: .bold))
+            leading: StyledTitleText(ViewTitle.createMeal)
         )
     }
 }

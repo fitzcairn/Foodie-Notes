@@ -80,8 +80,7 @@ struct MealListView: View {
                 .listStyle(.plain)
                 .navigationBarBackButtonHidden()
                 .navigationBarItems(
-                    leading: Text("Meals")
-                        .font(.system(size:36, weight: .bold))
+                    leading: StyledTitleText(ViewTitle.listMeals)
                 )
                 VStack {
                     Spacer()

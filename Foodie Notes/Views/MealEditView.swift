@@ -28,11 +28,11 @@ struct MealEditView: View {
                         selectedDate: $meal.date
                     )
                     NotesSubViews.NotesEditSection(
-                        title:"Overall Notes",
+                        title: SectionTitle.notes,
                         inputText: $meal.notes
                     )
                     PictureSubViews.PictureAndNotesEditSection(
-                        title: "Menu[s]",
+                        title: SectionTitle.menus,
                         data: $meal.menu
                     )
                     CourseSubViews.CoursesEditSection(courses:$meal.courses)
@@ -54,8 +54,7 @@ struct MealEditView: View {
         }
         .navigationBarBackButtonHidden()
         .navigationBarItems(
-            leading: Text("Edit Your Meal")
-                .font(.system(size:36, weight: .bold))
+            leading: StyledTitleText(ViewTitle.editMeal)
         )
     }
 }

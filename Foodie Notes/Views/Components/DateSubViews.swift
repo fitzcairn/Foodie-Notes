@@ -9,14 +9,13 @@ import SwiftUI
 
 // All views related to showing and editing dates.
 struct DateSubViews {
-    private static let title:String = "When Enjoyed"
     private static let prompt:String = "Date/Time:"
     
     struct DatePickerSection: View {
         @Binding var selectedDate:Date
         
         var body: some View {
-            Section(title) {
+            Section(SectionTitle.date) {
                 DatePicker(
                     prompt,
                     selection: $selectedDate,
@@ -41,7 +40,7 @@ struct DateSubViews {
         }
                 
         var body: some View {
-            Section(title) {
+            Section(SectionTitle.date) {
                 HStack {
                     Text(dateFormatter.string(from: date ?? Date()))
                 }

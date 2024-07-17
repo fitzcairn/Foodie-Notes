@@ -36,6 +36,19 @@ struct ScrollForm<Content: View>: View {
     }
 }
 
+struct StyledTitleText : View {
+    let text:String;
+    
+    init(_ text:String) {
+        self.text = text
+    }
+    
+    var body : some View {
+        Text(text)
+            .font(.system(size:36, weight: .bold))
+    }
+}
+
 struct StyledTextField : View {
     @Binding var inputText:String;
 

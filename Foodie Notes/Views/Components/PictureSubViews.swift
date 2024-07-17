@@ -16,8 +16,8 @@ struct PictureSubViews {
 
         var body: some View {
             let columns = (edit && pictures.isEmpty) || (!edit && pictures.count == 1) ?
-            [GridItem(.flexible(minimum: Constant.photoWidth))] :
-                [GridItem(.flexible(minimum: Constant.photoWidth)), GridItem(.flexible(minimum: Constant.photoWidth))]
+            [GridItem(.flexible(minimum: PhotoDimensions.photoWidth))] :
+                [GridItem(.flexible(minimum: PhotoDimensions.photoWidth)), GridItem(.flexible(minimum: PhotoDimensions.photoWidth))]
 
             VStack(alignment: .center) {
                 LazyVGrid(columns: columns, spacing:10) {
@@ -58,7 +58,7 @@ struct PictureSubViews {
                                 data.pictures = $0;
                             }),
                         edit:true)
-                    .frame(width:data.pictures.isEmpty ? Constant.photoWidth : 2 * Constant.photoWidth)
+                    .frame(width:data.pictures.isEmpty ? PhotoDimensions.photoWidth : 2 * PhotoDimensions.photoWidth)
                     .padding(.trailing, 5)
                     StyledTextField(inputText:$data.notes)
                     Spacer()
@@ -80,7 +80,7 @@ struct PictureSubViews {
                                 get: { data.pictures },
                                 set: { _ = $0 })
                             )
-                            .frame(width:data.pictures.count <= 1 ? Constant.photoWidth : 2 * Constant.photoWidth)
+                            .frame(width:data.pictures.count <= 1 ? PhotoDimensions.photoWidth : 2 * PhotoDimensions.photoWidth)
                             .padding(.trailing, 5)
                         }
                         NotesSubViews.NotesView(inputText:data.notes)

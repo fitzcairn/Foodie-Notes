@@ -30,11 +30,11 @@ struct CourseCreateView: View {
                     )
                     DateSubViews.DatePickerSection(selectedDate:$course.item.date)
                     PictureSubViews.PictureAndNotesEditSection(
-                        title: "Food",
+                        title: SectionTitle.food,
                         data: $course.item.food
                     )
                     PictureSubViews.PictureAndNotesEditSection(
-                        title: "Beverage Pairing",
+                        title: SectionTitle.beverage,
                         data: $course.item.beveragePairing
                     )
                 }
@@ -55,8 +55,7 @@ struct CourseCreateView: View {
             }
             .navigationBarBackButtonHidden()
             .navigationBarItems(
-                leading: Text("Create a New Course")
-                    .font(.system(size:36, weight: .bold))
+                leading: StyledTitleText(ViewTitle.createCourse)
             )
         }
     }

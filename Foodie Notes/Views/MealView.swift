@@ -27,12 +27,12 @@ struct MealView: View {
                     DateSubViews.DateSection(meal.date)
                     if !meal.notes.isEmpty {
                         NotesSubViews.NotesSection(
-                            title:"Overall Notes",
+                            title:SectionTitle.notes,
                             note: meal.notes
                         )
                     }
                     if viewModel.checkShow(meal.menu) {
-                        PictureSubViews.PictureAndNotesViewSection(title: "Menu[s]", data:meal.menu)
+                        PictureSubViews.PictureAndNotesViewSection(title: SectionTitle.menus, data:meal.menu)
                     }
                     CourseSubViews.CoursesViewSection(courses:meal.courses)
                 }
@@ -53,8 +53,7 @@ struct MealView: View {
             }
             .navigationBarBackButtonHidden()
             .navigationBarItems(
-                leading: Text("View Meal")
-                    .font(.system(size:36, weight: .bold)),
+                leading: StyledTitleText(ViewTitle.viewMeal),
                 trailing: ShareLink(
                     item: "",
                     subject: Text("Notes about my meal at \(meal.venue.name) on \(meal.date.formatted(date: .complete, time: .omitted))"),
