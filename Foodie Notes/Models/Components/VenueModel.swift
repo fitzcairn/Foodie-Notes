@@ -11,7 +11,9 @@ import Foundation
 struct Venue : Hashable, Codable {
     let id:String;
     var name: String = ""
-    // Someday: lat/long/etc!
+    var michelin: Michelin?
+
+    // TODO: location data, eg lat/long/etc!
 
     init() {
         id = Id.createId();

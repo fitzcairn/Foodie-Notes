@@ -32,6 +32,18 @@ enum ViewTitle {
     static let listMeals = "Your Meals"
 }
 
+enum Michelin: String, Codable, CaseIterable {
+    case none = "None"
+    case bibGourmand = "Bib Gourmand"
+    case oneStar = "One Star"
+    case twoStar = "Two Stars"
+    case threeStar = "Three Stars"
+    
+    var displayName: String {
+        return self.rawValue
+    }
+}
+
 enum Cuisine: String, Codable, CaseIterable {
     case afghan = "Afghan"
     case american = "American"

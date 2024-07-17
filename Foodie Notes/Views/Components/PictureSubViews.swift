@@ -100,17 +100,111 @@ struct PictureSubViews {
         @Binding var rating: Int
 
         var body: some View {
-            HStack {
-                PhotoSubViews.PhotoEditView(picture:$picture)
-                StyledTextField(inputText:$name)
-                    .padding(.leading, 10)
-                    .padding(.trailing, -10)
-                Spacer()
-                RatingSubViews.RatingEditView(rating:$rating)
-                    .padding(.trailing, 15)
+            VStack {
+                HStack {
+                    PhotoSubViews.PhotoEditView(picture:$picture)
+                    StyledTextField(inputText:$name)
+                        .padding(.leading, 10)
+                        .padding(.trailing, -10)
+                    Spacer()
+                    RatingSubViews.RatingEditView(rating:$rating)
+                        .padding(.trailing, 15)
+                }
+                MichelinEditView()
             }
         }
     }
+    
+    struct MichelinEditView: View {
+        let ratings = Michelin.allCases
+        
+        @State var selection:Michelin = .none
+        var body: some View {
+            VStack {
+                Picker("Michelin Guide", selection: $selection) {
+                    ForEach(Array(zip(ratings.indices, ratings)), id: \.0) { index, rating in
+                        switch(rating) {
+                        case .none:
+                            MichelinRatingViews.None()
+                        case .bibGourmand:
+                            MichelinRatingViews.BibGourmand()
+                        case .oneStar:
+                            MichelinRatingViews.OneStar()
+                        case .twoStar:
+                            MichelinRatingViews.TwoStar()
+                        case .threeStar:
+                            MichelinRatingViews.ThreeStar()
+                        }
+                    }
+                }
+                .pickerStyle(.menu)
+            }
+        }
+    }
+    
+    private struct MichelinRatingViews {
+        private static let imageDim:CGFloat = 18;
+        
+        struct None : View {
+            var body: some View {
+                HStack {
+                    EmptyView()
+                }
+                .frame(width: imageDim, height: imageDim)
+            }
+        }
+        
+        struct BibGourmand : View {
+            var body: some View {
+                HStack {
+                    Image("bib-gourmand")
+                        .resizable()
+                        .frame(width: imageDim, height: imageDim)
+                }
+            }
+        }
+
+        struct OneStar : View {
+            var body: some View {
+                HStack {
+                    Image("1star")
+                        .resizable()
+                        .frame(width: imageDim, height: imageDim)
+                }
+            }
+        }
+
+        struct TwoStar : View {
+            var body: some View {
+                HStack {
+                    Image("1star")
+                        .resizable()
+                        .frame(width: imageDim, height: imageDim)
+                    Image("1star")
+                        .resizable()
+                        .frame(width: imageDim, height: imageDim)
+                }
+            }
+        }
+
+        struct ThreeStar : View {
+            var body: some View {
+                HStack {
+                    Image("1star")
+                        .resizable()
+                        .frame(width: imageDim, height: imageDim)
+                    Image("1star")
+                        .resizable()
+                        .frame(width: imageDim, height: imageDim)
+                    Image("1star")
+                        .resizable()
+                        .frame(width: imageDim, height: imageDim)
+                }
+            }
+        }
+
+    }
+    
     
     struct PictureNameRatingView : View {
         let name: String?
