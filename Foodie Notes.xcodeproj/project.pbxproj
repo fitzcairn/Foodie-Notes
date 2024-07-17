@@ -43,6 +43,7 @@
 		AAA064D62C46A7DA005397EA /* NotesSubViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA064CF2C46A7DA005397EA /* NotesSubViews.swift */; };
 		AAA064D72C46A7DA005397EA /* CourseSubViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA064D02C46A7DA005397EA /* CourseSubViews.swift */; };
 		AAA064D82C46A7DA005397EA /* RatingSubViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA064D12C46A7DA005397EA /* RatingSubViews.swift */; };
+		AACB64842C47F41A0008084D /* iOSDropDown in Frameworks */ = {isa = PBXBuildFile; productRef = AACB64832C47F41A0008084D /* iOSDropDown */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -111,6 +112,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AA81D2A92C37065300FF0221 /* ExyteMediaPicker in Frameworks */,
+				AACB64842C47F41A0008084D /* iOSDropDown in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -283,6 +285,7 @@
 			name = "Foodie Notes";
 			packageProductDependencies = (
 				AA81D2A82C37065300FF0221 /* ExyteMediaPicker */,
+				AACB64832C47F41A0008084D /* iOSDropDown */,
 			);
 			productName = "Foodie Notes";
 			productReference = AA81D20B2C26EEA100FF0221 /* Foodie Notes.app */;
@@ -358,6 +361,7 @@
 			mainGroup = AA81D2022C26EEA100FF0221;
 			packageReferences = (
 				AA81D2A72C37065300FF0221 /* XCRemoteSwiftPackageReference "ExyteMediaPicker" */,
+				AACB64822C47F41A0008084D /* XCRemoteSwiftPackageReference "iOSDropDown" */,
 			);
 			productRefGroup = AA81D20C2C26EEA100FF0221 /* Products */;
 			projectDirPath = "";
@@ -811,6 +815,14 @@
 				minimumVersion = 2.2.3;
 			};
 		};
+		AACB64822C47F41A0008084D /* XCRemoteSwiftPackageReference "iOSDropDown" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/jriosdev/iOSDropDown.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.4.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -818,6 +830,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = AA81D2A72C37065300FF0221 /* XCRemoteSwiftPackageReference "ExyteMediaPicker" */;
 			productName = ExyteMediaPicker;
+		};
+		AACB64832C47F41A0008084D /* iOSDropDown */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AACB64822C47F41A0008084D /* XCRemoteSwiftPackageReference "iOSDropDown" */;
+			productName = iOSDropDown;
 		};
 /* End XCSwiftPackageProductDependency section */
 

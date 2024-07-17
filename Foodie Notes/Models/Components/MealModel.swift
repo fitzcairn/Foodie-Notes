@@ -16,6 +16,7 @@ struct Meal : Identifiable, Hashable, Codable {
     var notes:String = ""
     var pickedImage:Picture?
     var rating: Int = 0;
+    var cuisine: Cuisine?
     
     init() {
     }
@@ -42,6 +43,8 @@ struct Meal : Identifiable, Hashable, Codable {
         hasher.combine(id)
         hasher.combine(venue)
         hasher.combine(date)
+        hasher.combine(notes)
+        hasher.combine(rating)
     }
 }
 
