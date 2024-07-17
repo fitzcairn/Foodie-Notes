@@ -10,26 +10,35 @@ import SwiftUI
 struct CuisineSubViews {
     
     struct CuisineViewSection : View {
-        let cuisine:String;
-        
+        let cuisines:[Cuisine];
+
         var body: some View {
             Section(header: Text(SectionTitle.cuisine)) {
                 HStack {
-                    Text(cuisine)
-                        .multilineTextAlignment(/*@START_MENU_TOKEN@*/.leading/*@END_MENU_TOKEN@*/)
+                    ForEach(Array(zip(cuisines.indices, cuisines)), id: \.0) { index, cuisine in
+                        HStack {
+                            Text(cuisine.displayName)
+                                .font(.system(size:14, weight: .regular))
+                                .foregroundColor(.white)
+                                .padding(4)
+                                .fixedSize(horizontal: false, vertical: true)
+                                .lineLimit(1)
+                                .frame(minHeight:24)
+                        }
+                        .background(Color.gray)
+                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                        .buttonStyle(.borderless)
+                    }
                 }
             }
         }
     }
     
     struct CuisineEditSection : View {
+        @Binding var cuisines:[Cuisine];
+
         @State private var searchString:String = ""
         @State private var showList:Bool = false;
-        
-        // Tmp
-        //@Binding var cuisine: String
-        @State private var cuisines:[Cuisine] = []
-        
         
         var body: some View {
             Section(header: Text(SectionTitle.cuisine)) {
@@ -118,9 +127,4 @@ struct CuisineSubViews {
             .presentationCompactAdaptation(.popover)
         }
     }
-}
-
-
-#Preview {
-    CuisineSubViews.CuisineEditSection()
 }

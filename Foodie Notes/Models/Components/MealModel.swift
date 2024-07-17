@@ -16,7 +16,13 @@ struct Meal : Identifiable, Hashable, Codable {
     var notes:String = ""
     var pickedImage:Picture?
     var rating: Int = 0;
-    var cuisine: Cuisine?
+    
+    // Added this way for backwards compat with existing saved data.
+    private var _cuisines: [Cuisine]?
+    var cuisines: [Cuisine] {
+        get { _cuisines ?? [] }
+        set { _cuisines = newValue }
+    }
     
     init() {
     }

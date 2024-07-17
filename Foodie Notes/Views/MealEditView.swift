@@ -27,6 +27,9 @@ struct MealEditView: View {
                     DateSubViews.DatePickerSection(
                         selectedDate: $meal.date
                     )
+                    CuisineSubViews.CuisineEditSection(
+                        cuisines:$meal.cuisines
+                    )
                     NotesSubViews.NotesEditSection(
                         title: SectionTitle.notes,
                         inputText: $meal.notes

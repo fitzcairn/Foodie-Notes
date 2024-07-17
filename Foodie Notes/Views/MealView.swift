@@ -25,6 +25,11 @@ struct MealView: View {
                         picture: viewModel.getMealImageFor(meal),
                         rating: meal.rating)
                     DateSubViews.DateSection(meal.date)
+                    if (!meal.cuisines.isEmpty) {
+                        CuisineSubViews.CuisineViewSection(
+                            cuisines:meal.cuisines
+                        )
+                    }
                     if !meal.notes.isEmpty {
                         NotesSubViews.NotesSection(
                             title:SectionTitle.notes,

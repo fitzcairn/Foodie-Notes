@@ -23,9 +23,11 @@ struct MealCreateView: View {
                         picture: $meal.item.pickedImage,
                         rating: $meal.item.rating
                     )
-                    CuisineSubViews.CuisineEditSection()
                     DateSubViews.DatePickerSection(
                         selectedDate: $meal.item.date
+                    )
+                    CuisineSubViews.CuisineEditSection(
+                        cuisines:$meal.item.cuisines
                     )
                     NotesSubViews.NotesEditSection(
                         title: SectionTitle.notes,
