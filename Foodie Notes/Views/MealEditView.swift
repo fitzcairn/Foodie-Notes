@@ -24,7 +24,7 @@ struct MealEditView: View {
                         picture: $meal.pickedImage,
                         rating: $meal.rating
                     )
-                    DateViews.DatePickerSection(
+                    DateSubViews.DatePickerSection(
                         selectedDate: $meal.date
                     )
                     NotesSubViews.NotesEditSection(

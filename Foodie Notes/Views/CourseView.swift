@@ -19,7 +19,7 @@ struct CourseView: View {
             ZStack(alignment: .bottom) {
                 ScrollForm {
                     CourseSubViews.CourseNameAndPickedImageView(course:course)
-                    DateViews.DateSection(course.date)
+                    DateSubViews.DateSection(course.date)
                     PictureSubViews.PictureAndNotesViewSection(title: "Food", data: course.food)
                     if viewModel.checkShow(course.beveragePairing) {
                         PictureSubViews.PictureAndNotesViewSection(title: "Beverage Pairing", data: course.beveragePairing)

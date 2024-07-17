@@ -24,7 +24,7 @@ struct CourseEditView: View {
                         picture:$course.pickedImage,
                         rating:$course.rating
                     )
-                    DateViews.DatePickerSection(selectedDate:$course.date)
+                    DateSubViews.DatePickerSection(selectedDate:$course.date)
                     PictureSubViews.PictureAndNotesEditSection(
                         title: "Food",
                         data: $course.food

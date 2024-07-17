@@ -24,7 +24,7 @@ struct MealView: View {
                         name: meal.venue.name,
                         picture: viewModel.getMealImageFor(meal),
                         rating: meal.rating)
-                    DateViews.DateSection(meal.date)
+                    DateSubViews.DateSection(meal.date)
                     if !meal.notes.isEmpty {
                         NotesSubViews.NotesSection(
                             title:"Overall Notes",
