@@ -23,7 +23,7 @@ struct CourseCreateView: View {
         NavigationStack {
             ZStack(alignment: .bottom) {
                 ScrollForm {
-                    PictureSubViews.PictureNameRatingEditView(
+                    PictureSubViews.CoursePictureNameRatingEditView(
                         name:$course.item.name,
                         picture:$course.item.pickedImage,
                         rating:$course.item.rating

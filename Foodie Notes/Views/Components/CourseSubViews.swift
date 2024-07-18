@@ -51,7 +51,7 @@ struct CourseSubViews {
         let course:Course
         
         var body: some View {
-            PictureSubViews.PictureNameRatingView(
+            PictureSubViews.CoursePictureNameRatingView(
                 name:course.name,
                 picture:viewModel.getCourseImageFor(course),
                 rating:course.rating

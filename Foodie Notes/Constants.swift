@@ -33,13 +33,12 @@ enum ViewTitle {
 }
 
 enum Michelin: String, Codable, CaseIterable {
-    case none = "None"
-    case bibGourmand = "Bib Gourmand"
-    case oneStar = "One Star"
-    case twoStar = "Two Stars"
-    case threeStar = "Three Stars"
+    case bibGourmand = "bib-gourmand"
+    case oneStar = "1star"
+    case twoStar = "2star"
+    case threeStar = "3star"
     
-    var displayName: String {
+    var imgName: String {
         return self.rawValue
     }
 }

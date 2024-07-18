@@ -20,10 +20,11 @@ struct MealView: View {
         NavigationStack {
             ZStack(alignment: .bottom) {
                 ScrollForm {
-                    PictureSubViews.PictureNameRatingView(
+                    PictureSubViews.MealPictureNameRatingView(
                         name: meal.venue.name,
                         picture: viewModel.getMealImageFor(meal),
-                        rating: meal.rating)
+                        rating: meal.rating,
+                        michelin:meal.venue.michelin)
                     DateSubViews.DateSection(meal.date)
                     if (!meal.cuisines.isEmpty) {
                         CuisineSubViews.CuisineViewSection(
@@ -43,6 +44,7 @@ struct MealView: View {
                 }
                 PrimaryButtonSubViews.MealViewPrimaryButtons(
                     backClosure: {
+                        viewModel.triggerRefresh()
                         self.presentationMode.wrappedValue.dismiss()
                     },
                     editMealDest: MealEditView(

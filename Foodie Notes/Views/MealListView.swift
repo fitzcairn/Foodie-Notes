@@ -13,7 +13,6 @@ struct MealListView: View {
     @Environment(\.scenePhase) var scenePhase
     @EnvironmentObject var viewModel:AppViewModel;
     
-    @State var needRefresh:Bool = true;
     let saveAction: () -> Void
     
     var progressView : some View {
@@ -60,7 +59,7 @@ struct MealListView: View {
                             NavigationLink(destination: MealView(meal: meal)) {
                                 VStack(alignment: .leading) {
                                     HStack {
-                                        Text(meal.venue.name)
+                                        MichelinSubViews.MichelinNameView(name: meal.venue.name, rating: meal.venue.michelin)
                                             .bold()
                                         Spacer()
                                         RatingSubViews.RatingView(rating:meal.rating)
@@ -92,6 +91,7 @@ struct MealListView: View {
                         remove(at:at, meals:viewModel.getMeals())
                     }
                 }
+                .id(UUID())
                 .listStyle(.plain)
                 .navigationBarBackButtonHidden()
                 .navigationBarItems(

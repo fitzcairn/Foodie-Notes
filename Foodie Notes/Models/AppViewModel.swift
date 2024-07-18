@@ -26,6 +26,9 @@ class AppViewModel : ObservableObject {
 
     
     // MARK: - Meal Management
+    func triggerRefresh() {
+        self.objectWillChange.send()
+    }
     func saveEditedMealFor(_ meal:Meal) {
         model.index(meal)
         self.objectWillChange.send()
