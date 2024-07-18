@@ -17,6 +17,13 @@ struct Meal : Identifiable, Hashable, Codable {
     var pickedImage:Picture?
     var rating: Int = 0;
     
+    // Added this way for backwards compat with existing saved data.
+    private var _cuisines: [Cuisine]?
+    var cuisines: [Cuisine] {
+        get { _cuisines ?? [] }
+        set { _cuisines = newValue }
+    }
+    
     init() {
     }
     
@@ -42,6 +49,8 @@ struct Meal : Identifiable, Hashable, Codable {
         hasher.combine(id)
         hasher.combine(venue)
         hasher.combine(date)
+        hasher.combine(notes)
+        hasher.combine(rating)
     }
 }
 

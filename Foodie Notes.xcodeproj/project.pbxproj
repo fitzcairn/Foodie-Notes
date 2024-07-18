@@ -12,6 +12,7 @@
 		AA45C09B2C4723B5009F6DEC /* MealCreateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA45C09A2C4723B5009F6DEC /* MealCreateView.swift */; };
 		AA45C09D2C4726B6009F6DEC /* WrappedStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA45C09C2C4726B6009F6DEC /* WrappedStruct.swift */; };
 		AA45C09F2C4727B5009F6DEC /* CourseCreateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA45C09E2C4727B5009F6DEC /* CourseCreateView.swift */; };
+		AA4BF4BC2C47D26D00D01CF1 /* DateSubViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4BF4BB2C47D26D00D01CF1 /* DateSubViews.swift */; };
 		AA81D20F2C26EEA100FF0221 /* FoodieNotesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D20E2C26EEA100FF0221 /* FoodieNotesApp.swift */; };
 		AA81D2142C26EEA100FF0221 /* Foodie_Notes.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AA81D2122C26EEA100FF0221 /* Foodie_Notes.xcdatamodeld */; };
 		AA81D2182C26EEA200FF0221 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA81D2172C26EEA200FF0221 /* Assets.xcassets */; };
@@ -37,11 +38,12 @@
 		AAA064C72C46A084005397EA /* ModelIOService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA064C62C46A084005397EA /* ModelIOService.swift */; };
 		AAA064D22C46A7DA005397EA /* PictureSubViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA064CB2C46A7DA005397EA /* PictureSubViews.swift */; };
 		AAA064D32C46A7DA005397EA /* PhotoSubViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA064CC2C46A7DA005397EA /* PhotoSubViews.swift */; };
-		AAA064D42C46A7DA005397EA /* NameSubViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA064CD2C46A7DA005397EA /* NameSubViews.swift */; };
 		AAA064D52C46A7DA005397EA /* MiscSubViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA064CE2C46A7DA005397EA /* MiscSubViews.swift */; };
 		AAA064D62C46A7DA005397EA /* NotesSubViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA064CF2C46A7DA005397EA /* NotesSubViews.swift */; };
 		AAA064D72C46A7DA005397EA /* CourseSubViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA064D02C46A7DA005397EA /* CourseSubViews.swift */; };
 		AAA064D82C46A7DA005397EA /* RatingSubViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA064D12C46A7DA005397EA /* RatingSubViews.swift */; };
+		AACB03802C49272800D84E52 /* MichelinSubViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AACB037F2C49272800D84E52 /* MichelinSubViews.swift */; };
+		AACB64862C47F47B0008084D /* CuisineSubViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AACB64852C47F47B0008084D /* CuisineSubViews.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +69,7 @@
 		AA45C09A2C4723B5009F6DEC /* MealCreateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealCreateView.swift; sourceTree = "<group>"; };
 		AA45C09C2C4726B6009F6DEC /* WrappedStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WrappedStruct.swift; sourceTree = "<group>"; };
 		AA45C09E2C4727B5009F6DEC /* CourseCreateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseCreateView.swift; sourceTree = "<group>"; };
+		AA4BF4BB2C47D26D00D01CF1 /* DateSubViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateSubViews.swift; sourceTree = "<group>"; };
 		AA81D20B2C26EEA100FF0221 /* Foodie Notes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Foodie Notes.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA81D20E2C26EEA100FF0221 /* FoodieNotesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodieNotesApp.swift; sourceTree = "<group>"; };
 		AA81D2132C26EEA100FF0221 /* Foodie_Notes.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Foodie_Notes.xcdatamodel; sourceTree = "<group>"; };
@@ -96,11 +99,12 @@
 		AAA064C62C46A084005397EA /* ModelIOService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelIOService.swift; sourceTree = "<group>"; };
 		AAA064CB2C46A7DA005397EA /* PictureSubViews.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PictureSubViews.swift; sourceTree = "<group>"; };
 		AAA064CC2C46A7DA005397EA /* PhotoSubViews.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoSubViews.swift; sourceTree = "<group>"; };
-		AAA064CD2C46A7DA005397EA /* NameSubViews.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NameSubViews.swift; sourceTree = "<group>"; };
 		AAA064CE2C46A7DA005397EA /* MiscSubViews.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MiscSubViews.swift; sourceTree = "<group>"; };
 		AAA064CF2C46A7DA005397EA /* NotesSubViews.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotesSubViews.swift; sourceTree = "<group>"; };
 		AAA064D02C46A7DA005397EA /* CourseSubViews.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseSubViews.swift; sourceTree = "<group>"; };
 		AAA064D12C46A7DA005397EA /* RatingSubViews.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RatingSubViews.swift; sourceTree = "<group>"; };
+		AACB037F2C49272800D84E52 /* MichelinSubViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MichelinSubViews.swift; sourceTree = "<group>"; };
+		AACB64852C47F47B0008084D /* CuisineSubViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CuisineSubViews.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -212,13 +216,15 @@
 			isa = PBXGroup;
 			children = (
 				AAA064D02C46A7DA005397EA /* CourseSubViews.swift */,
+				AACB64852C47F47B0008084D /* CuisineSubViews.swift */,
+				AA4BF4BB2C47D26D00D01CF1 /* DateSubViews.swift */,
 				AAA064CE2C46A7DA005397EA /* MiscSubViews.swift */,
-				AAA064CD2C46A7DA005397EA /* NameSubViews.swift */,
 				AAA064CF2C46A7DA005397EA /* NotesSubViews.swift */,
 				AAA064CC2C46A7DA005397EA /* PhotoSubViews.swift */,
 				AAA064CB2C46A7DA005397EA /* PictureSubViews.swift */,
-				AAA064D12C46A7DA005397EA /* RatingSubViews.swift */,
 				AA45C0982C471D09009F6DEC /* PrimaryButtonSubViews.swift */,
+				AAA064D12C46A7DA005397EA /* RatingSubViews.swift */,
+				AACB037F2C49272800D84E52 /* MichelinSubViews.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -355,6 +361,7 @@
 			mainGroup = AA81D2022C26EEA100FF0221;
 			packageReferences = (
 				AA81D2A72C37065300FF0221 /* XCRemoteSwiftPackageReference "ExyteMediaPicker" */,
+				AACB64822C47F41A0008084D /* XCRemoteSwiftPackageReference "iOSDropDown" */,
 			);
 			productRefGroup = AA81D20C2C26EEA100FF0221 /* Products */;
 			projectDirPath = "";
@@ -407,17 +414,19 @@
 				AA81D2A22C3267C200FF0221 /* AppViewModel.swift in Sources */,
 				AA81D2B52C38192400FF0221 /* PictureModels.swift in Sources */,
 				AA81D2BB2C39ECAC00FF0221 /* PhotoPickerModel.swift in Sources */,
+				AACB03802C49272800D84E52 /* MichelinSubViews.swift in Sources */,
 				AA45C09B2C4723B5009F6DEC /* MealCreateView.swift in Sources */,
 				AA81D2B12C3818E000FF0221 /* MealModel.swift in Sources */,
 				AA81D2B72C38193500FF0221 /* VenueModel.swift in Sources */,
 				AA81D2FC2C3A1CD000FF0221 /* AppModelTestData.swift in Sources */,
 				AAA064D52C46A7DA005397EA /* MiscSubViews.swift in Sources */,
+				AACB64862C47F47B0008084D /* CuisineSubViews.swift in Sources */,
 				AA45C0992C471D09009F6DEC /* PrimaryButtonSubViews.swift in Sources */,
+				AA4BF4BC2C47D26D00D01CF1 /* DateSubViews.swift in Sources */,
 				AA81D3002C3AA1DD00FF0221 /* Constants.swift in Sources */,
 				AA81D20F2C26EEA100FF0221 /* FoodieNotesApp.swift in Sources */,
 				AAA064D82C46A7DA005397EA /* RatingSubViews.swift in Sources */,
 				AA81D2A62C36D65E00FF0221 /* PropertyWrappers.swift in Sources */,
-				AAA064D42C46A7DA005397EA /* NameSubViews.swift in Sources */,
 				AA81D2142C26EEA100FF0221 /* Foodie_Notes.xcdatamodeld in Sources */,
 				AA81D2822C309C3100FF0221 /* MealEditView.swift in Sources */,
 				AA81D2852C309C7F00FF0221 /* MealView.swift in Sources */,
@@ -805,6 +814,14 @@
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 2.2.3;
+			};
+		};
+		AACB64822C47F41A0008084D /* XCRemoteSwiftPackageReference "iOSDropDown" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/jriosdev/iOSDropDown.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.4.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

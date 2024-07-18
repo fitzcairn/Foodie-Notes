@@ -10,12 +10,20 @@ import SwiftUI
 struct PrimaryButtonSubViews {
     private static let buttonSize:CGFloat = 56.0
     private static let buttonSpace:CGFloat = 30.0
+    private static let bottomSpace:CGFloat = 10.0
 
     
     private struct ButtonSpace: View {
         var body: some View {
             Spacer()
                 .frame(width:buttonSpace)
+        }
+    }
+
+    private struct ButtonBottomSpace: View {
+        var body: some View {
+            Spacer()
+                .frame(height:bottomSpace)
         }
     }
     
@@ -83,6 +91,7 @@ struct PrimaryButtonSubViews {
                         }
                     }
                 }
+                ButtonBottomSpace()
             }
         }
     }
@@ -99,6 +108,7 @@ struct PrimaryButtonSubViews {
                     ButtonSpace()
                     EditButton(editDest: editCourseDest)
                 }
+                ButtonBottomSpace()
             }
         }
     }
@@ -141,6 +151,7 @@ struct PrimaryButtonSubViews {
                         Button("OK", role: .cancel) { }
                     }
                 }
+                ButtonBottomSpace()
             }
         }
     }

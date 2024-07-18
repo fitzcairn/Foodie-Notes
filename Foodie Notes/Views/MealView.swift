@@ -20,24 +20,33 @@ struct MealView: View {
         NavigationStack {
             ZStack(alignment: .bottom) {
                 ScrollForm {
-                    PictureSubViews.PictureNameRatingView(
+                    PictureSubViews.MealPictureNameRatingView(
                         name: meal.venue.name,
                         picture: viewModel.getMealImageFor(meal),
-                        rating: meal.rating)
-                    DateViews.DateSection(meal.date)
+                        rating: meal.rating,
+                        michelin:meal.venue.michelin)
+                    DateSubViews.DateSection(meal.date)
+                    if (!meal.cuisines.isEmpty) {
+                        CuisineSubViews.CuisineViewSection(
+                            cuisines:meal.cuisines
+                        )
+                    }
                     if !meal.notes.isEmpty {
                         NotesSubViews.NotesSection(
-                            title:"Overall Notes",
+                            title:SectionTitle.notes,
                             note: meal.notes
                         )
                     }
                     if viewModel.checkShow(meal.menu) {
-                        PictureSubViews.PictureAndNotesViewSection(title: "Menu[s]", data:meal.menu)
+                        PictureSubViews.PictureAndNotesViewSection(title: SectionTitle.menus, data:meal.menu)
                     }
-                    CourseSubViews.CoursesViewSection(courses:meal.courses)
+                    if !meal.courses.isEmpty {
+                        CourseSubViews.CoursesViewSection(courses:meal.courses)
+                    }
                 }
                 PrimaryButtonSubViews.MealViewPrimaryButtons(
                     backClosure: {
+                        viewModel.triggerRefresh()
                         self.presentationMode.wrappedValue.dismiss()
                     },
                     editMealDest: MealEditView(
@@ -53,8 +62,7 @@ struct MealView: View {
             }
             .navigationBarBackButtonHidden()
             .navigationBarItems(
-                leading: Text("View Meal")
-                    .font(.system(size:36, weight: .bold)),
+                leading: StyledTitleText(ViewTitle.viewMeal),
                 trailing: ShareLink(
                     item: "",
                     subject: Text("Notes about my meal at \(meal.venue.name) on \(meal.date.formatted(date: .complete, time: .omitted))"),

@@ -19,19 +19,20 @@ struct CourseEditView: View {
         NavigationStack {
             ZStack(alignment: .bottom) {
                 ScrollForm {
-                    PictureSubViews.PictureNameRatingEditView(
+                    PictureSubViews.CoursePictureNameRatingEditView(
                         name:$course.name,
                         picture:$course.pickedImage,
                         rating:$course.rating
                     )
-                    DateViews.DatePickerSection(selectedDate:$course.date)
+                    DateSubViews.DatePickerSection(selectedDate:$course.date)
                     PictureSubViews.PictureAndNotesEditSection(
-                        title: "Food",
+                        title: SectionTitle.food,
                         data: $course.food
                     )
-                    PictureSubViews.PictureAndNotesEditSection(
-                        title: "Beverage Pairing",
-                        data: $course.beveragePairing
+                    PictureSubViews.BeveragePictureAndNotesEditSection(
+                        title: SectionTitle.beverage,
+                        data: $course.beveragePairing,
+                        sameAsPrev: $course.beveragePairing.sameAsPrevious
                     )
                 }
                 PrimaryButtonSubViews.EditViewPrimaryButtons(
@@ -50,8 +51,7 @@ struct CourseEditView: View {
             }
             .navigationBarBackButtonHidden()
             .navigationBarItems(
-                leading: Text("Edit Your Course")
-                    .font(.system(size:36, weight: .bold))
+                leading: StyledTitleText(ViewTitle.editCourse)
             )
         }
     }

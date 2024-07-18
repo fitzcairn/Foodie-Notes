@@ -15,7 +15,7 @@ struct CourseSubViews {
         let courses:[Course];
         
         var body: some View {
-            Section(header: Text("Courses")) {
+            Section(header: Text(SectionTitle.courses)) {
                 List {
                     ForEach(courses) { course in
                      CourseItemView(course:course)
@@ -30,7 +30,7 @@ struct CourseSubViews {
         @Binding var courses:[Course];
         
         var body: some View {
-            Section(header: Text("Courses")) {
+            Section(header: Text(SectionTitle.courses)) {
                 List {
                     ForEach(Array(zip(courses.indices, courses)), id: \.0) { index, item in
                         CourseItemView(course:courses[index])
@@ -51,7 +51,7 @@ struct CourseSubViews {
         let course:Course
         
         var body: some View {
-            PictureSubViews.PictureNameRatingView(
+            PictureSubViews.CoursePictureNameRatingView(
                 name:course.name,
                 picture:viewModel.getCourseImageFor(course),
                 rating:course.rating

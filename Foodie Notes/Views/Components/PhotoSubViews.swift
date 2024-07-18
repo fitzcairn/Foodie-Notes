@@ -15,7 +15,7 @@ struct PhotoSubViews {
             Image(systemName: "fork.knife.circle")
                 .resizable()
                 .padding(4)
-                .frame(width:Constant.photoWidth, height: Constant.photoHeight)
+                .frame(width:PhotoDimensions.photoWidth, height: PhotoDimensions.photoHeight)
                 .background(Color.gray)
                 .clipShape(Circle())
                 .foregroundColor(.white)
@@ -73,7 +73,7 @@ struct PhotoSubViews {
                     // Only allow on-tap expands if not editing.
                     PhotoView(picture:picture!)
                         .aspectRatio(1, contentMode: .fill)
-                        .frame(width:Constant.photoWidth, height: Constant.photoHeight)
+                        .frame(width:PhotoDimensions.photoWidth, height: PhotoDimensions.photoHeight)
                         .onTapGesture {
                             sheetShowing = true;
                         }
@@ -83,7 +83,7 @@ struct PhotoSubViews {
                 } else {
                     PhotoView(picture:picture!)
                         .aspectRatio(1, contentMode: .fill)
-                        .frame(width:Constant.photoWidth, height: Constant.photoHeight)
+                        .frame(width:PhotoDimensions.photoWidth, height: PhotoDimensions.photoHeight)
                 }
             } else {
                 NoPhotoPlaceholderView()
@@ -115,7 +115,7 @@ struct PhotoSubViews {
                                 Image(systemName: "minus.circle.fill")
                                     .resizable()
                                     .padding(4)
-                                    .frame(width:Constant.photoWidth * 0.8, height: Constant.photoWidth * 0.8)
+                                    .frame(width:PhotoDimensions.photoWidth * 0.8, height: PhotoDimensions.photoWidth * 0.8)
                                     .background(Color.gray)
                                     .clipShape(Circle())
                                     .foregroundColor(.white)
@@ -147,7 +147,7 @@ struct PhotoSubViews {
                     Image(systemName: "plus.circle.fill")
                         .resizable()
                         .padding(4)
-                        .frame(width:Constant.photoWidth, height: Constant.photoHeight)
+                        .frame(width:PhotoDimensions.photoWidth, height: PhotoDimensions.photoHeight)
                         .background(Color.gray)
                         .clipShape(Circle())
                         .foregroundColor(.white)

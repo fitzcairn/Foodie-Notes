@@ -20,11 +20,15 @@ class AppViewModel : ObservableObject {
     // Set initial app state.
     func fromLoad(model:AppModel) {
         self.model = model;
-        state = self.model.showSplash ? .splash : .list
+        // Skip a the splash screen for now.
+        state = .list
     }
 
     
     // MARK: - Meal Management
+    func triggerRefresh() {
+        self.objectWillChange.send()
+    }
     func saveEditedMealFor(_ meal:Meal) {
         model.index(meal)
         self.objectWillChange.send()
@@ -97,7 +101,10 @@ class AppViewModel : ObservableObject {
     }
     // Consolidate business logic on when to show a section.
     func checkShow(_ pictureAndNotes:PicturesAndNotes?) -> Bool {
-        return pictureAndNotes != nil && (!pictureAndNotes!.notes.isEmpty || !pictureAndNotes!.pictures.isEmpty)
+        return pictureAndNotes != nil &&
+                (!pictureAndNotes!.notes.isEmpty ||
+                 !pictureAndNotes!.pictures.isEmpty ||
+                 pictureAndNotes!.sameAsPrevious != nil && pictureAndNotes!.sameAsPrevious!)
     }
     
     // MARK: - Test Only

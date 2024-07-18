@@ -13,49 +13,33 @@ struct MealListView: View {
     @Environment(\.scenePhase) var scenePhase
     @EnvironmentObject var viewModel:AppViewModel;
     
-    @State var needRefresh:Bool = true;
     let saveAction: () -> Void
     
-    var splashView: some View {
+    var progressView : some View {
         ZStack {
             LinearGradient(
                 gradient: Gradient(colors: [Color(red:1, green:0.988, blue:0.914), Color.white]),
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing)
             .edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
-            VStack() {
-                Image("icon")
-                    .resizable()
-                    .frame(width:300, height:300)
-                    .padding(.vertical, 10)
-                Text("Tap anywhere to continue...")
-                    .font(.system(size:14))
-                    .foregroundColor(.black)
-                    .italic()
-                    .padding(.bottom, 20)
+            
+            GeometryReader { gp in
+                ZStack {
+                    Image("icon")
+                        .resizable()
+                        .frame(width:300, height:300)
+                        .padding(.vertical, 10)
+                        .alignmentGuide(VerticalAlignment.center, computeValue: { $0[.bottom] })
+                        .position(x: gp.size.width / 2, y: gp.size.height / 2)
+                    ProgressView()
+                        .alignmentGuide(VerticalAlignment.center, computeValue: { $0[.top] - 16 })
+                }
             }
-        }
-        .onTapGesture {
-            viewModel.model.showSplash = false;
-            viewModel.state = .list
         }
     }
     
     var loadingView: some View {
-        VStack {
-            LinearGradient(
-                gradient: Gradient(colors: [Color(red:1, green:0.988, blue:0.914), Color.white]),
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing)
-            .edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
-            VStack() {
-                Image("icon")
-                    .resizable()
-                    .frame(width:300, height:300)
-                    .padding(.vertical, 10)
-                ProgressView()
-            }
-        }
+        progressView
         .task {
             do {
                 try await viewModel.fromLoad(model:ModelIOService.load())
@@ -75,14 +59,29 @@ struct MealListView: View {
                             NavigationLink(destination: MealView(meal: meal)) {
                                 VStack(alignment: .leading) {
                                     HStack {
-                                        Text(meal.venue.name)
+                                        MichelinSubViews.MichelinNameView(name: meal.venue.name, rating: meal.venue.michelin)
                                             .bold()
                                         Spacer()
                                         RatingSubViews.RatingView(rating:meal.rating)
                                     }
                                     Text(viewModel.getMealFor(meal.id)!.notes)
                                         .foregroundColor(.gray)
-                                    Spacer()
+                                    if (!meal.cuisines.isEmpty) {
+                                        HStack {
+                                            Image(systemName: "fork.knife")
+                                                .resizable()
+                                                .frame(width: 14, height: 18)
+                                                .foregroundColor(Color.gray)
+                                                .opacity(/*@START_MENU_TOKEN@*/0.8/*@END_MENU_TOKEN@*/)
+                                            Text(meal.cuisines.map({$0.displayName}).joined(separator: ", "))
+                                                .font(.system(size:14, weight: .regular))
+                                                .foregroundColor(.gray)
+                                                .fixedSize(horizontal: false, vertical: true)
+                                                .lineLimit(1)
+                                        }
+                                    } else {
+                                        Spacer()
+                                    }
                                 }
                                 .padding(8)
                             }
@@ -92,11 +91,11 @@ struct MealListView: View {
                         remove(at:at, meals:viewModel.getMeals())
                     }
                 }
+                .id(UUID())
                 .listStyle(.plain)
                 .navigationBarBackButtonHidden()
                 .navigationBarItems(
-                    leading: Text("Meals")
-                        .font(.system(size:36, weight: .bold))
+                    leading: StyledTitleText(ViewTitle.listMeals)
                 )
                 VStack {
                     Spacer()
@@ -120,9 +119,7 @@ struct MealListView: View {
         switch viewModel.state {
             case .loading:
                 loadingView
-            case .splash:
-                splashView
-            case .list:
+            case .splash, .list:
                 listView
         }
     }

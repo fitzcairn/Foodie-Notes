@@ -18,20 +18,24 @@ struct MealCreateView: View {
         NavigationStack {
             ZStack(alignment: .bottom) {
                 ScrollForm {
-                    PictureSubViews.PictureNameRatingEditView(
+                    PictureSubViews.MealPictureNameRatingEditView(
                         name: $meal.item.venue.name,
                         picture: $meal.item.pickedImage,
-                        rating: $meal.item.rating
+                        rating: $meal.item.rating,
+                        michelin: $meal.item.venue.michelin
                     )
-                    DateViews.DatePickerSection(
+                    DateSubViews.DatePickerSection(
                         selectedDate: $meal.item.date
                     )
+                    CuisineSubViews.CuisineEditSection(
+                        cuisines:$meal.item.cuisines
+                    )
                     NotesSubViews.NotesEditSection(
-                        title:"Overall Notes",
+                        title: SectionTitle.notes,
                         inputText: $meal.item.notes
                     )
                     PictureSubViews.PictureAndNotesEditSection(
-                        title: "Menu[s]",
+                        title: SectionTitle.menus,
                         data: $meal.item.menu
                     )
                 }
@@ -53,8 +57,7 @@ struct MealCreateView: View {
         }
         .navigationBarBackButtonHidden()
         .navigationBarItems(
-            leading: Text("Create a New Meal")
-                .font(.system(size:36, weight: .bold))
+            leading: StyledTitleText(ViewTitle.createMeal)
         )
     }
 }
