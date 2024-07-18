@@ -29,9 +29,10 @@ struct CourseEditView: View {
                         title: SectionTitle.food,
                         data: $course.food
                     )
-                    PictureSubViews.PictureAndNotesEditSection(
+                    PictureSubViews.BeveragePictureAndNotesEditSection(
                         title: SectionTitle.beverage,
-                        data: $course.beveragePairing
+                        data: $course.beveragePairing,
+                        sameAsPrev: $course.beveragePairing.sameAsPrevious
                     )
                 }
                 PrimaryButtonSubViews.EditViewPrimaryButtons(

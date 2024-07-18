@@ -42,10 +42,68 @@ struct PictureSubViews {
         }
     }
     
+    struct BeveragePictureAndNotesEditSection: View {
+        let title:String;
+        @Binding var data:PicturesAndNotes;
+        @Binding var sameAsPrev:Bool?;
+
+        var body: some View {
+            Section(header: Text(title)) {
+                HStack(alignment: .top) {
+                    MultiPictureView(
+                        pictures:Binding<[Picture]>(
+                            get: {
+                                data.pictures
+                            },
+                            set: {
+                                data.pictures = $0;
+                            }),
+                        edit:true)
+                    .frame(width:data.pictures.isEmpty ? PhotoDimensions.photoWidth : 2 * PhotoDimensions.photoWidth)
+                    .padding(.trailing, 5)
+                    VStack {
+                        HStack {
+                            Button {
+                                sameAsPrev = sameAsPrev == nil ? true : !sameAsPrev!
+                            }
+                            label: {
+                                if sameAsPrev != nil && sameAsPrev! {
+                                    HStack {
+                                        Image(systemName: "checkmark.square")
+                                            .resizable()
+                                            .frame(width: 18, height: 18)
+                                            .foregroundColor(Color.black)
+                                    }
+                                } else {
+                                    HStack {
+                                        Image(systemName: "square")
+                                            .resizable()
+                                            .frame(width: 18, height: 18)
+                                            .foregroundColor(Color.gray)
+                                    }
+                                    .opacity(0.6)
+                                }
+                            }
+                            .buttonStyle(.plain)
+                            Text("Shared with Previous Course")
+                                .font(.system(size:14, weight: .regular))
+                                .italic()
+                                .opacity(sameAsPrev != nil && sameAsPrev! ? 1.0 : 0.4)
+                            Spacer()
+                        }
+                        StyledTextField(inputText:$data.notes)
+                            .padding(.trailing, -8)
+                    }
+                    Spacer()
+                }
+            }
+        }
+    }
+    
     struct PictureAndNotesEditSection: View {
         let title:String;
         @Binding var data:PicturesAndNotes;
-        
+
         var body: some View {
             Section(header: Text(title)) {
                 HStack(alignment: .top) {
@@ -61,6 +119,7 @@ struct PictureSubViews {
                     .frame(width:data.pictures.isEmpty ? PhotoDimensions.photoWidth : 2 * PhotoDimensions.photoWidth)
                     .padding(.trailing, 5)
                     StyledTextField(inputText:$data.notes)
+                        .padding(.trailing, -8)
                     Spacer()
                 }
             }
@@ -83,9 +142,24 @@ struct PictureSubViews {
                             .frame(width:data.pictures.count <= 1 ? PhotoDimensions.photoWidth : 2 * PhotoDimensions.photoWidth)
                             .padding(.trailing, 5)
                         }
-                        NotesSubViews.NotesView(inputText:data.notes)
-                            .fixedSize(horizontal: false, vertical: true)
-                        Spacer()
+                        VStack {
+                            if (data.sameAsPrevious != nil && data.sameAsPrevious!) {
+                                HStack {
+                                    Text("Pairing Shared with Previous Course")
+                                        .font(.system(size:14, weight: .regular))
+                                        .italic()
+                                        .opacity(0.4)
+                                    Spacer()
+                                }
+                            }
+                            if !data.notes.isEmpty {
+                                HStack {
+                                    NotesSubViews.NotesView(inputText:data.notes)
+                                        .fixedSize(horizontal: false, vertical: true)
+                                    Spacer()
+                                }
+                            }
+                        }
                     }
                 } else {
                     EmptyView()

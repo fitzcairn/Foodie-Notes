@@ -20,7 +20,9 @@ struct CourseView: View {
                 ScrollForm {
                     CourseSubViews.CourseNameAndPickedImageView(course:course)
                     DateSubViews.DateSection(course.date)
-                    PictureSubViews.PictureAndNotesViewSection(title: SectionTitle.food, data: course.food)
+                    if viewModel.checkShow(course.food) {
+                        PictureSubViews.PictureAndNotesViewSection(title: SectionTitle.food, data: course.food)
+                    }
                     if viewModel.checkShow(course.beveragePairing) {
                         PictureSubViews.PictureAndNotesViewSection(title: SectionTitle.beverage, data: course.beveragePairing)
                     }

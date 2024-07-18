@@ -41,6 +41,9 @@ struct Picture : Identifiable, Hashable, Codable {
 struct PicturesAndNotes: Codable, Hashable {
     var pictures:[Picture] = [];
     var notes:String = "";
+
+    // Added later to allow for beverage pairings to be shared.
+    var sameAsPrevious:Bool?
     
     init() {
     }

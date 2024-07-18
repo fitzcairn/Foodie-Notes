@@ -74,6 +74,9 @@ I ate \(meal.courses.count) courses during a meal at \(meal.venue.name) on \(mea
                 if (!course.beveragePairing.notes.isEmpty) {
                     str += "  My thoughts on the beverage pairing: '\(course.food.notes)'\n"
                 }
+                if (course.beveragePairing.sameAsPrevious != nil && course.beveragePairing.sameAsPrevious!) {
+                    str += "  The pairing was shared with the previous course.\n"
+                }
             }
         }
         return str;

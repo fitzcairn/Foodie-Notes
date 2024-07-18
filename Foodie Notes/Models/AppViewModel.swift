@@ -101,7 +101,10 @@ class AppViewModel : ObservableObject {
     }
     // Consolidate business logic on when to show a section.
     func checkShow(_ pictureAndNotes:PicturesAndNotes?) -> Bool {
-        return pictureAndNotes != nil && (!pictureAndNotes!.notes.isEmpty || !pictureAndNotes!.pictures.isEmpty)
+        return pictureAndNotes != nil &&
+                (!pictureAndNotes!.notes.isEmpty ||
+                 !pictureAndNotes!.pictures.isEmpty ||
+                 pictureAndNotes!.sameAsPrevious != nil && pictureAndNotes!.sameAsPrevious!)
     }
     
     // MARK: - Test Only
