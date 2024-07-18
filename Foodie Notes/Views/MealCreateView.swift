@@ -9,9 +9,10 @@ import SwiftUI
 
 struct MealCreateView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    @EnvironmentObject var viewModel:AppViewModel;
-    
+    @EnvironmentObject private var viewModel:AppViewModel;
+
     @State private var showingAlert = false
+ 
     @ObservedObject private var meal:WrappedStruct<Meal> = WrappedStruct(withItem:Meal())
         
     var body: some View {
@@ -19,10 +20,9 @@ struct MealCreateView: View {
             ZStack(alignment: .bottom) {
                 ScrollForm {
                     PictureSubViews.MealPictureNameRatingEditView(
-                        name: $meal.item.venue.name,
                         picture: $meal.item.pickedImage,
                         rating: $meal.item.rating,
-                        michelin: $meal.item.venue.michelin
+                        venue: $meal.item.venue
                     )
                     DateSubViews.DatePickerSection(
                         selectedDate: $meal.item.date
@@ -53,6 +53,10 @@ struct MealCreateView: View {
                     fieldName: "venue",
                     showingAlert: $showingAlert
                 )
+            }
+            .onAppear() {
+                // New meal for each create call.
+                meal.item = Meal()
             }
         }
         .navigationBarBackButtonHidden()

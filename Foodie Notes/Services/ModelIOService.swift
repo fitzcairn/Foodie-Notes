@@ -39,26 +39,29 @@ class ModelIOService {
     }
 
     static func exportAsString(_ meal:Meal) -> String {
-        var str = """
-I ate \(meal.courses.count) courses during a meal at \(meal.venue.name) on \(meal.date.formatted(date: .complete, time: .omitted)).  I rated it \(meal.rating) stars.\n\n
-"""
+        var str = "I ate \(meal.courses.count) courses during a meal at \(meal.venue.name) on \(meal.date.formatted(date: .complete, time: .omitted)).  I rated it \(meal.rating) stars.  "
+        
+        if let city = meal.venue.city, let country = meal.venue.country {
+            str += "\(meal.venue.name) is located in \(city), \(country).  "
+        }
+        if !meal.cuisines.isEmpty {
+            str += "The food served is '\(meal.cuisines.map({$0.displayName}).joined(separator: ", "))'.  "
+        }
         if let michelin = meal.venue.michelin {
             switch(michelin) {
             case .bibGourmand:
-                str += "At time of eating here, Michelin rates this restaurant as a Bib Gourmand.\n\n"
+                str += "At time of dining, Michelin rates this restaurant as a Bib Gourmand.  "
             case .oneStar:
-                str += "At time of eating here, Michelin rates this restaurant as one star.\n\n"
+                str += "At time of dining, Michelin rates this restaurant as one star.  "
             case .twoStar:
-                str += "At time of eating here, Michelin rates this restaurant as two stars.\n\n"
+                str += "At time of dining, Michelin rates this restaurant as two stars.  "
             case .threeStar:
-                str += "At time of eating here, Michelin rates this restaurant as three stars.\n\n"
+                str += "At time of dining, Michelin rates this restaurant as three stars.  "
             }
         }
-        if !meal.cuisines.isEmpty {
-            str += "The food here is '\(meal.cuisines.map({$0.displayName}).joined(separator: ", "))'.\n\n"
-        }
+
         if !meal.notes.isEmpty {
-            str += "Overall, I thought: '\(meal.notes)'\n\n"
+            str += "\n\nOverall, I thought: '\(meal.notes)'\n\n"
         }
         if !meal.menu.notes.isEmpty {
             str += "My notes on the menu were: '\(meal.menu.notes)'\n\n"

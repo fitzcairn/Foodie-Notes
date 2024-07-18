@@ -34,6 +34,7 @@ struct RatingSubViews {
                 ForEach(1..<maximumRating + 1, id: \.self) { number in
                     image(for: number, score:rating)
                         .foregroundColor(number > rating ? offColor : onColor)
+                        .padding(.horizontal, -2)
                 }
             }
         }
@@ -51,13 +52,13 @@ struct RatingSubViews {
                         }, label: {
                             image(for: number, score:rating)
                                 .foregroundColor(number > rating ? offColor : onColor)
+                                .padding(.horizontal, -2)
                         }
                     )
                 }
             }
             .buttonStyle(.plain)
             .padding(.leading, 10)
-            .padding(.trailing, -15)
         }
     }
 }

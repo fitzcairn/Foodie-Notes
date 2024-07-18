@@ -21,10 +21,9 @@ struct MealView: View {
             ZStack(alignment: .bottom) {
                 ScrollForm {
                     PictureSubViews.MealPictureNameRatingView(
-                        name: meal.venue.name,
                         picture: viewModel.getMealImageFor(meal),
                         rating: meal.rating,
-                        michelin:meal.venue.michelin)
+                        venue: meal.venue)
                     DateSubViews.DateSection(meal.date)
                     if (!meal.cuisines.isEmpty) {
                         CuisineSubViews.CuisineViewSection(

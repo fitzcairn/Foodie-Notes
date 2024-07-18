@@ -66,13 +66,18 @@ struct MealListView: View {
                                     }
                                     Text(viewModel.getMealFor(meal.id)!.notes)
                                         .foregroundColor(.gray)
+                                    if (meal.venue.city != nil) {
+                                        LocationSubViews.LocationView(venue: meal.venue)
+                                    }
                                     if (!meal.cuisines.isEmpty) {
                                         HStack {
                                             Image(systemName: "fork.knife")
                                                 .resizable()
-                                                .frame(width: 14, height: 18)
+                                                .scaledToFit()
+                                                .frame(height: 18)
                                                 .foregroundColor(Color.gray)
                                                 .opacity(/*@START_MENU_TOKEN@*/0.8/*@END_MENU_TOKEN@*/)
+                                                .padding(.trailing, 3)
                                             Text(meal.cuisines.map({$0.displayName}).joined(separator: ", "))
                                                 .font(.system(size:14, weight: .regular))
                                                 .foregroundColor(.gray)

@@ -10,7 +10,7 @@ import SwiftUI
 struct MichelinSubViews {
     private static let michelinDim:CGFloat = 18;
     
-    private static func getImage(_ rating:Michelin, leading:CGFloat = -4, trailing:CGFloat = 10) -> some View {
+    private static func getImage(_ rating:Michelin) -> some View {
         var imageView: some View {
             HStack {
                 if (!rating.imgName.isEmpty) {
@@ -18,22 +18,12 @@ struct MichelinSubViews {
                         Image(rating.imgName)
                             .resizable()
                             .frame(width: CGFloat(numStars) * michelinDim, height: michelinDim)
-                            .padding(.leading, leading)
-                            .padding(.trailing, trailing)
-     
+                            .padding(.leading, -4)
                     } else {
                         Image(rating.imgName)
                             .resizable()
                             .frame(width: michelinDim, height: michelinDim)
-                            .padding(.leading, leading)
-                            .padding(.trailing, trailing)
-                    }
-                }
-                else {
-                    Image(systemName: "x.circle")
-                        .resizable()
-                        .frame(width: michelinDim, height: michelinDim)
-                        .foregroundColor(Color.gray)
+                            .padding(.leading, -4)                    }
                 }
             }
             .tag(rating)
@@ -74,7 +64,7 @@ struct MichelinSubViews {
                                 Image(systemName: "checkmark.square")
                                     .resizable()
                                     .frame(width: michelinDim, height: michelinDim)
-                                    .foregroundColor(Color.black)
+                                    .foregroundColor(Color.red)
                                 getImage(rating)
                             }
                         } else {
@@ -91,7 +81,7 @@ struct MichelinSubViews {
                     .buttonStyle(.plain)
                 }
             }
-            .padding(.top, 10)
+            //.padding(.top, 10)
         }
     }
     
