@@ -40,7 +40,9 @@ struct MealView: View {
                     if viewModel.checkShow(meal.menu) {
                         PictureSubViews.PictureAndNotesViewSection(title: SectionTitle.menus, data:meal.menu)
                     }
-                    CourseSubViews.CoursesViewSection(courses:meal.courses)
+                    if !meal.courses.isEmpty {
+                        CourseSubViews.CoursesViewSection(courses:meal.courses)
+                    }
                 }
                 PrimaryButtonSubViews.MealViewPrimaryButtons(
                     backClosure: {
