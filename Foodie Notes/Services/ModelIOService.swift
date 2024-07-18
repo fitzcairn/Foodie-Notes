@@ -42,8 +42,20 @@ class ModelIOService {
         var str = """
 I ate \(meal.courses.count) courses during a meal at \(meal.venue.name) on \(meal.date.formatted(date: .complete, time: .omitted)).  I rated it \(meal.rating) stars.\n\n
 """
+        if let michelin = meal.venue.michelin {
+            switch(michelin) {
+            case .bibGourmand:
+                str += "At time of eating here, Michelin rates this restaurant as a Bib Gourmand.\n\n"
+            case .oneStar:
+                str += "At time of eating here, Michelin rates this restaurant as one star.\n\n"
+            case .twoStar:
+                str += "At time of eating here, Michelin rates this restaurant as two stars.\n\n"
+            case .threeStar:
+                str += "At time of eating here, Michelin rates this restaurant as three stars.\n\n"
+            }
+        }
         if !meal.cuisines.isEmpty {
-            str += "The food here was '\(meal.cuisines.map({$0.displayName}).joined(separator: ", "))'.\n\n"
+            str += "The food here is '\(meal.cuisines.map({$0.displayName}).joined(separator: ", "))'.\n\n"
         }
         if !meal.notes.isEmpty {
             str += "Overall, I thought: '\(meal.notes)'\n\n"

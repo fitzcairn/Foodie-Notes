@@ -88,6 +88,7 @@ enum Cuisine: String, Codable, CaseIterable {
     case iranian = "Iranian"
     case iraqi = "Iraqi"
     case irish = "Irish"
+    case italian = "Italian"
     case ivorian = "Ivorian"
     case jamaican = "Jamaican"
     case japanese = "Japanese"

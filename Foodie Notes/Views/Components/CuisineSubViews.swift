@@ -122,8 +122,7 @@ struct CuisineSubViews {
                 }
                 .scrollContentBackground(.hidden)
             }
-            .frame(width: 400, height: 400)
-            .clipShape(RoundedRectangle(cornerRadius: 10))
+            .frame(width: 400, height: 100)
             .presentationCompactAdaptation(.popover)
         }
     }
