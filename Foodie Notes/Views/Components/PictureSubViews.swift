@@ -72,7 +72,7 @@ struct PictureSubViews {
                                         Image(systemName: "checkmark.square")
                                             .resizable()
                                             .frame(width: 18, height: 18)
-                                            .foregroundColor(Color.black)
+                                            .foregroundColor(Color.red)
                                     }
                                 } else {
                                     HStack {
@@ -169,10 +169,9 @@ struct PictureSubViews {
     }
     
     struct MealPictureNameRatingEditView : View {
-        @Binding var name: String
         @Binding var picture: Picture?
         @Binding var rating: Int
-        @Binding var michelin: Michelin?
+        @Binding var venue: Venue
 
         var body: some View {
             HStack {
@@ -181,15 +180,18 @@ struct PictureSubViews {
                 }
                 VStack {
                     HStack {
-                        StyledTextField(inputText:$name)
+                        StyledTextField(inputText:$venue.name)
                             .padding(.leading, 10)
                             .padding(.trailing, -10)
                         Spacer()
                         RatingSubViews.RatingEditView(rating:$rating)
-                            .padding(.trailing, 15)
                     }
+                    LocationSubViews.LocationEditView(
+                        venue: $venue,
+                        nearestRestaurant: $venue.name
+                    )
                     HStack {
-                        MichelinSubViews.MichelinEditView(selection: $michelin)
+                        MichelinSubViews.MichelinEditView(selection: $venue.michelin)
                             .padding(.leading, 10)
                         Spacer()
                     }
@@ -223,21 +225,26 @@ struct PictureSubViews {
     }
     
     struct MealPictureNameRatingView : View {
-        let name: String?
         let picture: Picture?
         let rating:Int?
-        let michelin:Michelin?
+        let venue:Venue
         
         var body: some View {
             HStack {
                 VStack {
                     PhotoSubViews.PhotoShowView(picture:picture)
                 }
-                HStack {
-                    MichelinSubViews.MichelinNameView(name: name, rating: michelin)
-                        .padding(.leading, 10)
-                    Spacer()
-                    RatingSubViews.RatingView(rating: rating ?? 0)
+                VStack {
+                    HStack {
+                        MichelinSubViews.MichelinNameView(name: venue.name, rating: venue.michelin)
+                            .padding(.leading, 10)
+                        Spacer()
+                        RatingSubViews.RatingView(rating: rating ?? 0)
+                    }
+                    if (venue.city != nil) {
+                        LocationSubViews.LocationView(venue: venue)
+                            .padding(.leading, 10)
+                    }
                 }
             }
         }

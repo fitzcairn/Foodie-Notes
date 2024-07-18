@@ -44,6 +44,9 @@
 		AAA064D82C46A7DA005397EA /* RatingSubViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA064D12C46A7DA005397EA /* RatingSubViews.swift */; };
 		AACB03802C49272800D84E52 /* MichelinSubViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AACB037F2C49272800D84E52 /* MichelinSubViews.swift */; };
 		AACB64862C47F47B0008084D /* CuisineSubViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AACB64852C47F47B0008084D /* CuisineSubViews.swift */; };
+		AAF0FDB62C498D6100932EB5 /* LocationInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAF0FDB52C498D6100932EB5 /* LocationInfo.swift */; };
+		AAF0FDB82C498E6900932EB5 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAF0FDB72C498E6900932EB5 /* LocationService.swift */; };
+		AAF0FDBA2C49B62B00932EB5 /* LocationSubViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAF0FDB92C49B62B00932EB5 /* LocationSubViews.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -105,6 +108,9 @@
 		AAA064D12C46A7DA005397EA /* RatingSubViews.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RatingSubViews.swift; sourceTree = "<group>"; };
 		AACB037F2C49272800D84E52 /* MichelinSubViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MichelinSubViews.swift; sourceTree = "<group>"; };
 		AACB64852C47F47B0008084D /* CuisineSubViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CuisineSubViews.swift; sourceTree = "<group>"; };
+		AAF0FDB52C498D6100932EB5 /* LocationInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationInfo.swift; sourceTree = "<group>"; };
+		AAF0FDB72C498E6900932EB5 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
+		AAF0FDB92C49B62B00932EB5 /* LocationSubViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSubViews.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -225,6 +231,7 @@
 				AA45C0982C471D09009F6DEC /* PrimaryButtonSubViews.swift */,
 				AAA064D12C46A7DA005397EA /* RatingSubViews.swift */,
 				AACB037F2C49272800D84E52 /* MichelinSubViews.swift */,
+				AAF0FDB92C49B62B00932EB5 /* LocationSubViews.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -264,6 +271,8 @@
 			isa = PBXGroup;
 			children = (
 				AAA064C62C46A084005397EA /* ModelIOService.swift */,
+				AAF0FDB52C498D6100932EB5 /* LocationInfo.swift */,
+				AAF0FDB72C498E6900932EB5 /* LocationService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -431,10 +440,13 @@
 				AA81D2822C309C3100FF0221 /* MealEditView.swift in Sources */,
 				AA81D2852C309C7F00FF0221 /* MealView.swift in Sources */,
 				AA45C09D2C4726B6009F6DEC /* WrappedStruct.swift in Sources */,
+				AAF0FDB62C498D6100932EB5 /* LocationInfo.swift in Sources */,
 				AAA064D32C46A7DA005397EA /* PhotoSubViews.swift in Sources */,
+				AAF0FDB82C498E6900932EB5 /* LocationService.swift in Sources */,
 				AAA064D22C46A7DA005397EA /* PictureSubViews.swift in Sources */,
 				AA81D2922C3209E100FF0221 /* CourseView.swift in Sources */,
 				AA81D2802C309BF000FF0221 /* MealListView.swift in Sources */,
+				AAF0FDBA2C49B62B00932EB5 /* LocationSubViews.swift in Sources */,
 				AA45C07D2C471B23009F6DEC /* CourseEditView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -604,6 +616,9 @@
 				INFOPLIST_KEY_CFBundleDisplayName = "Foodie Notes";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				INFOPLIST_KEY_NSCameraUsageDescription = "Grant access to camera to be able to take photos and videos";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "This will allow the app to record location for meals.";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "This will allow the app to record location for meals.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "This will allow the app to record location for meals.";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Grant access to microphone to be able to take videos";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Grant access to photo library to be able to select photos";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
@@ -649,6 +664,9 @@
 				INFOPLIST_KEY_CFBundleDisplayName = "Foodie Notes";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				INFOPLIST_KEY_NSCameraUsageDescription = "Grant access to camera to be able to take photos and videos";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "This will allow the app to record location for meals.";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "This will allow the app to record location for meals.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "This will allow the app to record location for meals.";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Grant access to microphone to be able to take videos";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Grant access to photo library to be able to select photos";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;

@@ -10,6 +10,7 @@ import SwiftUI
 @main
 struct FoodieNotesApp: App {
     @StateObject private var viewModel = AppViewModel()
+    @StateObject private var locationService  = LocationService()
 
     var body: some Scene {
         WindowGroup {
@@ -24,7 +25,7 @@ struct FoodieNotesApp: App {
                 }
             }
             .environmentObject(viewModel)
-            
+            .environmentObject(locationService)
         }
     }
 }

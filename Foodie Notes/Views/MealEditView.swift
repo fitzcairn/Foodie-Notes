@@ -20,10 +20,9 @@ struct MealEditView: View {
             ZStack(alignment: .bottom) {
                 ScrollForm {
                     PictureSubViews.MealPictureNameRatingEditView(
-                        name: $meal.venue.name,
                         picture: $meal.pickedImage,
                         rating: $meal.rating,
-                        michelin: $meal.venue.michelin
+                        venue: $meal.venue
                     )
                     DateSubViews.DatePickerSection(
                         selectedDate: $meal.date

@@ -12,8 +12,14 @@ struct Venue : Hashable, Codable {
     let id:String;
     var name: String = ""
     var michelin: Michelin?
-
-    // TODO: location data, eg lat/long/etc!
+    
+    // Location
+    var latitude: Double?
+    var longitude: Double?
+    
+    // Geo info
+    var city:String?
+    var country:String?
 
     init() {
         id = Id.createId();
