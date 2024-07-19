@@ -22,13 +22,11 @@ struct LocationSubViews {
                         .frame(height: 18)
                         .foregroundColor(Color.gray)
                         .opacity(/*@START_MENU_TOKEN@*/0.8/*@END_MENU_TOKEN@*/)
-                        .padding(.top, 4)
                     Text("\(venue.city!), \(venue.country!)")
                         .font(.system(size:14, weight: .regular))
                         .foregroundColor(.gray)
                         .fixedSize(horizontal: false, vertical: true)
                         .lineLimit(1)
-                        .padding(.top, 4)
                     Spacer()
                 } else {
                     EmptyView()

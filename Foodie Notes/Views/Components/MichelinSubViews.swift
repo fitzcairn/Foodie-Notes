@@ -81,7 +81,6 @@ struct MichelinSubViews {
                     .buttonStyle(.plain)
                 }
             }
-            //.padding(.top, 10)
         }
     }
     

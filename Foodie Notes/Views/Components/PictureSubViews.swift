@@ -186,6 +186,8 @@ struct PictureSubViews {
                         Spacer()
                         RatingSubViews.RatingEditView(rating:$rating)
                     }
+                    .padding(.bottom, 4)
+                    
                     LocationSubViews.LocationEditView(
                         venue: $venue,
                         nearestRestaurant: $venue.name
