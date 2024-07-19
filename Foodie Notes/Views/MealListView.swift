@@ -67,7 +67,7 @@ struct MealListView: View {
                                     Text(viewModel.getMealFor(meal.id)!.notes)
                                         .foregroundColor(.gray)
                                     if (meal.venue.city != nil) {
-                                        LocationSubViews.LocationView(venue: meal.venue)
+                                        VenueSubViews.LocationView(venue: meal.venue)
                                     }
                                     if (!meal.cuisines.isEmpty) {
                                         HStack {

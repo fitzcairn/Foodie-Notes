@@ -17,6 +17,10 @@ class AppViewModel : ObservableObject {
     @Published var state = AppState.loading
     @Published var model: AppModel = AppModel()
     
+    // Create our services...
+    //private var webService  = WebFetchService()
+    
+    
     // Set initial app state.
     func fromLoad(model:AppModel) {
         self.model = model;
@@ -26,6 +30,19 @@ class AppViewModel : ObservableObject {
 
     
     // MARK: - Meal Management
+    /*func populateGuideLinkFor(_ meal:Meal, guide:VenueGuide = .michelin) {
+        guard(meal.venue.guideLink != nil) else { return }
+        // For now, we only handle michelin.  That could change in the future.
+        if let link = try await webService.fetchMichelinGuideLinkFor(
+            name: meal.venue.name,
+            city: meal.venue.city,
+            country: meal.venue.country) {
+            
+            var newMeal = meal
+            newMeal.venue.guideLink = VenueGuideLink(guide:.michelin, url:link)
+            //saveEditedMealFor(newMeal)
+        }
+    }*/
     func triggerRefresh() {
         self.objectWillChange.send()
     }

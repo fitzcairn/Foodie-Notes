@@ -1,5 +1,5 @@
 //
-//  LocationSubViews.swift
+//  VenueSubViews.swift
 //  Foodie Notes
 //
 //  Created by Steve Martin on 7/18/24.
@@ -8,8 +8,67 @@
 import SwiftUI
 import MapKit
 
-struct LocationSubViews {
 
+// TODO: All interaction with services needs to move into the viewmodel.
+struct VenueSubViews {
+    
+    struct GuideLink: View {
+        let venue:Venue;
+        
+        var body: some View {
+            HStack {
+                Image(systemName: "link")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(height: 18)
+                    .foregroundColor(Color.gray)
+                    .opacity(/*@START_MENU_TOKEN@*/0.8/*@END_MENU_TOKEN@*/)
+                textOrLink
+                    .font(.system(size:14, weight: .regular))
+                    .foregroundColor(.gray)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .lineLimit(1)
+                Spacer()
+            }
+        }
+        
+        @ViewBuilder
+        var textOrLink: some View {
+            if let guideLink = venue.guideLink {
+                Link(guideLink.guide.displayName, destination: guideLink.url)
+            } else {
+                Text("Searching...")
+            }
+        }
+    }
+    
+    
+    struct GuideLinkEditView: View {
+        @EnvironmentObject var viewModel:AppViewModel;
+        @EnvironmentObject var webService:WebFetchService;
+
+        @Binding var venue: Venue;
+        
+        var body: some View {
+            VenueSubViews.GuideLink(venue: venue)
+            .onAppear() {
+                if (venue.guideLink == nil) {
+                    //webService.fetchMichelinGuideLinkFor(name: venue.name, city: venue.city, country: venue.country)
+                    webService.fetchMichelinGuideLinkFor(name: "Midsummer House", city: "Cambridge", country: "United Kingdom")
+                }
+            }
+            .onChange(of: webService.link) {
+                if let url = webService.link {
+                    let guideLink = VenueGuideLink(guide: .michelin, url: url)
+                    venue.guideLink = guideLink
+                    viewModel.triggerRefresh()
+                }
+            }
+        }
+        
+    }
+    
+    
     struct LocationView: View {
         let venue: Venue
         

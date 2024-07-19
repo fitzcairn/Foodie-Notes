@@ -30,7 +30,7 @@ struct MichelinSubViews {
         }
         return imageView;
     }
-    
+        
     struct MichelinNameView: View {
         let name:String?
         let rating:Michelin?

@@ -188,7 +188,10 @@ struct PictureSubViews {
                     }
                     .padding(.bottom, 4)
                     
-                    LocationSubViews.LocationEditView(
+                    VenueSubViews.GuideLinkEditView(venue:$venue)
+                        .padding(.leading, 10)
+                    
+                    VenueSubViews.LocationEditView(
                         venue: $venue,
                         nearestRestaurant: $venue.name
                     )
@@ -243,8 +246,14 @@ struct PictureSubViews {
                         Spacer()
                         RatingSubViews.RatingView(rating: rating ?? 0)
                     }
+                    
+                    if (venue.guideLink != nil) {
+                        VenueSubViews.GuideLink(venue:venue)
+                            .padding(.leading, 10)
+                    }
+                    
                     if (venue.city != nil) {
-                        LocationSubViews.LocationView(venue: venue)
+                        VenueSubViews.LocationView(venue: venue)
                             .padding(.leading, 10)
                     }
                 }

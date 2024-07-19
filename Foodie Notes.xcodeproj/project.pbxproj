@@ -13,6 +13,8 @@
 		AA45C09D2C4726B6009F6DEC /* WrappedStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA45C09C2C4726B6009F6DEC /* WrappedStruct.swift */; };
 		AA45C09F2C4727B5009F6DEC /* CourseCreateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA45C09E2C4727B5009F6DEC /* CourseCreateView.swift */; };
 		AA4BF4BC2C47D26D00D01CF1 /* DateSubViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4BF4BB2C47D26D00D01CF1 /* DateSubViews.swift */; };
+		AA63F3812C4A9A3D0024D1DF /* WebFetchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA63F3802C4A9A3D0024D1DF /* WebFetchService.swift */; };
+		AA63F3842C4A9E370024D1DF /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = AA63F3832C4A9E370024D1DF /* SwiftSoup */; };
 		AA81D20F2C26EEA100FF0221 /* FoodieNotesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D20E2C26EEA100FF0221 /* FoodieNotesApp.swift */; };
 		AA81D2142C26EEA100FF0221 /* Foodie_Notes.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AA81D2122C26EEA100FF0221 /* Foodie_Notes.xcdatamodeld */; };
 		AA81D2182C26EEA200FF0221 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA81D2172C26EEA200FF0221 /* Assets.xcassets */; };
@@ -46,7 +48,7 @@
 		AACB64862C47F47B0008084D /* CuisineSubViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AACB64852C47F47B0008084D /* CuisineSubViews.swift */; };
 		AAF0FDB62C498D6100932EB5 /* LocationInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAF0FDB52C498D6100932EB5 /* LocationInfo.swift */; };
 		AAF0FDB82C498E6900932EB5 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAF0FDB72C498E6900932EB5 /* LocationService.swift */; };
-		AAF0FDBA2C49B62B00932EB5 /* LocationSubViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAF0FDB92C49B62B00932EB5 /* LocationSubViews.swift */; };
+		AAF0FDBA2C49B62B00932EB5 /* VenueSubViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAF0FDB92C49B62B00932EB5 /* VenueSubViews.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,6 +75,7 @@
 		AA45C09C2C4726B6009F6DEC /* WrappedStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WrappedStruct.swift; sourceTree = "<group>"; };
 		AA45C09E2C4727B5009F6DEC /* CourseCreateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseCreateView.swift; sourceTree = "<group>"; };
 		AA4BF4BB2C47D26D00D01CF1 /* DateSubViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateSubViews.swift; sourceTree = "<group>"; };
+		AA63F3802C4A9A3D0024D1DF /* WebFetchService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebFetchService.swift; sourceTree = "<group>"; };
 		AA81D20B2C26EEA100FF0221 /* Foodie Notes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Foodie Notes.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA81D20E2C26EEA100FF0221 /* FoodieNotesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodieNotesApp.swift; sourceTree = "<group>"; };
 		AA81D2132C26EEA100FF0221 /* Foodie_Notes.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Foodie_Notes.xcdatamodel; sourceTree = "<group>"; };
@@ -110,7 +113,7 @@
 		AACB64852C47F47B0008084D /* CuisineSubViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CuisineSubViews.swift; sourceTree = "<group>"; };
 		AAF0FDB52C498D6100932EB5 /* LocationInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationInfo.swift; sourceTree = "<group>"; };
 		AAF0FDB72C498E6900932EB5 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
-		AAF0FDB92C49B62B00932EB5 /* LocationSubViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSubViews.swift; sourceTree = "<group>"; };
+		AAF0FDB92C49B62B00932EB5 /* VenueSubViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VenueSubViews.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,6 +122,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AA81D2A92C37065300FF0221 /* ExyteMediaPicker in Frameworks */,
+				AA63F3842C4A9E370024D1DF /* SwiftSoup in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -231,7 +235,7 @@
 				AA45C0982C471D09009F6DEC /* PrimaryButtonSubViews.swift */,
 				AAA064D12C46A7DA005397EA /* RatingSubViews.swift */,
 				AACB037F2C49272800D84E52 /* MichelinSubViews.swift */,
-				AAF0FDB92C49B62B00932EB5 /* LocationSubViews.swift */,
+				AAF0FDB92C49B62B00932EB5 /* VenueSubViews.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -273,6 +277,7 @@
 				AAA064C62C46A084005397EA /* ModelIOService.swift */,
 				AAF0FDB52C498D6100932EB5 /* LocationInfo.swift */,
 				AAF0FDB72C498E6900932EB5 /* LocationService.swift */,
+				AA63F3802C4A9A3D0024D1DF /* WebFetchService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -295,6 +300,7 @@
 			name = "Foodie Notes";
 			packageProductDependencies = (
 				AA81D2A82C37065300FF0221 /* ExyteMediaPicker */,
+				AA63F3832C4A9E370024D1DF /* SwiftSoup */,
 			);
 			productName = "Foodie Notes";
 			productReference = AA81D20B2C26EEA100FF0221 /* Foodie Notes.app */;
@@ -371,6 +377,7 @@
 			packageReferences = (
 				AA81D2A72C37065300FF0221 /* XCRemoteSwiftPackageReference "ExyteMediaPicker" */,
 				AACB64822C47F41A0008084D /* XCRemoteSwiftPackageReference "iOSDropDown" */,
+				AA63F3822C4A9E370024D1DF /* XCRemoteSwiftPackageReference "SwiftSoup" */,
 			);
 			productRefGroup = AA81D20C2C26EEA100FF0221 /* Products */;
 			projectDirPath = "";
@@ -426,6 +433,7 @@
 				AACB03802C49272800D84E52 /* MichelinSubViews.swift in Sources */,
 				AA45C09B2C4723B5009F6DEC /* MealCreateView.swift in Sources */,
 				AA81D2B12C3818E000FF0221 /* MealModel.swift in Sources */,
+				AA63F3812C4A9A3D0024D1DF /* WebFetchService.swift in Sources */,
 				AA81D2B72C38193500FF0221 /* VenueModel.swift in Sources */,
 				AA81D2FC2C3A1CD000FF0221 /* AppModelTestData.swift in Sources */,
 				AAA064D52C46A7DA005397EA /* MiscSubViews.swift in Sources */,
@@ -446,7 +454,7 @@
 				AAA064D22C46A7DA005397EA /* PictureSubViews.swift in Sources */,
 				AA81D2922C3209E100FF0221 /* CourseView.swift in Sources */,
 				AA81D2802C309BF000FF0221 /* MealListView.swift in Sources */,
-				AAF0FDBA2C49B62B00932EB5 /* LocationSubViews.swift in Sources */,
+				AAF0FDBA2C49B62B00932EB5 /* VenueSubViews.swift in Sources */,
 				AA45C07D2C471B23009F6DEC /* CourseEditView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -826,6 +834,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		AA63F3822C4A9E370024D1DF /* XCRemoteSwiftPackageReference "SwiftSoup" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/scinfu/SwiftSoup";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.7.2;
+			};
+		};
 		AA81D2A72C37065300FF0221 /* XCRemoteSwiftPackageReference "ExyteMediaPicker" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/exyte/ExyteMediaPicker.git";
@@ -845,6 +861,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		AA63F3832C4A9E370024D1DF /* SwiftSoup */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AA63F3822C4A9E370024D1DF /* XCRemoteSwiftPackageReference "SwiftSoup" */;
+			productName = SwiftSoup;
+		};
 		AA81D2A82C37065300FF0221 /* ExyteMediaPicker */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = AA81D2A72C37065300FF0221 /* XCRemoteSwiftPackageReference "ExyteMediaPicker" */;
