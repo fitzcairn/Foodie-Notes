@@ -28,8 +28,8 @@ struct AyncGuideLink<Source:SearchableConfig, ProgressContent: View, LinkContent
             progressContent
                 .onAppear {
                     // TODO: undo test search.
-                    source.searchFor(name: "Midsummer House", guide: guide, city: "Cambridge", country: "UK")
-                    //source.searchFor(name: venue.name, guide: guide, city: venue.city, country: venue.country)
+                    //source.searchFor(name: "Midsummer House", guide: guide, city: "Cambridge", country: "UK")
+                    source.searchFor(name: venue.name, guide: guide, city: venue.city, country: venue.country)
                 }
         case .complete:
             linkContent
