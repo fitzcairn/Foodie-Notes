@@ -78,9 +78,6 @@ struct MealListView: View {
                                                 .foregroundColor(Color.gray)
                                                 .opacity(/*@START_MENU_TOKEN@*/0.8/*@END_MENU_TOKEN@*/)
                                                 .padding(.trailing, 3)
-                                            
-                                                .frame(width:18, height: 18)
-                                                .background(Color.red)
                                             Text(meal.cuisines.map({$0.displayName}).joined(separator: ", "))
                                                 .font(.system(size:14, weight: .regular))
                                                 .foregroundColor(.gray)
