@@ -15,6 +15,9 @@
 		AA4BF4BC2C47D26D00D01CF1 /* DateSubViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4BF4BB2C47D26D00D01CF1 /* DateSubViews.swift */; };
 		AA63F3812C4A9A3D0024D1DF /* WebFetchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA63F3802C4A9A3D0024D1DF /* WebFetchService.swift */; };
 		AA63F3842C4A9E370024D1DF /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = AA63F3832C4A9E370024D1DF /* SwiftSoup */; };
+		AA63F3862C4BF6260024D1DF /* GuideLinkViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA63F3852C4BF6260024D1DF /* GuideLinkViewModel.swift */; };
+		AA63F38A2C4BF6E20024D1DF /* SearchableConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA63F3892C4BF6E20024D1DF /* SearchableConfig.swift */; };
+		AA63F38C2C4BFBCE0024D1DF /* AsyncContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA63F38B2C4BFBCE0024D1DF /* AsyncContent.swift */; };
 		AA81D20F2C26EEA100FF0221 /* FoodieNotesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D20E2C26EEA100FF0221 /* FoodieNotesApp.swift */; };
 		AA81D2142C26EEA100FF0221 /* Foodie_Notes.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AA81D2122C26EEA100FF0221 /* Foodie_Notes.xcdatamodeld */; };
 		AA81D2182C26EEA200FF0221 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA81D2172C26EEA200FF0221 /* Assets.xcassets */; };
@@ -76,6 +79,9 @@
 		AA45C09E2C4727B5009F6DEC /* CourseCreateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseCreateView.swift; sourceTree = "<group>"; };
 		AA4BF4BB2C47D26D00D01CF1 /* DateSubViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateSubViews.swift; sourceTree = "<group>"; };
 		AA63F3802C4A9A3D0024D1DF /* WebFetchService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebFetchService.swift; sourceTree = "<group>"; };
+		AA63F3852C4BF6260024D1DF /* GuideLinkViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuideLinkViewModel.swift; sourceTree = "<group>"; };
+		AA63F3892C4BF6E20024D1DF /* SearchableConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchableConfig.swift; sourceTree = "<group>"; };
+		AA63F38B2C4BFBCE0024D1DF /* AsyncContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncContent.swift; sourceTree = "<group>"; };
 		AA81D20B2C26EEA100FF0221 /* Foodie Notes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Foodie Notes.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA81D20E2C26EEA100FF0221 /* FoodieNotesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodieNotesApp.swift; sourceTree = "<group>"; };
 		AA81D2132C26EEA100FF0221 /* Foodie_Notes.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Foodie_Notes.xcdatamodel; sourceTree = "<group>"; };
@@ -143,6 +149,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AA63F3882C4BF6D40024D1DF /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				AA63F3892C4BF6E20024D1DF /* SearchableConfig.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
 		AA81D2022C26EEA100FF0221 = {
 			isa = PBXGroup;
 			children = (
@@ -236,6 +250,7 @@
 				AAA064D12C46A7DA005397EA /* RatingSubViews.swift */,
 				AACB037F2C49272800D84E52 /* MichelinSubViews.swift */,
 				AAF0FDB92C49B62B00932EB5 /* VenueSubViews.swift */,
+				AA63F38B2C4BFBCE0024D1DF /* AsyncContent.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -243,10 +258,12 @@
 		AA81D2A02C32636C00FF0221 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				AA63F3882C4BF6D40024D1DF /* Protocols */,
 				AA81D2AF2C3818C100FF0221 /* Components */,
 				AA81D29E2C325D0B00FF0221 /* AppModel.swift */,
 				AA81D2A12C3267C200FF0221 /* AppViewModel.swift */,
 				AA45C09C2C4726B6009F6DEC /* WrappedStruct.swift */,
+				AA63F3852C4BF6260024D1DF /* GuideLinkViewModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -423,6 +440,7 @@
 			files = (
 				AAA064D72C46A7DA005397EA /* CourseSubViews.swift in Sources */,
 				AAA064C72C46A084005397EA /* ModelIOService.swift in Sources */,
+				AA63F38A2C4BF6E20024D1DF /* SearchableConfig.swift in Sources */,
 				AAA064D62C46A7DA005397EA /* NotesSubViews.swift in Sources */,
 				AA81D2B32C38190800FF0221 /* CourseModel.swift in Sources */,
 				AA81D29F2C325D0B00FF0221 /* AppModel.swift in Sources */,
@@ -436,7 +454,9 @@
 				AA63F3812C4A9A3D0024D1DF /* WebFetchService.swift in Sources */,
 				AA81D2B72C38193500FF0221 /* VenueModel.swift in Sources */,
 				AA81D2FC2C3A1CD000FF0221 /* AppModelTestData.swift in Sources */,
+				AA63F3862C4BF6260024D1DF /* GuideLinkViewModel.swift in Sources */,
 				AAA064D52C46A7DA005397EA /* MiscSubViews.swift in Sources */,
+				AA63F38C2C4BFBCE0024D1DF /* AsyncContent.swift in Sources */,
 				AACB64862C47F47B0008084D /* CuisineSubViews.swift in Sources */,
 				AA45C0992C471D09009F6DEC /* PrimaryButtonSubViews.swift in Sources */,
 				AA4BF4BC2C47D26D00D01CF1 /* DateSubViews.swift in Sources */,

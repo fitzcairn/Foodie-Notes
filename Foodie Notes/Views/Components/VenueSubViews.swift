@@ -8,66 +8,88 @@
 import SwiftUI
 import MapKit
 
-
-// TODO: All interaction with services needs to move into the viewmodel.
 struct VenueSubViews {
     
-    struct GuideLink: View {
-        let venue:Venue;
+    private struct LinkImg: View {
+        var body: some View {
+            Image(systemName: "link")
+                .resizable()
+                .scaledToFit()
+                .frame(height: 18)
+                .foregroundColor(Color.gray)
+                .opacity(/*@START_MENU_TOKEN@*/0.8/*@END_MENU_TOKEN@*/)
+        }
+    }
+    
+    private struct GuideLink: View {
+        let guideName:String
+        let url:URL?
         
         var body: some View {
             HStack {
-                Image(systemName: "link")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(height: 18)
-                    .foregroundColor(Color.gray)
-                    .opacity(/*@START_MENU_TOKEN@*/0.8/*@END_MENU_TOKEN@*/)
-                textOrLink
-                    .font(.system(size:14, weight: .regular))
-                    .foregroundColor(.gray)
-                    .fixedSize(horizontal: false, vertical: true)
-                    .lineLimit(1)
+                if let url = url {
+                    LinkImg()
+                    Link(guideName, destination:url)
+                        .font(.system(size:14, weight: .regular))
+                        .foregroundColor(.gray)
+                        .fixedSize(horizontal: false, vertical: true)
+                        .lineLimit(1)
+                    Spacer()
+                }
+                else {
+                    EmptyView()
+                }
+            }
+        }
+    }
+    
+    private struct Searching: View {
+        var body: some View {
+            HStack {
+                LinkImg()
+                ProgressView()
+                    .frame(width: 18, height: 18)
                 Spacer()
             }
         }
-        
-        @ViewBuilder
-        var textOrLink: some View {
-            if let guideLink = venue.guideLink {
-                Link(guideLink.guide.displayName, destination: guideLink.url)
-            } else {
-                Text("Searching...")
-            }
-        }
     }
     
     
-    struct GuideLinkEditView: View {
+    struct GuideLinkView: View {
         @EnvironmentObject var viewModel:AppViewModel;
-        @EnvironmentObject var webService:WebFetchService;
+        @StateObject var linkViewModel:GuideLinkViewModel = GuideLinkViewModel()
 
-        @Binding var venue: Venue;
+        let meal: Meal;
+        // Eventually, allow for other guides.
+        let guide:VenueGuide = .michelin
         
         var body: some View {
-            VenueSubViews.GuideLink(venue: venue)
-            .onAppear() {
-                if (venue.guideLink == nil) {
-                    //webService.fetchMichelinGuideLinkFor(name: venue.name, city: venue.city, country: venue.country)
-                    webService.fetchMichelinGuideLinkFor(name: "Midsummer House", city: "Cambridge", country: "United Kingdom")
-                }
-            }
-            .onChange(of: webService.link) {
-                if let url = webService.link {
-                    let guideLink = VenueGuideLink(guide: .michelin, url: url)
-                    venue.guideLink = guideLink
-                    viewModel.triggerRefresh()
+            // If we have a link already, use it.
+            if let guideLink = meal.venue.guideLink {
+                GuideLink(guideName:guideLink.guide.displayName, url:guideLink.url)
+            } else {
+                // Load link async, and update view.
+                AyncGuideLink(
+                    source:linkViewModel,
+                    venue:meal.venue,
+                    guide:guide,
+                    progressContent: { Searching() },
+                    // Can safely unwrap link due to switch statement in AyncGuideLink
+                    linkContent: { GuideLink(guideName:guide.displayName, url:linkViewModel.link) }
+                )
+                .onChange(of: linkViewModel.link) {
+                    var newMeal = meal
+                    if let url = linkViewModel.link {
+                        newMeal.venue.guideLink = VenueGuideLink(guide: .michelin, url: url)
+                    } else {
+                        // Not found, don't look again for this guide type.
+                        newMeal.venue.guideLink = VenueGuideLink(guide: .michelin, url: nil)
+                    }
+                    viewModel.saveEditedMealFor(newMeal)
                 }
             }
         }
-        
     }
-    
     
     struct LocationView: View {
         let venue: Venue
@@ -94,6 +116,7 @@ struct VenueSubViews {
         }
     }
         
+    // TODO: All interaction with services needs to move into a viewmodel.
     struct LocationEditView: View {
         @EnvironmentObject private var locationService:LocationService;
        
@@ -134,7 +157,7 @@ struct VenueSubViews {
         private func search(latitude: Double, longitude: Double) {
             let request = MKLocalPointsOfInterestRequest(
                 center: CLLocationCoordinate2D(latitude:latitude, longitude:longitude),
-                radius: 5)
+                radius: 20) // 20 meters
             request.pointOfInterestFilter = MKPointOfInterestFilter(including: [.restaurant])
             
             MKLocalSearch(request: request).start { response, error in

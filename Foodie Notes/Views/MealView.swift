@@ -20,32 +20,34 @@ struct MealView: View {
         NavigationStack {
             ZStack(alignment: .bottom) {
                 ScrollForm {
-                    PictureSubViews.MealPictureNameRatingView(
-                        picture: viewModel.getMealImageFor(meal),
-                        rating: meal.rating,
-                        venue: meal.venue)
+                    PictureSubViews.MealPictureNameRatingView(meal: meal)
+                    
                     DateSubViews.DateSection(meal.date)
+                    
                     if (!meal.cuisines.isEmpty) {
                         CuisineSubViews.CuisineViewSection(
                             cuisines:meal.cuisines
                         )
                     }
+                    
                     if !meal.notes.isEmpty {
                         NotesSubViews.NotesSection(
                             title:SectionTitle.notes,
                             note: meal.notes
                         )
                     }
+                    
                     if viewModel.checkShow(meal.menu) {
                         PictureSubViews.PictureAndNotesViewSection(title: SectionTitle.menus, data:meal.menu)
                     }
+                    
                     if !meal.courses.isEmpty {
                         CourseSubViews.CoursesViewSection(courses:meal.courses)
                     }
                 }
                 PrimaryButtonSubViews.MealViewPrimaryButtons(
                     backClosure: {
-                        viewModel.triggerRefresh()
+                        viewModel.saveEditedMealFor(meal)
                         self.presentationMode.wrappedValue.dismiss()
                     },
                     editMealDest: MealEditView(

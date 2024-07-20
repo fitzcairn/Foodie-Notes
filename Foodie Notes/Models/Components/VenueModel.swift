@@ -10,7 +10,7 @@ import Foundation
 
 struct VenueGuideLink: Codable {
     let guide:VenueGuide;
-    var url:URL
+    var url:URL? // Can be nil if there is no guide link for this guide type.
 }
 
 struct Venue : Hashable, Codable, Equatable {

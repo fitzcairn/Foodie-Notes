@@ -47,6 +47,7 @@ struct MealEditView: View {
                     saveFunc: {
                         showingAlert = meal.venue.name.isEmpty
                         if !showingAlert {
+                            viewModel.saveEditedMealFor(meal)
                             presentationMode.wrappedValue.dismiss()
                         }
                     },
