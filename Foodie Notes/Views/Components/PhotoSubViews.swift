@@ -25,11 +25,12 @@ struct PhotoSubViews {
     
     struct PhotoView: View {
         let picture:Picture
+        var showFull:Bool = false;
         
         var body: some View {
             GeometryReader { g in
                 VStack {
-                    if let data = picture.data {
+                    if let data = !showFull && picture.thumbnail != nil ? picture.thumbnail : picture.data {
                         let image: UIImage = UIImage(data: data) ?? UIImage()
                         Image(uiImage: image)
                             .resizable()
@@ -49,7 +50,7 @@ struct PhotoSubViews {
         @Binding var sheetShowing:Bool;
         
         var body: some View {
-            PhotoView(picture: picture)
+            PhotoView(picture: picture, showFull: true)
                 .background(.black)
                 .onTapGesture {
                     sheetShowing = false;
@@ -160,10 +161,10 @@ struct PhotoSubViews {
                 photoPickerModel.load(
                     pickedMedia: newMedia,
                     onLoaded: { images in
-                        for image in images {
-                            newPictures.append(Picture(data:image));
+                        for imageAndThumb in images {
+                            newPictures.append(Picture(data:imageAndThumb.imageData, thumbnail:imageAndThumb.thumbData));
                         }
-                        pictures = pictures + newPictures;
+                    pictures = pictures + newPictures;
                     })
                 
             }) {

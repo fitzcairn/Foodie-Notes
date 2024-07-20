@@ -14,12 +14,14 @@ struct Picture : Identifiable, Hashable, Codable {
     var deleted:Bool = false;
     var url:URL? = nil // Kept for future compatibility with web images.
     var data:Data? = nil;
+    var thumbnail:Data? = nil;
     
     init() {
     }
     
-    init(data:Data?) {
+    init(data:Data?, thumbnail:Data?) {
         self.data = data
+        self.thumbnail = thumbnail
     }
     
     static func == (lhs: Picture, rhs: Picture) -> Bool {

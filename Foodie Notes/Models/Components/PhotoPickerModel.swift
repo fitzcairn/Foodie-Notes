@@ -6,22 +6,26 @@
 //
 
 import Foundation
+import UIKit
 import ExyteMediaPicker
 
 class PhotoPickerModel: ObservableObject {
+    struct ImageAndThumb {
+        let imageData:Data;
+        let thumbData:Data;
+    }
+    
     private var pickedMedia: [Media]?
-    private var onLoadedClosure: (([Data]) -> Void)?;
-    private var images:[Data] = []
+    private var onLoadedClosure: (([ImageAndThumb]) -> Void)?;
     
     @Published var loaded:Bool = false;
     @Published var hasNewPickedImages:Bool = false;
     
-    func load(pickedMedia: [Media], onLoaded:@escaping ([Data]) -> Void) {
+    func load(pickedMedia: [Media], onLoaded:@escaping ([ImageAndThumb]) -> Void) {
         self.pickedMedia = pickedMedia
         self.onLoadedClosure = onLoaded
         self.hasNewPickedImages = true;
         self.loaded = false;
-        self.images = []
     }
     
     // TODO: will freeze the app if a lot of images are chosen, figure out how to do this async.
@@ -31,7 +35,7 @@ class PhotoPickerModel: ObservableObject {
         // If we don't have any media to load, we're done.
         guard pickedMedia != nil  && onLoadedClosure != nil else { return }
         
-        var images:[Data] = []
+        var images:[ImageAndThumb] = []
         
         // Fetch URLs from picked photo in this session.
         for media in self.pickedMedia! {
@@ -49,7 +53,10 @@ class PhotoPickerModel: ObservableObject {
             }
             do {
                 if let data = try await task.value {
-                    images.append(data)
+                    // Attempt to generate a thumbnail.  If that works, save the image.
+                    if let thumbnail = await ThumbnailService.createThumbnailFor(data) {
+                        images.append(ImageAndThumb(imageData: data, thumbData: thumbnail))
+                    }
                 }
             } catch {
                 // Don't append anything, we can't load this image.

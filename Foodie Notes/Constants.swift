@@ -10,6 +10,7 @@ import Foundation
 enum PhotoDimensions {
     static let photoWidth:CGFloat = 64;
     static let photoHeight:CGFloat = 64;
+    static let thumbSize:CGSize = CGSize(width:PhotoDimensions.photoWidth, height:PhotoDimensions.photoHeight)
 }
 
 enum SectionTitle {
