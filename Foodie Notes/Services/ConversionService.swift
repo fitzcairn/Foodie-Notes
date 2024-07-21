@@ -15,25 +15,25 @@ class ConversionService {
     static func convertPicturesToSavedImages(_ from:AppModel, imageService:ImageDataService = .shared) async -> AppModel {
         var toModel = AppModel()
         
-        func convertError(_ from:Picture, _ err:String) -> Picture {
+        func convertError(_ err:String) -> Picture? {
             print(err)
-            return from;
+            return nil;
         }
         
-        func convert(_ from:Picture) async -> Picture {
-            guard(from.data != nil) else { return convertError(from, "no data") }
+        func convert(_ from:Picture) async -> Picture? {
+            guard(from.data != nil) else { return convertError("no data") }
             let fullImgData = from.data!
             var toPicture:Picture = from;
             
             // Save the full image data to disk.
             let savedFullImg = await imageService.getSavedImageFor(LoadedImage(imgData: fullImgData))
-            guard(savedFullImg != nil) else { return convertError(from, "couldn't save full image") }
+            guard(savedFullImg != nil) else { return convertError("couldn't save full image") }
 
             // Create the thumbnail and save it to disk.
             let thumbImgData = await ImageDataService.createThumbnailFor(fullImgData)
-            guard(thumbImgData != nil) else { return convertError(from, "couldn't make thumb") }
+            guard(thumbImgData != nil) else { return convertError("couldn't make thumb") }
             let savedThumbImg = await imageService.getSavedImageFor(LoadedImage(imgData: thumbImgData!))
-            guard(savedThumbImg != nil) else { return convertError(from, "couldn't save thumb image") }
+            guard(savedThumbImg != nil) else { return convertError("couldn't save thumb image") }
             
             // Create the new Photo and save.
             toPicture.photo = Photo(full: savedFullImg!, thumb: savedThumbImg!)
@@ -43,8 +43,9 @@ class ConversionService {
         func convertPicturesAndNotes(_ from:PicturesAndNotes) async -> PicturesAndNotes {
             var newPictures:[Picture] = []
             for picture in from.pictures {
-                let newPicture = await convert(picture)
-                newPictures.append(picture)
+                if let newPicture = await convert(picture) {
+                    newPictures.append(newPicture)
+                }
             }
             var newPicsAndNotes = from
             newPicsAndNotes.pictures = newPictures
@@ -53,9 +54,7 @@ class ConversionService {
         
         for meal in from.getMeals() {
             var newMeal = meal;
-            if let picture = meal.pickedImage {
-                newMeal.pickedImage = await convert(picture)
-            }
+            newMeal.pickedImage = await meal.pickedImage != nil ? convert(meal.pickedImage!) : nil
             newMeal.menu = await convertPicturesAndNotes(meal.menu)
             
             var newCourses:[Course] = []

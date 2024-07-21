@@ -13,7 +13,6 @@ struct AppModel : Codable, Equatable {
     private var mealsById:[String:Meal] = [:];
     private var venuesByName:[String:Venue] = [:];
     private var coursesById:[String:Course] = [:];
-    private var imagesById:[ImageId:SavedImage] = [:];
     
     var showSplash:Bool = true;
     
