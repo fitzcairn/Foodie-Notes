@@ -67,7 +67,7 @@ class ConversionService {
         
         for meal in from.getMeals() {
             var newMeal = meal;
-            newMeal.pickedImage = await convert(meal.pickedImage!)
+            newMeal.pickedImage = await convert(meal.pickedImage)
             newMeal.menu = await convertPicturesAndNotes(meal.menu)
             
             var newCourses:[Course] = []
