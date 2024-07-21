@@ -45,8 +45,6 @@ class ImageDataService {
                 try data.write(to: outfile)
             }
             _ = try await task.value
-
-            // Create and return SavedImage
             return SavedImage(id: img.id)
 
         } catch {
@@ -77,7 +75,6 @@ class ImageDataService {
     // Create as a thread-safe singleton.
     static let shared =  {
         let instance = ImageDataService()
-        // Configuration and setup if needed
         return instance
     }()
     private init() { }
