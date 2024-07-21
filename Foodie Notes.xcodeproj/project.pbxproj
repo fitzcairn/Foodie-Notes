@@ -51,7 +51,6 @@
 		AAC91A562C4D357400225BDD /* ImageDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAC91A552C4D357400225BDD /* ImageDataService.swift */; };
 		AAC91A582C4D43E900225BDD /* AsyncPhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAC91A572C4D43E900225BDD /* AsyncPhotoView.swift */; };
 		AAC91A5A2C4D4BAD00225BDD /* ConversionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAC91A592C4D4BAD00225BDD /* ConversionService.swift */; };
-		AAC91A5C2C4D6ACF00225BDD /* ServiceConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAC91A5B2C4D6ACF00225BDD /* ServiceConfig.swift */; };
 		AACB03802C49272800D84E52 /* MichelinSubViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AACB037F2C49272800D84E52 /* MichelinSubViews.swift */; };
 		AACB64862C47F47B0008084D /* CuisineSubViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AACB64852C47F47B0008084D /* CuisineSubViews.swift */; };
 		AAF0FDB62C498D6100932EB5 /* LocationInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAF0FDB52C498D6100932EB5 /* LocationInfo.swift */; };
@@ -124,7 +123,6 @@
 		AAC91A552C4D357400225BDD /* ImageDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDataService.swift; sourceTree = "<group>"; };
 		AAC91A572C4D43E900225BDD /* AsyncPhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncPhotoView.swift; sourceTree = "<group>"; };
 		AAC91A592C4D4BAD00225BDD /* ConversionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversionService.swift; sourceTree = "<group>"; };
-		AAC91A5B2C4D6ACF00225BDD /* ServiceConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceConfig.swift; sourceTree = "<group>"; };
 		AACB037F2C49272800D84E52 /* MichelinSubViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MichelinSubViews.swift; sourceTree = "<group>"; };
 		AACB64852C47F47B0008084D /* CuisineSubViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CuisineSubViews.swift; sourceTree = "<group>"; };
 		AAF0FDB52C498D6100932EB5 /* LocationInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationInfo.swift; sourceTree = "<group>"; };
@@ -163,7 +161,6 @@
 			isa = PBXGroup;
 			children = (
 				AA63F3892C4BF6E20024D1DF /* AsyncLoadableConfig.swift */,
-				AAC91A5B2C4D6ACF00225BDD /* ServiceConfig.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -470,7 +467,6 @@
 				AAC91A562C4D357400225BDD /* ImageDataService.swift in Sources */,
 				AA81D2B72C38193500FF0221 /* VenueModel.swift in Sources */,
 				AA81D2FC2C3A1CD000FF0221 /* AppModelTestData.swift in Sources */,
-				AAC91A5C2C4D6ACF00225BDD /* ServiceConfig.swift in Sources */,
 				AA63F3862C4BF6260024D1DF /* AsyncLinkViewModel.swift in Sources */,
 				AAA064D52C46A7DA005397EA /* MiscSubViews.swift in Sources */,
 				AAC91A522C4C843C00225BDD /* ImageModels.swift in Sources */,

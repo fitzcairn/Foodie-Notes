@@ -45,7 +45,6 @@ struct MealListView: View {
                 try await viewModel.fromLoad(model:ModelIOService.loadAppModel())
             } catch {
                 fatalError(error.localizedDescription)
-                //viewModel.fromLoad(model:AppModel())
             }
         }
     }

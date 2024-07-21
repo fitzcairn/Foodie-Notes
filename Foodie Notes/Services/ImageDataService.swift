@@ -46,7 +46,7 @@ class ImageDataService {
  
         // Otherwise, we need to load from disk, index it, return it.
         let task = Task<LoadedImage, Error> {
-            let data = try Data(contentsOf: img.file)
+            let data = try Data(contentsOf: ModelIOService.fileURLFor(img))
             let loadedImage = try JSONDecoder().decode(LoadedImage.self, from: data)
             return loadedImage
         }
@@ -66,6 +66,7 @@ class ImageDataService {
         // Save the image data to disk.
         do {
             let outfile = try ModelIOService.fileURLFor(img)
+            print("img: \(outfile)")
             
             let task = Task {
                 let data = try JSONEncoder().encode(img)
@@ -74,7 +75,7 @@ class ImageDataService {
             _ = try await task.value
 
             // Create and return SavedImage
-            return SavedImage(id: img.id, file: outfile)
+            return SavedImage(id: img.id)
 
         } catch {
             return nil;

@@ -10,13 +10,7 @@ import Foundation
 typealias ImageId = String
 
 struct SavedImage : Hashable, Codable, Identifiable {
-    var id: ImageId = Id.createId()
-    let file:URL
-    
-    init(id: ImageId, file: URL) {
-        self.id = id
-        self.file = file
-    }
+    var id: ImageId = Id.createId() // Also the file name.
 }
 
 struct LoadedImage : Hashable, Codable, Identifiable {
