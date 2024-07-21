@@ -23,7 +23,7 @@ struct PhotoSubViews {
         }
     }
     
-    struct PhotoView2: View {
+    struct PhotoView: View {
         @StateObject var photoModel:AsyncPhotoViewModel = AsyncPhotoViewModel()
         let img: SavedImage;
 
@@ -38,8 +38,7 @@ struct PhotoSubViews {
                                 .frame(width: 18, height: 18)
                         },
                         photoContent: {
-                            // Conditional in AsyncPhotoView protects unwrap.
-                            let image = UIImage(data: photoModel.loadedImg!.imgData) ?? UIImage()
+                            let image = UIImage(data: photoModel.loadedImg?.imgData ?? Data()) ?? UIImage()
                             Image(uiImage: image)
                                 .resizable()
                                 .scaledToFill()
@@ -53,7 +52,7 @@ struct PhotoSubViews {
     }
     
     
-    struct PhotoView: View {
+    /*struct PhotoView: View {
         let picture:Picture
         var showFull:Bool = false;
         
@@ -71,7 +70,7 @@ struct PhotoSubViews {
                 .clipped()
             }
         }
-    }
+    }*/
     
     // Photo expand
     struct PhotoExpandView : View {
@@ -80,12 +79,15 @@ struct PhotoSubViews {
         @Binding var sheetShowing:Bool;
         
         var body: some View {
-            PhotoView(picture: picture, showFull: true)
-                .background(.black)
-                .onTapGesture {
-                    sheetShowing = false;
-                }
-            EmptyView()
+            if let full = picture.photo?.full {
+                PhotoView(img:full)
+                    .background(.black)
+                    .onTapGesture {
+                        sheetShowing = false;
+                    }
+            } else {
+                EmptyView()
+            }
         }
     }
     
@@ -96,13 +98,13 @@ struct PhotoSubViews {
         @State var sheetShowing:Bool = false;
         
         var body: some View {
-            if picture == nil || picture!.deleted {
+            if picture == nil || picture!.deleted  {
                 NoPhotoPlaceholderView()
             }
-            else if picture?.data != nil {
+            else if picture?.photo != nil {
                 if (!isEditMode) {
                     // Only allow on-tap expands if not editing.
-                    PhotoView(picture:picture!)
+                    PhotoView(img:picture!.photo!.thumb)
                         .aspectRatio(1, contentMode: .fill)
                         .frame(width:PhotoDimensions.photoWidth, height: PhotoDimensions.photoHeight)
                         .onTapGesture {
@@ -112,7 +114,7 @@ struct PhotoSubViews {
                             PhotoExpandView(picture:picture!, sheetShowing: $sheetShowing)
                         }
                 } else {
-                    PhotoView(picture:picture!)
+                    PhotoView(img:picture!.photo!.thumb)
                         .aspectRatio(1, contentMode: .fill)
                         .frame(width:PhotoDimensions.photoWidth, height: PhotoDimensions.photoHeight)
                 }
@@ -190,12 +192,9 @@ struct PhotoSubViews {
                 
                 photoPickerModel.load(
                     pickedMedia: newMedia,
-                    onLoaded: { images in
-                        for imageAndThumb in images {
-                            var newPicture = Picture()
-                            newPicture.data = imageAndThumb.imageData
-                            newPictures.append(newPicture)
-                            //newPictures.append(Picture(data:imageAndThumb.imageData, thumbnail:imageAndThumb.thumbData));
+                    onLoaded: { photos in
+                        for photo in photos {
+                            newPictures.append(Picture(photo:photo))
                         }
                     pictures = pictures + newPictures;
                     })

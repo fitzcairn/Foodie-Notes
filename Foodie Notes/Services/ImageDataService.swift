@@ -60,6 +60,9 @@ class ImageDataService {
     }
     
     func getSavedImageFor(_ img:LoadedImage) async -> SavedImage? {
+        // Make sure we cache this loaded image -- it was likely just created.
+        _ = index(img)
+        
         // Save the image data to disk.
         do {
             let outfile = try ModelIOService.fileURLFor(img)
@@ -77,9 +80,6 @@ class ImageDataService {
             return nil;
         }
     }
-    
-    // Method that runs synchronousely
-    
     
     static func createThumbnailFor(_ image:Data) async -> Data? {
         if let thumbnail = await UIImage(data: image)?.byPreparingThumbnail(ofSize:PhotoDimensions.thumbSize) {

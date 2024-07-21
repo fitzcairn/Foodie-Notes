@@ -7,6 +7,13 @@
 
 import Foundation
 
+struct Photo : Identifiable, Hashable, Codable {
+    var id:String = Id.createId()
+
+    let full:SavedImage
+    let thumb:SavedImage
+}
+
 struct Picture : Identifiable, Hashable, Codable {
     var id:String = Id.createId()
     var deleted:Bool = false;

@@ -23,10 +23,3 @@ struct LoadedImage : Hashable, Codable, Identifiable {
     var id:ImageId = Id.createId()
     let imgData:Data;
 }
-
-struct Photo : Identifiable, Hashable, Codable {
-    var id:String = Id.createId()
-
-    let full:SavedImage
-    let thumb:SavedImage
-}
