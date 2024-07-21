@@ -86,7 +86,7 @@ class ConversionService {
         
         // Save out the new model to complete the conversion.
         do {
-            //try await ModelIOService.saveAppModel(model: toModel)
+            try await ModelIOService.saveAppModel(model: toModel)
         } catch {
             // Full stop, something went seriously wrong.
             fatalError(error.localizedDescription)

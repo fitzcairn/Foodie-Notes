@@ -8,35 +8,9 @@
 import Foundation
 import UIKit
 
-/*
- Some notes on the new photos lazy load:
- 
- Pre:
- - Need a ViewModel for photos that maintains a list that is selectively serialized to disk that can async load them.
- - Need the AppModel to maintain a list of SavedImages.
-
- Method:
- - Maintain an ID > SavedImage dict as part of the model.  This is loaded/saved to disk regularly.
- - Maintain a dict of ID > LoadedImages as part of the viewModel.  This is NOT saved to disk.
- - When a photo is chosen (created) during meal/course edit/create:
-    - Create the LoadedImage, create the Photo, save in Picture model.
-    - Add to dictionary of ID > LoadedImages.
-    - ID for loaded photo is saved in the meal/course model.
- - When a meal is written to disk:
-    - For each LoadedImage, if not saved:
-      - Save to disk.
-      - Create a SavedImage is created with the same Id as the LoadedImage.
-      - Update ID > SavedImage dict.
-      - Save ID > SavedImage dict to disk.
- - When a photo is viewed (thumb or full)
-    - First check in ID > LoadedImages.  If found, return and continue.
-    - Then check in ID > SavedImages.  If found, load the photo into ID > LoadedImage, return and continue.
-    - Else nil
- */
-
 class ImageDataService {
-    // App-wide registry of loaded images.
-    private var loadedImagesById:[ImageId:LoadedImage] = [:];
+    // App-wide registry of loaded images.  Must be thread safe.
+    private var loadedImagesById = ThreadSafeDictionary<ImageId,LoadedImage>()
 
     func getLoadedImageFor(_ img:SavedImage) async -> LoadedImage? {
         // Check if we have this loaded already, if so return.
