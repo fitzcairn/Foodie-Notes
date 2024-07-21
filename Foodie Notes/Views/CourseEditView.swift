@@ -42,6 +42,7 @@ struct CourseEditView: View {
                     saveFunc: {
                         showingAlert = course.name.isEmpty;
                         if !showingAlert {
+                            viewModel.saveEditedCourse(course)
                             presentationMode.wrappedValue.dismiss()
                         }
                     },
