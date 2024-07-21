@@ -97,7 +97,7 @@ class AppViewModel : ObservableObject {
     
     // MARK: - Other Useful Helpers
     func isPictureEmpty(_ image:Picture?) -> Bool {
-        return image == nil || image!.data == nil || image!.deleted
+        return image == nil || image!.photo == nil || image!.deleted
     }
     // Consolidate business logic on when to show a section.
     func checkShow(_ pictureAndNotes:PicturesAndNotes?) -> Bool {
