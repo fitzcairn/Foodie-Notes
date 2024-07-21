@@ -186,7 +186,12 @@ struct PictureSubViews {
                         Spacer()
                         RatingSubViews.RatingEditView(rating:$rating)
                     }
-                    LocationSubViews.LocationEditView(
+                    .padding(.bottom, 4)
+                    
+                    //VenueSubViews.GuideLinkEditView(venue:$venue)
+                    //    .padding(.leading, 10)
+                    
+                    VenueSubViews.LocationEditView(
                         venue: $venue,
                         nearestRestaurant: $venue.name
                     )
@@ -225,24 +230,27 @@ struct PictureSubViews {
     }
     
     struct MealPictureNameRatingView : View {
-        let picture: Picture?
-        let rating:Int?
-        let venue:Venue
+        @EnvironmentObject var viewModel:AppViewModel;
+        let meal:Meal;
         
         var body: some View {
             HStack {
                 VStack {
-                    PhotoSubViews.PhotoShowView(picture:picture)
+                    PhotoSubViews.PhotoShowView(picture:viewModel.getMealImageFor(meal))
                 }
                 VStack {
                     HStack {
-                        MichelinSubViews.MichelinNameView(name: venue.name, rating: venue.michelin)
+                        MichelinSubViews.MichelinNameView(name: meal.venue.name, rating: meal.venue.michelin)
                             .padding(.leading, 10)
                         Spacer()
-                        RatingSubViews.RatingView(rating: rating ?? 0)
+                        RatingSubViews.RatingView(rating: meal.rating)
                     }
-                    if (venue.city != nil) {
-                        LocationSubViews.LocationView(venue: venue)
+                    
+                    VenueSubViews.GuideLinkView(meal:meal)
+                        .padding(.leading, 10)
+                    
+                    if (meal.venue.city != nil) {
+                        VenueSubViews.LocationView(venue: meal.venue)
                             .padding(.leading, 10)
                     }
                 }

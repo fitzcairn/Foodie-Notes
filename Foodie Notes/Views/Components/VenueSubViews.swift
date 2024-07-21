@@ -1,5 +1,5 @@
 //
-//  LocationSubViews.swift
+//  VenueSubViews.swift
 //  Foodie Notes
 //
 //  Created by Steve Martin on 7/18/24.
@@ -8,8 +8,89 @@
 import SwiftUI
 import MapKit
 
-struct LocationSubViews {
+struct VenueSubViews {
+    
+    private struct LinkImg: View {
+        var body: some View {
+            Image(systemName: "link")
+                .resizable()
+                .scaledToFit()
+                .frame(height: 18)
+                .foregroundColor(Color.gray)
+                .opacity(/*@START_MENU_TOKEN@*/0.8/*@END_MENU_TOKEN@*/)
+        }
+    }
+    
+    private struct GuideLink: View {
+        let guideName:String
+        let url:URL?
+        
+        var body: some View {
+            HStack {
+                if let url = url {
+                    LinkImg()
+                    Link(guideName, destination:url)
+                        .font(.system(size:14, weight: .regular))
+                        .foregroundColor(.gray)
+                        .fixedSize(horizontal: false, vertical: true)
+                        .lineLimit(1)
+                    Spacer()
+                }
+                else {
+                    EmptyView()
+                }
+            }
+        }
+    }
+    
+    private struct Searching: View {
+        var body: some View {
+            HStack {
+                LinkImg()
+                ProgressView()
+                    .frame(width: 18, height: 18)
+                Spacer()
+            }
+        }
+    }
+    
+    
+    struct GuideLinkView: View {
+        @EnvironmentObject var viewModel:AppViewModel;
+        @StateObject var linkViewModel:GuideLinkViewModel = GuideLinkViewModel()
 
+        let meal: Meal;
+        // Eventually, allow for other guides.
+        let guide:VenueGuide = .michelin
+        
+        var body: some View {
+            // If we have a link already, use it.
+            if let guideLink = meal.venue.guideLink {
+                GuideLink(guideName:guideLink.guide.displayName, url:guideLink.url)
+            } else {
+                // Load link async, and update view.
+                AyncGuideLink(
+                    source:linkViewModel,
+                    venue:meal.venue,
+                    guide:guide,
+                    progressContent: { Searching() },
+                    // Can safely unwrap link due to switch statement in AyncGuideLink
+                    linkContent: { GuideLink(guideName:guide.displayName, url:linkViewModel.link) }
+                )
+                .onChange(of: linkViewModel.link) {
+                    var newMeal = meal
+                    if let url = linkViewModel.link {
+                        newMeal.venue.guideLink = VenueGuideLink(guide: .michelin, url: url)
+                    } else {
+                        // Not found, don't look again for this guide type.
+                        newMeal.venue.guideLink = VenueGuideLink(guide: .michelin, url: nil)
+                    }
+                    viewModel.saveEditedMealFor(newMeal)
+                }
+            }
+        }
+    }
+    
     struct LocationView: View {
         let venue: Venue
         
@@ -22,13 +103,11 @@ struct LocationSubViews {
                         .frame(height: 18)
                         .foregroundColor(Color.gray)
                         .opacity(/*@START_MENU_TOKEN@*/0.8/*@END_MENU_TOKEN@*/)
-                        .padding(.top, 4)
                     Text("\(venue.city!), \(venue.country!)")
                         .font(.system(size:14, weight: .regular))
                         .foregroundColor(.gray)
                         .fixedSize(horizontal: false, vertical: true)
                         .lineLimit(1)
-                        .padding(.top, 4)
                     Spacer()
                 } else {
                     EmptyView()
@@ -37,6 +116,7 @@ struct LocationSubViews {
         }
     }
         
+    // TODO: All interaction with services needs to move into a viewmodel.
     struct LocationEditView: View {
         @EnvironmentObject private var locationService:LocationService;
        
@@ -77,7 +157,7 @@ struct LocationSubViews {
         private func search(latitude: Double, longitude: Double) {
             let request = MKLocalPointsOfInterestRequest(
                 center: CLLocationCoordinate2D(latitude:latitude, longitude:longitude),
-                radius: 5)
+                radius: 20) // 20 meters
             request.pointOfInterestFilter = MKPointOfInterestFilter(including: [.restaurant])
             
             MKLocalSearch(request: request).start { response, error in

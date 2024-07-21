@@ -30,7 +30,7 @@ struct MichelinSubViews {
         }
         return imageView;
     }
-    
+        
     struct MichelinNameView: View {
         let name:String?
         let rating:Michelin?
@@ -81,7 +81,6 @@ struct MichelinSubViews {
                     .buttonStyle(.plain)
                 }
             }
-            //.padding(.top, 10)
         }
     }
     

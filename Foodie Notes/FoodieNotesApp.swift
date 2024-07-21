@@ -11,6 +11,7 @@ import SwiftUI
 struct FoodieNotesApp: App {
     @StateObject private var viewModel = AppViewModel()
     @StateObject private var locationService  = LocationService()
+    @StateObject private var webFetchService  = WebFetchService()
 
     var body: some Scene {
         WindowGroup {
@@ -26,6 +27,7 @@ struct FoodieNotesApp: App {
             }
             .environmentObject(viewModel)
             .environmentObject(locationService)
+            .environmentObject(webFetchService)
         }
     }
 }

@@ -43,6 +43,14 @@ enum Michelin: String, Codable, CaseIterable {
     }
 }
 
+enum VenueGuide: String, Codable, CaseIterable {
+    case michelin = "Michelin Guide"
+    
+    var displayName: String {
+        return self.rawValue
+    }
+}
+
 enum Cuisine: String, Codable, CaseIterable {
     case afghan = "Afghan"
     case american = "American"
