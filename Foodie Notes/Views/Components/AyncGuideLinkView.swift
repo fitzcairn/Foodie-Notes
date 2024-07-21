@@ -35,5 +35,4 @@ struct AyncGuideLinkView<Source:AsyncSearchConfig, ProgressContent: View, LinkCo
             EmptyView()
         }
     }
-    
 }

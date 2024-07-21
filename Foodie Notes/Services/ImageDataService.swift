@@ -39,9 +39,7 @@ class ImageDataService {
         
         // Save the image data to disk.
         do {
-            let outfile = try ModelIOService.fileURLFor(img)
-            print("img: \(outfile)")
-            
+            let outfile = try ModelIOService.fileURLFor(img)            
             let task = Task {
                 let data = try JSONEncoder().encode(img)
                 try data.write(to: outfile)
