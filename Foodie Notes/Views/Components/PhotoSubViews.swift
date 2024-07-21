@@ -23,6 +23,36 @@ struct PhotoSubViews {
         }
     }
     
+    struct PhotoView2: View {
+        @StateObject var photoModel:AsyncPhotoViewModel = AsyncPhotoViewModel()
+        let img: SavedImage;
+
+        var body: some View {
+            GeometryReader { g in
+                VStack {
+                    AsyncPhotoView(
+                        source: photoModel,
+                        img: img,
+                        progressContent: {
+                            ProgressView()
+                                .frame(width: 18, height: 18)
+                        },
+                        photoContent: {
+                            // Conditional in AsyncPhotoView protects unwrap.
+                            let image = UIImage(data: photoModel.loadedImg!.imgData) ?? UIImage()
+                            Image(uiImage: image)
+                                .resizable()
+                                .scaledToFill()
+                        }
+                    )
+                }
+                .frame(width: g.size.width, height: g.size.height)
+                .clipped()
+            }
+        }
+    }
+    
+    
     struct PhotoView: View {
         let picture:Picture
         var showFull:Bool = false;
@@ -30,7 +60,7 @@ struct PhotoSubViews {
         var body: some View {
             GeometryReader { g in
                 VStack {
-                    if let data = !showFull && picture.thumbnail != nil ? picture.thumbnail : picture.data {
+                    if let data = picture.data {
                         let image: UIImage = UIImage(data: data) ?? UIImage()
                         Image(uiImage: image)
                             .resizable()
@@ -162,7 +192,10 @@ struct PhotoSubViews {
                     pickedMedia: newMedia,
                     onLoaded: { images in
                         for imageAndThumb in images {
-                            newPictures.append(Picture(data:imageAndThumb.imageData, thumbnail:imageAndThumb.thumbData));
+                            var newPicture = Picture()
+                            newPicture.data = imageAndThumb.imageData
+                            newPictures.append(newPicture)
+                            //newPictures.append(Picture(data:imageAndThumb.imageData, thumbnail:imageAndThumb.thumbData));
                         }
                     pictures = pictures + newPictures;
                     })

@@ -9,6 +9,8 @@
 import Foundation
 import CoreLocation
 
+
+// TODO: convert to a real singleton service.
 class LocationService: NSObject, ObservableObject, CLLocationManagerDelegate {
     var locationManager = CLLocationManager()
     @Published var authorizationStatus: CLAuthorizationStatus?

@@ -15,8 +15,16 @@ class ModelIOService {
                                     create: false)
         .appendingPathComponent("appmodel.data")
     }
+    
+    static func fileURLFor(_ model:any Identifiable) throws -> URL {
+        try FileManager.default.url(for: .documentDirectory,
+                                    in: .userDomainMask,
+                                    appropriateFor: nil,
+                                    create: false)
+        .appendingPathComponent("\(model.id).data")
+    }
  
-    static func load() async throws -> AppModel {
+    static func loadAppModel() async throws -> AppModel {
         let task = Task<AppModel, Error> {
             let fileURL = try ModelIOService.fileURL()
             guard let data = try? Data(contentsOf: fileURL) else {
@@ -25,11 +33,16 @@ class ModelIOService {
             let appModel = try JSONDecoder().decode(AppModel.self, from: data)
             return appModel
         }
-        let appModel = try await task.value
+        var appModel = try await task.value
+        
+        // Convert images
+        // TODO: remove
+        appModel = await ConversionService.convertPicturesToSavedImages(appModel)
+
         return appModel
     }
     
-    static func save(model:AppModel) async throws {
+    static func saveAppModel(model:AppModel) async throws {
         let task = Task {
             let data = try JSONEncoder().encode(model)
             let outfile = try Self.fileURL()

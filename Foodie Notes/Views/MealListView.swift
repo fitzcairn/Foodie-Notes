@@ -42,7 +42,7 @@ struct MealListView: View {
         progressView
         .task {
             do {
-                try await viewModel.fromLoad(model:ModelIOService.load())
+                try await viewModel.fromLoad(model:ModelIOService.loadAppModel())
             } catch {
                 fatalError(error.localizedDescription)
             }

@@ -7,13 +7,13 @@
 
 import Foundation
 
-// Backend model for all app state.
+// Backend model for global app state.
 struct AppModel : Codable, Equatable {
     // All top-level storage.  Yes, there is duplication here.
     private var mealsById:[String:Meal] = [:];
     private var venuesByName:[String:Venue] = [:];
     private var coursesById:[String:Course] = [:];
-    private var lastNewMealCreatedId:String? = nil;
+    private var imagesById:[ImageId:SavedImage] = [:];
     
     var showSplash:Bool = true;
     
@@ -24,9 +24,6 @@ struct AppModel : Codable, Equatable {
                 coursesById.removeValue(forKey: course.id)
             }
             mealsById.removeValue(forKey: mealId)
-        }
-        if (lastNewMealCreatedId == mealId) {
-            lastNewMealCreatedId = nil;
         }
     }
     func getMeals() -> [Meal] {

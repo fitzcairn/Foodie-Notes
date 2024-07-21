@@ -54,7 +54,7 @@ class PhotoPickerModel: ObservableObject {
             do {
                 if let data = try await task.value {
                     // Attempt to generate a thumbnail.  If that works, save the image.
-                    if let thumbnail = await ThumbnailService.createThumbnailFor(data) {
+                    if let thumbnail = await ImageDataService.createThumbnailFor(data) {
                         images.append(ImageAndThumb(imageData: data, thumbData: thumbnail))
                     }
                 }

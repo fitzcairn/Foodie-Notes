@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct AyncGuideLink<Source:SearchableConfig, ProgressContent: View, LinkContent:View>: View {
+struct AyncGuideLinkView<Source:AsyncSearchConfig, ProgressContent: View, LinkContent:View>: View {
     @ObservedObject var source:Source
     let venue:Venue;
     let guide:VenueGuide;
@@ -24,10 +24,9 @@ struct AyncGuideLink<Source:SearchableConfig, ProgressContent: View, LinkContent
     
     var body: some View {
         switch source.status {
-        case .searching:
+        case .loading:
             progressContent
                 .onAppear {
-                    //source.searchFor(name: "Midsummer House", guide: guide, city: "Cambridge", country: "UK")
                     source.searchFor(name: venue.name, guide: guide, city: venue.city, country: venue.country)
                 }
         case .complete:

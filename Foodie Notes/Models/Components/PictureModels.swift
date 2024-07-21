@@ -7,21 +7,23 @@
 
 import Foundation
 
-
-// Encapsulate picture management
 struct Picture : Identifiable, Hashable, Codable {
     var id:String = Id.createId()
     var deleted:Bool = false;
     var url:URL? = nil // Kept for future compatibility with web images.
+    // NEW as of Jul 21
+    var photo:Photo?
+
+    @available(*, deprecated, message: "Don't use")
     var data:Data? = nil;
-    var thumbnail:Data? = nil;
+
     
-    init() {
+    init(photo:Photo) {
+        self.photo = photo;
     }
-    
-    init(data:Data?, thumbnail:Data?) {
-        self.data = data
-        self.thumbnail = thumbnail
+
+    @available(*, deprecated, message: "Don't use")
+    init() {
     }
     
     static func == (lhs: Picture, rhs: Picture) -> Bool {
@@ -36,7 +38,7 @@ struct Picture : Identifiable, Hashable, Codable {
         hasher.combine(id)
         hasher.combine(url)
         hasher.combine(deleted)
-        hasher.combine(data)
+        hasher.combine(photo)
     }
 }
 

@@ -14,10 +14,9 @@
 		AA45C09F2C4727B5009F6DEC /* CourseCreateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA45C09E2C4727B5009F6DEC /* CourseCreateView.swift */; };
 		AA4BF4BC2C47D26D00D01CF1 /* DateSubViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4BF4BB2C47D26D00D01CF1 /* DateSubViews.swift */; };
 		AA63F3842C4A9E370024D1DF /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = AA63F3832C4A9E370024D1DF /* SwiftSoup */; };
-		AA63F3862C4BF6260024D1DF /* GuideLinkViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA63F3852C4BF6260024D1DF /* GuideLinkViewModel.swift */; };
-		AA63F38A2C4BF6E20024D1DF /* SearchableConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA63F3892C4BF6E20024D1DF /* SearchableConfig.swift */; };
-		AA63F38C2C4BFBCE0024D1DF /* AsyncContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA63F38B2C4BFBCE0024D1DF /* AsyncContent.swift */; };
-		AA63F38E2C4C773A0024D1DF /* ThumbnailService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA63F38D2C4C773A0024D1DF /* ThumbnailService.swift */; };
+		AA63F3862C4BF6260024D1DF /* AsyncLinkViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA63F3852C4BF6260024D1DF /* AsyncLinkViewModel.swift */; };
+		AA63F38A2C4BF6E20024D1DF /* AsyncLoadableConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA63F3892C4BF6E20024D1DF /* AsyncLoadableConfig.swift */; };
+		AA63F38C2C4BFBCE0024D1DF /* AyncGuideLinkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA63F38B2C4BFBCE0024D1DF /* AyncGuideLinkView.swift */; };
 		AA81D20F2C26EEA100FF0221 /* FoodieNotesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D20E2C26EEA100FF0221 /* FoodieNotesApp.swift */; };
 		AA81D2142C26EEA100FF0221 /* Foodie_Notes.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AA81D2122C26EEA100FF0221 /* Foodie_Notes.xcdatamodeld */; };
 		AA81D2182C26EEA200FF0221 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA81D2172C26EEA200FF0221 /* Assets.xcassets */; };
@@ -47,6 +46,12 @@
 		AAA064D62C46A7DA005397EA /* NotesSubViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA064CF2C46A7DA005397EA /* NotesSubViews.swift */; };
 		AAA064D72C46A7DA005397EA /* CourseSubViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA064D02C46A7DA005397EA /* CourseSubViews.swift */; };
 		AAA064D82C46A7DA005397EA /* RatingSubViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA064D12C46A7DA005397EA /* RatingSubViews.swift */; };
+		AAC91A522C4C843C00225BDD /* ImageModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAC91A512C4C843C00225BDD /* ImageModels.swift */; };
+		AAC91A542C4D047500225BDD /* AsyncPhotoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAC91A532C4D047500225BDD /* AsyncPhotoViewModel.swift */; };
+		AAC91A562C4D357400225BDD /* ImageDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAC91A552C4D357400225BDD /* ImageDataService.swift */; };
+		AAC91A582C4D43E900225BDD /* AsyncPhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAC91A572C4D43E900225BDD /* AsyncPhotoView.swift */; };
+		AAC91A5A2C4D4BAD00225BDD /* ConversionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAC91A592C4D4BAD00225BDD /* ConversionService.swift */; };
+		AAC91A5C2C4D6ACF00225BDD /* ServiceConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAC91A5B2C4D6ACF00225BDD /* ServiceConfig.swift */; };
 		AACB03802C49272800D84E52 /* MichelinSubViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AACB037F2C49272800D84E52 /* MichelinSubViews.swift */; };
 		AACB64862C47F47B0008084D /* CuisineSubViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AACB64852C47F47B0008084D /* CuisineSubViews.swift */; };
 		AAF0FDB62C498D6100932EB5 /* LocationInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAF0FDB52C498D6100932EB5 /* LocationInfo.swift */; };
@@ -78,10 +83,9 @@
 		AA45C09C2C4726B6009F6DEC /* WrappedStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WrappedStruct.swift; sourceTree = "<group>"; };
 		AA45C09E2C4727B5009F6DEC /* CourseCreateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseCreateView.swift; sourceTree = "<group>"; };
 		AA4BF4BB2C47D26D00D01CF1 /* DateSubViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateSubViews.swift; sourceTree = "<group>"; };
-		AA63F3852C4BF6260024D1DF /* GuideLinkViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuideLinkViewModel.swift; sourceTree = "<group>"; };
-		AA63F3892C4BF6E20024D1DF /* SearchableConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchableConfig.swift; sourceTree = "<group>"; };
-		AA63F38B2C4BFBCE0024D1DF /* AsyncContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncContent.swift; sourceTree = "<group>"; };
-		AA63F38D2C4C773A0024D1DF /* ThumbnailService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThumbnailService.swift; sourceTree = "<group>"; };
+		AA63F3852C4BF6260024D1DF /* AsyncLinkViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncLinkViewModel.swift; sourceTree = "<group>"; };
+		AA63F3892C4BF6E20024D1DF /* AsyncLoadableConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncLoadableConfig.swift; sourceTree = "<group>"; };
+		AA63F38B2C4BFBCE0024D1DF /* AyncGuideLinkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AyncGuideLinkView.swift; sourceTree = "<group>"; };
 		AA81D20B2C26EEA100FF0221 /* Foodie Notes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Foodie Notes.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA81D20E2C26EEA100FF0221 /* FoodieNotesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodieNotesApp.swift; sourceTree = "<group>"; };
 		AA81D2132C26EEA100FF0221 /* Foodie_Notes.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Foodie_Notes.xcdatamodel; sourceTree = "<group>"; };
@@ -115,6 +119,12 @@
 		AAA064CF2C46A7DA005397EA /* NotesSubViews.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotesSubViews.swift; sourceTree = "<group>"; };
 		AAA064D02C46A7DA005397EA /* CourseSubViews.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseSubViews.swift; sourceTree = "<group>"; };
 		AAA064D12C46A7DA005397EA /* RatingSubViews.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RatingSubViews.swift; sourceTree = "<group>"; };
+		AAC91A512C4C843C00225BDD /* ImageModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageModels.swift; sourceTree = "<group>"; };
+		AAC91A532C4D047500225BDD /* AsyncPhotoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncPhotoViewModel.swift; sourceTree = "<group>"; };
+		AAC91A552C4D357400225BDD /* ImageDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDataService.swift; sourceTree = "<group>"; };
+		AAC91A572C4D43E900225BDD /* AsyncPhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncPhotoView.swift; sourceTree = "<group>"; };
+		AAC91A592C4D4BAD00225BDD /* ConversionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversionService.swift; sourceTree = "<group>"; };
+		AAC91A5B2C4D6ACF00225BDD /* ServiceConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceConfig.swift; sourceTree = "<group>"; };
 		AACB037F2C49272800D84E52 /* MichelinSubViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MichelinSubViews.swift; sourceTree = "<group>"; };
 		AACB64852C47F47B0008084D /* CuisineSubViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CuisineSubViews.swift; sourceTree = "<group>"; };
 		AAF0FDB52C498D6100932EB5 /* LocationInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationInfo.swift; sourceTree = "<group>"; };
@@ -152,7 +162,8 @@
 		AA63F3882C4BF6D40024D1DF /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
-				AA63F3892C4BF6E20024D1DF /* SearchableConfig.swift */,
+				AA63F3892C4BF6E20024D1DF /* AsyncLoadableConfig.swift */,
+				AAC91A5B2C4D6ACF00225BDD /* ServiceConfig.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -250,7 +261,8 @@
 				AAA064D12C46A7DA005397EA /* RatingSubViews.swift */,
 				AACB037F2C49272800D84E52 /* MichelinSubViews.swift */,
 				AAF0FDB92C49B62B00932EB5 /* VenueSubViews.swift */,
-				AA63F38B2C4BFBCE0024D1DF /* AsyncContent.swift */,
+				AA63F38B2C4BFBCE0024D1DF /* AyncGuideLinkView.swift */,
+				AAC91A572C4D43E900225BDD /* AsyncPhotoView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -258,12 +270,13 @@
 		AA81D2A02C32636C00FF0221 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				AA63F3882C4BF6D40024D1DF /* Protocols */,
 				AA81D2AF2C3818C100FF0221 /* Components */,
+				AA63F3882C4BF6D40024D1DF /* Protocols */,
 				AA81D29E2C325D0B00FF0221 /* AppModel.swift */,
 				AA81D2A12C3267C200FF0221 /* AppViewModel.swift */,
+				AA63F3852C4BF6260024D1DF /* AsyncLinkViewModel.swift */,
 				AA45C09C2C4726B6009F6DEC /* WrappedStruct.swift */,
-				AA63F3852C4BF6260024D1DF /* GuideLinkViewModel.swift */,
+				AAC91A532C4D047500225BDD /* AsyncPhotoViewModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -276,6 +289,7 @@
 				AA81D2B42C38192400FF0221 /* PictureModels.swift */,
 				AA81D2B62C38193500FF0221 /* VenueModel.swift */,
 				AA81D2BA2C39ECAC00FF0221 /* PhotoPickerModel.swift */,
+				AAC91A512C4C843C00225BDD /* ImageModels.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -294,7 +308,8 @@
 				AAA064C62C46A084005397EA /* ModelIOService.swift */,
 				AAF0FDB52C498D6100932EB5 /* LocationInfo.swift */,
 				AAF0FDB72C498E6900932EB5 /* LocationService.swift */,
-				AA63F38D2C4C773A0024D1DF /* ThumbnailService.swift */,
+				AAC91A552C4D357400225BDD /* ImageDataService.swift */,
+				AAC91A592C4D4BAD00225BDD /* ConversionService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -440,25 +455,29 @@
 			files = (
 				AAA064D72C46A7DA005397EA /* CourseSubViews.swift in Sources */,
 				AAA064C72C46A084005397EA /* ModelIOService.swift in Sources */,
-				AA63F38A2C4BF6E20024D1DF /* SearchableConfig.swift in Sources */,
+				AA63F38A2C4BF6E20024D1DF /* AsyncLoadableConfig.swift in Sources */,
 				AAA064D62C46A7DA005397EA /* NotesSubViews.swift in Sources */,
 				AA81D2B32C38190800FF0221 /* CourseModel.swift in Sources */,
 				AA81D29F2C325D0B00FF0221 /* AppModel.swift in Sources */,
 				AA45C09F2C4727B5009F6DEC /* CourseCreateView.swift in Sources */,
 				AA81D2A22C3267C200FF0221 /* AppViewModel.swift in Sources */,
 				AA81D2B52C38192400FF0221 /* PictureModels.swift in Sources */,
+				AAC91A542C4D047500225BDD /* AsyncPhotoViewModel.swift in Sources */,
 				AA81D2BB2C39ECAC00FF0221 /* PhotoPickerModel.swift in Sources */,
 				AACB03802C49272800D84E52 /* MichelinSubViews.swift in Sources */,
 				AA45C09B2C4723B5009F6DEC /* MealCreateView.swift in Sources */,
 				AA81D2B12C3818E000FF0221 /* MealModel.swift in Sources */,
+				AAC91A562C4D357400225BDD /* ImageDataService.swift in Sources */,
 				AA81D2B72C38193500FF0221 /* VenueModel.swift in Sources */,
 				AA81D2FC2C3A1CD000FF0221 /* AppModelTestData.swift in Sources */,
-				AA63F3862C4BF6260024D1DF /* GuideLinkViewModel.swift in Sources */,
-				AA63F38E2C4C773A0024D1DF /* ThumbnailService.swift in Sources */,
+				AAC91A5C2C4D6ACF00225BDD /* ServiceConfig.swift in Sources */,
+				AA63F3862C4BF6260024D1DF /* AsyncLinkViewModel.swift in Sources */,
 				AAA064D52C46A7DA005397EA /* MiscSubViews.swift in Sources */,
-				AA63F38C2C4BFBCE0024D1DF /* AsyncContent.swift in Sources */,
+				AAC91A522C4C843C00225BDD /* ImageModels.swift in Sources */,
+				AA63F38C2C4BFBCE0024D1DF /* AyncGuideLinkView.swift in Sources */,
 				AACB64862C47F47B0008084D /* CuisineSubViews.swift in Sources */,
 				AA45C0992C471D09009F6DEC /* PrimaryButtonSubViews.swift in Sources */,
+				AAC91A582C4D43E900225BDD /* AsyncPhotoView.swift in Sources */,
 				AA4BF4BC2C47D26D00D01CF1 /* DateSubViews.swift in Sources */,
 				AA81D3002C3AA1DD00FF0221 /* Constants.swift in Sources */,
 				AA81D20F2C26EEA100FF0221 /* FoodieNotesApp.swift in Sources */,
@@ -472,6 +491,7 @@
 				AAA064D32C46A7DA005397EA /* PhotoSubViews.swift in Sources */,
 				AAF0FDB82C498E6900932EB5 /* LocationService.swift in Sources */,
 				AAA064D22C46A7DA005397EA /* PictureSubViews.swift in Sources */,
+				AAC91A5A2C4D4BAD00225BDD /* ConversionService.swift in Sources */,
 				AA81D2922C3209E100FF0221 /* CourseView.swift in Sources */,
 				AA81D2802C309BF000FF0221 /* MealListView.swift in Sources */,
 				AAF0FDBA2C49B62B00932EB5 /* VenueSubViews.swift in Sources */,

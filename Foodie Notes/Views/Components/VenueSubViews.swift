@@ -57,7 +57,7 @@ struct VenueSubViews {
     
     struct GuideLinkView: View {
         @EnvironmentObject var viewModel:AppViewModel;
-        @StateObject var linkViewModel:GuideLinkViewModel = GuideLinkViewModel()
+        @StateObject var linkViewModel:AsyncLinkViewModel = AsyncLinkViewModel()
 
         let meal: Meal;
         // Eventually, allow for other guides.
@@ -69,7 +69,7 @@ struct VenueSubViews {
                 GuideLink(guideName:guideLink.guide.displayName, url:guideLink.url)
             } else {
                 // Load link async, and update view.
-                AyncGuideLink(
+                AyncGuideLinkView(
                     source:linkViewModel,
                     venue:meal.venue,
                     guide:guide,
