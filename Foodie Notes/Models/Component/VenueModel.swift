@@ -20,7 +20,7 @@ struct VenueGuideLink: Codable {
 }
 
 struct Venue : Hashable, Codable, Equatable {
-    let id:String;
+    var id:String = Id.createId()
     var name: String = ""
         
     // Michelin rating
@@ -43,23 +43,8 @@ struct Venue : Hashable, Codable, Equatable {
     @available(*, deprecated, message: "Don't use")
     var country:String?
     
-
-    
-    
-    init() {
-        id = Id.createId();
-    }
-    
-    init(name: String) {
+    init(_ name: String = "") {
         self.name = name
-        id = Id.createId();
-    }
-    
-    init(name: String, city: String, country: String) {
-        self.name = name
-        self.city = city
-        self.country = country
-        id = Id.createId();
     }
     
     static func == (lhs: Venue, rhs: Venue) -> Bool {

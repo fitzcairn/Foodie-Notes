@@ -8,7 +8,6 @@
 import SwiftUI
 import MapKit
 
-
 struct LocationIcon: View {
     var body: some View {
         Image(systemName: "mappin.and.ellipse")
@@ -41,7 +40,6 @@ struct LocationView: View {
 }
 
 struct LocationEditView: View {
-    @EnvironmentObject private var locationService:LocationService;
     @StateObject var locViewModel:AsyncLocationViewModel = AsyncLocationViewModel()
     
     @Binding var location: Location?
@@ -55,11 +53,6 @@ struct LocationEditView: View {
             AsyncLocationView(
                 source: locViewModel,
                 progressContent: { Loading() },
-                
-                
-                // TODO: Why is the binding not getting the location on assignment?
-                
-                
                 locContent: { LocationView(location: locViewModel.location) })
             .onChange(of: locViewModel.location) {
                 location = locViewModel.location
@@ -84,64 +77,3 @@ struct LocationEditView: View {
         }
     }
 }
-
-
-        
-// TODO: All interaction with services needs to move into a viewmodel.
-/*struct LocationEditView: View {
-    @EnvironmentObject private var locationService:LocationService;
-    
-    @Binding var venue: Venue
-    @Binding var nearestRestaurant: String
-    
-    var body: some View {
-        LocationView(venue: venue)
-            .padding(.leading, 10)
-            .onAppear() {
-                // If we have a name for this venue already OR a lat, then its been saved previously and
-                // we should not muck with it's location data.
-                guard(venue.name.isEmpty && venue.latitude == nil) else { return }
-                
-                let yourLatitudeString = String(locationService.locationManager.location?.coordinate.latitude.description ?? "Error loading")
-                let yourLongitudeString = String(locationService.locationManager.location?.coordinate.longitude.description ?? "Error loading")
-                venue.latitude = Double(yourLatitudeString)
-                venue.longitude =  Double(yourLongitudeString)
-                
-                // Translate into city and country IF we've not done this yet.
-                guard(venue.city == nil) else { return }
-                LocationInfo().getCityAndCountryLocation(latitude: venue.latitude ?? 0, longitude: venue.longitude ?? 0) { city, country in
-                    if let city = city, let country = country {
-                        venue.city = city
-                        venue.country = country
-                    } else {
-                        // Debug only, transparently fail geo lookup.
-                        print("Unable to fetch location information.")
-                    }
-                }
-                
-                // If we don't have a venue name, attempt to autofill from location.
-                guard(venue.latitude != nil && venue.longitude != nil) else { return }
-                search(latitude: venue.latitude!, longitude: venue.longitude!)
-            }
-    }
-    
-    private func search(latitude: Double, longitude: Double) {
-        let request = MKLocalPointsOfInterestRequest(
-            center: CLLocationCoordinate2D(latitude:latitude, longitude:longitude),
-            radius: 20) // 20 meters
-        request.pointOfInterestFilter = MKPointOfInterestFilter(including: [.restaurant])
-        
-        MKLocalSearch(request: request).start { response, error in
-            guard let response = response else {
-                // No restaurant found, nothing else to do.
-                return
-            }
-            
-            if (!response.mapItems.isEmpty) {
-                if let name = response.mapItems.first?.name {
-                    nearestRestaurant = name
-                }
-            }
-        }
-    }
-}*/

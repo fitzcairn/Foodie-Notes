@@ -95,8 +95,8 @@ class AsyncLocationViewModel: NSObject, AsyncLocationConfig, CLLocationManagerDe
     
     func fetchVenueSuggestionFor(_ location:Location?) {
         fetchLocation()
-        var latitude:Double?  = location?.lat  ?? self.location.lat
-        var longitude:Double? = location?.long ?? self.location.long
+        let latitude:Double?  = location?.lat  ?? self.location.lat
+        let longitude:Double? = location?.long ?? self.location.long
         guard(latitude != nil && longitude != nil) else { return }
         findNearestRestaurantFor(latitude: latitude!, longitude: longitude!)
         searchStatus = self.nearestRestaurant == nil ? .error : .complete

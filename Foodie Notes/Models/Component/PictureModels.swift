@@ -24,11 +24,6 @@ struct Picture : Identifiable, Hashable, Codable {
         self.photo = photo;
     }
 
-    // TODO: Converter to eliminate
-    @available(*, deprecated, message: "Don't use")
-    init() {
-    }
-    
     static func == (lhs: Picture, rhs: Picture) -> Bool {
         return (
             lhs.id == rhs.id &&

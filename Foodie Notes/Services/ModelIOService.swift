@@ -43,7 +43,7 @@ class ModelIOService {
         let task = Task {
             let data = try JSONEncoder().encode(model)
             let outfile = try Self.fileURL()
-            //try data.write(to: outfile)
+            try data.write(to: outfile)
         }
         _ = try await task.value
     }
@@ -51,7 +51,7 @@ class ModelIOService {
     static func exportAsString(_ meal:Meal) -> String {
         var str = "I ate \(meal.courses.count) courses during a meal at \(meal.venue.name) on \(meal.date.formatted(date: .complete, time: .omitted)).  I rated it \(meal.rating) stars.  "
         
-        if let city = meal.venue.city, let country = meal.venue.country {
+        if let city = meal.venue.location?.city, let country = meal.venue.location?.country {
             str += "\(meal.venue.name) is located in \(city), \(country).  "
         }
         if !meal.cuisines.isEmpty {

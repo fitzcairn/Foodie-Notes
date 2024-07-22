@@ -27,20 +27,6 @@ struct Meal : Identifiable, Hashable, Codable {
     init() {
     }
     
-    init(venue: Venue) {
-        self.venue = venue
-    }
-    
-    init(id:String, venue: Venue, menu: PicturesAndNotes, courses: [Course], date: Date, notes:String, rating:Int) {
-        self.id = id
-        self.venue = venue
-        self.menu = menu
-        self.courses = courses
-        self.date = date
-        self.notes = notes
-        self.rating = rating
-    }
-    
     static func == (lhs: Meal, rhs: Meal) -> Bool {
         return lhs.id == rhs.id
     }

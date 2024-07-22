@@ -27,7 +27,7 @@ struct AyncGuideLinkView<Source:AsyncSearchConfig, ProgressContent: View, LinkCo
         case .loading:
             progressContent
                 .onAppear {
-                    source.searchFor(name: venue.name, guide: guide, city: venue.city, country: venue.country)
+                    source.searchFor(name: venue.name, guide: guide, city: venue.location?.city, country: venue.location?.country)
                 }
         case .complete:
             linkContent

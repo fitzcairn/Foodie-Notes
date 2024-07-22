@@ -98,7 +98,7 @@ struct AppModel : Codable, Equatable {
         if let venue = venuesByName[name] {
             return venue
         }
-        let newVenue = Venue(name:name);
+        let newVenue = Venue(name);
         venuesByName[name] = newVenue;
         return newVenue;
     }

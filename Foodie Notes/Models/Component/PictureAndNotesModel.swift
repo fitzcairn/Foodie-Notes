@@ -14,18 +14,6 @@ struct PicturesAndNotes: Codable, Hashable {
     // Added later to allow for beverage pairings to be shared.
     var sameAsPrevious:Bool?
     
-    init() {
-    }
-    
-    init(notes:String) {
-        self.notes = notes;
-    }
-    
-    init(pictures: [Picture], notes: String) {
-        self.pictures = pictures
-        self.notes = notes
-    }
-    
     func hash(into hasher: inout Hasher) {
         hasher.combine(notes)
         hasher.combine(pictures)
