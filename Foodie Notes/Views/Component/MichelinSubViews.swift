@@ -47,19 +47,20 @@ struct MichelinSubViews {
     
     struct MichelinEditView: View {
         @Binding var selection:Michelin?
-        
+        @State var value:Michelin?
+                
         var body: some View {
             HStack {
                 ForEach(Michelin.allCases, id: \.rawValue) { rating in
                     Button {
-                        if selection == rating {
-                            selection = nil;
+                        if value == rating {
+                            value = nil;
                         } else {
-                            selection = rating;
+                            value = rating;
                         }
                     }
                     label: {
-                        if selection == rating {
+                        if value == rating || selection == rating {
                             HStack {
                                 Image(systemName: "checkmark.square")
                                     .resizable()
@@ -80,6 +81,9 @@ struct MichelinSubViews {
                     }
                     .buttonStyle(.plain)
                 }
+            }
+            .onChange(of: value) {
+                selection = value;
             }
         }
     }

@@ -57,6 +57,8 @@ class AppViewModel : ObservableObject {
         writeOut()
     }
     func getMealImageFor(_ meal:Meal) -> Picture? {
+        guard(model.getMealFor(meal.id) != nil) else { return nil }
+        
         // Do we have a manually picked image already?
         if !isPictureEmpty(meal.pickedImage) { return meal.pickedImage }
 

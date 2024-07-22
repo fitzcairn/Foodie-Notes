@@ -15,18 +15,15 @@ class PhotoPickerViewModel: ObservableObject {
     private var pickedMedia: [Media]?
     private var onLoadedClosure: (([Photo]) -> Void)?;
     
-    @Published var loaded:Bool = false;
-    @Published var hasNewPickedImages:Bool = false;
+    var loaded:Bool = false;
     
     func load(pickedMedia: [Media], onLoaded:@escaping ([Photo]) -> Void) {
         self.pickedMedia = pickedMedia
         self.onLoadedClosure = onLoaded
-        self.hasNewPickedImages = true;
         self.loaded = false;
     }
     
-    // TODO: will freeze the app if a lot of images are chosen, figure out how to do this async.
-    @MainActor func onStart() async {
+    func onStart() async {
         // If we're loaded already, don't load again.
         guard !self.loaded else { return }
         // If we don't have any media to load, we're done.
@@ -71,7 +68,6 @@ class PhotoPickerViewModel: ObservableObject {
         
         onLoadedClosure!(images)
         self.loaded = true
-        self.hasNewPickedImages = false;
     }
 }
 

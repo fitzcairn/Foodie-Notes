@@ -105,15 +105,11 @@ struct PhotoSubViews {
     // Show a picture with a delete.
     struct PhotoEditView: View {
         @Binding var picture: Picture?;
-        @State private var isLoadingPhoto: Bool = false;
         
         var body: some View {
             ZStack(alignment: .center) {
-                if (isLoadingPhoto) {
-                    Loading()
-                } else if (picture == nil || picture!.deleted) {
+                if (picture == nil || picture!.deleted) {
                     PhotoPickerButton(
-                        isLoadingPhoto:$isLoadingPhoto,
                         pictures: Binding<[Picture]>(
                             get: { [] },
                             set: { if !$0.isEmpty { picture = $0[0] } }
@@ -154,51 +150,53 @@ struct PhotoSubViews {
     }
     
     struct PhotoPickerButton: View {
-        @Binding var isLoadingPhoto:Bool;
         @Binding var pictures:[Picture]
-        
         var limit:Int = Int.max // Get around bug in MediaPicker
-        
+
         @StateObject var photoPickerModel: PhotoPickerViewModel = PhotoPickerViewModel();
-        
         @State private var isPickingPhoto: Bool = false;
-        @State var newMedia: [Media] = [];
+        @State private var isLoading: Bool = false;
+        @State private var newMedia: [Media] = [];
+        @State private var newPictures: [Picture] = [];
         
         var body: some View {
             HStack {
-                if (isLoadingPhoto) {
-                    Loading()
-                } else {
-                    Button(
-                        action: {
-                            isPickingPhoto = true;
-                            isLoadingPhoto = true;
-                        },
-                        label: {
+                Button(
+                    action: {
+                        isPickingPhoto = true;
+                    },
+                    label: {
+                        if isLoading {
+                            Loading()
+                        } else {
                             Image(systemName: "plus.circle.fill")
                                 .resizable()
                                 .padding(4)
-                                .frame(width:PhotoDimensions.photoWidth, height: PhotoDimensions.photoHeight)
                                 .background(Color.gray)
                                 .clipShape(Circle())
                                 .foregroundColor(.white)
                                 .opacity(0.5)
                         }
-                    )
-                }
+                    }
+                )
+                .disabled(isLoading || isPickingPhoto)
+                .frame(width:PhotoDimensions.photoWidth, height: PhotoDimensions.photoHeight)
+            }
+            .onChange(of:isPickingPhoto) {
+                isLoading = isPickingPhoto ? true : isLoading;
+            }
+            .onChange(of:newPictures) {
+                pictures = pictures.filter() { !$0.deleted } + newPictures;
+                newPictures = []
             }
             .sheet(isPresented: $isPickingPhoto, onDismiss: {
-                var newPictures:[Picture] = []
-                
                 photoPickerModel.load(
                     pickedMedia: newMedia,
                     onLoaded: { photos in
                         for photo in photos {
                             newPictures.append(Picture(photo:photo))
                         }
-                        pictures = pictures + newPictures;
-                        
-                        isLoadingPhoto = false;
+                        isLoading = false;
                     })
             }) {
                 MediaPicker(
@@ -209,9 +207,11 @@ struct PhotoSubViews {
                 .mediaSelectionLimit(limit)
                 .mediaSelectionType(.photo)
                 .showLiveCameraCell()
-            }
-            .task(id:photoPickerModel.hasNewPickedImages) {
-                await photoPickerModel.onStart()
+                .onDisappear() {
+                    Task {
+                        await photoPickerModel.onStart()
+                    }
+                }
             }
         }
     }

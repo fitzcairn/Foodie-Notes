@@ -12,7 +12,6 @@ struct PictureSubViews {
 
     // Multi picture grid
     struct MultiPictureView: View {
-        @State private var isLoadingPhoto: Bool = false;
         @Binding var pictures:[Picture]
         var edit:Bool = false;
 
@@ -24,20 +23,19 @@ struct PictureSubViews {
             VStack(alignment: .center) {
                 LazyVGrid(columns: columns, spacing:10) {
                     ForEach(pictures.indices, id: \.self) { index in
-                        if edit {
+                        if edit && !pictures[index].deleted {
                             PhotoSubViews.PhotoEditView(
                                 picture:Binding<Picture?>(
                                     get: { pictures[index] },
                                     set: { if $0 != nil { pictures[index] = $0! }})
                                 )
-                        } else {
+                        } else if !pictures[index].deleted {
                             PhotoSubViews.PhotoShowView(picture:pictures[index])
                                 .padding(.horizontal, -5)
                         }
                     }
                     if edit {
                         PhotoSubViews.PhotoPickerButton(
-                            isLoadingPhoto:$isLoadingPhoto,
                             pictures: $pictures)
                             .buttonStyle(.plain)
                     }
@@ -234,7 +232,7 @@ struct PictureSubViews {
     
     struct MealPictureNameRatingView : View {
         @EnvironmentObject var viewModel:AppViewModel;
-        let meal:Meal;
+        var meal:Meal;
         
         var body: some View {
             HStack {

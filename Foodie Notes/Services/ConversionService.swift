@@ -18,22 +18,21 @@ class ConversionService {
     // July 22 - change up how location is stored.  Luckily, this is simple.
     static func convertLocation(_ from:AppModel) async -> AppModel {
         var toModel = AppModel()
-        
+
+        func anyNotNil(_ fields:Array<Optional<Any>>) -> Bool {
+            for f in fields {
+                guard(f == nil) else { return true }
+            }
+            return false;
+        }
         
         for meal in from.getMeals() {
             var newMeal = meal;
-            
-            func anyNotNil(_ fields:Array<Optional<Any>>) -> Bool {
-                for f in fields {
-                    guard(f == nil) else { return true }
-                }
-                return false;
-            }
-            
             if anyNotNil([newMeal.venue.latitude, newMeal.venue.longitude, newMeal.venue.city, newMeal.venue.country]) {
                 newMeal.venue.location = Location(lat: newMeal.venue.latitude, long: newMeal.venue.longitude, city: newMeal.venue.city, country: newMeal.venue.country)
-                toModel.index(newMeal)
             }
+            
+            toModel.index(newMeal)
         }
         
         // Save out the new model to complete the conversion.
