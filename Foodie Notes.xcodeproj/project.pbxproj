@@ -17,6 +17,7 @@
 		AA63F3862C4BF6260024D1DF /* AsyncLinkViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA63F3852C4BF6260024D1DF /* AsyncLinkViewModel.swift */; };
 		AA63F38A2C4BF6E20024D1DF /* AsyncLoadableConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA63F3892C4BF6E20024D1DF /* AsyncLoadableConfig.swift */; };
 		AA63F38C2C4BFBCE0024D1DF /* AyncGuideLinkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA63F38B2C4BFBCE0024D1DF /* AyncGuideLinkView.swift */; };
+		AA73444C2C4E8B3800A027FF /* GuideLinkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA73444B2C4E8B3800A027FF /* GuideLinkView.swift */; };
 		AA81D20F2C26EEA100FF0221 /* FoodieNotesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D20E2C26EEA100FF0221 /* FoodieNotesApp.swift */; };
 		AA81D2142C26EEA100FF0221 /* Foodie_Notes.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AA81D2122C26EEA100FF0221 /* Foodie_Notes.xcdatamodeld */; };
 		AA81D2182C26EEA200FF0221 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA81D2172C26EEA200FF0221 /* Assets.xcassets */; };
@@ -35,7 +36,7 @@
 		AA81D2B32C38190800FF0221 /* CourseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D2B22C38190800FF0221 /* CourseModel.swift */; };
 		AA81D2B52C38192400FF0221 /* PictureModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D2B42C38192400FF0221 /* PictureModels.swift */; };
 		AA81D2B72C38193500FF0221 /* VenueModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D2B62C38193500FF0221 /* VenueModel.swift */; };
-		AA81D2BB2C39ECAC00FF0221 /* PhotoPickerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D2BA2C39ECAC00FF0221 /* PhotoPickerModel.swift */; };
+		AA81D2BB2C39ECAC00FF0221 /* PhotoPickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D2BA2C39ECAC00FF0221 /* PhotoPickerViewModel.swift */; };
 		AA81D3002C3AA1DD00FF0221 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D2FF2C3AA1DD00FF0221 /* Constants.swift */; };
 		AAA064C72C46A084005397EA /* ModelIOService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA064C62C46A084005397EA /* ModelIOService.swift */; };
 		AAA064D22C46A7DA005397EA /* PictureSubViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA064CB2C46A7DA005397EA /* PictureSubViews.swift */; };
@@ -54,7 +55,7 @@
 		AACB64862C47F47B0008084D /* CuisineSubViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AACB64852C47F47B0008084D /* CuisineSubViews.swift */; };
 		AAF0FDB62C498D6100932EB5 /* LocationInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAF0FDB52C498D6100932EB5 /* LocationInfo.swift */; };
 		AAF0FDB82C498E6900932EB5 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAF0FDB72C498E6900932EB5 /* LocationService.swift */; };
-		AAF0FDBA2C49B62B00932EB5 /* VenueSubViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAF0FDB92C49B62B00932EB5 /* VenueSubViews.swift */; };
+		AAF0FDBA2C49B62B00932EB5 /* LocationViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAF0FDB92C49B62B00932EB5 /* LocationViews.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -84,6 +85,7 @@
 		AA63F3852C4BF6260024D1DF /* AsyncLinkViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncLinkViewModel.swift; sourceTree = "<group>"; };
 		AA63F3892C4BF6E20024D1DF /* AsyncLoadableConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncLoadableConfig.swift; sourceTree = "<group>"; };
 		AA63F38B2C4BFBCE0024D1DF /* AyncGuideLinkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AyncGuideLinkView.swift; sourceTree = "<group>"; };
+		AA73444B2C4E8B3800A027FF /* GuideLinkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuideLinkView.swift; sourceTree = "<group>"; };
 		AA81D20B2C26EEA100FF0221 /* Foodie Notes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Foodie Notes.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA81D20E2C26EEA100FF0221 /* FoodieNotesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodieNotesApp.swift; sourceTree = "<group>"; };
 		AA81D2132C26EEA100FF0221 /* Foodie_Notes.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Foodie_Notes.xcdatamodel; sourceTree = "<group>"; };
@@ -106,7 +108,7 @@
 		AA81D2B22C38190800FF0221 /* CourseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseModel.swift; sourceTree = "<group>"; };
 		AA81D2B42C38192400FF0221 /* PictureModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PictureModels.swift; sourceTree = "<group>"; };
 		AA81D2B62C38193500FF0221 /* VenueModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VenueModel.swift; sourceTree = "<group>"; };
-		AA81D2BA2C39ECAC00FF0221 /* PhotoPickerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerModel.swift; sourceTree = "<group>"; };
+		AA81D2BA2C39ECAC00FF0221 /* PhotoPickerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerViewModel.swift; sourceTree = "<group>"; };
 		AA81D2FF2C3AA1DD00FF0221 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		AAA064C62C46A084005397EA /* ModelIOService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelIOService.swift; sourceTree = "<group>"; };
 		AAA064CB2C46A7DA005397EA /* PictureSubViews.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PictureSubViews.swift; sourceTree = "<group>"; };
@@ -125,7 +127,7 @@
 		AACB64852C47F47B0008084D /* CuisineSubViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CuisineSubViews.swift; sourceTree = "<group>"; };
 		AAF0FDB52C498D6100932EB5 /* LocationInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationInfo.swift; sourceTree = "<group>"; };
 		AAF0FDB72C498E6900932EB5 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
-		AAF0FDB92C49B62B00932EB5 /* VenueSubViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VenueSubViews.swift; sourceTree = "<group>"; };
+		AAF0FDB92C49B62B00932EB5 /* LocationViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationViews.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -163,6 +165,18 @@
 			path = Protocols;
 			sourceTree = "<group>";
 		};
+		AA73444D2C4E8C7500A027FF /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				AA63F3882C4BF6D40024D1DF /* Protocols */,
+				AA81D2BA2C39ECAC00FF0221 /* PhotoPickerViewModel.swift */,
+				AA81D2A12C3267C200FF0221 /* AppViewModel.swift */,
+				AA63F3852C4BF6260024D1DF /* AsyncLinkViewModel.swift */,
+				AAC91A532C4D047500225BDD /* AsyncPhotoViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
 		AA81D2022C26EEA100FF0221 = {
 			isa = PBXGroup;
 			children = (
@@ -189,6 +203,7 @@
 				AA81D2AA2C37090100FF0221 /* Foodie-Notes-Info.plist */,
 				AAC91A5D2C4DC95700225BDD /* Util */,
 				AA81D2A02C32636C00FF0221 /* Models */,
+				AA73444D2C4E8C7500A027FF /* ViewModels */,
 				AAA064C52C46A052005397EA /* Services */,
 				AA81D2832C309C3A00FF0221 /* Views */,
 				AA81D20E2C26EEA100FF0221 /* FoodieNotesApp.swift */,
@@ -253,9 +268,10 @@
 				AA45C0982C471D09009F6DEC /* PrimaryButtonSubViews.swift */,
 				AAA064D12C46A7DA005397EA /* RatingSubViews.swift */,
 				AACB037F2C49272800D84E52 /* MichelinSubViews.swift */,
-				AAF0FDB92C49B62B00932EB5 /* VenueSubViews.swift */,
+				AAF0FDB92C49B62B00932EB5 /* LocationViews.swift */,
 				AA63F38B2C4BFBCE0024D1DF /* AyncGuideLinkView.swift */,
 				AAC91A572C4D43E900225BDD /* AsyncPhotoView.swift */,
+				AA73444B2C4E8B3800A027FF /* GuideLinkView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -263,28 +279,14 @@
 		AA81D2A02C32636C00FF0221 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				AA81D2AF2C3818C100FF0221 /* Components */,
-				AA63F3882C4BF6D40024D1DF /* Protocols */,
-				AA81D29E2C325D0B00FF0221 /* AppModel.swift */,
-				AA81D2A12C3267C200FF0221 /* AppViewModel.swift */,
-				AA63F3852C4BF6260024D1DF /* AsyncLinkViewModel.swift */,
-				AA45C09C2C4726B6009F6DEC /* WrappedStruct.swift */,
-				AAC91A532C4D047500225BDD /* AsyncPhotoViewModel.swift */,
-			);
-			path = Models;
-			sourceTree = "<group>";
-		};
-		AA81D2AF2C3818C100FF0221 /* Components */ = {
-			isa = PBXGroup;
-			children = (
 				AA81D2B02C3818E000FF0221 /* MealModel.swift */,
 				AA81D2B22C38190800FF0221 /* CourseModel.swift */,
 				AA81D2B42C38192400FF0221 /* PictureModels.swift */,
 				AA81D2B62C38193500FF0221 /* VenueModel.swift */,
-				AA81D2BA2C39ECAC00FF0221 /* PhotoPickerModel.swift */,
 				AAC91A512C4C843C00225BDD /* ImageModels.swift */,
+				AA81D29E2C325D0B00FF0221 /* AppModel.swift */,
 			);
-			path = Components;
+			path = Models;
 			sourceTree = "<group>";
 		};
 		AAA064C52C46A052005397EA /* Services */ = {
@@ -302,6 +304,7 @@
 		AAC91A5D2C4DC95700225BDD /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				AA45C09C2C4726B6009F6DEC /* WrappedStruct.swift */,
 				AA81D2FF2C3AA1DD00FF0221 /* Constants.swift */,
 				AAC91A5E2C4DC96900225BDD /* ThreadSafeDictionary.swift */,
 			);
@@ -457,13 +460,14 @@
 				AA81D2A22C3267C200FF0221 /* AppViewModel.swift in Sources */,
 				AA81D2B52C38192400FF0221 /* PictureModels.swift in Sources */,
 				AAC91A542C4D047500225BDD /* AsyncPhotoViewModel.swift in Sources */,
-				AA81D2BB2C39ECAC00FF0221 /* PhotoPickerModel.swift in Sources */,
+				AA81D2BB2C39ECAC00FF0221 /* PhotoPickerViewModel.swift in Sources */,
 				AACB03802C49272800D84E52 /* MichelinSubViews.swift in Sources */,
 				AA45C09B2C4723B5009F6DEC /* MealCreateView.swift in Sources */,
 				AA81D2B12C3818E000FF0221 /* MealModel.swift in Sources */,
 				AAC91A562C4D357400225BDD /* ImageDataService.swift in Sources */,
 				AA81D2B72C38193500FF0221 /* VenueModel.swift in Sources */,
 				AAC91A5F2C4DC96900225BDD /* ThreadSafeDictionary.swift in Sources */,
+				AA73444C2C4E8B3800A027FF /* GuideLinkView.swift in Sources */,
 				AA63F3862C4BF6260024D1DF /* AsyncLinkViewModel.swift in Sources */,
 				AAA064D52C46A7DA005397EA /* MiscSubViews.swift in Sources */,
 				AAC91A522C4C843C00225BDD /* ImageModels.swift in Sources */,
@@ -486,7 +490,7 @@
 				AAC91A5A2C4D4BAD00225BDD /* ConversionService.swift in Sources */,
 				AA81D2922C3209E100FF0221 /* CourseView.swift in Sources */,
 				AA81D2802C309BF000FF0221 /* MealListView.swift in Sources */,
-				AAF0FDBA2C49B62B00932EB5 /* VenueSubViews.swift in Sources */,
+				AAF0FDBA2C49B62B00932EB5 /* LocationViews.swift in Sources */,
 				AA45C07D2C471B23009F6DEC /* CourseEditView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

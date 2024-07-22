@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import ExyteMediaPicker
 
-class PhotoPickerModel: ObservableObject {
+class PhotoPickerViewModel: ObservableObject {
     private var imageService: ImageDataService = .shared
 
     private var pickedMedia: [Media]?

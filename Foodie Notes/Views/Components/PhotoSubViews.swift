@@ -159,7 +159,7 @@ struct PhotoSubViews {
         
         var limit:Int = Int.max // Get around bug in MediaPicker
         
-        @StateObject var photoPickerModel: PhotoPickerModel = PhotoPickerModel();
+        @StateObject var photoPickerModel: PhotoPickerViewModel = PhotoPickerViewModel();
         
         @State private var isPickingPhoto: Bool = false;
         @State var newMedia: [Media] = [];
