@@ -36,11 +36,6 @@ class ModelIOService {
             return appModel
         }
         var appModel = try await task.value
-        
-        // Convert images
-        // TODO: remove
-        appModel = await ConversionService.convertPicturesToSavedImages(appModel)
-
         return appModel
     }
     

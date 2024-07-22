@@ -9,11 +9,10 @@ import Foundation
 
 
 // Service for handling save data conversion on model changes.
-// Hack alert!!
 class ConversionService {
     
     // July 21 - convert images saved as Pictures to the new hotness.
-    static func convertPicturesToSavedImages(_ from:AppModel, imageService:ImageDataService = .shared) async -> AppModel {
+    /*static func convertPicturesToSavedImages(_ from:AppModel, imageService:ImageDataService = .shared) async -> AppModel {
         var toModel = AppModel()
         
         func convertError(_ err:String) -> Picture? {
@@ -93,7 +92,7 @@ class ConversionService {
         }
         
         return toModel
-    }
+    }*/
     
     static let shared: ConversionService =  {
         let instance = ConversionService()
