@@ -9,26 +9,29 @@ import SwiftUI
 import MapKit
 
 struct LocationIcon: View {
+    var edit = false;
+    
     var body: some View {
-        Image(systemName: "mappin.and.ellipse")
+        Image(systemName: edit ? "pencil" : "mappin.and.ellipse")
             .resizable()
             .scaledToFit()
             .frame(height: 18)
-            .foregroundColor(Color.gray)
+            .foregroundColor(edit ? Color.red : Color.gray)
             .opacity(/*@START_MENU_TOKEN@*/0.8/*@END_MENU_TOKEN@*/)
     }
 }
 
 struct LocationView: View {
     let location: Location?
+    var edit = false;
     
     var body: some View {
         HStack {
             if (location?.city != nil && location?.country != nil) {
-                LocationIcon()
+                LocationIcon(edit:edit)
                 Text("\(location!.city!), \(location!.country!)")
                     .font(.system(size:14, weight: .regular))
-                    .foregroundColor(.gray)
+                    .foregroundColor(edit ? .red : .gray)
                     .fixedSize(horizontal: false, vertical: true)
                     .lineLimit(1)
                 Spacer()
@@ -39,16 +42,41 @@ struct LocationView: View {
     }
 }
 
+struct MapView: View {
+    let loc:Location;
+    
+    @State var region = MKMapRect()
+    
+    var body: some View {
+        Map(mapRect: $region,
+            showsUserLocation: true,
+            userTrackingMode: .constant(.follow)
+        )
+    }
+}
+
+
 struct LocationEditView: View {
     @StateObject var locViewModel:AsyncLocationViewModel = AsyncLocationViewModel()
     
     @Binding var location: Location?
     @Binding var nearestRestaurant: String
     
+    @State var showMap:Bool = false;
+    
     var body: some View {
         if (location != nil) {
             // If we have a location already, use it.
-            LocationView(location: location!)
+            LocationView(location: location!, edit:true)
+                .onTapGesture {
+                    showMap = true;
+                }
+                .sheet(isPresented: $showMap) {
+                    MapView(loc:location!)
+                        .onTapGesture {
+                            showMap = false;
+                        }
+                }
         } else {
             AsyncLocationView(
                 source: locViewModel,

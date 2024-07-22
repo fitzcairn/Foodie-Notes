@@ -248,8 +248,11 @@ struct PictureSubViews {
                         RatingSubViews.RatingView(rating: meal.rating)
                     }
                     
-                    GuideLinkView(meal:meal)
-                        .padding(.leading, 10)
+                    // Only look up Michelin if we have a rating.
+                    if (meal.venue.michelin != nil) {
+                        GuideLinkView(meal:meal)
+                            .padding(.leading, 10)
+                    }
                     
                     if (meal.venue.location != nil) {
                         LocationView(location: meal.venue.location)
