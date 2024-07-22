@@ -130,7 +130,6 @@ struct MealListView: View {
     }
             
     func remove(at offsets: IndexSet, meals:[Meal]) {
-        print(offsets);
         for (index, meal) in meals.enumerated() {
             if offsets.contains(index) {
                 viewModel.removeMeal(meal.id);

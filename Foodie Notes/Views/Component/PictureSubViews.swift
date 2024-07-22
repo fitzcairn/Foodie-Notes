@@ -196,9 +196,11 @@ struct PictureSubViews {
                         location: $venue.location,
                         nearestRestaurant: $venue.name
                     )
+                    .padding(.leading, 10)
+                    
                     HStack {
                         MichelinSubViews.MichelinEditView(selection: $venue.michelin)
-                            .padding(.leading, 10)
+                            .padding(.leading, 8)
                         Spacer()
                     }
                 }
