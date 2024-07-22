@@ -64,6 +64,8 @@ struct StyledTextField : View {
                     .onChange(of: inputText) {
                         onChangeClosure()
                     }
+                    //.ignoresSafeArea(.keyboard, edges: .bottom)
+
                 Spacer()
                 Button(
                     action: {

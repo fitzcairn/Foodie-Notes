@@ -60,15 +60,23 @@ struct MealListView: View {
                                 VStack(alignment: .leading) {
                                     HStack {
                                         MichelinSubViews.MichelinNameView(name: meal.venue.name, rating: meal.venue.michelin)
-                                            .bold()
                                         Spacer()
                                         RatingSubViews.RatingView(rating:meal.rating)
                                     }
-                                    Text(viewModel.getMealFor(meal.id)!.notes)
+                                    
+                                    // By request, show date.
+                                    Text(viewModel.getMealFor(meal.id)!.date.formatted(date:.complete, time:.omitted))
                                         .foregroundColor(.gray)
+                                        .fixedSize(horizontal: false, vertical: true)
+                                        .lineLimit(1)
+                                        .padding(.top, 4)
 
+                                    
+                                   //Text(viewModel.getMealFor(meal.id)!.notes)
+                                   //     .foregroundColor(.gray)
+                                    
                                     LocationView(location: meal.venue.location)
-
+                                    
                                     if (!meal.cuisines.isEmpty) {
                                         HStack {
                                             Image(systemName: "fork.knife")

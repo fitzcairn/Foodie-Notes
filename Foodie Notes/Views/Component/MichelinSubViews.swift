@@ -36,12 +36,17 @@ struct MichelinSubViews {
         let rating:Michelin?
         
         var body: some View {
-            if let rating = rating {
-                Text(Image(rating.imgName + "_sm")) +  Text(" " + (name ?? ""))
+            HStack {
+                if let rating = rating {
+                    Text(Image(rating.imgName + "_sm")) +  Text(" " + (name ?? ""))
+                        .font(.system(size:18, weight: .bold))
+                }
+                else {
+                    Text(name ?? "")
+                        .font(.system(size:18, weight: .bold))
+                }
             }
-            else {
-                Text(name ?? "")
-            }
+            .padding(.top, 6)
         }
     }
     
@@ -60,7 +65,7 @@ struct MichelinSubViews {
                         }
                     }
                     label: {
-                        if value == rating || selection == rating {
+                        if value == rating {
                             HStack {
                                 Image(systemName: "checkmark.square")
                                     .resizable()
@@ -81,6 +86,9 @@ struct MichelinSubViews {
                     }
                     .buttonStyle(.plain)
                 }
+            }
+            .onAppear() {
+                value = selection;
             }
             .onChange(of: value) {
                 selection = value;

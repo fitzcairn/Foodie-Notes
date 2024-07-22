@@ -28,7 +28,7 @@ struct PictureSubViews {
                                 picture:Binding<Picture?>(
                                     get: { pictures[index] },
                                     set: { if $0 != nil { pictures[index] = $0! }})
-                                )
+                            )
                         } else if !pictures[index].deleted {
                             PhotoSubViews.PhotoShowView(picture:pictures[index])
                                 .padding(.horizontal, -5)
@@ -37,9 +37,10 @@ struct PictureSubViews {
                     if edit {
                         PhotoSubViews.PhotoPickerButton(
                             pictures: $pictures)
-                            .buttonStyle(.plain)
+                        .buttonStyle(.plain)
                     }
                 }
+                .id(UUID())
             }
         }
     }
