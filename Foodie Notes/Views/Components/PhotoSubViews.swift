@@ -34,8 +34,7 @@ struct PhotoSubViews {
                         source: photoModel,
                         img: img,
                         progressContent: {
-                            ProgressView()
-                                .frame(width: 18, height: 18)
+                            Loading()
                         },
                         photoContent: {
                             let image = UIImage(data: photoModel.loadedImg?.imgData ?? Data()) ?? UIImage()
@@ -50,27 +49,6 @@ struct PhotoSubViews {
             }
         }
     }
-    
-    
-    /*struct PhotoView: View {
-        let picture:Picture
-        var showFull:Bool = false;
-        
-        var body: some View {
-            GeometryReader { g in
-                VStack {
-                    if let data = picture.data {
-                        let image: UIImage = UIImage(data: data) ?? UIImage()
-                        Image(uiImage: image)
-                            .resizable()
-                            .scaledToFill()
-                    }
-                }
-                .frame(width: g.size.width, height: g.size.height)
-                .clipped()
-            }
-        }
-    }*/
     
     // Photo expand
     struct PhotoExpandView : View {
@@ -127,11 +105,15 @@ struct PhotoSubViews {
     // Show a picture with a delete.
     struct PhotoEditView: View {
         @Binding var picture: Picture?;
+        @State private var isLoadingPhoto: Bool = false;
         
         var body: some View {
             ZStack(alignment: .center) {
-                if (picture == nil || picture!.deleted) {
+                if (isLoadingPhoto) {
+                    Loading()
+                } else if (picture == nil || picture!.deleted) {
                     PhotoPickerButton(
+                        isLoadingPhoto:$isLoadingPhoto,
                         pictures: Binding<[Picture]>(
                             get: { [] },
                             set: { if !$0.isEmpty { picture = $0[0] } }
@@ -162,8 +144,19 @@ struct PhotoSubViews {
         }
     }
     
+    private struct Loading: View {
+        var body: some View {
+            HStack {
+                ProgressView()
+                    .frame(width:PhotoDimensions.photoWidth, height: PhotoDimensions.photoHeight)
+            }
+        }
+    }
+    
     struct PhotoPickerButton: View {
+        @Binding var isLoadingPhoto:Bool;
         @Binding var pictures:[Picture]
+        
         var limit:Int = Int.max // Get around bug in MediaPicker
         
         @StateObject var photoPickerModel: PhotoPickerModel = PhotoPickerModel();
@@ -172,21 +165,28 @@ struct PhotoSubViews {
         @State var newMedia: [Media] = [];
         
         var body: some View {
-            Button(
-                action: {
-                    isPickingPhoto = true;
-                },
-                label: {
-                    Image(systemName: "plus.circle.fill")
-                        .resizable()
-                        .padding(4)
-                        .frame(width:PhotoDimensions.photoWidth, height: PhotoDimensions.photoHeight)
-                        .background(Color.gray)
-                        .clipShape(Circle())
-                        .foregroundColor(.white)
-                        .opacity(0.5)
+            HStack {
+                if (isLoadingPhoto) {
+                    Loading()
+                } else {
+                    Button(
+                        action: {
+                            isPickingPhoto = true;
+                            isLoadingPhoto = true;
+                        },
+                        label: {
+                            Image(systemName: "plus.circle.fill")
+                                .resizable()
+                                .padding(4)
+                                .frame(width:PhotoDimensions.photoWidth, height: PhotoDimensions.photoHeight)
+                                .background(Color.gray)
+                                .clipShape(Circle())
+                                .foregroundColor(.white)
+                                .opacity(0.5)
+                        }
+                    )
                 }
-            )
+            }
             .sheet(isPresented: $isPickingPhoto, onDismiss: {
                 var newPictures:[Picture] = []
                 
@@ -196,9 +196,10 @@ struct PhotoSubViews {
                         for photo in photos {
                             newPictures.append(Picture(photo:photo))
                         }
-                    pictures = pictures + newPictures;
+                        pictures = pictures + newPictures;
+                        
+                        isLoadingPhoto = false;
                     })
-                
             }) {
                 MediaPicker(
                     isPresented: $isPickingPhoto,

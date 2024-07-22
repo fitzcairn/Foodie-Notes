@@ -9,8 +9,10 @@ import SwiftUI
 
 // All views related to showing pictures and annotations
 struct PictureSubViews {
+
     // Multi picture grid
     struct MultiPictureView: View {
+        @State private var isLoadingPhoto: Bool = false;
         @Binding var pictures:[Picture]
         var edit:Bool = false;
 
@@ -34,7 +36,9 @@ struct PictureSubViews {
                         }
                     }
                     if edit {
-                        PhotoSubViews.PhotoPickerButton(pictures: $pictures)
+                        PhotoSubViews.PhotoPickerButton(
+                            isLoadingPhoto:$isLoadingPhoto,
+                            pictures: $pictures)
                             .buttonStyle(.plain)
                     }
                 }

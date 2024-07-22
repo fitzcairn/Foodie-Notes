@@ -35,7 +35,7 @@ class ModelIOService {
             
             return appModel
         }
-        var appModel = try await task.value
+        let appModel = try await task.value
         return appModel
     }
     
