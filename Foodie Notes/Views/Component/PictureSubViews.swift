@@ -193,7 +193,7 @@ struct PictureSubViews {
                     .padding(.bottom, 4)
                     
                     LocationEditView(
-                        venue: $venue,
+                        location: $venue.location,
                         nearestRestaurant: $venue.name
                     )
                     HStack {
@@ -250,8 +250,8 @@ struct PictureSubViews {
                     GuideLinkView(meal:meal)
                         .padding(.leading, 10)
                     
-                    if (meal.venue.city != nil) {
-                        LocationView(venue: meal.venue)
+                    if (meal.venue.location != nil) {
+                        LocationView(location: meal.venue.location)
                             .padding(.leading, 10)
                     }
                 }

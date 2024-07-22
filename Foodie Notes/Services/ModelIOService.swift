@@ -36,14 +36,14 @@ class ModelIOService {
             return appModel
         }
         let appModel = try await task.value
-        return appModel
+        return await ConversionService.convert(appModel)
     }
     
     static func saveAppModel(model:AppModel) async throws {
         let task = Task {
             let data = try JSONEncoder().encode(model)
             let outfile = try Self.fileURL()
-            try data.write(to: outfile)
+            //try data.write(to: outfile)
         }
         _ = try await task.value
     }

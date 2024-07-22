@@ -10,6 +10,41 @@ import Foundation
 
 // Service for handling save data conversion on model changes.
 class ConversionService {
+    static func convert(_ from:AppModel) async -> AppModel {
+        return await convertLocation(from)
+        //return from;
+    }
+    
+    // July 22 - change up how location is stored.  Luckily, this is simple.
+    static func convertLocation(_ from:AppModel) async -> AppModel {
+        var toModel = AppModel()
+        
+        
+        for meal in from.getMeals() {
+            var newMeal = meal;
+            
+            func anyNotNil(_ fields:Array<Optional<Any>>) -> Bool {
+                for f in fields {
+                    guard(f == nil) else { return true }
+                }
+                return false;
+            }
+            
+            if anyNotNil([newMeal.venue.latitude, newMeal.venue.longitude, newMeal.venue.city, newMeal.venue.country]) {
+                newMeal.venue.location = Location(lat: newMeal.venue.latitude, long: newMeal.venue.longitude, city: newMeal.venue.city, country: newMeal.venue.country)
+                toModel.index(newMeal)
+            }
+        }
+        
+        // Save out the new model to complete the conversion.
+        do {
+            try await ModelIOService.saveAppModel(model: toModel)
+        } catch {
+            // Full stop, something went seriously wrong.
+            fatalError(error.localizedDescription)
+        }
+        return toModel;
+    }
     
     // July 21 - convert images saved as Pictures to the new hotness.
     /*static func convertPicturesToSavedImages(_ from:AppModel, imageService:ImageDataService = .shared) async -> AppModel {

@@ -66,9 +66,9 @@ struct MealListView: View {
                                     }
                                     Text(viewModel.getMealFor(meal.id)!.notes)
                                         .foregroundColor(.gray)
-                                    if (meal.venue.city != nil) {
-                                        LocationView(venue: meal.venue)
-                                    }
+
+                                    LocationView(location: meal.venue.location)
+
                                     if (!meal.cuisines.isEmpty) {
                                         HStack {
                                             Image(systemName: "fork.knife")

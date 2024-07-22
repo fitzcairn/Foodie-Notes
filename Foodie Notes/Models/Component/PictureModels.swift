@@ -11,9 +11,11 @@ struct Picture : Identifiable, Hashable, Codable {
     var id:String = Id.createId()
     var deleted:Bool = false;
     var url:URL? = nil // Kept for future compatibility with web images.
-    // NEW as of Jul 21
+
+    // Image
     var photo:Photo?
 
+    // TODO: Converter to eliminate
     @available(*, deprecated, message: "Don't use")
     var data:Data? = nil;
 
@@ -22,6 +24,7 @@ struct Picture : Identifiable, Hashable, Codable {
         self.photo = photo;
     }
 
+    // TODO: Converter to eliminate
     @available(*, deprecated, message: "Don't use")
     init() {
     }

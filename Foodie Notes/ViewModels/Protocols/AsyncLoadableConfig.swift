@@ -16,8 +16,7 @@ enum Status {
 
 protocol AsyncSearchConfig: ObservableObject {
     var status: Status { get }
-
-    // Guide lookup
+    
     func searchFor(name:String, guide:VenueGuide?, city:String?, country:String?)
 }
 
@@ -25,6 +24,13 @@ protocol AsyncSearchConfig: ObservableObject {
 protocol AsyncImageConfig: ObservableObject {
     var status: Status { get }
 
-    // Load an image
     func loadImageFor(_ img:SavedImage)
+}
+
+protocol AsyncLocationConfig: ObservableObject {
+    var locStatus: Status { get }
+    var searchStatus: Status { get }
+
+    func fetchLocation()
+    func fetchVenueSuggestionFor(_ location:Location?)
 }
