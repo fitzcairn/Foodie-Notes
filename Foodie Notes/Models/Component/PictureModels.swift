@@ -7,13 +7,6 @@
 
 import Foundation
 
-struct Photo : Identifiable, Hashable, Codable {
-    var id:String = Id.createId()
-
-    let full:SavedImage
-    let thumb:SavedImage
-}
-
 struct Picture : Identifiable, Hashable, Codable {
     var id:String = Id.createId()
     var deleted:Bool = false;
@@ -48,29 +41,3 @@ struct Picture : Identifiable, Hashable, Codable {
         hasher.combine(photo)
     }
 }
-
-struct PicturesAndNotes: Codable, Hashable {
-    var pictures:[Picture] = [];
-    var notes:String = "";
-
-    // Added later to allow for beverage pairings to be shared.
-    var sameAsPrevious:Bool?
-    
-    init() {
-    }
-    
-    init(notes:String) {
-        self.notes = notes;
-    }
-    
-    init(pictures: [Picture], notes: String) {
-        self.pictures = pictures
-        self.notes = notes
-    }
-    
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(notes)
-        hasher.combine(pictures)
-    }
-}
-

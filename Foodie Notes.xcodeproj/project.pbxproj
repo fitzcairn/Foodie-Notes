@@ -18,6 +18,7 @@
 		AA63F38A2C4BF6E20024D1DF /* AsyncLoadableConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA63F3892C4BF6E20024D1DF /* AsyncLoadableConfig.swift */; };
 		AA63F38C2C4BFBCE0024D1DF /* AyncGuideLinkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA63F38B2C4BFBCE0024D1DF /* AyncGuideLinkView.swift */; };
 		AA73444C2C4E8B3800A027FF /* GuideLinkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA73444B2C4E8B3800A027FF /* GuideLinkView.swift */; };
+		AA7344502C4E8D5100A027FF /* PictureAndNotesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA73444F2C4E8D5100A027FF /* PictureAndNotesModel.swift */; };
 		AA81D20F2C26EEA100FF0221 /* FoodieNotesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D20E2C26EEA100FF0221 /* FoodieNotesApp.swift */; };
 		AA81D2142C26EEA100FF0221 /* Foodie_Notes.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AA81D2122C26EEA100FF0221 /* Foodie_Notes.xcdatamodeld */; };
 		AA81D2182C26EEA200FF0221 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA81D2172C26EEA200FF0221 /* Assets.xcassets */; };
@@ -86,6 +87,7 @@
 		AA63F3892C4BF6E20024D1DF /* AsyncLoadableConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncLoadableConfig.swift; sourceTree = "<group>"; };
 		AA63F38B2C4BFBCE0024D1DF /* AyncGuideLinkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AyncGuideLinkView.swift; sourceTree = "<group>"; };
 		AA73444B2C4E8B3800A027FF /* GuideLinkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuideLinkView.swift; sourceTree = "<group>"; };
+		AA73444F2C4E8D5100A027FF /* PictureAndNotesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PictureAndNotesModel.swift; sourceTree = "<group>"; };
 		AA81D20B2C26EEA100FF0221 /* Foodie Notes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Foodie Notes.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA81D20E2C26EEA100FF0221 /* FoodieNotesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodieNotesApp.swift; sourceTree = "<group>"; };
 		AA81D2132C26EEA100FF0221 /* Foodie_Notes.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Foodie_Notes.xcdatamodel; sourceTree = "<group>"; };
@@ -177,6 +179,19 @@
 			path = ViewModels;
 			sourceTree = "<group>";
 		};
+		AA73444E2C4E8D2600A027FF /* Component */ = {
+			isa = PBXGroup;
+			children = (
+				AA81D2B22C38190800FF0221 /* CourseModel.swift */,
+				AAC91A512C4C843C00225BDD /* ImageModels.swift */,
+				AA81D2B02C3818E000FF0221 /* MealModel.swift */,
+				AA81D2B42C38192400FF0221 /* PictureModels.swift */,
+				AA73444F2C4E8D5100A027FF /* PictureAndNotesModel.swift */,
+				AA81D2B62C38193500FF0221 /* VenueModel.swift */,
+			);
+			path = Component;
+			sourceTree = "<group>";
+		};
 		AA81D2022C26EEA100FF0221 = {
 			isa = PBXGroup;
 			children = (
@@ -243,7 +258,7 @@
 		AA81D2832C309C3A00FF0221 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				AA81D2932C324BA800FF0221 /* Components */,
+				AA81D2932C324BA800FF0221 /* Component */,
 				AA45C09E2C4727B5009F6DEC /* CourseCreateView.swift */,
 				AA45C07C2C471B22009F6DEC /* CourseEditView.swift */,
 				AA81D2912C3209E100FF0221 /* CourseView.swift */,
@@ -255,7 +270,7 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		AA81D2932C324BA800FF0221 /* Components */ = {
+		AA81D2932C324BA800FF0221 /* Component */ = {
 			isa = PBXGroup;
 			children = (
 				AAA064D02C46A7DA005397EA /* CourseSubViews.swift */,
@@ -273,17 +288,13 @@
 				AAC91A572C4D43E900225BDD /* AsyncPhotoView.swift */,
 				AA73444B2C4E8B3800A027FF /* GuideLinkView.swift */,
 			);
-			path = Components;
+			path = Component;
 			sourceTree = "<group>";
 		};
 		AA81D2A02C32636C00FF0221 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				AA81D2B02C3818E000FF0221 /* MealModel.swift */,
-				AA81D2B22C38190800FF0221 /* CourseModel.swift */,
-				AA81D2B42C38192400FF0221 /* PictureModels.swift */,
-				AA81D2B62C38193500FF0221 /* VenueModel.swift */,
-				AAC91A512C4C843C00225BDD /* ImageModels.swift */,
+				AA73444E2C4E8D2600A027FF /* Component */,
 				AA81D29E2C325D0B00FF0221 /* AppModel.swift */,
 			);
 			path = Models;
@@ -473,6 +484,7 @@
 				AAC91A522C4C843C00225BDD /* ImageModels.swift in Sources */,
 				AA63F38C2C4BFBCE0024D1DF /* AyncGuideLinkView.swift in Sources */,
 				AACB64862C47F47B0008084D /* CuisineSubViews.swift in Sources */,
+				AA7344502C4E8D5100A027FF /* PictureAndNotesModel.swift in Sources */,
 				AA45C0992C471D09009F6DEC /* PrimaryButtonSubViews.swift in Sources */,
 				AAC91A582C4D43E900225BDD /* AsyncPhotoView.swift in Sources */,
 				AA4BF4BC2C47D26D00D01CF1 /* DateSubViews.swift in Sources */,
