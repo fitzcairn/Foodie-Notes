@@ -11,12 +11,11 @@ import Foundation
 // Service for handling save data conversion on model changes.
 class ConversionService {
     static func convert(_ from:AppModel) async -> AppModel {
-        return await convertLocation(from)
-        //return from;
+        return from;
     }
     
     // July 22 - change up how location is stored.  Luckily, this is simple.
-    static func convertLocation(_ from:AppModel) async -> AppModel {
+    /*static func convertLocation(_ from:AppModel) async -> AppModel {
         var toModel = AppModel()
 
         func anyNotNil(_ fields:Array<Optional<Any>>) -> Bool {
@@ -43,7 +42,7 @@ class ConversionService {
             fatalError(error.localizedDescription)
         }
         return toModel;
-    }
+    }*/
     
     // July 21 - convert images saved as Pictures to the new hotness.
     /*static func convertPicturesToSavedImages(_ from:AppModel, imageService:ImageDataService = .shared) async -> AppModel {
