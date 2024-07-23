@@ -52,33 +52,35 @@ struct LocationEditView: View {
     @State private var newLocation: SearchResult?
 
     var body: some View {
-        if (location != nil) {
-            // If we have a location already, use it.
-            LocationView(location: location!, edit:true)
+        HStack {
+            if (location != nil) {
+                // If we have a location already, use it.
+                LocationView(location: location!, edit:true)
+            } else {
+                AsyncLocationView(
+                    source: locViewModel,
+                    progressContent: { Loading() },
+                    locContent: { LocationView(location: locViewModel.location, edit:true) })
+                .onChange(of: locViewModel.location) {
+                    location = locViewModel.location
+                    locViewModel.fetchVenueSuggestionFor(location)
+                }
+                .onChange(of: locViewModel.nearestRestaurant) {
+                    if nearestRestaurant.isEmpty && locViewModel.nearestRestaurant != nil {
+                        nearestRestaurant = locViewModel.nearestRestaurant!
+                    }
+                }
+            }
+        }
+        .onTapGesture {
+            showMap = true;
+        }
+        .sheet(isPresented: $showMap) {
+            SearchableMap(newLocation: $newLocation)
                 .onTapGesture {
-                    showMap = true;
+                    showMap = false;
+                    location = newLocation != nil ? newLocation?.toLocation() : location;
                 }
-                .sheet(isPresented: $showMap) {
-                    SearchableMap(newLocation: $newLocation)
-                        .onTapGesture {
-                            showMap = false;
-                            location = newLocation != nil ? newLocation?.toLocation() : location;
-                        }
-                }
-        } else {
-            AsyncLocationView(
-                source: locViewModel,
-                progressContent: { Loading() },
-                locContent: { LocationView(location: locViewModel.location) })
-            .onChange(of: locViewModel.location) {
-                location = locViewModel.location
-                locViewModel.fetchVenueSuggestionFor(location)
-            }
-            .onChange(of: locViewModel.nearestRestaurant) {
-                if nearestRestaurant.isEmpty && locViewModel.nearestRestaurant != nil {
-                    nearestRestaurant = locViewModel.nearestRestaurant!
-                }
-            }
         }
     }
     

@@ -19,7 +19,6 @@ struct SearchableMap: View {
 
     var body: some View {
         Map(position: $position,
-            bounds: .init(minimumDistance: 100, maximumDistance: 100000),
             selection: $selectedLocation) {
             ForEach(searchResults) { result in
                 Marker(coordinate: result.location) {
