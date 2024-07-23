@@ -42,20 +42,6 @@ struct LocationView: View {
     }
 }
 
-struct MapView: View {
-    let loc:Location;
-    
-    @State var region = MKMapRect()
-    
-    var body: some View {
-        Map(mapRect: $region,
-            showsUserLocation: true,
-            userTrackingMode: .constant(.follow)
-        )
-    }
-}
-
-
 struct LocationEditView: View {
     @StateObject var locViewModel:AsyncLocationViewModel = AsyncLocationViewModel()
     
@@ -63,7 +49,8 @@ struct LocationEditView: View {
     @Binding var nearestRestaurant: String
     
     @State var showMap:Bool = false;
-    
+    @State private var newLocation: SearchResult?
+
     var body: some View {
         if (location != nil) {
             // If we have a location already, use it.
@@ -72,9 +59,10 @@ struct LocationEditView: View {
                     showMap = true;
                 }
                 .sheet(isPresented: $showMap) {
-                    MapView(loc:location!)
+                    SearchableMap(newLocation: $newLocation)
                         .onTapGesture {
                             showMap = false;
+                            location = newLocation != nil ? newLocation?.toLocation() : location;
                         }
                 }
         } else {
