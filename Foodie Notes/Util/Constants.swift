@@ -10,6 +10,7 @@ import Foundation
 enum PhotoDimensions {
     static let photoWidth:CGFloat = 64;
     static let photoHeight:CGFloat = 64;
+    static let thumbSize:CGSize = CGSize(width:PhotoDimensions.photoWidth, height:PhotoDimensions.photoHeight)
 }
 
 enum SectionTitle {
@@ -33,6 +34,7 @@ enum ViewTitle {
 }
 
 enum Michelin: String, Codable, CaseIterable {
+    case plate = "plate"
     case bibGourmand = "bib-gourmand"
     case oneStar = "1star"
     case twoStar = "2star"

@@ -1,5 +1,5 @@
 //
-//  GuideLinkViewModel.swift
+//  AsyncLinkViewModel.swift
 //  Foodie Notes
 //
 //  Created by Steve Martin on 7/20/24.
@@ -8,8 +8,8 @@
 import Foundation
 import SwiftSoup
 
-class GuideLinkViewModel: SearchableConfig {
-    var status: Status = .searching
+class AsyncLinkViewModel: AsyncSearchConfig {
+    var status: Status = .loading
     
     @Published var link:URL?
     

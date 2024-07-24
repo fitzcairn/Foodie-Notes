@@ -42,7 +42,7 @@ struct MealListView: View {
         progressView
         .task {
             do {
-                try await viewModel.fromLoad(model:ModelIOService.load())
+                try await viewModel.fromLoad(model:ModelIOService.loadAppModel())
             } catch {
                 fatalError(error.localizedDescription)
             }
@@ -60,15 +60,23 @@ struct MealListView: View {
                                 VStack(alignment: .leading) {
                                     HStack {
                                         MichelinSubViews.MichelinNameView(name: meal.venue.name, rating: meal.venue.michelin)
-                                            .bold()
                                         Spacer()
                                         RatingSubViews.RatingView(rating:meal.rating)
                                     }
-                                    Text(viewModel.getMealFor(meal.id)!.notes)
+                                    
+                                    // By request, show date.
+                                    Text(viewModel.getMealFor(meal.id)!.date.formatted(date:.complete, time:.omitted))
                                         .foregroundColor(.gray)
-                                    if (meal.venue.city != nil) {
-                                        VenueSubViews.LocationView(venue: meal.venue)
-                                    }
+                                        .fixedSize(horizontal: false, vertical: true)
+                                        .lineLimit(1)
+                                        .padding(.top, 4)
+
+                                    
+                                   //Text(viewModel.getMealFor(meal.id)!.notes)
+                                   //     .foregroundColor(.gray)
+                                    
+                                    LocationView(location: meal.venue.location)
+                                    
                                     if (!meal.cuisines.isEmpty) {
                                         HStack {
                                             Image(systemName: "fork.knife")
@@ -130,7 +138,6 @@ struct MealListView: View {
     }
             
     func remove(at offsets: IndexSet, meals:[Meal]) {
-        print(offsets);
         for (index, meal) in meals.enumerated() {
             if offsets.contains(index) {
                 viewModel.removeMeal(meal.id);

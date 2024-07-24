@@ -1,0 +1,89 @@
+//
+//  GuideLinkView.swift
+//  Foodie Notes
+//
+//  Created by Steve Martin on 7/22/24.
+//
+
+import SwiftUI
+
+
+struct GuideLinkView: View {
+    @EnvironmentObject var viewModel:AppViewModel;
+    @StateObject var linkViewModel:AsyncLinkViewModel = AsyncLinkViewModel()
+
+    let meal: Meal;
+    // Eventually, allow for other guides.
+    let guide:VenueGuide = .michelin
+    
+    var body: some View {
+        // If we have a link already, use it.
+        if let guideLink = meal.venue.guideLink {
+            GuideLink(guideName:guideLink.guide.displayName, url:guideLink.url)
+        } else {
+            // Load link async, and update view.
+            AyncGuideLinkView(
+                source:linkViewModel,
+                venue:meal.venue,
+                guide:guide,
+                progressContent: { Searching() },
+                // Can safely unwrap link due to switch statement in AyncGuideLink
+                linkContent: { GuideLink(guideName:guide.displayName, url:linkViewModel.link) }
+            )
+            .onChange(of: linkViewModel.link) {
+                var newMeal = meal
+                if let url = linkViewModel.link {
+                    newMeal.venue.guideLink = VenueGuideLink(guide: .michelin, url: url)
+                } else {
+                    // Not found, don't look again for this guide type.
+                    newMeal.venue.guideLink = VenueGuideLink(guide: .michelin, url: nil)
+                }
+                viewModel.saveEditedMealFor(newMeal)
+            }
+        }
+    }
+
+    private struct LinkImg: View {
+        var body: some View {
+            Image(systemName: "link")
+                .resizable()
+                .scaledToFit()
+                .frame(height: 18)
+                .foregroundColor(Color.gray)
+                .opacity(/*@START_MENU_TOKEN@*/0.8/*@END_MENU_TOKEN@*/)
+        }
+    }
+
+    private struct GuideLink: View {
+        let guideName:String
+        let url:URL?
+        
+        var body: some View {
+            HStack {
+                if let url = url {
+                    LinkImg()
+                    Link(guideName, destination:url)
+                        .font(.system(size:14, weight: .regular))
+                        .foregroundColor(.gray)
+                        .fixedSize(horizontal: false, vertical: true)
+                        .lineLimit(1)
+                    Spacer()
+                }
+                else {
+                    EmptyView()
+                }
+            }
+        }
+    }
+
+    private struct Searching: View {
+        var body: some View {
+            HStack {
+                LinkImg()
+                ProgressView()
+                    .frame(width: 18, height: 18)
+                Spacer()
+            }
+        }
+    }
+}

@@ -15,21 +15,31 @@ class ModelIOService {
                                     create: false)
         .appendingPathComponent("appmodel.data")
     }
+    
+    static func fileURLFor(_ model:any Identifiable) throws -> URL {
+        try FileManager.default.url(for: .documentDirectory,
+                                    in: .userDomainMask,
+                                    appropriateFor: nil,
+                                    create: false)
+        .appendingPathComponent("\(model.id).data")
+    }
  
-    static func load() async throws -> AppModel {
+    static func loadAppModel() async throws -> AppModel {
         let task = Task<AppModel, Error> {
             let fileURL = try ModelIOService.fileURL()
             guard let data = try? Data(contentsOf: fileURL) else {
                 return AppModel()
             }
+            print(fileURL)
             let appModel = try JSONDecoder().decode(AppModel.self, from: data)
+            
             return appModel
         }
         let appModel = try await task.value
-        return appModel
+        return await ConversionService.convert(appModel)
     }
     
-    static func save(model:AppModel) async throws {
+    static func saveAppModel(model:AppModel) async throws {
         let task = Task {
             let data = try JSONEncoder().encode(model)
             let outfile = try Self.fileURL()
@@ -41,7 +51,7 @@ class ModelIOService {
     static func exportAsString(_ meal:Meal) -> String {
         var str = "I ate \(meal.courses.count) courses during a meal at \(meal.venue.name) on \(meal.date.formatted(date: .complete, time: .omitted)).  I rated it \(meal.rating) stars.  "
         
-        if let city = meal.venue.city, let country = meal.venue.country {
+        if let city = meal.venue.location?.city, let country = meal.venue.location?.country {
             str += "\(meal.venue.name) is located in \(city), \(country).  "
         }
         if !meal.cuisines.isEmpty {
@@ -49,6 +59,8 @@ class ModelIOService {
         }
         if let michelin = meal.venue.michelin {
             switch(michelin) {
+            case .plate:
+                str += "At time of dining, Michelin rates this restaurant as notable.  "
             case .bibGourmand:
                 str += "At time of dining, Michelin rates this restaurant as a Bib Gourmand.  "
             case .oneStar:

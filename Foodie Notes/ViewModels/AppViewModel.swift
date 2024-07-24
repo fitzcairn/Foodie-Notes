@@ -17,21 +17,31 @@ class AppViewModel : ObservableObject {
     @Published var state = AppState.loading
     @Published var model: AppModel = AppModel()
     
+    // MARK: - Model Management
     // Set initial app state.
     func fromLoad(model:AppModel) {
         self.model = model;
         // Skip a the splash screen for now.
         state = .list
     }
-
-    
-    // MARK: - Meal Management
+    // Mutation happened -- kick off a save.
+    func writeOut() {
+        Task {
+            do {
+                try await ModelIOService.saveAppModel(model: self.model)
+            }
+            self.triggerRefresh()
+        }
+    }
     func triggerRefresh() {
         self.objectWillChange.send()
     }
+
+    
+    // MARK: - Meal Management
     func saveEditedMealFor(_ meal:Meal) {
         model.index(meal)
-        self.objectWillChange.send()
+        writeOut()
     }
     func getMeals() -> [Meal] {
         // TODO: apply filter, for now return all.
@@ -44,8 +54,11 @@ class AppViewModel : ObservableObject {
         if let mealId = mealId {
             model.removeMeal(mealId)
         }
+        writeOut()
     }
     func getMealImageFor(_ meal:Meal) -> Picture? {
+        guard(model.getMealFor(meal.id) != nil) else { return nil }
+        
         // Do we have a manually picked image already?
         if !isPictureEmpty(meal.pickedImage) { return meal.pickedImage }
 
@@ -79,7 +92,7 @@ class AppViewModel : ObservableObject {
     }
     func saveEditedCourse(_ course:Course) {
         model.indexCourse(course)
-        self.objectWillChange.send()
+        writeOut()
     }
     func getCourseImageFor(_ course:Course) -> Picture? {
         // Do we have a manually picked image already?
@@ -97,7 +110,7 @@ class AppViewModel : ObservableObject {
     
     // MARK: - Other Useful Helpers
     func isPictureEmpty(_ image:Picture?) -> Bool {
-        return image == nil || image!.data == nil || image!.deleted
+        return image == nil || image!.photo == nil || image!.deleted
     }
     // Consolidate business logic on when to show a section.
     func checkShow(_ pictureAndNotes:PicturesAndNotes?) -> Bool {
@@ -106,13 +119,7 @@ class AppViewModel : ObservableObject {
                  !pictureAndNotes!.pictures.isEmpty ||
                  pictureAndNotes!.sameAsPrevious != nil && pictureAndNotes!.sameAsPrevious!)
     }
-    
-    // MARK: - Test Only
-    func addTestData(numTestMeals:Int) {
-        self.model.addTestData(numTestMeals: numTestMeals)
-    }
-    
-    
+        
     // MARK: - Factories
     private static func createAppModel() -> AppModel {
         // Very simple for now, keeping this factory in case any new init is needed later.

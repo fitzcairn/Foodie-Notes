@@ -11,43 +11,47 @@ struct MealEditView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @EnvironmentObject var viewModel:AppViewModel;
     
-    @Binding var meal:Meal;
-
     @State private var showingAlert = false
-
+    @ObservedObject private var meal:WrappedStruct<Meal>;
+    
+    init(meal:Meal) {
+        // Note: Code smell to set state here, but best way I've found to fight weirdness with bindings on properties.
+        _meal = ObservedObject(wrappedValue: WrappedStruct(withItem:meal))
+    }
+    
     var body: some View {
         NavigationStack {
             ZStack(alignment: .bottom) {
                 ScrollForm {
                     PictureSubViews.MealPictureNameRatingEditView(
-                        picture: $meal.pickedImage,
-                        rating: $meal.rating,
-                        venue: $meal.venue
+                        picture: $meal.item.pickedImage,
+                        rating: $meal.item.rating,
+                        venue: $meal.item.venue
                     )
                     DateSubViews.DatePickerSection(
-                        selectedDate: $meal.date
+                        selectedDate: $meal.item.date
                     )
                     CuisineSubViews.CuisineEditSection(
-                        cuisines:$meal.cuisines
+                        cuisines:$meal.item.cuisines
                     )
                     NotesSubViews.NotesEditSection(
                         title: SectionTitle.notes,
-                        inputText: $meal.notes
+                        inputText: $meal.item.notes
                     )
                     PictureSubViews.PictureAndNotesEditSection(
                         title: SectionTitle.menus,
-                        data: $meal.menu
+                        data: $meal.item.menu
                     )
-                    CourseSubViews.CoursesEditSection(courses:$meal.courses)
+                    CourseSubViews.CoursesEditSection(courses:$meal.item.courses)
                 }
                 PrimaryButtonSubViews.EditViewPrimaryButtons(
                     cancelFunc: {
                         self.presentationMode.wrappedValue.dismiss()
                     },
                     saveFunc: {
-                        showingAlert = meal.venue.name.isEmpty
+                        showingAlert = meal.item.venue.name.isEmpty
                         if !showingAlert {
-                            viewModel.saveEditedMealFor(meal)
+                            viewModel.saveEditedMealFor(meal.item)
                             presentationMode.wrappedValue.dismiss()
                         }
                     },

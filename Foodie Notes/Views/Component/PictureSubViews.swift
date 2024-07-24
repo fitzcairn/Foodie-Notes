@@ -9,6 +9,7 @@ import SwiftUI
 
 // All views related to showing pictures and annotations
 struct PictureSubViews {
+
     // Multi picture grid
     struct MultiPictureView: View {
         @Binding var pictures:[Picture]
@@ -22,22 +23,24 @@ struct PictureSubViews {
             VStack(alignment: .center) {
                 LazyVGrid(columns: columns, spacing:10) {
                     ForEach(pictures.indices, id: \.self) { index in
-                        if edit {
+                        if edit && !pictures[index].deleted {
                             PhotoSubViews.PhotoEditView(
                                 picture:Binding<Picture?>(
                                     get: { pictures[index] },
                                     set: { if $0 != nil { pictures[index] = $0! }})
-                                )
-                        } else {
+                            )
+                        } else if !pictures[index].deleted {
                             PhotoSubViews.PhotoShowView(picture:pictures[index])
                                 .padding(.horizontal, -5)
                         }
                     }
                     if edit {
-                        PhotoSubViews.PhotoPickerButton(pictures: $pictures)
-                            .buttonStyle(.plain)
+                        PhotoSubViews.PhotoPickerButton(
+                            pictures: $pictures)
+                        .buttonStyle(.plain)
                     }
                 }
+                .id(UUID())
             }
         }
     }
@@ -188,16 +191,15 @@ struct PictureSubViews {
                     }
                     .padding(.bottom, 4)
                     
-                    //VenueSubViews.GuideLinkEditView(venue:$venue)
-                    //    .padding(.leading, 10)
-                    
-                    VenueSubViews.LocationEditView(
-                        venue: $venue,
+                    LocationEditView(
+                        location: $venue.location,
                         nearestRestaurant: $venue.name
                     )
+                    .padding(.leading, 10)
+                    
                     HStack {
                         MichelinSubViews.MichelinEditView(selection: $venue.michelin)
-                            .padding(.leading, 10)
+                            .padding(.leading, 8)
                         Spacer()
                     }
                 }
@@ -231,7 +233,7 @@ struct PictureSubViews {
     
     struct MealPictureNameRatingView : View {
         @EnvironmentObject var viewModel:AppViewModel;
-        let meal:Meal;
+        var meal:Meal;
         
         var body: some View {
             HStack {
@@ -246,11 +248,14 @@ struct PictureSubViews {
                         RatingSubViews.RatingView(rating: meal.rating)
                     }
                     
-                    VenueSubViews.GuideLinkView(meal:meal)
-                        .padding(.leading, 10)
+                    // Only look up Michelin if we have a rating.
+                    if (meal.venue.michelin != nil) {
+                        GuideLinkView(meal:meal)
+                            .padding(.leading, 10)
+                    }
                     
-                    if (meal.venue.city != nil) {
-                        VenueSubViews.LocationView(venue: meal.venue)
+                    if (meal.venue.location != nil) {
+                        LocationView(location: meal.venue.location)
                             .padding(.leading, 10)
                     }
                 }

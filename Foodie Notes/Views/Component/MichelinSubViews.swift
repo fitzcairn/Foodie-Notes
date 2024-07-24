@@ -18,15 +18,16 @@ struct MichelinSubViews {
                         Image(rating.imgName)
                             .resizable()
                             .frame(width: CGFloat(numStars) * michelinDim, height: michelinDim)
-                            .padding(.leading, -4)
                     } else {
                         Image(rating.imgName)
                             .resizable()
                             .frame(width: michelinDim, height: michelinDim)
-                            .padding(.leading, -4)                    }
+                    }
                 }
             }
             .tag(rating)
+            .padding(.leading, -7)
+            .padding(.trailing, -3)
         }
         return imageView;
     }
@@ -36,30 +37,36 @@ struct MichelinSubViews {
         let rating:Michelin?
         
         var body: some View {
-            if let rating = rating {
-                Text(Image(rating.imgName + "_sm")) +  Text(" " + (name ?? ""))
+            HStack {
+                if let rating = rating {
+                    Text(Image(rating.imgName + "_sm")) +  Text(" " + (name ?? ""))
+                        .font(.system(size:18, weight: .bold))
+                }
+                else {
+                    Text(name ?? "")
+                        .font(.system(size:18, weight: .bold))
+                }
             }
-            else {
-                Text(name ?? "")
-            }
+            .padding(.top, 6)
         }
     }
     
     struct MichelinEditView: View {
         @Binding var selection:Michelin?
-        
+        @State var value:Michelin?
+                
         var body: some View {
             HStack {
                 ForEach(Michelin.allCases, id: \.rawValue) { rating in
                     Button {
-                        if selection == rating {
-                            selection = nil;
+                        if value == rating {
+                            value = nil;
                         } else {
-                            selection = rating;
+                            value = rating;
                         }
                     }
                     label: {
-                        if selection == rating {
+                        if value == rating {
                             HStack {
                                 Image(systemName: "checkmark.square")
                                     .resizable()
@@ -80,6 +87,12 @@ struct MichelinSubViews {
                     }
                     .buttonStyle(.plain)
                 }
+            }
+            .onAppear() {
+                value = selection;
+            }
+            .onChange(of: value) {
+                selection = value;
             }
         }
     }

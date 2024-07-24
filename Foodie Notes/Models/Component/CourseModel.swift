@@ -21,16 +21,6 @@ struct Course : Hashable, Equatable, Identifiable, Codable {
         self.mealId = mealId
     }
 
-    init(id:String, mealId: String, name: String, date: Date, food: PicturesAndNotes, beveragePairing: PicturesAndNotes, rating:Int) {
-        self.id = id
-        self.mealId = mealId
-        self.name = name
-        self.date = date
-        self.food = food
-        self.beveragePairing = beveragePairing
-        self.rating = rating
-    }
-    
     static func == (lhs: Course, rhs: Course) -> Bool {
         guard lhs.id == rhs.id else { return false }
         var lhsHash = Hasher()

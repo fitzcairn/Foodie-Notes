@@ -21,6 +21,7 @@ struct CourseSubViews {
                      CourseItemView(course:course)
                      }
                 }
+                .id(UUID())
             }
         }
     }
@@ -42,6 +43,7 @@ struct CourseSubViews {
                         courses.remove(atOffsets: indexSet)
                     })
                 }
+                .id(UUID())
             }
         }
     }

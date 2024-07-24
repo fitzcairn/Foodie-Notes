@@ -51,10 +51,7 @@ struct MealView: View {
                         self.presentationMode.wrappedValue.dismiss()
                     },
                     editMealDest: MealEditView(
-                        meal: Binding<Meal>(
-                            get: { viewModel.getMealFor(meal.id)! },
-                            set: { viewModel.saveEditedMealFor($0) }
-                            )
+                        meal:meal
                     ),
                     createCourseDest: CourseCreateView(
                         mealId: meal.id

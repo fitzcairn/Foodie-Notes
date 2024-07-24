@@ -10,15 +10,13 @@ import SwiftUI
 @main
 struct FoodieNotesApp: App {
     @StateObject private var viewModel = AppViewModel()
-    @StateObject private var locationService  = LocationService()
-    @StateObject private var webFetchService  = WebFetchService()
 
     var body: some Scene {
         WindowGroup {
             MealListView() {
                 Task {
                     do {
-                        try await ModelIOService.save(model: viewModel.model)
+                        try await ModelIOService.saveAppModel(model: viewModel.model)
                     } catch {
                         // Blow up
                         fatalError(error.localizedDescription)
@@ -26,8 +24,6 @@ struct FoodieNotesApp: App {
                 }
             }
             .environmentObject(viewModel)
-            .environmentObject(locationService)
-            .environmentObject(webFetchService)
         }
     }
 }

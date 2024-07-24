@@ -24,17 +24,25 @@ struct PhotoSubViews {
     }
     
     struct PhotoView: View {
-        let picture:Picture
-        
+        @StateObject var photoModel:AsyncPhotoViewModel = AsyncPhotoViewModel()
+        let img: SavedImage;
+
         var body: some View {
             GeometryReader { g in
                 VStack {
-                    if let data = picture.data {
-                        let image: UIImage = UIImage(data: data) ?? UIImage()
-                        Image(uiImage: image)
-                            .resizable()
-                            .scaledToFill()
-                    }
+                    AsyncPhotoView(
+                        source: photoModel,
+                        img: img,
+                        progressContent: {
+                            Loading()
+                        },
+                        photoContent: {
+                            let image = UIImage(data: photoModel.loadedImg?.imgData ?? Data()) ?? UIImage()
+                            Image(uiImage: image)
+                                .resizable()
+                                .scaledToFill()
+                        }
+                    )
                 }
                 .frame(width: g.size.width, height: g.size.height)
                 .clipped()
@@ -49,12 +57,15 @@ struct PhotoSubViews {
         @Binding var sheetShowing:Bool;
         
         var body: some View {
-            PhotoView(picture: picture)
-                .background(.black)
-                .onTapGesture {
-                    sheetShowing = false;
-                }
-            EmptyView()
+            if let full = picture.photo?.full {
+                PhotoView(img:full)
+                    .background(.black)
+                    .onTapGesture {
+                        sheetShowing = false;
+                    }
+            } else {
+                EmptyView()
+            }
         }
     }
     
@@ -65,13 +76,13 @@ struct PhotoSubViews {
         @State var sheetShowing:Bool = false;
         
         var body: some View {
-            if picture == nil || picture!.deleted {
+            if picture == nil || picture!.deleted  {
                 NoPhotoPlaceholderView()
             }
-            else if picture?.data != nil {
+            else if picture?.photo != nil {
                 if (!isEditMode) {
                     // Only allow on-tap expands if not editing.
-                    PhotoView(picture:picture!)
+                    PhotoView(img:picture!.photo!.thumb)
                         .aspectRatio(1, contentMode: .fill)
                         .frame(width:PhotoDimensions.photoWidth, height: PhotoDimensions.photoHeight)
                         .onTapGesture {
@@ -81,7 +92,7 @@ struct PhotoSubViews {
                             PhotoExpandView(picture:picture!, sheetShowing: $sheetShowing)
                         }
                 } else {
-                    PhotoView(picture:picture!)
+                    PhotoView(img:picture!.photo!.thumb)
                         .aspectRatio(1, contentMode: .fill)
                         .frame(width:PhotoDimensions.photoWidth, height: PhotoDimensions.photoHeight)
                 }
@@ -129,43 +140,64 @@ struct PhotoSubViews {
         }
     }
     
+    private struct Loading: View {
+        var body: some View {
+            HStack {
+                ProgressView()
+                    .frame(width:PhotoDimensions.photoWidth, height: PhotoDimensions.photoHeight)
+            }
+        }
+    }
+    
     struct PhotoPickerButton: View {
         @Binding var pictures:[Picture]
         var limit:Int = Int.max // Get around bug in MediaPicker
-        
-        @StateObject var photoPickerModel: PhotoPickerModel = PhotoPickerModel();
-        
+
+        @StateObject var photoPickerModel: PhotoPickerViewModel = PhotoPickerViewModel();
         @State private var isPickingPhoto: Bool = false;
-        @State var newMedia: [Media] = [];
+        @State private var isLoading: Bool = false;
+        @State private var newMedia: [Media] = [];
+        @State private var newPictures: [Picture] = [];
         
         var body: some View {
-            Button(
-                action: {
-                    isPickingPhoto = true;
-                },
-                label: {
-                    Image(systemName: "plus.circle.fill")
-                        .resizable()
-                        .padding(4)
-                        .frame(width:PhotoDimensions.photoWidth, height: PhotoDimensions.photoHeight)
-                        .background(Color.gray)
-                        .clipShape(Circle())
-                        .foregroundColor(.white)
-                        .opacity(0.5)
-                }
-            )
+            HStack {
+                Button(
+                    action: {
+                        isPickingPhoto = true;
+                    },
+                    label: {
+                        if isLoading {
+                            Loading()
+                        } else {
+                            Image(systemName: "plus.circle.fill")
+                                .resizable()
+                                .padding(4)
+                                .background(Color.gray)
+                                .clipShape(Circle())
+                                .foregroundColor(.white)
+                                .opacity(0.5)
+                        }
+                    }
+                )
+                .disabled(isLoading || isPickingPhoto)
+                .frame(width:PhotoDimensions.photoWidth, height: PhotoDimensions.photoHeight)
+            }
+            .onChange(of:isPickingPhoto) {
+                isLoading = isPickingPhoto ? true : isLoading;
+            }
+            .onChange(of:newPictures) {
+                pictures = pictures.filter() { !$0.deleted } + newPictures;
+                newPictures = []
+            }
             .sheet(isPresented: $isPickingPhoto, onDismiss: {
-                var newPictures:[Picture] = []
-                
                 photoPickerModel.load(
                     pickedMedia: newMedia,
-                    onLoaded: { images in
-                        for image in images {
-                            newPictures.append(Picture(data:image));
+                    onLoaded: { photos in
+                        for photo in photos {
+                            newPictures.append(Picture(photo:photo))
                         }
-                        pictures = pictures + newPictures;
+                        isLoading = false;
                     })
-                
             }) {
                 MediaPicker(
                     isPresented: $isPickingPhoto,
@@ -175,9 +207,11 @@ struct PhotoSubViews {
                 .mediaSelectionLimit(limit)
                 .mediaSelectionType(.photo)
                 .showLiveCameraCell()
-            }
-            .task(id:photoPickerModel.hasNewPickedImages) {
-                await photoPickerModel.onStart()
+                .onDisappear() {
+                    Task {
+                        await photoPickerModel.onStart()
+                    }
+                }
             }
         }
     }

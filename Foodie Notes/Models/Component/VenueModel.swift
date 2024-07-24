@@ -7,6 +7,12 @@
 
 import Foundation
 
+struct Location : Hashable, Codable, Equatable {
+    var lat:Double?
+    var long:Double?
+    var city:String?
+    var country:String?
+}
 
 struct VenueGuideLink: Codable {
     let guide:VenueGuide;
@@ -14,37 +20,31 @@ struct VenueGuideLink: Codable {
 }
 
 struct Venue : Hashable, Codable, Equatable {
-    let id:String;
+    var id:String = Id.createId()
     var name: String = ""
-    
+        
     // Michelin rating
     var michelin: Michelin?
-    
-    // Location
-    var latitude: Double?
-    var longitude: Double?
-    
-    // Geo info
-    var city:String?
-    var country:String?
-    
     // Reference guide link, if there is one.
     var guideLink:VenueGuideLink?
 
-    init() {
-        id = Id.createId();
-    }
+    // Location
+    var location:Location?
     
-    init(name: String) {
-        self.name = name
-        id = Id.createId();
-    }
+    // TODO: Converter to eliminate
+    @available(*, deprecated, message: "Don't use")
+    var latitude: Double?
+    @available(*, deprecated, message: "Don't use")
+    var longitude: Double?
     
-    init(name: String, city: String, country: String) {
+    // Geo info
+    @available(*, deprecated, message: "Don't use")
+    var city:String?
+    @available(*, deprecated, message: "Don't use")
+    var country:String?
+    
+    init(_ name: String = "") {
         self.name = name
-        self.city = city
-        self.country = country
-        id = Id.createId();
     }
     
     static func == (lhs: Venue, rhs: Venue) -> Bool {
