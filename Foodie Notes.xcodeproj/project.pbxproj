@@ -14,6 +14,7 @@
 		AA45C09F2C4727B5009F6DEC /* CourseCreateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA45C09E2C4727B5009F6DEC /* CourseCreateView.swift */; };
 		AA47BE442C4FD0C000E5D829 /* SearchableMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA47BE432C4FD0C000E5D829 /* SearchableMap.swift */; };
 		AA47BE462C4FD1B200E5D829 /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA47BE452C4FD1B200E5D829 /* MapViewModel.swift */; };
+		AA47BE482C510DCA00E5D829 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA47BE472C510DCA00E5D829 /* NetworkService.swift */; };
 		AA4BF4BC2C47D26D00D01CF1 /* DateSubViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4BF4BB2C47D26D00D01CF1 /* DateSubViews.swift */; };
 		AA63F3842C4A9E370024D1DF /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = AA63F3832C4A9E370024D1DF /* SwiftSoup */; };
 		AA63F3862C4BF6260024D1DF /* AsyncLinkViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA63F3852C4BF6260024D1DF /* AsyncLinkViewModel.swift */; };
@@ -86,6 +87,7 @@
 		AA45C09E2C4727B5009F6DEC /* CourseCreateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseCreateView.swift; sourceTree = "<group>"; };
 		AA47BE432C4FD0C000E5D829 /* SearchableMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchableMap.swift; sourceTree = "<group>"; };
 		AA47BE452C4FD1B200E5D829 /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
+		AA47BE472C510DCA00E5D829 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		AA4BF4BB2C47D26D00D01CF1 /* DateSubViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateSubViews.swift; sourceTree = "<group>"; };
 		AA63F3852C4BF6260024D1DF /* AsyncLinkViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncLinkViewModel.swift; sourceTree = "<group>"; };
 		AA63F3892C4BF6E20024D1DF /* AsyncLoadableConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncLoadableConfig.swift; sourceTree = "<group>"; };
@@ -314,6 +316,7 @@
 				AAA064C62C46A084005397EA /* ModelIOService.swift */,
 				AAC91A552C4D357400225BDD /* ImageDataService.swift */,
 				AAC91A592C4D4BAD00225BDD /* ConversionService.swift */,
+				AA47BE472C510DCA00E5D829 /* NetworkService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -469,6 +472,7 @@
 			files = (
 				AAA064D72C46A7DA005397EA /* CourseSubViews.swift in Sources */,
 				AAA064C72C46A084005397EA /* ModelIOService.swift in Sources */,
+				AA47BE482C510DCA00E5D829 /* NetworkService.swift in Sources */,
 				AA7344522C4E8DD800A027FF /* AsyncLocationViewModel.swift in Sources */,
 				AA63F38A2C4BF6E20024D1DF /* AsyncLoadableConfig.swift in Sources */,
 				AAA064D62C46A7DA005397EA /* NotesSubViews.swift in Sources */,
