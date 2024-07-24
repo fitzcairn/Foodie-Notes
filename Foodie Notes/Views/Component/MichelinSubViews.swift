@@ -18,15 +18,16 @@ struct MichelinSubViews {
                         Image(rating.imgName)
                             .resizable()
                             .frame(width: CGFloat(numStars) * michelinDim, height: michelinDim)
-                            .padding(.leading, -4)
                     } else {
                         Image(rating.imgName)
                             .resizable()
                             .frame(width: michelinDim, height: michelinDim)
-                            .padding(.leading, -4)                    }
+                    }
                 }
             }
             .tag(rating)
+            .padding(.leading, -7)
+            .padding(.trailing, -3)
         }
         return imageView;
     }

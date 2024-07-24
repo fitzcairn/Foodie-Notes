@@ -59,6 +59,8 @@ class ModelIOService {
         }
         if let michelin = meal.venue.michelin {
             switch(michelin) {
+            case .plate:
+                str += "At time of dining, Michelin rates this restaurant as notable.  "
             case .bibGourmand:
                 str += "At time of dining, Michelin rates this restaurant as a Bib Gourmand.  "
             case .oneStar:

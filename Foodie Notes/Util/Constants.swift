@@ -34,6 +34,7 @@ enum ViewTitle {
 }
 
 enum Michelin: String, Codable, CaseIterable {
+    case plate = "plate"
     case bibGourmand = "bib-gourmand"
     case oneStar = "1star"
     case twoStar = "2star"
