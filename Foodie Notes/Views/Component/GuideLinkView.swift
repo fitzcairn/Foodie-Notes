@@ -10,6 +10,7 @@ import SwiftUI
 
 struct GuideLinkView: View {
     @EnvironmentObject var viewModel:AppViewModel;
+    @Environment(NetworkService.self) private var networkService
     @StateObject var linkViewModel:AsyncLinkViewModel = AsyncLinkViewModel()
 
     let meal: Meal;
@@ -20,7 +21,7 @@ struct GuideLinkView: View {
         // If we have a link already, use it.
         if let guideLink = meal.venue.guideLink {
             GuideLink(guideName:guideLink.guide.displayName, url:guideLink.url)
-        } else {
+        } else if networkService.isConnected {
             // Load link async, and update view.
             AyncGuideLinkView(
                 source:linkViewModel,
@@ -40,6 +41,8 @@ struct GuideLinkView: View {
                 }
                 viewModel.saveEditedMealFor(newMeal)
             }
+        } else {
+            GuideLink(guideName: "No Internet Connection", url: URL(string: ""))
         }
     }
 

@@ -71,7 +71,9 @@ class AsyncLinkViewModel: AsyncSearchConfig {
         let firstLinkElement = try firstResultElement?.getElementsByClass("result__url").first()
 
         if let firstLinkString = try firstLinkElement?.text() {
-            guideLink = URL(string:"https://\(firstLinkString)")
+            if !firstLinkString.isEmpty {
+                guideLink = URL(string:"https://\(firstLinkString)")
+            }
         }
         
         return guideLink

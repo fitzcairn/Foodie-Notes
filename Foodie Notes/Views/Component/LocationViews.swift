@@ -43,6 +43,7 @@ struct LocationView: View {
 }
 
 struct LocationEditView: View {
+    @Environment(NetworkService.self) private var networkService
     @StateObject var locViewModel:AsyncLocationViewModel = AsyncLocationViewModel()
     
     @Binding var location: Location?
@@ -56,7 +57,7 @@ struct LocationEditView: View {
             if (location != nil) {
                 // If we have a location already, use it.
                 LocationView(location: location!, edit:true)
-            } else {
+            } else if networkService.isConnected {
                 AsyncLocationView(
                     source: locViewModel,
                     progressContent: { Loading() },
@@ -70,10 +71,22 @@ struct LocationEditView: View {
                         nearestRestaurant = locViewModel.nearestRestaurant!
                     }
                 }
+            } else {
+                HStack {
+                    LocationIcon()
+                    Text("No Internet Connection")
+                        .font(.system(size:14, weight: .regular))
+                        .foregroundColor(.gray)
+                        .fixedSize(horizontal: false, vertical: true)
+                        .lineLimit(1)
+                    Spacer()
+                }
             }
         }
         .onTapGesture {
-            showMap = true;
+            if networkService.isConnected {
+                showMap = true;
+            }
         }
         .sheet(isPresented: $showMap) {
             SearchableMap(newLocation: $newLocation)
