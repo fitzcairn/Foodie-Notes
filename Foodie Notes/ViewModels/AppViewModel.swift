@@ -119,10 +119,4 @@ class AppViewModel : ObservableObject {
                  !pictureAndNotes!.pictures.isEmpty ||
                  pictureAndNotes!.sameAsPrevious != nil && pictureAndNotes!.sameAsPrevious!)
     }
-        
-    // MARK: - Factories
-    private static func createAppModel() -> AppModel {
-        // Very simple for now, keeping this factory in case any new init is needed later.
-        return AppModel();
-    }
 }

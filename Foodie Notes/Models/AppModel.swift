@@ -67,15 +67,6 @@ struct AppModel : Codable, Equatable {
             }
         }
     }
-    func getUpdatedMealWithCourse(meal:Meal, course:Course) -> Meal {
-        var meal = meal;
-        if let index = meal.courses.firstIndex(where: {$0.id == course.id}) {
-            meal.courses[index] = course;
-        } else {
-            meal.courses.append(course)
-        }
-        return meal
-    }
 
 
     // MARK: - Meal Property Getter/Setters
@@ -84,11 +75,6 @@ struct AppModel : Codable, Equatable {
             mealsById[meal.id]!.courses.append(course)
             coursesById[course.id] = course
         }
-    }
-    mutating func addNewCourseTo(_ mealId: String) -> Course {
-        let course = Course(mealId: mealId)
-        addCourseTo(mealId, course: course)
-        return course
     }
     
     
