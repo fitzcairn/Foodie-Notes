@@ -54,8 +54,6 @@ struct MealListView: View {
         }
     }
     
-<<<<<<< HEAD
-=======
     // Alternate listview for testing wine recognition.
     var wineTestView: some View {
         ScrollView {
@@ -99,7 +97,6 @@ struct MealListView: View {
         }
      }
     
->>>>>>> wine-cv
     var listView: some View {
         NavigationStack {
             ZStack {
