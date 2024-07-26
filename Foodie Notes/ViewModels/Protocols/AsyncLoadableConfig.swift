@@ -34,3 +34,9 @@ protocol AsyncLocationConfig: ObservableObject {
     func fetchLocation()
     func fetchVenueSuggestionFor(_ location:Location?)
 }
+
+protocol AsyncLabelRecognitionConfig: ObservableObject {
+    var status: Status { get }
+
+    func recognizeWineFor(_ img:SavedImage)
+}

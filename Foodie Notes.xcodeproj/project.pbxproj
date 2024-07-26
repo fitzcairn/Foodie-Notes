@@ -50,6 +50,11 @@
 		AAA064D62C46A7DA005397EA /* NotesSubViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA064CF2C46A7DA005397EA /* NotesSubViews.swift */; };
 		AAA064D72C46A7DA005397EA /* CourseSubViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA064D02C46A7DA005397EA /* CourseSubViews.swift */; };
 		AAA064D82C46A7DA005397EA /* RatingSubViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA064D12C46A7DA005397EA /* RatingSubViews.swift */; };
+		AABE56FC2C53D8C100771A83 /* AsyncLabelRecognitionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABE56FB2C53D8C000771A83 /* AsyncLabelRecognitionViewModel.swift */; };
+		AABE56FE2C53DA1700771A83 /* AsyncRecognizedWineLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABE56FD2C53DA1700771A83 /* AsyncRecognizedWineLabelView.swift */; };
+		AABE57012C53E48100771A83 /* UIImage_Rotate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABE57002C53E48100771A83 /* UIImage_Rotate.swift */; };
+		AABE57032C53F6B300771A83 /* WebSearchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABE57022C53F6B300771A83 /* WebSearchService.swift */; };
+		AABE57052C53F7F100771A83 /* String_Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABE57042C53F7F100771A83 /* String_Error.swift */; };
 		AAC91A522C4C843C00225BDD /* ImageModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAC91A512C4C843C00225BDD /* ImageModels.swift */; };
 		AAC91A542C4D047500225BDD /* AsyncPhotoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAC91A532C4D047500225BDD /* AsyncPhotoViewModel.swift */; };
 		AAC91A562C4D357400225BDD /* ImageDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAC91A552C4D357400225BDD /* ImageDataService.swift */; };
@@ -126,6 +131,11 @@
 		AAA064CF2C46A7DA005397EA /* NotesSubViews.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotesSubViews.swift; sourceTree = "<group>"; };
 		AAA064D02C46A7DA005397EA /* CourseSubViews.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseSubViews.swift; sourceTree = "<group>"; };
 		AAA064D12C46A7DA005397EA /* RatingSubViews.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RatingSubViews.swift; sourceTree = "<group>"; };
+		AABE56FB2C53D8C000771A83 /* AsyncLabelRecognitionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncLabelRecognitionViewModel.swift; sourceTree = "<group>"; };
+		AABE56FD2C53DA1700771A83 /* AsyncRecognizedWineLabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncRecognizedWineLabelView.swift; sourceTree = "<group>"; };
+		AABE57002C53E48100771A83 /* UIImage_Rotate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage_Rotate.swift; sourceTree = "<group>"; };
+		AABE57022C53F6B300771A83 /* WebSearchService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSearchService.swift; sourceTree = "<group>"; };
+		AABE57042C53F7F100771A83 /* String_Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String_Error.swift; sourceTree = "<group>"; };
 		AAC91A512C4C843C00225BDD /* ImageModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageModels.swift; sourceTree = "<group>"; };
 		AAC91A532C4D047500225BDD /* AsyncPhotoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncPhotoViewModel.swift; sourceTree = "<group>"; };
 		AAC91A552C4D357400225BDD /* ImageDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDataService.swift; sourceTree = "<group>"; };
@@ -181,6 +191,7 @@
 				AA81D2A12C3267C200FF0221 /* AppViewModel.swift */,
 				AA63F3852C4BF6260024D1DF /* AsyncLinkViewModel.swift */,
 				AAC91A532C4D047500225BDD /* AsyncPhotoViewModel.swift */,
+				AABE56FB2C53D8C000771A83 /* AsyncLabelRecognitionViewModel.swift */,
 				AA7344512C4E8DD800A027FF /* AsyncLocationViewModel.swift */,
 				AA47BE452C4FD1B200E5D829 /* MapViewModel.swift */,
 			);
@@ -224,6 +235,7 @@
 			isa = PBXGroup;
 			children = (
 				AA81D2AA2C37090100FF0221 /* Foodie-Notes-Info.plist */,
+				AABE56FF2C53E46900771A83 /* Extensions */,
 				AAC91A5D2C4DC95700225BDD /* Util */,
 				AA81D2A02C32636C00FF0221 /* Models */,
 				AA73444D2C4E8C7500A027FF /* ViewModels */,
@@ -297,6 +309,7 @@
 				AAE6A7A92C4E9A3100765C76 /* AsyncLocationView.swift */,
 				AA73444B2C4E8B3800A027FF /* GuideLinkView.swift */,
 				AA47BE432C4FD0C000E5D829 /* SearchableMap.swift */,
+				AABE56FD2C53DA1700771A83 /* AsyncRecognizedWineLabelView.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -317,8 +330,18 @@
 				AAA064C62C46A084005397EA /* ModelIOService.swift */,
 				AAC91A552C4D357400225BDD /* ImageDataService.swift */,
 				AAC91A592C4D4BAD00225BDD /* ConversionService.swift */,
+				AABE57022C53F6B300771A83 /* WebSearchService.swift */,
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		AABE56FF2C53E46900771A83 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				AABE57002C53E48100771A83 /* UIImage_Rotate.swift */,
+				AABE57042C53F7F100771A83 /* String_Error.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		AAC91A5D2C4DC95700225BDD /* Util */ = {
@@ -492,16 +515,20 @@
 				AA73444C2C4E8B3800A027FF /* GuideLinkView.swift in Sources */,
 				AA63F3862C4BF6260024D1DF /* AsyncLinkViewModel.swift in Sources */,
 				AAA064D52C46A7DA005397EA /* MiscSubViews.swift in Sources */,
+				AABE57012C53E48100771A83 /* UIImage_Rotate.swift in Sources */,
 				AAC91A522C4C843C00225BDD /* ImageModels.swift in Sources */,
 				AA63F38C2C4BFBCE0024D1DF /* AyncGuideLinkView.swift in Sources */,
 				AACB64862C47F47B0008084D /* CuisineSubViews.swift in Sources */,
+				AABE56FC2C53D8C100771A83 /* AsyncLabelRecognitionViewModel.swift in Sources */,
 				AA7344502C4E8D5100A027FF /* PictureAndNotesModel.swift in Sources */,
 				AA47BE442C4FD0C000E5D829 /* SearchableMap.swift in Sources */,
 				AA47BE462C4FD1B200E5D829 /* MapViewModel.swift in Sources */,
+				AABE57032C53F6B300771A83 /* WebSearchService.swift in Sources */,
 				AA45C0992C471D09009F6DEC /* PrimaryButtonSubViews.swift in Sources */,
 				AAC91A582C4D43E900225BDD /* AsyncPhotoView.swift in Sources */,
 				AA4BF4BC2C47D26D00D01CF1 /* DateSubViews.swift in Sources */,
 				AA81D3002C3AA1DD00FF0221 /* Constants.swift in Sources */,
+				AABE57052C53F7F100771A83 /* String_Error.swift in Sources */,
 				AA81D20F2C26EEA100FF0221 /* FoodieNotesApp.swift in Sources */,
 				AAA064D82C46A7DA005397EA /* RatingSubViews.swift in Sources */,
 				AA81D2142C26EEA100FF0221 /* Foodie_Notes.xcdatamodeld in Sources */,
@@ -516,6 +543,7 @@
 				AAF0FDBA2C49B62B00932EB5 /* LocationViews.swift in Sources */,
 				AAE6A7AA2C4E9A3200765C76 /* AsyncLocationView.swift in Sources */,
 				AA45C07D2C471B23009F6DEC /* CourseEditView.swift in Sources */,
+				AABE56FE2C53DA1700771A83 /* AsyncRecognizedWineLabelView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

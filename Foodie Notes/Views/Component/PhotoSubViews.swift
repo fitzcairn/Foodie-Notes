@@ -41,6 +41,7 @@ struct PhotoSubViews {
                             Image(uiImage: image)
                                 .resizable()
                                 .scaledToFill()
+                                .aspectRatio(1, contentMode: .fit)
                         }
                     )
                 }
