@@ -10,6 +10,7 @@ import SwiftUI
 @main
 struct FoodieNotesApp: App {
     @StateObject private var viewModel = AppViewModel()
+    @State private var networkService = NetworkService()
 
     var body: some Scene {
         WindowGroup {
@@ -24,6 +25,7 @@ struct FoodieNotesApp: App {
                 }
             }
             .environmentObject(viewModel)
+            .environment(networkService)
         }
     }
 }

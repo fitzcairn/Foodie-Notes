@@ -313,10 +313,10 @@
 		AAA064C52C46A052005397EA /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				AA47BE472C510DCA00E5D829 /* NetworkService.swift */,
 				AAA064C62C46A084005397EA /* ModelIOService.swift */,
 				AAC91A552C4D357400225BDD /* ImageDataService.swift */,
 				AAC91A592C4D4BAD00225BDD /* ConversionService.swift */,
-				AA47BE472C510DCA00E5D829 /* NetworkService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";

@@ -64,16 +64,11 @@ struct MealListView: View {
                                         RatingSubViews.RatingView(rating:meal.rating)
                                     }
                                     
-                                    // By request, show date.
                                     Text(viewModel.getMealFor(meal.id)!.date.formatted(date:.complete, time:.omitted))
                                         .foregroundColor(.gray)
                                         .fixedSize(horizontal: false, vertical: true)
                                         .lineLimit(1)
                                         .padding(.top, 4)
-
-                                    
-                                   //Text(viewModel.getMealFor(meal.id)!.notes)
-                                   //     .foregroundColor(.gray)
                                     
                                     LocationView(location: meal.venue.location)
                                     
