@@ -10,7 +10,7 @@ import SwiftSoup
 
 class WebSearchService {
     
-    static func getFirstSearchResultFor(_ url:URL, suffixMask:String?, completion:@escaping ((String?, URL?)) -> Void) {
+    static func getFirstSearchResultFor(_ url:URL, suffixMask:String? = nil, completion:@escaping ((String?, URL?)) -> Void) {
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
             if error != nil {
                 return
@@ -35,15 +35,15 @@ class WebSearchService {
     static func constructLinkFor(domain:String, query:[String]) -> String {
         // Easiest to just ask DuckDuckGo for now.  Later, I'll host my own webservice for this.
         let baseUrl = "https://duckduckgo.com/html/?q="
+        
         return "\(baseUrl)site%3A\(domain)+\(query.joined(separator: " ").addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!)"
     }
     
     static private func getFirstResultLinkFrom(_ html:String, suffixMask:String?) throws -> (String?, URL?) {
         var guideLink:URL?
-        
         let doc: Document = try SwiftSoup.parse(html)
 
-        // Pull out a clean link from the first result.
+        // Pull out text and a clean link from the first result.
         let results = try doc.body()?.getElementById("links")
         let text = try results?.getElementsByClass("result__a").first()?.text()
         let link = try results?.getElementsByClass("result__url").first()?.text()
@@ -57,10 +57,4 @@ class WebSearchService {
         }
         return (text, guideLink)
     }
-    
-    static let shared: WebSearchService =  {
-        let instance = WebSearchService()
-        return instance
-    }()
-    private init() { }
 }

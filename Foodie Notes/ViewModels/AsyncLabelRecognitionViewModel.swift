@@ -55,15 +55,14 @@ class AsyncLabelRecognitionViewModel: AsyncLabelRecognitionConfig {
             }
             let outputImage = self.apply(mask: maskImage, to: inputImage)
             
-            var labelImage = outputImage;
-
             // Not all wines have a nice pasted on label; if this bottle does, pull it out
-            //  and perspective correct so we can do better OCR.
+            // and perspective correct so we can do better OCR.
+            var labelImage = outputImage;
             if let label = self.detectLabel(for: outputImage) {
                 labelImage = label
             }
 
-            // Now do OCR on the label.
+            // Now do OCR to get whatever text we can pull from either label or bottle.
             let labelText = self.detectWineText(for:labelImage)
             
             // Kick off defining a link if we have any recognized text.  Otherwise we'll need user assistance.
