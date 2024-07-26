@@ -59,16 +59,6 @@ struct MealListView: View {
         ScrollView {
             HStack {
                 PhotoSubViews.PhotoPickerButton(pictures: $pictures, limit: 1)
-                Button {
-                    pictures = []
-                    recModel.subject = nil;
-                    recModel.text = nil;
-                    recModel.name = nil;
-                    recModel.link = nil;
-                    recModel.status = .loading
-                } label: {
-                    Text("Clear")
-                }
             }
 
             ForEach(pictures, id: \.self) { picture in

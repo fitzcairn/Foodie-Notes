@@ -74,15 +74,27 @@ class AsyncLabelRecognitionViewModel: AsyncLabelRecognitionConfig {
     }
 
     private func findMoreInfoLink(for labelText:[String]) {
-        // Filter out search result pages; vastly improves our chances of finding something useful.
-        var query = labelText
-        query.append("-\"Showing results\"")
-
+        let suffix = " - Wine-Searcher"
+        
         guard let url = URL(
-            string: WebSearchService.constructLinkFor(domain: "wine-searcher.com", query:query)
+            string: WebSearchService.constructLinkFor(domain: "wine-searcher.com", query:labelText)
         ) else { return }
         
-        WebSearchService.getFirstSearchResultFor(url, suffixMask:" - Wine-Searcher") { (resultName, resultUrl) in
+        WebSearchService.getSearchResultsFor(url) { searchNameAndUrls in
+            var resultName:String = ""
+            var resultUrl:URL?
+            
+            // Take the first link that looks like a reasonably helpful one.
+            for (searchName, searchUrl) in searchNameAndUrls {
+                if (searchUrl != nil && searchName != nil && !searchName!.contains(/[&|]/)) {
+                    resultName = searchName!;
+                    if (resultName.hasSuffix(suffix)) {
+                        resultName = String(resultName.prefix(resultName.count - suffix.count))
+                    }
+                    resultUrl = searchUrl;
+                    break;
+                }
+            }
             DispatchQueue.main.async {
                 self.name = resultName
                 self.link = resultUrl

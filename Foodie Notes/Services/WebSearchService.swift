@@ -10,7 +10,54 @@ import SwiftSoup
 
 class WebSearchService {
     
-    static func getFirstSearchResultFor(_ url:URL, suffixMask:String? = nil, completion:@escaping ((String?, URL?)) -> Void) {
+    static func getFirstSearchResultFor(_ url:URL, completion:@escaping ((String?, URL?)) -> Void) {
+        executeSearch(url) { html in
+            completion(try self.getFirstResultLinkFrom(html))
+        }
+    }
+    
+    static func getSearchResultsFor(_ url:URL, completion:@escaping ([(String?, URL?)]) -> Void) {
+        executeSearch(url) { html in
+            completion(try self.getResultLinksFrom(html))
+        }
+    }
+    
+    static func constructLinkFor(domain:String, query:[String]) -> String {
+        // Easiest to just ask DuckDuckGo for now.  Later, I'll host my own webservice for this.
+        let baseUrl = "https://duckduckgo.com/html/?q="
+        
+        return "\(baseUrl)site%3A\(domain)+\(query.joined(separator: " ").addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!)"
+    }
+    
+    static private func getResultLinksFrom(_ html:String) throws -> [(String?, URL?)] {
+        let doc: Document = try SwiftSoup.parse(html)
+        var resultList:[(String?, URL?)] = []
+        
+        if let results = try doc.body()?.getElementById("links") {
+            for resultBody in try results.getElementsByClass("result__body") {
+                let text = try resultBody.getElementsByClass("result__a").first()?.text()
+                let link = try resultBody.getElementsByClass("result__url").first()?.text()
+                resultList.append((text, URL(string:"https://\(link!)")))
+            }
+        }
+        return resultList
+    }
+    
+    static private func getFirstResultLinkFrom(_ html:String) throws -> (String?, URL?) {
+        var firstLink:URL?
+        let doc: Document = try SwiftSoup.parse(html)
+
+        let results = try doc.body()?.getElementById("links")
+        let text = try results?.getElementsByClass("result__a").first()?.text()
+        let link = try results?.getElementsByClass("result__url").first()?.text()
+        
+        if link != nil && !link!.isEmpty {
+            firstLink = URL(string:"https://\(link!)")
+        }
+        return (text, firstLink)
+    }
+    
+    static private func executeSearch(_ url:URL, completion:@escaping ((String) throws -> Void)) {
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
             if error != nil {
                 return
@@ -23,38 +70,12 @@ class WebSearchService {
                let data = data,
                let html = String(data: data, encoding: .utf8) {
                 do {
-                    completion(try self.getFirstResultLinkFrom(html, suffixMask: suffixMask))
+                    try completion(html)
                 } catch {
                     return;
                 }
             }
         }
         task.resume()
-    }
-    
-    static func constructLinkFor(domain:String, query:[String]) -> String {
-        // Easiest to just ask DuckDuckGo for now.  Later, I'll host my own webservice for this.
-        let baseUrl = "https://duckduckgo.com/html/?q="
-        
-        return "\(baseUrl)site%3A\(domain)+\(query.joined(separator: " ").addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!)"
-    }
-    
-    static private func getFirstResultLinkFrom(_ html:String, suffixMask:String?) throws -> (String?, URL?) {
-        var guideLink:URL?
-        let doc: Document = try SwiftSoup.parse(html)
-
-        // Pull out text and a clean link from the first result.
-        let results = try doc.body()?.getElementById("links")
-        let text = try results?.getElementsByClass("result__a").first()?.text()
-        let link = try results?.getElementsByClass("result__url").first()?.text()
-
-        if link != nil && !link!.isEmpty {
-            guideLink = URL(string:"https://\(link!)")
-        }
-        
-        if text != nil && suffixMask != nil && text!.hasSuffix(suffixMask!){
-            return (String(text!.prefix(text!.count - suffixMask!.count)), guideLink)
-        }
-        return (text, guideLink)
     }
 }
