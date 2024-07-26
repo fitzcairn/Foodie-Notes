@@ -55,9 +55,21 @@ struct MealListView: View {
     }
     
     // Alternate listview for testing wine recognition.
-    /*var listView: some View {
+    var listView: some View {
         ScrollView {
-            PhotoSubViews.PhotoPickerButton(pictures: $pictures, limit: 1)
+            HStack {
+                PhotoSubViews.PhotoPickerButton(pictures: $pictures, limit: 1)
+                Button {
+                    pictures = []
+                    recModel.subject = nil;
+                    recModel.text = nil;
+                    recModel.name = nil;
+                    recModel.link = nil;
+                    recModel.status = .loading
+                } label: {
+                    Text("Clear")
+                }
+            }
 
             ForEach(pictures, id: \.self) { picture in
                 VStack {
@@ -93,9 +105,9 @@ struct MealListView: View {
                 }
             }
         }
-     }*/
+     }
     
-    var listView: some View {
+    /*var listView: some View {
         NavigationStack {
             ZStack {
                 List {
@@ -167,7 +179,7 @@ struct MealListView: View {
                 saveAction()
             }
         }
-    }
+    }*/
     
     
     var body: some View {

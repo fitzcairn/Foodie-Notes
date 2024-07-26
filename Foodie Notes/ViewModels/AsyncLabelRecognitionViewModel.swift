@@ -15,7 +15,6 @@ import UIKit
 class AsyncLabelRecognitionViewModel: AsyncLabelRecognitionConfig {
     var status: Status = .loading
 
-    @Published var isLoading:Bool = false;
     @Published var subject:UIImage?
     @Published var text:[String]?
     @Published var name:String?
@@ -23,8 +22,6 @@ class AsyncLabelRecognitionViewModel: AsyncLabelRecognitionConfig {
     
     private var processingQueue = DispatchQueue(label: "ImageProcessingQueue")
     private var imageService: ImageDataService = .shared
-    private var webService: WebSearchService = .shared
-
     
     func recognizeWineFor(_ img: SavedImage) {
         Task {
@@ -48,9 +45,6 @@ class AsyncLabelRecognitionViewModel: AsyncLabelRecognitionConfig {
         processingQueue.async {
             guard let maskImage = self.subjectMaskImage(for: inputImage) else {
                 print("Failed to create mask image")
-                DispatchQueue.main.async {
-                    self.isLoading = false
-                }
                 return
             }
             let outputImage = self.apply(mask: maskImage, to: inputImage)
@@ -80,8 +74,12 @@ class AsyncLabelRecognitionViewModel: AsyncLabelRecognitionConfig {
     }
 
     private func findMoreInfoLink(for labelText:[String]) {
+        // Filter out search result pages; vastly improves our chances of finding something useful.
+        var query = labelText
+        query.append("-\"Showing results\"")
+
         guard let url = URL(
-            string: WebSearchService.constructLinkFor(domain: "wine-searcher.com", query:labelText)
+            string: WebSearchService.constructLinkFor(domain: "wine-searcher.com", query:query)
         ) else { return }
         
         WebSearchService.getFirstSearchResultFor(url, suffixMask:" - Wine-Searcher") { (resultName, resultUrl) in
