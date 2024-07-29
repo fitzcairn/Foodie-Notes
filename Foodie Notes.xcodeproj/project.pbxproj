@@ -20,6 +20,7 @@
 		AA63F3862C4BF6260024D1DF /* AsyncLinkViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA63F3852C4BF6260024D1DF /* AsyncLinkViewModel.swift */; };
 		AA63F38A2C4BF6E20024D1DF /* AsyncLoadableConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA63F3892C4BF6E20024D1DF /* AsyncLoadableConfig.swift */; };
 		AA63F38C2C4BFBCE0024D1DF /* AyncGuideLinkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA63F38B2C4BFBCE0024D1DF /* AyncGuideLinkView.swift */; };
+		AA6771CF2C581EB900487278 /* BeverageLinkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA6771CE2C581EB900487278 /* BeverageLinkView.swift */; };
 		AA73444C2C4E8B3800A027FF /* GuideLinkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA73444B2C4E8B3800A027FF /* GuideLinkView.swift */; };
 		AA7344502C4E8D5100A027FF /* PictureAndNotesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA73444F2C4E8D5100A027FF /* PictureAndNotesModel.swift */; };
 		AA7344522C4E8DD800A027FF /* AsyncLocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7344512C4E8DD800A027FF /* AsyncLocationViewModel.swift */; };
@@ -97,6 +98,7 @@
 		AA63F3852C4BF6260024D1DF /* AsyncLinkViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncLinkViewModel.swift; sourceTree = "<group>"; };
 		AA63F3892C4BF6E20024D1DF /* AsyncLoadableConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncLoadableConfig.swift; sourceTree = "<group>"; };
 		AA63F38B2C4BFBCE0024D1DF /* AyncGuideLinkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AyncGuideLinkView.swift; sourceTree = "<group>"; };
+		AA6771CE2C581EB900487278 /* BeverageLinkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeverageLinkView.swift; sourceTree = "<group>"; };
 		AA73444B2C4E8B3800A027FF /* GuideLinkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuideLinkView.swift; sourceTree = "<group>"; };
 		AA73444F2C4E8D5100A027FF /* PictureAndNotesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PictureAndNotesModel.swift; sourceTree = "<group>"; };
 		AA7344512C4E8DD800A027FF /* AsyncLocationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncLocationViewModel.swift; sourceTree = "<group>"; };
@@ -187,13 +189,13 @@
 			isa = PBXGroup;
 			children = (
 				AA63F3882C4BF6D40024D1DF /* Protocols */,
-				AA81D2BA2C39ECAC00FF0221 /* PhotoPickerViewModel.swift */,
 				AA81D2A12C3267C200FF0221 /* AppViewModel.swift */,
-				AA63F3852C4BF6260024D1DF /* AsyncLinkViewModel.swift */,
-				AAC91A532C4D047500225BDD /* AsyncPhotoViewModel.swift */,
 				AABE56FB2C53D8C000771A83 /* AsyncLabelRecognitionViewModel.swift */,
+				AA63F3852C4BF6260024D1DF /* AsyncLinkViewModel.swift */,
 				AA7344512C4E8DD800A027FF /* AsyncLocationViewModel.swift */,
+				AAC91A532C4D047500225BDD /* AsyncPhotoViewModel.swift */,
 				AA47BE452C4FD1B200E5D829 /* MapViewModel.swift */,
+				AA81D2BA2C39ECAC00FF0221 /* PhotoPickerViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -293,23 +295,24 @@
 		AA81D2932C324BA800FF0221 /* Component */ = {
 			isa = PBXGroup;
 			children = (
+				AAE6A7A92C4E9A3100765C76 /* AsyncLocationView.swift */,
+				AAC91A572C4D43E900225BDD /* AsyncPhotoView.swift */,
+				AABE56FD2C53DA1700771A83 /* AsyncRecognizedWineLabelView.swift */,
+				AA63F38B2C4BFBCE0024D1DF /* AyncGuideLinkView.swift */,
 				AAA064D02C46A7DA005397EA /* CourseSubViews.swift */,
 				AACB64852C47F47B0008084D /* CuisineSubViews.swift */,
 				AA4BF4BB2C47D26D00D01CF1 /* DateSubViews.swift */,
+				AA73444B2C4E8B3800A027FF /* GuideLinkView.swift */,
+				AAF0FDB92C49B62B00932EB5 /* LocationViews.swift */,
+				AACB037F2C49272800D84E52 /* MichelinSubViews.swift */,
 				AAA064CE2C46A7DA005397EA /* MiscSubViews.swift */,
 				AAA064CF2C46A7DA005397EA /* NotesSubViews.swift */,
 				AAA064CC2C46A7DA005397EA /* PhotoSubViews.swift */,
 				AAA064CB2C46A7DA005397EA /* PictureSubViews.swift */,
 				AA45C0982C471D09009F6DEC /* PrimaryButtonSubViews.swift */,
 				AAA064D12C46A7DA005397EA /* RatingSubViews.swift */,
-				AACB037F2C49272800D84E52 /* MichelinSubViews.swift */,
-				AAF0FDB92C49B62B00932EB5 /* LocationViews.swift */,
-				AA63F38B2C4BFBCE0024D1DF /* AyncGuideLinkView.swift */,
-				AAC91A572C4D43E900225BDD /* AsyncPhotoView.swift */,
-				AAE6A7A92C4E9A3100765C76 /* AsyncLocationView.swift */,
-				AA73444B2C4E8B3800A027FF /* GuideLinkView.swift */,
 				AA47BE432C4FD0C000E5D829 /* SearchableMap.swift */,
-				AABE56FD2C53DA1700771A83 /* AsyncRecognizedWineLabelView.swift */,
+				AA6771CE2C581EB900487278 /* BeverageLinkView.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -506,6 +509,7 @@
 				AA81D2B52C38192400FF0221 /* PictureModels.swift in Sources */,
 				AAC91A542C4D047500225BDD /* AsyncPhotoViewModel.swift in Sources */,
 				AA81D2BB2C39ECAC00FF0221 /* PhotoPickerViewModel.swift in Sources */,
+				AA6771CF2C581EB900487278 /* BeverageLinkView.swift in Sources */,
 				AACB03802C49272800D84E52 /* MichelinSubViews.swift in Sources */,
 				AA45C09B2C4723B5009F6DEC /* MealCreateView.swift in Sources */,
 				AA81D2B12C3818E000FF0221 /* MealModel.swift in Sources */,

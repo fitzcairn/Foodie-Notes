@@ -7,17 +7,17 @@
 
 import SwiftUI
 
-struct AsyncRecognizedWineLabelView<Source:AsyncLabelRecognitionConfig, ProgressContent: View, PhotoContent:View>: View {
+struct AsyncRecognizedWineLabelView<Source:AsyncLabelRecognitionConfig, ProgressContent: View, LinkContent:View>: View {
     @ObservedObject var source:Source
     let img: SavedImage;
     let progressContent: ProgressContent;
-    let photoContent: PhotoContent;
+    let linkContent: LinkContent;
     
-    init(source: Source, img:SavedImage, @ViewBuilder progressContent: () -> ProgressContent, @ViewBuilder photoContent: () -> PhotoContent) {
+    init(source: Source, img:SavedImage, @ViewBuilder progressContent: () -> ProgressContent, @ViewBuilder linkContent: () -> LinkContent) {
         self.source = source
         self.img = img;
         self.progressContent = progressContent()
-        self.photoContent = photoContent()
+        self.linkContent = linkContent()
     }
     
     var body: some View {
@@ -28,7 +28,7 @@ struct AsyncRecognizedWineLabelView<Source:AsyncLabelRecognitionConfig, Progress
                     source.recognizeWineFor(img)
                 }
         case .complete:
-            photoContent
+            linkContent
         case .error, .none:
             EmptyView()
         }

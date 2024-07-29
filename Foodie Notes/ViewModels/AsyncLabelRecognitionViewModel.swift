@@ -19,7 +19,7 @@ class AsyncLabelRecognitionViewModel: AsyncLabelRecognitionConfig {
     @Published var text:[String]?
     @Published var name:String?
     @Published var link:URL?
-    
+
     private var processingQueue = DispatchQueue(label: "ImageProcessingQueue")
     private var imageService: ImageDataService = .shared
     
@@ -68,7 +68,6 @@ class AsyncLabelRecognitionViewModel: AsyncLabelRecognitionConfig {
             DispatchQueue.main.async {
                 self.subject = self.render(ciImage: labelImage).rotate(radians: .pi/2)
                 self.text = labelText
-                self.status = .complete
             }
         }
     }
@@ -98,6 +97,7 @@ class AsyncLabelRecognitionViewModel: AsyncLabelRecognitionConfig {
             DispatchQueue.main.async {
                 self.name = resultName
                 self.link = resultUrl
+                self.status = .complete
             }
         }
     }
