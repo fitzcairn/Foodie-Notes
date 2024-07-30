@@ -38,5 +38,5 @@ protocol AsyncLocationConfig: ObservableObject {
 protocol AsyncLabelRecognitionConfig: ObservableObject {
     var status: Status { get }
 
-    func recognizeWineFor(_ img:SavedImage)
+    func recognizeWineLabelFor(_ img:SavedImage)
 }

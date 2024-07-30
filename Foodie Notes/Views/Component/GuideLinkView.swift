@@ -46,17 +46,6 @@ struct GuideLinkView: View {
         }
     }
 
-    private struct LinkImg: View {
-        var body: some View {
-            Image(systemName: "link")
-                .resizable()
-                .scaledToFit()
-                .frame(height: 18)
-                .foregroundColor(Color.gray)
-                .opacity(/*@START_MENU_TOKEN@*/0.8/*@END_MENU_TOKEN@*/)
-        }
-    }
-
     private struct GuideLink: View {
         let guideName:String
         let url:URL?
@@ -75,17 +64,6 @@ struct GuideLinkView: View {
                 else {
                     EmptyView()
                 }
-            }
-        }
-    }
-
-    private struct Searching: View {
-        var body: some View {
-            HStack {
-                LinkImg()
-                ProgressView()
-                    .frame(width: 18, height: 18)
-                Spacer()
             }
         }
     }

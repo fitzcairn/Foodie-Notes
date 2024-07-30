@@ -24,7 +24,7 @@ struct CourseView: View {
                         PictureSubViews.PictureAndNotesViewSection(title: SectionTitle.food, data: course.food)
                     }
                     if viewModel.checkShow(course.beveragePairing) {
-                        PictureSubViews.PictureAndNotesViewSection(title: SectionTitle.beverage, data: course.beveragePairing)
+                        PictureSubViews.PictureAndNotesViewSection(title: SectionTitle.beverage, data: course.beveragePairing, isBeverage: true)
                     }
                 }
                 PrimaryButtonSubViews.CourseViewPrimaryButtons(

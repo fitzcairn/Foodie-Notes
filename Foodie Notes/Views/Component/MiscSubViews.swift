@@ -49,6 +49,63 @@ struct StyledTitleText : View {
     }
 }
 
+struct LinkImg: View {
+    var body: some View {
+        Image(systemName: "link")
+            .resizable()
+            .scaledToFit()
+            .frame(height: 18)
+            .foregroundColor(Color.gray)
+            .opacity(/*@START_MENU_TOKEN@*/0.8/*@END_MENU_TOKEN@*/)
+    }
+}
+
+struct EditImg: View {
+    var body: some View {
+        Image(systemName: "pencil")
+            .resizable()
+            .scaledToFit()
+            .frame(height: 18)
+            .foregroundColor(Color.red)
+            .opacity(/*@START_MENU_TOKEN@*/0.8/*@END_MENU_TOKEN@*/)
+    }
+}
+
+struct FindImg: View {
+    var body: some View {
+        Image(systemName: "magnifyingglass.circle")
+            .resizable()
+            .scaledToFit()
+            .frame(height: 18)
+            .foregroundColor(Color.green)
+            .opacity(/*@START_MENU_TOKEN@*/0.8/*@END_MENU_TOKEN@*/)
+    }
+}
+
+struct SaveImg: View {
+    var body: some View {
+        Image(systemName: "checkmark.circle.fill")
+            .resizable()
+            .scaledToFit()
+            .background(Color.white)
+            .clipShape(Circle())
+            .foregroundColor(.green)
+            .frame(height: 18)
+            .opacity(/*@START_MENU_TOKEN@*/0.8/*@END_MENU_TOKEN@*/)
+    }
+}
+
+struct Searching: View {
+    var body: some View {
+        HStack {
+            LinkImg()
+            ProgressView()
+                .frame(width: 18, height: 18)
+            Spacer()
+        }
+    }
+}
+
 struct StyledTextField : View {
     @Binding var inputText:String;
     var prompt = "Tap to Add/Edit"
@@ -57,15 +114,14 @@ struct StyledTextField : View {
     var body: some View {
         ZStack {
             HStack(alignment: .top) {
-                TextField(prompt, text:$inputText, axis:.vertical)
+                TextField("", text:$inputText, prompt: promptText as? Text, axis:.vertical)
                     .padding(.horizontal, 4)
                     .padding(.top, 3)
                     .padding(.bottom, 1)
                     .onChange(of: inputText) {
                         onChangeClosure()
                     }
-                    //.ignoresSafeArea(.keyboard, edges: .bottom)
-
+                    .font(.system(size:14, weight: .regular))
                 Spacer()
                 Button(
                     action: {
@@ -88,5 +144,11 @@ struct StyledTextField : View {
                     .stroke(Color.gray, lineWidth: 0.5)
             )
         }
+    }
+    
+    var promptText: some View {
+        Text(prompt)
+            .font(.system(size:15, weight: .regular))
+            .foregroundColor(.gray)
     }
 }
