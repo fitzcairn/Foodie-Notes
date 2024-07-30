@@ -78,8 +78,12 @@ struct BeverageEditLinkView : View {
             case .edited:
                 HStack {
                     if let img = img {
-                        BeverageAsyncView(infoLink: $infoLink, img: img, edit: true) { source in
-                            source.findMoreInfoLinkFor([searchTerms])
+                        if searchTerms.isEmpty {
+                            BeverageAsyncView(infoLink: $infoLink, img: img, edit: true)
+                        } else {
+                            BeverageAsyncView(infoLink: $infoLink, img: img, edit: true) { source in
+                                source.findMoreInfoLinkFor([searchTerms])
+                            }
                         }
                     } else {
                         EmptyView()
