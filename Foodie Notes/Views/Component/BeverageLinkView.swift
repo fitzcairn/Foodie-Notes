@@ -19,7 +19,7 @@ struct BeverageLinkView : View {
             BeverageAsyncView(
                 infoLink:Binding<InfoLink?>(
                     get: { infoLink },
-                    set: { _ = $0 }), // TODO: save lookup
+                    set: { _ = $0 }), // For courses saved before this feature was added, we can do lookups on demand.
                 img:img)
         } else {
             EmptyView()
@@ -122,8 +122,11 @@ struct BeverageAsyncView : View {
                 edit: edit,
                 executeCompletion: executeCompletion
             )
-            .onChange(of: labelRecModel.link) {
-                infoLink = InfoLink(name:labelRecModel.name, url:labelRecModel.link)
+            .onChange(of: labelRecModel.status) {
+                if labelRecModel.status != .loading {
+                    // Lookup completed; regardless of outcome make sure we don't repeat.
+                    infoLink = InfoLink(name:labelRecModel.name, url:labelRecModel.link)
+                }
             }
         } else {
             BeverageInfoLinkView(link:InfoLink(name: "No Internet Connection", url: URL(string: "")))
