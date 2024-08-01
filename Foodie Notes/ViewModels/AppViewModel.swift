@@ -30,11 +30,8 @@ class AppViewModel : ObservableObject {
             do {
                 try await ModelIOService.saveAppModel(model: self.model)
             }
-            self.triggerRefresh()
+            self.objectWillChange.send()
         }
-    }
-    func triggerRefresh() {
-        self.objectWillChange.send()
     }
 
     
