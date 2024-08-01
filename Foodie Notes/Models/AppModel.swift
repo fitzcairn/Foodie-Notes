@@ -67,16 +67,6 @@ struct AppModel : Codable, Equatable {
             }
         }
     }
-
-
-    // MARK: - Meal Property Getter/Setters
-    mutating func addCourseTo(_ mealId:String, course:Course) {
-        if let meal = getMealFor(mealId) {
-            mealsById[meal.id]!.courses.append(course)
-            coursesById[course.id] = course
-        }
-    }
-    
     
     // MARK: - Private Members
     private mutating func getOrAddVenue(_ name:String?) -> Venue {
