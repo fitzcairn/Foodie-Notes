@@ -42,13 +42,7 @@ struct BeverageEditLinkView : View {
     @StateObject var labelRecModel:AsyncLabelRecognitionViewModel = AsyncLabelRecognitionViewModel()
     @State var searchTerms:String = "";
     @State var state:EditState = .view
-    
-    init(infoLink: Binding<InfoLink?>, img:SavedImage?) {
-        self.img = img;
-        self._infoLink = infoLink
-        self._searchTerms = State(initialValue: self.infoLink?.name ?? "")
-    }
-    
+        
     var body: some View {
         VStack {
             switch(state) {
@@ -74,6 +68,9 @@ struct BeverageEditLinkView : View {
                         .onTapGesture {
                             state = .edited;
                         }
+                }
+                .onAppear() {
+                    searchTerms = infoLink?.name ?? ""
                 }
             case .edited:
                 HStack {
