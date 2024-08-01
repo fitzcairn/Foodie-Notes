@@ -14,18 +14,9 @@ struct FoodieNotesApp: App {
 
     var body: some Scene {
         WindowGroup {
-            MealListView() {
-                Task {
-                    do {
-                        try await ModelIOService.saveAppModel(model: viewModel.model)
-                    } catch {
-                        // Blow up
-                        fatalError(error.localizedDescription)
-                    }
-                }
-            }
-            .environmentObject(viewModel)
-            .environment(networkService)
+            AppView()
+                .environmentObject(viewModel)
+                .environment(networkService)
         }
     }
 }

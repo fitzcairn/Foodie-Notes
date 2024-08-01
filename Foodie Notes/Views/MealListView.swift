@@ -7,54 +7,12 @@
 
 import SwiftUI
 
-
-
-// View the list of meals.
 // This is effectively the main view.
 struct MealListView: View {
     @Environment(\.scenePhase) var scenePhase
     @EnvironmentObject var viewModel:AppViewModel;
-    
-    @State var pictures:[Picture] = []
-    @StateObject var recModel:AsyncLabelRecognitionViewModel = AsyncLabelRecognitionViewModel()
-        
-    let saveAction: () -> Void
-    
-    var progressView : some View {
-        ZStack {
-            LinearGradient(
-                gradient: Gradient(colors: [Color(red:1, green:0.988, blue:0.914), Color.white]),
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing)
-            .edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
-            
-            GeometryReader { gp in
-                ZStack {
-                    Image("icon")
-                        .resizable()
-                        .frame(width:300, height:300)
-                        .padding(.vertical, 10)
-                        .alignmentGuide(VerticalAlignment.center, computeValue: { $0[.bottom] })
-                        .position(x: gp.size.width / 2, y: gp.size.height / 2)
-                    ProgressView()
-                        .alignmentGuide(VerticalAlignment.center, computeValue: { $0[.top] - 16 })
-                }
-            }
-        }
-    }
-    
-    var loadingView: some View {
-        progressView
-        .task {
-            do {
-                try await viewModel.fromLoad(model:ModelIOService.loadAppModel())
-            } catch {
-                fatalError(error.localizedDescription)
-            }
-        }
-    }
-    
-    var listView: some View {
+
+    var body: some View {
         NavigationStack {
             ZStack {
                 List {
@@ -123,17 +81,15 @@ struct MealListView: View {
         }
         .onChange(of: scenePhase) { oldPhase, newPhase in
             if newPhase == .inactive {
-                saveAction()
+                Task {
+                    do {
+                        try await ModelIOService.saveAppModel(model: viewModel.model)
+                    } catch {
+                        // Blow up
+                        fatalError(error.localizedDescription)
+                    }
+                }
             }
-        }
-    }
-    
-    var body: some View {
-        switch viewModel.state {
-            case .loading:
-                loadingView
-            case .splash, .list:
-                listView
         }
     }
             
