@@ -47,6 +47,7 @@ struct PictureSubViews {
     
     struct BeveragePictureAndNotesEditSection: View {
         let title:String;
+        @Binding var infoLink:InfoLink?;
         @Binding var data:PicturesAndNotes;
         @Binding var sameAsPrev:Bool?;
 
@@ -96,6 +97,8 @@ struct PictureSubViews {
                         }
                         StyledTextField(inputText:$data.notes)
                             .padding(.trailing, -8)
+                        
+                        BeverageEditLinkView(infoLink: $infoLink, img: data.pictures.first?.photo?.full)
                     }
                     Spacer()
                 }
@@ -132,6 +135,7 @@ struct PictureSubViews {
     struct PictureAndNotesViewSection: View {
         let title:String;
         let data:PicturesAndNotes?;
+        var isBeverage = false;
         
         var body: some View {
             Section(header: Text(title)) {
@@ -161,6 +165,10 @@ struct PictureSubViews {
                                         .fixedSize(horizontal: false, vertical: true)
                                     Spacer()
                                 }
+                            }
+                            
+                            if isBeverage {
+                                BeverageLinkView(infoLink: data.infoLink, img: data.pictures.first?.photo?.full)
                             }
                         }
                     }

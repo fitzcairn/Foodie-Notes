@@ -12,12 +12,16 @@ struct LocationIcon: View {
     var edit = false;
     
     var body: some View {
-        Image(systemName: edit ? "pencil" : "mappin.and.ellipse")
-            .resizable()
-            .scaledToFit()
-            .frame(height: 18)
-            .foregroundColor(edit ? Color.red : Color.gray)
-            .opacity(/*@START_MENU_TOKEN@*/0.8/*@END_MENU_TOKEN@*/)
+        if edit {
+            EditImg()
+        } else {
+            Image(systemName:"mappin.and.ellipse")
+                .resizable()
+                .scaledToFit()
+                .frame(height: 18)
+                .foregroundColor(Color.gray)
+                .opacity(/*@START_MENU_TOKEN@*/0.8/*@END_MENU_TOKEN@*/)
+        }
     }
 }
 

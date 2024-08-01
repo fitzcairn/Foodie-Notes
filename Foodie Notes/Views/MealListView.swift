@@ -54,49 +54,6 @@ struct MealListView: View {
         }
     }
     
-    // Alternate listview for testing wine recognition.
-    var wineTestView: some View {
-        ScrollView {
-            HStack {
-                PhotoSubViews.PhotoPickerButton(pictures: $pictures, limit: 1)
-            }
-
-            ForEach(pictures, id: \.self) { picture in
-                VStack {
-                    PhotoSubViews.PhotoView(img:picture.photo!.full)
-                        .frame(height:500)
-
-                    AsyncRecognizedWineLabelView(
-                        source: recModel,
-                        img: picture.photo!.full,
-                        progressContent: {
-                            HStack {
-                                ProgressView()
-                                    .frame(width:PhotoDimensions.photoWidth, height: PhotoDimensions.photoHeight)
-                            }
-                        },
-                        photoContent: {
-                            let image = recModel.subject ?? UIImage()
-                            Image(uiImage: image)
-                                .resizable()
-                                .scaledToFill()
-                                .aspectRatio(1, contentMode: .fit)
-                                .frame(height:500)
-                            Text((recModel.text ?? []).joined(separator: "\n"))
-                                .font(.system(size:20, weight: .regular))
-                            if let link = recModel.link, let name = recModel.name {
-                                Link(name, destination:link)
-                                    .font(.system(size:20, weight: .regular))
-                                    .fixedSize(horizontal: false, vertical: true)
-                                    .lineLimit(1)
-                            }
-                        }
-                    )
-                }
-            }
-        }
-     }
-    
     var listView: some View {
         NavigationStack {
             ZStack {

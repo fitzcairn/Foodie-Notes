@@ -35,6 +35,7 @@ struct CourseCreateView: View {
                     )
                     PictureSubViews.BeveragePictureAndNotesEditSection(
                         title: SectionTitle.beverage,
+                        infoLink: $course.item.beveragePairing.infoLink,
                         data: $course.item.beveragePairing,
                         sameAsPrev: $course.item.beveragePairing.sameAsPrevious
                     )

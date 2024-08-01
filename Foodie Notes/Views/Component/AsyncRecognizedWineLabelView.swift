@@ -7,17 +7,25 @@
 
 import SwiftUI
 
-struct AsyncRecognizedWineLabelView<Source:AsyncLabelRecognitionConfig, ProgressContent: View, PhotoContent:View>: View {
+struct AsyncRecognizedWineLabelView<Source:AsyncLabelRecognitionConfig, ProgressContent: View, LinkContent: View>: View {
     @ObservedObject var source:Source
     let img: SavedImage;
     let progressContent: ProgressContent;
-    let photoContent: PhotoContent;
+    let linkContent: LinkContent;
+    let edit:Bool;
+    let executeCompletion: (Source) -> Void;
     
-    init(source: Source, img:SavedImage, @ViewBuilder progressContent: () -> ProgressContent, @ViewBuilder photoContent: () -> PhotoContent) {
+    init(source: Source, img:SavedImage, @ViewBuilder progressContent: () -> ProgressContent, @ViewBuilder linkContent: () -> LinkContent, edit:Bool = false, executeCompletion: ((Source) -> Void)? = nil) {
         self.source = source
         self.img = img;
         self.progressContent = progressContent()
-        self.photoContent = photoContent()
+        self.linkContent = linkContent()
+        self.edit = edit;
+        if let completion = executeCompletion {
+            self.executeCompletion = completion
+        } else {
+            self.executeCompletion = { source in source.recognizeWineLabelFor(img) }
+        }
     }
     
     var body: some View {
@@ -25,12 +33,21 @@ struct AsyncRecognizedWineLabelView<Source:AsyncLabelRecognitionConfig, Progress
         case .loading:
             progressContent
                 .onAppear {
-                    source.recognizeWineFor(img)
+                    self.executeCompletion(self.source)
                 }
         case .complete:
-            photoContent
+            linkContent
         case .error, .none:
-            EmptyView()
+            if edit {
+                EditImg()
+                Text("Tap to ID pairing")
+                    .font(.system(size:14, weight: .regular))
+                    .foregroundColor(.gray)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .lineLimit(1)
+            } else {
+                EmptyView()
+            }
         }
     }
 }
