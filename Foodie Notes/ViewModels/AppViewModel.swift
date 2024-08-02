@@ -11,20 +11,17 @@ import Foundation
 @MainActor
 class AppViewModel : ObservableObject {
     enum AppState { case loading, splash, list }
-
-    var id = Id.createId();
+    let id = Id.createId();
     
     @Published var state = AppState.loading
     @Published var model: AppModel = AppModel()
     
     // MARK: - Model Management
-    // Set initial app state.
     func fromLoad(model:AppModel) {
         self.model = model;
         // Skip a the splash screen for now.
         state = .list
     }
-    // Mutation happened -- kick off a save.
     func writeOut() {
         Task {
             do {
