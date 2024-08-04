@@ -11,6 +11,12 @@ import SwiftUI
 struct MealListView: View {
     @Environment(\.scenePhase) var scenePhase
     @EnvironmentObject var viewModel:AppViewModel;
+    
+    @State var showInvalidVenue:Bool = false;
+    @State var doCreate:Bool = false;
+    @State var showStartCreate:Bool = false;
+    @State var venue:String = "";
+    @State var newMeal:Meal = Meal();
 
     var body: some View {
         NavigationStack {
@@ -70,13 +76,42 @@ struct MealListView: View {
                 )
                 VStack {
                     Spacer()
-                    NavigationLink(
-                        destination: MealCreateView()
+                    Button(
+                        action: {
+                            showStartCreate = true;
+                            venue = "";
+                        },
+                        label: {
+                            PrimaryButtonSubViews.MealListViewPrimaryNewButtonImage()
+                        }
                     )
-                    {
-                        PrimaryButtonSubViews.MealListViewPrimaryNewButtonImage()
+                }
+                .alert("Create a New Meal", isPresented: $showStartCreate) {
+                    TextField("Venue name", text: $venue)
+                    Button("OK") {
+                        if venue.isEmpty {
+                            showStartCreate = false
+                            showInvalidVenue = true;
+                        } else {
+                            // Create the new meal
+                            newMeal = viewModel.createMealAtVenue(venue)
+                            doCreate = true;
+                        }
+                    }
+                    Button("Cancel", role: .cancel) {
+                        showStartCreate = false
                     }
                 }
+                .alert("Invalid Meal Venue", isPresented: $showInvalidVenue) {
+                    Text("Please provide the venue name")
+                    Button("OK", role: .cancel) {
+                        showInvalidVenue = false;
+                        showStartCreate = true
+                    }
+                }
+            }
+            .navigationDestination(isPresented: $doCreate) {
+                MealCreateView(meal:newMeal)
             }
         }
         .onChange(of: scenePhase) { oldPhase, newPhase in

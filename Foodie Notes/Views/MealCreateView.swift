@@ -11,10 +11,14 @@ struct MealCreateView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @EnvironmentObject private var viewModel:AppViewModel;
 
+    
     @State private var showingAlert = false
- 
-    @ObservedObject private var meal:WrappedStruct<Meal> = WrappedStruct(withItem:Meal())
-        
+    @ObservedObject private var meal:WrappedStruct<Meal>;
+    
+    init(meal:Meal) {
+        self.meal = WrappedStruct(withItem:meal)
+    }
+    
     var body: some View {
         NavigationStack {
             ZStack(alignment: .bottom) {
@@ -56,7 +60,6 @@ struct MealCreateView: View {
             }
             .onAppear() {
                 // New meal for each create call.
-                meal.item = Meal()
             }
         }
         .navigationBarBackButtonHidden()

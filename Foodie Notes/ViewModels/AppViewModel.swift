@@ -37,6 +37,12 @@ class AppViewModel : ObservableObject {
         model.index(meal)
         writeOut()
     }
+    func createMealAtVenue(_ venue:String) -> Meal {
+        var meal = Meal()
+        meal.venue = Venue(venue)
+        saveEditedMealFor(meal)
+        return meal;
+    }
     func getMeals() -> [Meal] {
         // TODO: apply filter, for now return all.
         return model.getMeals().sorted(by: {$0.date > $1.date });
