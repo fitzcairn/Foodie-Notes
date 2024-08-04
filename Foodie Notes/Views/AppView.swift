@@ -16,7 +16,7 @@ struct AppView: View {
             case .loading:
                 LoadingView()
             case .splash, .list:
-                MealListView()
+                LoadingView()
         }
     }
             
