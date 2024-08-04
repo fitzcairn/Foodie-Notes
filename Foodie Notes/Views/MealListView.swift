@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+
 // This is effectively the main view.
 struct MealListView: View {
     @Environment(\.scenePhase) var scenePhase
@@ -20,6 +21,15 @@ struct MealListView: View {
 
     var body: some View {
         NavigationStack {
+            
+            
+            Text("\u{e921}")
+                .font(
+                    Font.custom("foodie-icons", size: 64)
+                        .weight(.heavy)
+                )
+            
+            
             ZStack {
                 List {
                     ForEach(viewModel.getMeals(), id: \.self) { meal in

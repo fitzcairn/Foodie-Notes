@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AA0F1ECB2C60166D00B2202A /* foodie-icons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AA0F1ECA2C60166D00B2202A /* foodie-icons.ttf */; };
 		AA45C07D2C471B23009F6DEC /* CourseEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA45C07C2C471B22009F6DEC /* CourseEditView.swift */; };
 		AA45C0992C471D09009F6DEC /* PrimaryButtonSubViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA45C0982C471D09009F6DEC /* PrimaryButtonSubViews.swift */; };
 		AA45C09B2C4723B5009F6DEC /* MealCreateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA45C09A2C4723B5009F6DEC /* MealCreateView.swift */; };
@@ -142,6 +143,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		AA0F1ECA2C60166D00B2202A /* foodie-icons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "foodie-icons.ttf"; sourceTree = "<group>"; };
 		AA45C07C2C471B22009F6DEC /* CourseEditView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseEditView.swift; sourceTree = "<group>"; };
 		AA45C0982C471D09009F6DEC /* PrimaryButtonSubViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryButtonSubViews.swift; sourceTree = "<group>"; };
 		AA45C09A2C4723B5009F6DEC /* MealCreateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealCreateView.swift; sourceTree = "<group>"; };
@@ -253,6 +255,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AA0F1EC92C60164300B2202A /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				AA0F1ECA2C60166D00B2202A /* foodie-icons.ttf */,
+				AAAFBB6C2C600A2100685F25 /* Nunito */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
 		AA63F3882C4BF6D40024D1DF /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
@@ -316,8 +327,8 @@
 				AA81D2832C309C3A00FF0221 /* Views */,
 				AA81D20E2C26EEA100FF0221 /* FoodieNotesApp.swift */,
 				AA81D2172C26EEA200FF0221 /* Assets.xcassets */,
-				AAAFBB6C2C600A2100685F25 /* Nunito */,
 				AA81D2192C26EEA200FF0221 /* Foodie_Notes.entitlements */,
+				AA0F1EC92C60164300B2202A /* Fonts */,
 				AA81D2122C26EEA100FF0221 /* Foodie_Notes.xcdatamodeld */,
 				AA81D21A2C26EEA200FF0221 /* Preview Content */,
 			);
@@ -607,6 +618,7 @@
 				AAAFBB8B2C600A2100685F25 /* Nunito-LightItalic.ttf in Resources */,
 				AA81D2182C26EEA200FF0221 /* Assets.xcassets in Resources */,
 				AAAFBB6D2C600A2100685F25 /* Nunito-Black.ttf in Resources */,
+				AA0F1ECB2C60166D00B2202A /* foodie-icons.ttf in Resources */,
 				AAAFBB702C600A2100685F25 /* Nunito-BlackItalic.ttf in Resources */,
 				AAAFBB9D2C600A2100685F25 /* Nunito-Italic-VariableFont_wght.ttf in Resources */,
 				AAAFBB792C600A2100685F25 /* Nunito-ExtraBold.ttf in Resources */,
