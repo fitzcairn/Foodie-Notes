@@ -13,60 +13,66 @@ struct MealView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @EnvironmentObject var viewModel:AppViewModel;
     
-    let meal:Meal;
+    @ObservedObject private var meal:WrappedStruct<Meal>;
+    
+    init(meal:Meal) {
+        self.meal = WrappedStruct(withItem:meal)
+    }
 
     var body: some View {
-        let meal = viewModel.getMealFor(meal.id)!
         NavigationStack {
             ZStack(alignment: .bottom) {
                 ScrollForm {
-                    PictureSubViews.MealPictureNameRatingView(meal: meal)
+                    PictureSubViews.MealPictureNameRatingView(meal: meal.item)
                     
-                    DateSubViews.DateSection(meal.date)
+                    DateSubViews.DateSection(meal.item.date)
                     
-                    if (!meal.cuisines.isEmpty) {
+                    if (!meal.item.cuisines.isEmpty) {
                         CuisineSubViews.CuisineViewSection(
-                            cuisines:meal.cuisines
+                            cuisines:meal.item.cuisines
                         )
                     }
                     
-                    if !meal.notes.isEmpty {
+                    if !meal.item.notes.isEmpty {
                         NotesSubViews.NotesSection(
                             title:SectionTitle.notes,
-                            note: meal.notes
+                            note: meal.item.notes
                         )
                     }
                     
-                    if viewModel.checkShow(meal.menu) {
-                        PictureSubViews.PictureAndNotesViewSection(title: SectionTitle.menus, data:meal.menu)
+                    if viewModel.checkShow(meal.item.menu) {
+                        PictureSubViews.PictureAndNotesViewSection(title: SectionTitle.menus, data:meal.item.menu)
                     }
                     
-                    if !meal.courses.isEmpty {
-                        CourseSubViews.CoursesViewSection(courses:meal.courses)
+                    if !meal.item.courses.isEmpty {
+                        CourseSubViews.CoursesViewSection(courses:meal.item.courses)
                     }
                 }
                 PrimaryButtonSubViews.MealViewPrimaryButtons(
                     backClosure: {
-                        viewModel.saveEditedMealFor(meal)
+                        viewModel.saveEditedMealFor(meal.item)
                         self.presentationMode.wrappedValue.dismiss()
                     },
                     editMealDest: MealEditView(
-                        meal:meal
+                        meal:meal.item
                     ),
                     createCourseDest: CourseCreateView(
-                        mealId: meal.id
+                        mealId: meal.item.id
                     )
                 )
+            }
+            .onAppear() {
+                meal.item = viewModel.getMealFor(meal.item.id) ?? Meal()
             }
             .navigationBarBackButtonHidden()
             .navigationBarItems(
                 leading: StyledTitleText(ViewTitle.viewMeal),
                 trailing: ShareLink(
                     item: "",
-                    subject: Text("Notes about my meal at \(meal.venue.name) on \(meal.date.formatted(date: .complete, time: .omitted))"),
-                    message: Text(ModelIOService.exportAsString(meal)),
+                    subject: Text("Notes about my meal at \(meal.item.venue.name) on \(meal.item.date.formatted(date: .complete, time: .omitted))"),
+                    message: Text(ModelIOService.exportAsString(meal.item)),
                     preview: SharePreview(
-                        "Notes about my meal at \(meal.venue.name) on \(meal.date.formatted(date: .complete, time: .omitted))",
+                        "Notes about my meal at \(meal.item.venue.name) on \(meal.item.date.formatted(date: .complete, time: .omitted))",
                         image: Image(uiImage: UIImage(named: "AppIcon") ?? UIImage())
                     )
                 ) {

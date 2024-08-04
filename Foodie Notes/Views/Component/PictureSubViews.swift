@@ -243,6 +243,8 @@ struct PictureSubViews {
         @EnvironmentObject var viewModel:AppViewModel;
         var meal:Meal;
         
+        //@State var showEdit:Bool = false;
+        
         var body: some View {
             HStack {
                 VStack {
@@ -268,6 +270,14 @@ struct PictureSubViews {
                     }
                 }
             }
+            /*.onTapGesture {
+                showEdit = true;
+            }
+            .sheet(isPresented: $showEdit) {
+                Button("hi") {
+                    showEdit = false;
+                }
+            }*/
         }
     }
     
