@@ -75,7 +75,7 @@ struct CourseSubViews {
                             Text(course.name)
                                 .bold()
                             Spacer()
-                            RatingSubViews.RatingView(rating:course.rating)
+                            RatingView(rating:course.rating)
                         }
                         Text(course.food.notes)
                             .foregroundColor(.gray)

@@ -13,6 +13,7 @@ struct MealListCard: View {
     @State var deleted:Bool = false;
 
     let meal:Meal;
+       
     
     var body: some View {
         if deleted {
@@ -23,22 +24,31 @@ struct MealListCard: View {
                 
                 SwipeView {
                     HStack {
+                        
                         PhotoSubViews.PhotoShowView(picture:viewModel.getMealImageFor(meal))
+                        
                         VStack(alignment: .leading) {
+                            // Venue name
+                            FoodieText(meal.venue.name, Colors.TextStaticTextPrimary)
+                                .padding(4)
+                            
+                            // Date and rating
                             HStack {
-                                MichelinSubViews.MichelinNameView(name: meal.venue.name, rating: meal.venue.michelin)
+                                FoodieIcon("\u{e903}", Colors.IconSecondary, padding:0)
+                                
+                                FoodieText(meal.date.formatted(date:.abbreviated, time:.omitted), Colors.TextStaticTextSecondary, size:12, weight:.medium)
                                 Spacer()
-                                RatingSubViews.RatingView(rating:meal.rating)
+                                RatingView(rating:meal.rating)
                             }
-                            
-                            Text(viewModel.getMealFor(meal.id)!.date.formatted(date:.complete, time:.omitted))
-                                .foregroundColor(.gray)
-                                .fixedSize(horizontal: false, vertical: true)
-                                .lineLimit(1)
-                                .padding(.top, 4)
-                            
+
+                            // Location
                             LocationView(location: meal.venue.location)
-                            
+
+                            // Michelin link and star rating.
+                            //MichelinStarView(rating: meal.venue.michelin)
+
+                                                        
+                            /* TODO: move this.
                             if (!meal.cuisines.isEmpty) {
                                 HStack {
                                     Image(systemName: "fork.knife")
@@ -56,8 +66,11 @@ struct MealListCard: View {
                                 }
                             } else {
                                 Spacer()
-                            }
+                            }*/
                         }
+                        .padding(.vertical, 8)
+                        .padding(.leading, 8)
+                        .padding(.trailing, 16)
                     }
                     .background(.white)
                     
@@ -68,16 +81,17 @@ struct MealListCard: View {
                             viewModel.removeMeal(meal.id);
                         },
                         label: { highlight in
-                            Text("\u{e928}")
-                                .font(Font.custom("foodie-icons", size: 28))
-                                .foregroundColor(.white)
+                            FoodieIcon("\u{e928}", .white)
                         },
                         background: { highlight in
                             Rectangle()
                                 .foregroundColor(Colors.Delete)
                         })
+                    .swipeActionLabelFixedSize(true)
                     .allowSwipeToTrigger(false)
                 }
+                .swipeActionWidth(72)
+                .swipeActionsVisibleEndPoint(60)
                 .swipeActionsStyle(.mask)
                 .swipeActionCornerRadius(0)
                 .swipeSpacing(0)
@@ -88,7 +102,7 @@ struct MealListCard: View {
             .shadow(color: Colors.ShadowMed, radius: 8, x: 0, y: 8)
             .shadow(color: Colors.ShadowEdge, radius: 8, x: 0, y: 0)
             .padding(.vertical, -1)
-            .padding(.horizontal, 10)
+            .padding(.horizontal, 4)
         }
     }
 }

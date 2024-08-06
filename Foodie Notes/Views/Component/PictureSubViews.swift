@@ -195,7 +195,7 @@ struct PictureSubViews {
                             .padding(.leading, 10)
                             .padding(.trailing, -10)
                         Spacer()
-                        RatingSubViews.RatingEditView(rating:$rating)
+                        RatingEditView(rating:$rating)
                     }
                     .padding(.bottom, 4)
                     
@@ -231,7 +231,7 @@ struct PictureSubViews {
                             .padding(.leading, 10)
                             .padding(.trailing, -10)
                         Spacer()
-                        RatingSubViews.RatingEditView(rating:$rating)
+                        RatingEditView(rating:$rating)
                             .padding(.trailing, 15)
                     }
                 }
@@ -255,7 +255,7 @@ struct PictureSubViews {
                         MichelinSubViews.MichelinNameView(name: meal.venue.name, rating: meal.venue.michelin)
                             .padding(.leading, 10)
                         Spacer()
-                        RatingSubViews.RatingView(rating: meal.rating)
+                        RatingView(rating: meal.rating)
                     }
                     
                     // Only look up Michelin if we have a rating.
@@ -293,7 +293,7 @@ struct PictureSubViews {
                     .multilineTextAlignment(/*@START_MENU_TOKEN@*/.leading/*@END_MENU_TOKEN@*/)
                     .padding(.leading, 10)
                 Spacer()
-                RatingSubViews.RatingView(rating: rating ?? 0)
+                RatingView(rating: rating ?? 0)
             }
         }
     }

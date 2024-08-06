@@ -7,6 +7,22 @@
 
 import SwiftUI
 
+struct MichelinStarView: View {
+    let rating:Michelin?
+    
+    var body: some View {
+        HStack {
+            if let rating = rating {
+                FoodieIcon(rating.imgName, Colors.IconActionSelected, padding:0)
+            }
+            else {
+                EmptyView()
+            }
+        }
+    }
+}
+
+
 struct MichelinSubViews {
     private static let michelinDim:CGFloat = 18;
     

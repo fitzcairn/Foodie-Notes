@@ -17,6 +17,13 @@ enum Colors {
     static let ShadowMed: Color = Color(red: 0.53, green: 0.33, blue: 0.11).opacity(0.06)
     static let TextActionTextAction: Color = Color(red: 0.95, green: 0.25, blue: 0.43)
     static let BorderStaticBorderSecondary: Color = Color(red: 0.88, green: 0.83, blue: 0.72)
+    static let TextStaticTextPrompt: Color = Color(red: 0.12, green: 0.12, blue: 0.12).opacity(0.3)
+    static let TextStaticTextPrimary: Color = Color(red: 0.12, green: 0.12, blue: 0.12)
+    static let TextStaticTextSecondary: Color = Color(red: 0.55, green: 0.48, blue: 0.41)
+    static let IconSecondary: Color = Color(red: 0.77, green: 0.72, blue: 0.66)
+    static let IconActionSelected: Color = Color(red: 0.37, green: 0.32, blue: 0.27)
+    static let IconActionEmpty: Color = Color(red: 0.77, green: 0.72, blue: 0.66)
+
 }
 
 enum PhotoDimensions {
@@ -51,6 +58,19 @@ enum Michelin: String, Codable, CaseIterable {
     case oneStar = "1star"
     case twoStar = "2star"
     case threeStar = "3star"
+    
+    var imgName: String {
+        return self.rawValue
+    }
+}
+
+// TODO: Migrate previous into this.
+enum Michelin2: String, Codable, CaseIterable {
+    case plate = "\u{e918}"
+    case bibGourmand = "\u{e902}"
+    case oneStar = "\u{e919}"
+    case twoStar = "\u{e919}\u{e919}"
+    case threeStar = "\u{e919}\u{e919}\u{e919}"
     
     var imgName: String {
         return self.rawValue

@@ -30,14 +30,13 @@ struct LocationView: View {
     var edit = false;
     
     var body: some View {
+        // TODO: REMOVE
+        let location: Location? = self.location ?? Location(lat: 10, long: 10, city: "Cambridge", country: "United Kingdom")
         HStack {
             if (location?.city != nil && location?.country != nil) {
-                LocationIcon(edit:edit)
-                Text("\(location!.city!), \(location!.country!)")
-                    .font(.system(size:14, weight: .regular))
-                    .foregroundColor(edit ? .red : .gray)
-                    .fixedSize(horizontal: false, vertical: true)
-                    .lineLimit(1)
+                FoodieIcon("\u{e91e}", Colors.IconSecondary, padding:0)
+                
+                FoodieText("\(location!.city!), \(location!.country!)", Colors.TextStaticTextSecondary, size:12, weight:.medium)
                 Spacer()
             } else {
                 EmptyView()

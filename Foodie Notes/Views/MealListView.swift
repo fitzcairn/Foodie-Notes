@@ -23,12 +23,14 @@ struct MealListView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                    VStack {
-                        list
-                    }
-                    .frame(maxWidth: .infinity)
-                    .background(Colors.BackgroundBgPrimary)
+                VStack {
+                    MealListSearchBox()
 
+                    list
+                }
+                .frame(maxWidth: .infinity)
+                .background(Colors.BackgroundBgPrimary)
+                
                 topFade
                 
                 bottomFade
@@ -45,29 +47,28 @@ struct MealListView: View {
                         }
                     )
                 }
-                
-                .alert("Create a New Meal", isPresented: $showStartCreate) {
-                    TextField("Venue name", text: $venue)
-                    Button("OK") {
-                        if venue.isEmpty {
-                            showStartCreate = false
-                            showInvalidVenue = true;
-                        } else {
-                            // Create the new meal
-                            newMeal = viewModel.createMealAtVenue(venue)
-                            doCreate = true;
-                        }
-                    }
-                    Button("Cancel", role: .cancel) {
+            }
+            .alert("Create a New Meal", isPresented: $showStartCreate) {
+                TextField("Venue name", text: $venue)
+                Button("OK") {
+                    if venue.isEmpty {
                         showStartCreate = false
+                        showInvalidVenue = true;
+                    } else {
+                        // Create the new meal
+                        newMeal = viewModel.createMealAtVenue(venue)
+                        doCreate = true;
                     }
                 }
-                .alert("Invalid Meal Venue", isPresented: $showInvalidVenue) {
-                    Text("Please provide the venue name")
-                    Button("OK", role: .cancel) {
-                        showInvalidVenue = false;
-                        showStartCreate = true
-                    }
+                Button("Cancel", role: .cancel) {
+                    showStartCreate = false
+                }
+            }
+            .alert("Invalid Meal Venue", isPresented: $showInvalidVenue) {
+                Text("Please provide the venue name")
+                Button("OK", role: .cancel) {
+                    showInvalidVenue = false;
+                    showStartCreate = true
                 }
             }
             .navigationDestination(isPresented: $doCreate) {
@@ -89,40 +90,8 @@ struct MealListView: View {
         }
     }
     
-    var searchBox: some View {
-        HStack {
-            Text("\u{e926}")
-                .font(Font.custom("foodie-icons", size: 28))
-                .foregroundColor(Colors.TextActionTextAction)
-            
-            HStack(alignment: .center, spacing: 8) {
-                Text("Hi")
-            }
-            .frame(maxWidth: .infinity, minHeight: 48, maxHeight: 48, alignment: .leading)
-            .background(Colors.BackgroundBgPrimary)
-            .cornerRadius(80)
-            .overlay(
-                RoundedRectangle(cornerRadius: 80)
-                    .inset(by: 0.75)
-                    .stroke(Colors.BorderStaticBorderSecondary, lineWidth: 1.5)
-            )
-            
-            Text("\u{e923}")
-                .font(Font.custom("foodie-icons", size: 28))
-                .foregroundColor(Colors.TextActionTextAction)
-        }
-        .background(Colors.BackgroundBgPrimary)
-        .padding(8)
-
-    }
-    
-    
     var list: some View {
         List {
-            
-            // Search box.
-            searchBox
-            
             ForEach(viewModel.getMeals(), id: \.self) { meal in
                 MealListCard(meal:meal)
                     .listRowBackground(Color.clear)
