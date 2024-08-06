@@ -8,11 +8,6 @@
 import SwiftUI
 
 
-struct Constants {
-    static let Spacing5: CGFloat = 48
-    static let BorderHairline: CGFloat = 1
-}
-
 struct LoadingView: View {
     @EnvironmentObject var viewModel:AppViewModel;
     
