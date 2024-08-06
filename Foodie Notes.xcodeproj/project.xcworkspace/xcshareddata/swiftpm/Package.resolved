@@ -1,5 +1,5 @@
 {
-  "originHash" : "0358057b508c688c5bf432cdb7a4bfbbd1febdfecb2fba309e8a36178310da8c",
+  "originHash" : "d7e2602c522d2bcf495389a3b2c47ecdf0965f49b23b2ef542b8a1df2e60c87d",
   "pins" : [
     {
       "identity" : "exytemediapicker",
@@ -26,6 +26,15 @@
       "state" : {
         "revision" : "028487d4a8a291b2fe1b4392b5425b6172056148",
         "version" : "2.7.2"
+      }
+    },
+    {
+      "identity" : "swipeactions",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/aheze/SwipeActions",
+      "state" : {
+        "revision" : "41e6f6dce02d8cfa164f8c5461a41340850ca3ab",
+        "version" : "1.1.0"
       }
     }
   ],

@@ -6,6 +6,18 @@
 //
 
 import Foundation
+import SwiftUI
+
+
+enum Colors {
+    static let BackgroundBgPrimary: Color = Color(red: 1, green: 0.99, blue: 0.96)
+    static let ShadowHigh: Color = Color(red: 0.53, green: 0.33, blue: 0.11).opacity(0.08)
+    static let ShadowEdge: Color = Color(red: 0.53, green: 0.33, blue: 0.11).opacity(0.04)
+    static let Delete: Color = Color(red: 0.92, green: 0.43, blue: 0.29)
+    static let ShadowMed: Color = Color(red: 0.53, green: 0.33, blue: 0.11).opacity(0.06)
+    static let TextActionTextAction: Color = Color(red: 0.95, green: 0.25, blue: 0.43)
+    static let BorderStaticBorderSecondary: Color = Color(red: 0.88, green: 0.83, blue: 0.72)
+}
 
 enum PhotoDimensions {
     static let photoWidth:CGFloat = 64;

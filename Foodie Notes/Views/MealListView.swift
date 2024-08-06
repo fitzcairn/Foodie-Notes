@@ -6,18 +6,11 @@
 //
 
 import SwiftUI
+import SwipeActions
 
 
 // This is effectively the main view.
 struct MealListView: View {
-    private struct Colors {
-        static let BackgroundBgPrimary: Color = Color(red: 1, green: 0.99, blue: 0.96)
-        static let ShadowHigh: Color = Color(red: 0.53, green: 0.33, blue: 0.11).opacity(0.08)
-        static let ShadowEdge: Color = Color(red: 0.53, green: 0.33, blue: 0.11).opacity(0.04)
-        static let Delete: Color = Color(red: 0.92, green: 0.43, blue: 0.29)
-    }
-    
-
     @Environment(\.scenePhase) var scenePhase
     @EnvironmentObject var viewModel:AppViewModel;
     
@@ -26,26 +19,15 @@ struct MealListView: View {
     @State var showStartCreate:Bool = false;
     @State var venue:String = "";
     @State var newMeal:Meal = Meal();
-
-
     
     var body: some View {
         NavigationStack {
-
-
-            /*Text("\u{e921}")
-                .font(
-                    Font.custom("foodie-icons", size: 64)
-                        .weight(.heavy)
-                )*/
-            
-            
             ZStack {
-                VStack {
-                    list
-                }
-                .frame(maxWidth: .infinity)
-                .background(Colors.BackgroundBgPrimary)
+                    VStack {
+                        list
+                    }
+                    .frame(maxWidth: .infinity)
+                    .background(Colors.BackgroundBgPrimary)
 
                 topFade
                 
@@ -92,6 +74,7 @@ struct MealListView: View {
                 MealCreateView(meal:newMeal)
             }
         }
+        .navigationBarHidden(true)
         .onChange(of: scenePhase) { oldPhase, newPhase in
             if newPhase == .inactive {
                 Task {
@@ -106,34 +89,50 @@ struct MealListView: View {
         }
     }
     
+    var searchBox: some View {
+        HStack {
+            Text("\u{e926}")
+                .font(Font.custom("foodie-icons", size: 28))
+                .foregroundColor(Colors.TextActionTextAction)
+            
+            HStack(alignment: .center, spacing: 8) {
+                Text("Hi")
+            }
+            .frame(maxWidth: .infinity, minHeight: 48, maxHeight: 48, alignment: .leading)
+            .background(Colors.BackgroundBgPrimary)
+            .cornerRadius(80)
+            .overlay(
+                RoundedRectangle(cornerRadius: 80)
+                    .inset(by: 0.75)
+                    .stroke(Colors.BorderStaticBorderSecondary, lineWidth: 1.5)
+            )
+            
+            Text("\u{e923}")
+                .font(Font.custom("foodie-icons", size: 28))
+                .foregroundColor(Colors.TextActionTextAction)
+        }
+        .background(Colors.BackgroundBgPrimary)
+        .padding(8)
+
+    }
+    
+    
     var list: some View {
         List {
+            
+            // Search box.
+            searchBox
+            
             ForEach(viewModel.getMeals(), id: \.self) { meal in
                 MealListCard(meal:meal)
-                    .swipeActions(edge: .trailing, allowsFullSwipe: false) {
-                        Button(role: .destructive) {
-                            // Call function to delete name
-                            // It's equivalent to using the onDelete modifier
-                        } label: {
-                            Label("penis", systemImage: "trash.fill")
-                        }
-                        .tint(.red)
-                    }
                     .listRowBackground(Color.clear)
                     .listRowSeparator(.hidden)
-            }
-            .onDelete() { at in
-                remove(at:at, meals:viewModel.getMeals())
+                    .deleteDisabled(true)
             }
         }
         .safeAreaPadding(EdgeInsets(top: 0, leading: 0, bottom: 100, trailing: 0))
-        .padding(.horizontal, 40)
         .id(UUID())
         .listStyle(.plain)
-        .navigationBarBackButtonHidden()
-        .navigationBarItems(
-            leading: StyledTitleText(ViewTitle.listMeals)
-        )
     }
     
     var topFade: some View {
@@ -163,61 +162,4 @@ struct MealListView: View {
         }
         .edgesIgnoringSafeArea(.bottom)
     }
-    
-            
-    func remove(at offsets: IndexSet, meals:[Meal]) {
-        for (index, meal) in meals.enumerated() {
-            if offsets.contains(index) {
-                viewModel.removeMeal(meal.id);
-            }
-        }
-    }
 }
-
-
-/*
- HStack {
-     PhotoSubViews.PhotoShowView(picture:viewModel.getMealImageFor(meal))
-     NavigationLink(destination: MealView(meal: meal)) {
-         VStack(alignment: .leading) {
-             HStack {
-                 MichelinSubViews.MichelinNameView(name: meal.venue.name, rating: meal.venue.michelin)
-                 Spacer()
-                 RatingSubViews.RatingView(rating:meal.rating)
-             }
-             
-             Text(viewModel.getMealFor(meal.id)!.date.formatted(date:.complete, time:.omitted))
-                 .foregroundColor(.gray)
-                 .fixedSize(horizontal: false, vertical: true)
-                 .lineLimit(1)
-                 .padding(.top, 4)
-             
-             LocationView(location: meal.venue.location)
-             
-             if (!meal.cuisines.isEmpty) {
-                 HStack {
-                     Image(systemName: "fork.knife")
-                         .resizable()
-                         .scaledToFit()
-                         .frame(height: 18)
-                         .foregroundColor(Color.gray)
-                         .opacity(/*@START_MENU_TOKEN@*/0.8/*@END_MENU_TOKEN@*/)
-                         .padding(.trailing, 3)
-                     Text(meal.cuisines.map({$0.displayName}).joined(separator: ", "))
-                         .font(.system(size:14, weight: .regular))
-                         .foregroundColor(.gray)
-                         .fixedSize(horizontal: false, vertical: true)
-                         .lineLimit(1)
-                 }
-             } else {
-                 Spacer()
-             }
-         }
-         .padding(8)
-     }
- }
-}
-.onDelete() { at in
- remove(at:at, meals:viewModel.getMeals())
-}
- */

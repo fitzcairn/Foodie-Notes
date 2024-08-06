@@ -20,6 +20,7 @@
 		AA47BE462C4FD1B200E5D829 /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA47BE452C4FD1B200E5D829 /* MapViewModel.swift */; };
 		AA47BE482C510DCA00E5D829 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA47BE472C510DCA00E5D829 /* NetworkService.swift */; };
 		AA4BF4BC2C47D26D00D01CF1 /* DateSubViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4BF4BB2C47D26D00D01CF1 /* DateSubViews.swift */; };
+		AA60267E2C626F23008652B4 /* SwipeActions in Frameworks */ = {isa = PBXBuildFile; productRef = AA60267D2C626F23008652B4 /* SwipeActions */; };
 		AA63F3842C4A9E370024D1DF /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = AA63F3832C4A9E370024D1DF /* SwiftSoup */; };
 		AA63F3862C4BF6260024D1DF /* AsyncLinkViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA63F3852C4BF6260024D1DF /* AsyncLinkViewModel.swift */; };
 		AA63F38A2C4BF6E20024D1DF /* AsyncLoadableConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA63F3892C4BF6E20024D1DF /* AsyncLoadableConfig.swift */; };
@@ -238,6 +239,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AA81D2A92C37065300FF0221 /* ExyteMediaPicker in Frameworks */,
+				AA60267E2C626F23008652B4 /* SwipeActions in Frameworks */,
 				AA63F3842C4A9E370024D1DF /* SwiftSoup in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -512,6 +514,7 @@
 			packageProductDependencies = (
 				AA81D2A82C37065300FF0221 /* ExyteMediaPicker */,
 				AA63F3832C4A9E370024D1DF /* SwiftSoup */,
+				AA60267D2C626F23008652B4 /* SwipeActions */,
 			);
 			productName = "Foodie Notes";
 			productReference = AA81D20B2C26EEA100FF0221 /* Foodie Notes.app */;
@@ -589,6 +592,7 @@
 				AA81D2A72C37065300FF0221 /* XCRemoteSwiftPackageReference "ExyteMediaPicker" */,
 				AACB64822C47F41A0008084D /* XCRemoteSwiftPackageReference "iOSDropDown" */,
 				AA63F3822C4A9E370024D1DF /* XCRemoteSwiftPackageReference "SwiftSoup" */,
+				AA60267C2C626F23008652B4 /* XCRemoteSwiftPackageReference "SwipeActions" */,
 			);
 			productRefGroup = AA81D20C2C26EEA100FF0221 /* Products */;
 			projectDirPath = "";
@@ -1122,6 +1126,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		AA60267C2C626F23008652B4 /* XCRemoteSwiftPackageReference "SwipeActions" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/aheze/SwipeActions";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.1.0;
+			};
+		};
 		AA63F3822C4A9E370024D1DF /* XCRemoteSwiftPackageReference "SwiftSoup" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/scinfu/SwiftSoup";
@@ -1149,6 +1161,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		AA60267D2C626F23008652B4 /* SwipeActions */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AA60267C2C626F23008652B4 /* XCRemoteSwiftPackageReference "SwipeActions" */;
+			productName = SwipeActions;
+		};
 		AA63F3832C4A9E370024D1DF /* SwiftSoup */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = AA63F3822C4A9E370024D1DF /* XCRemoteSwiftPackageReference "SwiftSoup" */;
