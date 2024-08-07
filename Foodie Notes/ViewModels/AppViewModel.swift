@@ -45,20 +45,26 @@ class AppViewModel : ObservableObject {
         saveEditedMealFor(meal)
         return meal;
     }
-    func getMeals(sortOrder:MealSortOrder = .dateDesc) -> [Meal] {
+    func getMeals(filterText:String = "", sortOrder:MealSortOrder = .dateDesc) -> [Meal] {
+        var meals = model.getMeals();
+        
+        if !filterText.isEmpty {
+            meals = meals.filter() { $0.venue.name.range(of:filterText, options: .caseInsensitive) != nil }
+        }
+        
         switch(sortOrder) {
         case .name:
-            return model.getMeals().sorted(by: {$0.venue.name < $1.venue.name });
+            return meals.sorted(by: {$0.venue.name < $1.venue.name });
         case .dateAsc:
-            return model.getMeals().sorted(by: {$0.date < $1.date });
+            return meals.sorted(by: {$0.date < $1.date });
         case .dateDesc:
-            return model.getMeals().sorted(by: {$0.date > $1.date });
+            return meals.sorted(by: {$0.date > $1.date });
         case .location:
-            return model.getMeals().sorted(by: {$0.venue.location?.city ?? "" > $1.venue.location?.city ?? "" });
+            return meals.sorted(by: {$0.venue.location?.city ?? "" > $1.venue.location?.city ?? "" });
         case .rating:
-            return model.getMeals().sorted(by: {$0.rating > $1.rating });
+            return meals.sorted(by: {$0.rating > $1.rating });
         case .michelin:
-            return model.getMeals().sorted(by: {$0.venue.michelin ?? .none > $1.venue.michelin ?? .none });
+            return meals.sorted(by: {$0.venue.michelin ?? .none > $1.venue.michelin ?? .none });
         }
     }
     func getMealFor(_ mealId:String?) -> Meal? {

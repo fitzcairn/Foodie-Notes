@@ -59,7 +59,7 @@ struct GuideLinkView: View {
                             .weight(.semibold)
                         )
                         .foregroundColor(Colors.TextActionTextAction)
-                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .buttonStyle(.borderless)
                     Spacer()
                 }
                 else {

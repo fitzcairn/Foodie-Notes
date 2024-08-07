@@ -11,8 +11,7 @@ struct MealListSearchSortMode: View {
     var prompt:String = "Search"
     var onChangeClosure:(() -> Void) = {}
 
-    @State var inputText:String = "";
-
+    @Binding var filterText:String;
     @Binding var sortOrder:AppViewModel.MealSortOrder;
 
     
@@ -39,8 +38,8 @@ struct MealListSearchSortMode: View {
                 HStack(alignment: .center, spacing: 8) {
                     FoodieIcon("\u{e921}", Colors.TextActionTextAction)
                     
-                    TextField("", text:$inputText, prompt: promptText, axis:.vertical)
-                        .onChange(of: inputText) {
+                    TextField("", text:$filterText, prompt: promptText, axis:.vertical)
+                        .onChange(of: filterText) {
                             onChangeClosure()
                         }
                         .font(
@@ -51,7 +50,7 @@ struct MealListSearchSortMode: View {
                     
                     FoodieIcon("\u{e92a}", Colors.TextActionTextAction)
                         .onTapGesture {
-                            inputText = ""
+                            filterText = ""
                         }
                 }
                 .frame(maxWidth: .infinity, minHeight: 48, maxHeight: 48, alignment: .leading)
@@ -65,7 +64,6 @@ struct MealListSearchSortMode: View {
                 Spacer()
                     .frame(width:26)
                 
-                // Sort menu
                 MealListSortMenu(sortOrder:$sortOrder)
             }
             

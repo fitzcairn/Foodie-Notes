@@ -20,12 +20,13 @@ struct MealListView: View {
     @State var venue:String = "";
     @State var newMeal:Meal = Meal();
     @State var sortOrder:AppViewModel.MealSortOrder = .dateDesc;
+    @State var filterText:String = "";
     
     var body: some View {
         NavigationStack {
             ZStack {
                 VStack {
-                    MealListSearchSortMode(sortOrder:$sortOrder)
+                    MealListSearchSortMode(filterText:$filterText, sortOrder:$sortOrder)
 
                     list
                 }
@@ -93,15 +94,16 @@ struct MealListView: View {
     
     var list: some View {
         List {
-            ForEach(viewModel.getMeals(sortOrder: sortOrder), id: \.self) { meal in
+            ForEach(viewModel.getMeals(filterText: filterText, sortOrder: sortOrder), id: \.self) { meal in
                 MealListCard(meal:meal)
                     .listRowBackground(Color.clear)
                     .listRowSeparator(.hidden)
                     .deleteDisabled(true)
+                    .animation(nil, value: 0)
             }
         }
         .safeAreaPadding(EdgeInsets(top: 0, leading: 0, bottom: 100, trailing: 0))
-        .id(UUID())
+        //.id(UUID()) <-- caused a lot of unnecessary list renders.
         .listStyle(.plain)
     }
     
