@@ -27,7 +27,7 @@ struct MealListCard: View {
                 
                 SwipeView {
                     HStack {
-                        MealListPicture(picture:viewModel.getMealImageFor(meal))
+                        MealListPicture(picture:viewModel.getMealImageFor(meal), height:113)
                         
                         VStack(alignment: .leading) {
                             // Venue name

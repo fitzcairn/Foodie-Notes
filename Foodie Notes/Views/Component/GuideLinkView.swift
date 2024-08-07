@@ -60,7 +60,10 @@ struct GuideLinkView: View {
                         )
                         .foregroundColor(Colors.TextActionTextAction)
                         .buttonStyle(.borderless)
-                    Spacer()
+                        .lineLimit(1)
+                        .fixedSize(horizontal: false, vertical: true)
+
+                    //Spacer()
                 }
                 else {
                     EmptyView()

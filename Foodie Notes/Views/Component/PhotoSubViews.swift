@@ -48,6 +48,8 @@ struct PhotoView: View {
 // Clipped image for meal list.
 struct MealListPicture : View {
     var picture: Picture?;
+    var width:CGFloat = 64;
+    var height:CGFloat = 64;
     var isEditMode:Bool = false
     @State var sheetShowing:Bool = false;
     
@@ -62,7 +64,7 @@ struct MealListPicture : View {
                     .frame(width:PhotoDimensions.photoThumbWidth, height: PhotoDimensions.photoThumbHeight)
             }
         }
-        .frame(width: 64, height: 113, alignment: .center)
+        .frame(width: width, height: height, alignment: .center)
         .clipShape(RoundedRectangle(cornerRadius: 4))
         .padding(4)
     }
