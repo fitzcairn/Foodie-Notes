@@ -1,5 +1,5 @@
 //
-//  MealListSearchBox.swift
+//  MealListSearchSortMode.swift
 //  Foodie Notes
 //
 //  Created by Steve Martin on 8/6/24.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct MealListSearchBox: View {
+struct MealListSearchSortMode: View {
     var prompt:String = "Search"
     var onChangeClosure:(() -> Void) = {}
 

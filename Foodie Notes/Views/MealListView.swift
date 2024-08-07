@@ -25,7 +25,7 @@ struct MealListView: View {
         NavigationStack {
             ZStack {
                 VStack {
-                    MealListSearchBox(sortOrder:$sortOrder)
+                    MealListSearchSortMode(sortOrder:$sortOrder)
 
                     list
                 }
