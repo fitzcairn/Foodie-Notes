@@ -85,3 +85,24 @@ struct MealView: View {
         }
     }
 }
+
+
+/* TODO: move this into the view card
+if (!meal.cuisines.isEmpty) {
+    HStack {
+        Image(systemName: "fork.knife")
+            .resizable()
+            .scaledToFit()
+            .frame(height: 18)
+            .foregroundColor(Color.gray)
+            .opacity(/*@START_MENU_TOKEN@*/0.8/*@END_MENU_TOKEN@*/)
+            .padding(.trailing, 3)
+        Text(meal.cuisines.map({$0.displayName}).joined(separator: ", "))
+            .font(.system(size:14, weight: .regular))
+            .foregroundColor(.gray)
+            .fixedSize(horizontal: false, vertical: true)
+            .lineLimit(1)
+    }
+} else {
+    Spacer()
+}*/

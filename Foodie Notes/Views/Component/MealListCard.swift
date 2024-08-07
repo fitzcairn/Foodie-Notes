@@ -25,17 +25,23 @@ struct MealListCard: View {
                 SwipeView {
                     HStack {
                         
-                        PhotoSubViews.PhotoShowView(picture:viewModel.getMealImageFor(meal))
+                        //PhotoSubViews.PhotoShowView(picture:viewModel.getMealImageFor(meal))
+                        Image(.noPhoto)
+                            .resizable()
+                            .frame(width: 64, height: 113)
+                            .clipShape(RoundedRectangle(cornerRadius: 4))
+                            .padding(4)
+
                         
                         VStack(alignment: .leading) {
                             // Venue name
                             FoodieText(meal.venue.name, Colors.TextStaticTextPrimary)
-                                .padding(4)
-                            
+                                .padding(.bottom, 2)
+                                .padding(.horizontal, 4)
+
                             // Date and rating
                             HStack {
                                 FoodieIcon("\u{e903}", Colors.IconSecondary, padding:0)
-                                
                                 FoodieText(meal.date.formatted(date:.abbreviated, time:.omitted), Colors.TextStaticTextSecondary, size:12, weight:.medium)
                                 Spacer()
                                 RatingView(rating:meal.rating)
@@ -44,32 +50,23 @@ struct MealListCard: View {
                             // Location
                             LocationView(location: meal.venue.location)
 
-                            // Michelin link and star rating.
-                            //MichelinStarView(rating: meal.venue.michelin)
-
-                                                        
-                            /* TODO: move this.
-                            if (!meal.cuisines.isEmpty) {
+                            // Guide link and star rating.
+                            if (meal.venue.michelin != nil || meal.venue.guideLink?.url != nil) {
                                 HStack {
-                                    Image(systemName: "fork.knife")
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(height: 18)
-                                        .foregroundColor(Color.gray)
-                                        .opacity(/*@START_MENU_TOKEN@*/0.8/*@END_MENU_TOKEN@*/)
-                                        .padding(.trailing, 3)
-                                    Text(meal.cuisines.map({$0.displayName}).joined(separator: ", "))
-                                        .font(.system(size:14, weight: .regular))
-                                        .foregroundColor(.gray)
-                                        .fixedSize(horizontal: false, vertical: true)
-                                        .lineLimit(1)
+                                    if meal.venue.guideLink?.url != nil {
+                                        FoodieIcon("\u{e911}", Colors.TextActionTextAction, padding:0)
+                                        GuideLinkView(meal:meal)
+                                    }
+                                    Spacer()
+                                    if meal.venue.michelin != nil {
+                                        MichelinStarView(rating: meal.venue.michelin)
+                                    }
                                 }
-                            } else {
-                                Spacer()
-                            }*/
+                                .frame(height:10)
+                            }
                         }
-                        .padding(.vertical, 8)
-                        .padding(.leading, 8)
+                        .padding(.vertical, 4)
+                        .padding(.leading, 4)
                         .padding(.trailing, 16)
                     }
                     .background(.white)
@@ -101,7 +98,7 @@ struct MealListCard: View {
             .clipShape(RoundedRectangle(cornerRadius: 8))
             .shadow(color: Colors.ShadowMed, radius: 8, x: 0, y: 8)
             .shadow(color: Colors.ShadowEdge, radius: 8, x: 0, y: 0)
-            .padding(.vertical, -1)
+            .padding(.vertical, -8)
             .padding(.horizontal, 4)
         }
     }

@@ -98,9 +98,8 @@ struct SaveImg: View {
 struct Searching: View {
     var body: some View {
         HStack {
-            LinkImg()
             ProgressView()
-                .frame(width: 18, height: 18)
+                .scaleEffect(x: 0.6, y: 0.6, anchor: .center)
             Spacer()
         }
     }

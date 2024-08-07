@@ -57,7 +57,7 @@ class ModelIOService {
         if !meal.cuisines.isEmpty {
             str += "The food served is '\(meal.cuisines.map({$0.displayName}).joined(separator: ", "))'.  "
         }
-        if let michelin = meal.venue.michelin {
+        /*if let michelin = meal.venue.michelin {
             switch(michelin) {
             case .plate:
                 str += "At time of dining, Michelin rates this restaurant as notable.  "
@@ -70,7 +70,7 @@ class ModelIOService {
             case .threeStar:
                 str += "At time of dining, Michelin rates this restaurant as three stars.  "
             }
-        }
+        }*/
 
         if !meal.notes.isEmpty {
             str += "\n\nOverall, I thought: '\(meal.notes)'\n\n"

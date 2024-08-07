@@ -53,12 +53,13 @@ struct GuideLinkView: View {
         var body: some View {
             HStack {
                 if let url = url {
-                    LinkImg()
                     Link(guideName, destination:url)
-                        .font(.system(size:14, weight: .regular))
-                        .foregroundColor(.gray)
-                        .fixedSize(horizontal: false, vertical: true)
-                        .lineLimit(1)
+                        .font(
+                          Font.custom("Nunito", size: 12)
+                            .weight(.semibold)
+                        )
+                        .foregroundColor(Colors.TextActionTextAction)
+                        .frame(maxWidth: .infinity, alignment: .leading)
                     Spacer()
                 }
                 else {

@@ -23,7 +23,6 @@ enum Colors {
     static let IconSecondary: Color = Color(red: 0.77, green: 0.72, blue: 0.66)
     static let IconActionSelected: Color = Color(red: 0.37, green: 0.32, blue: 0.27)
     static let IconActionEmpty: Color = Color(red: 0.77, green: 0.72, blue: 0.66)
-
 }
 
 enum PhotoDimensions {
@@ -59,18 +58,12 @@ enum Michelin: String, Codable, CaseIterable {
     case twoStar = "2star"
     case threeStar = "3star"
     
-    var imgName: String {
-        return self.rawValue
-    }
-}
-
-// TODO: Migrate previous into this.
-enum Michelin2: String, Codable, CaseIterable {
-    case plate = "\u{e918}"
-    case bibGourmand = "\u{e902}"
-    case oneStar = "\u{e919}"
-    case twoStar = "\u{e919}\u{e919}"
-    case threeStar = "\u{e919}\u{e919}\u{e919}"
+    // TODO: Write a converter into these values.
+    case plateIcon = "\u{e918}"
+    case bibGourmandIcon = "\u{e902}"
+    case oneStarIcon = "\u{e919}"
+    case twoStarIcon = "\u{e919}\u{e919}"
+    case threeStarIcon = "\u{e919}\u{e919}\u{e919}"
     
     var imgName: String {
         return self.rawValue
