@@ -7,13 +7,16 @@
 
 import SwiftUI
 import SwipeActions
+import Combine
 
 struct MealListCard: View {
     @EnvironmentObject var viewModel:AppViewModel;
     @State var deleted:Bool = false;
-
+    @State var showConfirm:Bool = false;
+    @State var swipeState:SwipeContext?;
+    
     let meal:Meal;
-       
+    
     
     var body: some View {
         if deleted {
@@ -31,7 +34,7 @@ struct MealListCard: View {
                             FoodieText(meal.venue.name, Colors.TextStaticTextPrimary)
                                 .padding(.bottom, 2)
                                 .padding(.horizontal, 4)
-
+                            
                             // Date and rating
                             HStack {
                                 FoodieIcon("\u{e903}", Colors.IconSecondary, padding:0)
@@ -39,10 +42,10 @@ struct MealListCard: View {
                                 Spacer()
                                 RatingView(rating:meal.rating)
                             }
-
+                            
                             // Location
                             LocationView(location: meal.venue.location)
-
+                            
                             // Guide link and star rating.
                             if (meal.venue.michelin != nil || meal.venue.guideLink?.url != nil) {
                                 HStack {
@@ -64,11 +67,11 @@ struct MealListCard: View {
                     }
                     .background(.white)
                     
-                } trailingActions: { _ in
+                } trailingActions: { context in
                     SwipeAction(
                         action: {
-                            deleted = true;
-                            viewModel.removeMeal(meal.id);
+                            showConfirm.toggle()
+                            swipeState = context;
                         },
                         label: { highlight in
                             FoodieIcon("\u{e928}", .white)
@@ -94,6 +97,20 @@ struct MealListCard: View {
             .shadow(color: Colors.ShadowEdge, radius: 8, x: 0, y: 0)
             .padding(.vertical, -8)
             .padding(.horizontal, 4)
+            .alert("Delete Meal?",
+                   isPresented: $showConfirm,
+                   actions: {
+                Button("No", role: .cancel) {
+                    if let context = swipeState {
+                        context.state.wrappedValue = .closed
+                    }
+                    showConfirm.toggle()
+                }
+                Button ("Yes", role: .destructive) {
+                    deleted = true;
+                    viewModel.removeMeal(meal.id);
+                }
+            })
         }
     }
 }

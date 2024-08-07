@@ -397,7 +397,6 @@
 				AA4BF4BB2C47D26D00D01CF1 /* DateSubViews.swift */,
 				AA73444B2C4E8B3800A027FF /* GuideLinkView.swift */,
 				AAF0FDB92C49B62B00932EB5 /* LocationViews.swift */,
-				AA0F1ED12C626E3E00B2202A /* MealListCard.swift */,
 				AACB037F2C49272800D84E52 /* MichelinSubViews.swift */,
 				AAA064CE2C46A7DA005397EA /* MiscSubViews.swift */,
 				AAA064CF2C46A7DA005397EA /* NotesSubViews.swift */,
@@ -407,6 +406,7 @@
 				AAA064D12C46A7DA005397EA /* RatingViews.swift */,
 				AA47BE432C4FD0C000E5D829 /* SearchableMap.swift */,
 				AA6771CE2C581EB900487278 /* BeverageLinkView.swift */,
+				AA0F1ED12C626E3E00B2202A /* MealListCard.swift */,
 				AA60267F2C62C29D008652B4 /* MealListSearchBox.swift */,
 			);
 			path = Component;
