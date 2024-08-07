@@ -8,10 +8,13 @@
 import SwiftUI
 
 struct MealListSearchBox: View {
-    @State var inputText:String = "";
-    
     var prompt:String = "Search"
     var onChangeClosure:(() -> Void) = {}
+
+    @State var inputText:String = "";
+
+    @Binding var sortOrder:AppViewModel.MealSortOrder;
+
     
     var promptText: Text {
         Text(prompt)
@@ -35,14 +38,14 @@ struct MealListSearchBox: View {
                 
                 HStack(alignment: .center, spacing: 8) {
                     FoodieIcon("\u{e921}", Colors.TextActionTextAction)
-
+                    
                     TextField("", text:$inputText, prompt: promptText, axis:.vertical)
                         .onChange(of: inputText) {
                             onChangeClosure()
                         }
                         .font(
-                          Font.custom("Nunito", size: 16)
-                            .weight(.semibold)
+                            Font.custom("Nunito", size: 16)
+                                .weight(.semibold)
                         )
                         .lineLimit(1)
                     
@@ -62,7 +65,8 @@ struct MealListSearchBox: View {
                 Spacer()
                     .frame(width:26)
                 
-                FoodieIcon("\u{e923}", Colors.TextActionTextAction)
+                // Sort menu
+                MealListSortMenu(sortOrder:$sortOrder)
             }
             
             Spacer()

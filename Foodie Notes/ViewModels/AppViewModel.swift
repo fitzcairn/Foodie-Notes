@@ -11,6 +11,8 @@ import Foundation
 @MainActor
 class AppViewModel : ObservableObject {
     enum AppState { case loading, splash, list }
+    enum MealSortOrder { case name, dateAsc, dateDesc, location, rating, michelin }
+    
     let id = Id.createId();
     
     @Published var state = AppState.loading
@@ -43,9 +45,21 @@ class AppViewModel : ObservableObject {
         saveEditedMealFor(meal)
         return meal;
     }
-    func getMeals() -> [Meal] {
-        // TODO: apply filter, for now return all.
-        return model.getMeals().sorted(by: {$0.date > $1.date });
+    func getMeals(sortOrder:MealSortOrder = .dateDesc) -> [Meal] {
+        switch(sortOrder) {
+        case .name:
+            return model.getMeals().sorted(by: {$0.venue.name < $1.venue.name });
+        case .dateAsc:
+            return model.getMeals().sorted(by: {$0.date < $1.date });
+        case .dateDesc:
+            return model.getMeals().sorted(by: {$0.date > $1.date });
+        case .location:
+            return model.getMeals().sorted(by: {$0.venue.location?.city ?? "" > $1.venue.location?.city ?? "" });
+        case .rating:
+            return model.getMeals().sorted(by: {$0.rating > $1.rating });
+        case .michelin:
+            return model.getMeals().sorted(by: {$0.venue.michelin ?? .none > $1.venue.michelin ?? .none });
+        }
     }
     func getMealFor(_ mealId:String?) -> Meal? {
         return model.getMealFor(mealId)

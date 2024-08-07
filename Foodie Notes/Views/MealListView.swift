@@ -19,12 +19,13 @@ struct MealListView: View {
     @State var showStartCreate:Bool = false;
     @State var venue:String = "";
     @State var newMeal:Meal = Meal();
+    @State var sortOrder:AppViewModel.MealSortOrder = .dateDesc;
     
     var body: some View {
         NavigationStack {
             ZStack {
                 VStack {
-                    MealListSearchBox()
+                    MealListSearchBox(sortOrder:$sortOrder)
 
                     list
                 }
@@ -92,7 +93,7 @@ struct MealListView: View {
     
     var list: some View {
         List {
-            ForEach(viewModel.getMeals(), id: \.self) { meal in
+            ForEach(viewModel.getMeals(sortOrder: sortOrder), id: \.self) { meal in
                 MealListCard(meal:meal)
                     .listRowBackground(Color.clear)
                     .listRowSeparator(.hidden)

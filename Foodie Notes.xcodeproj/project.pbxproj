@@ -22,6 +22,7 @@
 		AA4BF4BC2C47D26D00D01CF1 /* DateSubViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4BF4BB2C47D26D00D01CF1 /* DateSubViews.swift */; };
 		AA60267E2C626F23008652B4 /* SwipeActions in Frameworks */ = {isa = PBXBuildFile; productRef = AA60267D2C626F23008652B4 /* SwipeActions */; };
 		AA6026802C62C29D008652B4 /* MealListSearchBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA60267F2C62C29D008652B4 /* MealListSearchBox.swift */; };
+		AA6026822C63A6DC008652B4 /* MealListSortMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA6026812C63A6DC008652B4 /* MealListSortMenu.swift */; };
 		AA63F3842C4A9E370024D1DF /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = AA63F3832C4A9E370024D1DF /* SwiftSoup */; };
 		AA63F3862C4BF6260024D1DF /* AsyncLinkViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA63F3852C4BF6260024D1DF /* AsyncLinkViewModel.swift */; };
 		AA63F38A2C4BF6E20024D1DF /* AsyncLoadableConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA63F3892C4BF6E20024D1DF /* AsyncLoadableConfig.swift */; };
@@ -160,6 +161,7 @@
 		AA47BE472C510DCA00E5D829 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		AA4BF4BB2C47D26D00D01CF1 /* DateSubViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateSubViews.swift; sourceTree = "<group>"; };
 		AA60267F2C62C29D008652B4 /* MealListSearchBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealListSearchBox.swift; sourceTree = "<group>"; };
+		AA6026812C63A6DC008652B4 /* MealListSortMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealListSortMenu.swift; sourceTree = "<group>"; };
 		AA63F3852C4BF6260024D1DF /* AsyncLinkViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncLinkViewModel.swift; sourceTree = "<group>"; };
 		AA63F3892C4BF6E20024D1DF /* AsyncLoadableConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncLoadableConfig.swift; sourceTree = "<group>"; };
 		AA63F38B2C4BFBCE0024D1DF /* AyncGuideLinkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AyncGuideLinkView.swift; sourceTree = "<group>"; };
@@ -408,6 +410,7 @@
 				AA6771CE2C581EB900487278 /* BeverageLinkView.swift */,
 				AA0F1ED12C626E3E00B2202A /* MealListCard.swift */,
 				AA60267F2C62C29D008652B4 /* MealListSearchBox.swift */,
+				AA6026812C63A6DC008652B4 /* MealListSortMenu.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -731,6 +734,7 @@
 				AABE57032C53F6B300771A83 /* WebSearchService.swift in Sources */,
 				AA45C0992C471D09009F6DEC /* PrimaryButtonSubViews.swift in Sources */,
 				AAC91A582C4D43E900225BDD /* AsyncPhotoView.swift in Sources */,
+				AA6026822C63A6DC008652B4 /* MealListSortMenu.swift in Sources */,
 				AAD2512E2C5C189000180006 /* LoadingView.swift in Sources */,
 				AA4BF4BC2C47D26D00D01CF1 /* DateSubViews.swift in Sources */,
 				AA81D3002C3AA1DD00FF0221 /* Constants.swift in Sources */,

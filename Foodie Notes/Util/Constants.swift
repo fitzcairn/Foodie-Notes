@@ -23,6 +23,8 @@ enum Colors {
     static let IconSecondary: Color = Color(red: 0.77, green: 0.72, blue: 0.66)
     static let IconActionSelected: Color = Color(red: 0.37, green: 0.32, blue: 0.27)
     static let IconActionEmpty: Color = Color(red: 0.77, green: 0.72, blue: 0.66)
+    static let ShadowModal: Color = .black.opacity(0.24)
+    static let FillActionFillActionSelected: Color = Color(red: 0.98, green: 0.35, blue: 0.46)
 }
 
 enum PhotoDimensions {
@@ -51,7 +53,7 @@ enum ViewTitle {
     static let listMeals = "Your Meals"
 }
 
-enum Michelin: String, Codable, CaseIterable {
+enum Michelin: String, Codable, CaseIterable, Comparable {
     case plate = "plate"
     case bibGourmand = "bib-gourmand"
     case oneStar = "1star"
@@ -59,11 +61,37 @@ enum Michelin: String, Codable, CaseIterable {
     case threeStar = "3star"
     
     // TODO: Write a converter into these values.
+    case none = ""
     case plateIcon = "\u{e918}"
     case bibGourmandIcon = "\u{e902}"
     case oneStarIcon = "\u{e919}"
     case twoStarIcon = "\u{e919}\u{e919}"
     case threeStarIcon = "\u{e919}\u{e919}\u{e919}"
+    
+    private var sortOrder: Int {
+        switch self {
+        case .none:
+            return 0
+        case .plate, .plateIcon:
+            return 1
+        case .bibGourmand, .bibGourmandIcon:
+            return 2
+        case .oneStar, .oneStarIcon:
+            return 3
+        case .twoStar, .twoStarIcon:
+            return 4
+        case .threeStar, .threeStarIcon:
+            return 5
+        }
+    }
+
+     static func ==(lhs: Michelin, rhs: Michelin) -> Bool {
+        return lhs.sortOrder == rhs.sortOrder
+    }
+
+    static func <(lhs: Michelin, rhs: Michelin) -> Bool {
+       return lhs.sortOrder < rhs.sortOrder
+    }
     
     var imgName: String {
         return self.rawValue
