@@ -25,6 +25,9 @@ enum Colors {
     static let IconActionEmpty: Color = Color(red: 0.77, green: 0.72, blue: 0.66)
     static let ShadowModal: Color = .black.opacity(0.24)
     static let FillActionFillActionSelected: Color = Color(red: 0.98, green: 0.35, blue: 0.46)
+    static let ShadowHighVibrant: Color = Color(red: 0.95, green: 0.25, blue: 0.4).opacity(0.24)
+    static let FillActionFillAction: Color = Color(red: 0.95, green: 0.25, blue: 0.43)
+
 }
 
 enum PhotoDimensions {

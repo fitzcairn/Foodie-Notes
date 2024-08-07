@@ -41,11 +41,19 @@ struct MealListView: View {
                     Spacer()
                     Button(
                         action: {
-                            showStartCreate = true;
-                            venue = "";
+                            withAnimation(.linear(duration:0.01)) {
+                                showStartCreate = true;
+                                venue = "";
+                            }
                         },
                         label: {
-                            PrimaryButtonSubViews.MealListViewPrimaryNewButtonImage()
+                            FoodieIcon("\u{e91f}", .white, size:32, padding:0)
+                                .frame(width: 64, height: 64)
+                                .background(Colors.FillActionFillAction)
+                                .foregroundColor(.white)
+                                .clipShape(Circle())
+                                .contentShape(Circle())
+                                .shadow(color: Colors.ShadowHighVibrant, radius: 8, x: 0, y: 16)
                         }
                     )
                 }
