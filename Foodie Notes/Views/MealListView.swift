@@ -101,18 +101,20 @@ struct MealListView: View {
     }
     
     var list: some View {
-        List {
-            ForEach(viewModel.getMeals(filterText: filterText, sortOrder: sortOrder), id: \.self) { meal in
-                MealListCard(meal:meal)
-                    .listRowBackground(Color.clear)
-                    .listRowSeparator(.hidden)
-                    .deleteDisabled(true)
-                    .animation(nil, value: 0)
+        SwipeViewGroup {
+            List {
+                ForEach(viewModel.getMeals(filterText: filterText, sortOrder: sortOrder), id: \.self) { meal in
+                    MealListCard(meal:meal)
+                        .listRowBackground(Color.clear)
+                        .listRowSeparator(.hidden)
+                        .deleteDisabled(true)
+                        .animation(nil, value: 0)
+                }
             }
+            .safeAreaPadding(EdgeInsets(top: 0, leading: 0, bottom: 100, trailing: 0))
+            //.id(UUID()) <-- caused a lot of unnecessary list renders.
+            .listStyle(.plain)
         }
-        .safeAreaPadding(EdgeInsets(top: 0, leading: 0, bottom: 100, trailing: 0))
-        //.id(UUID()) <-- caused a lot of unnecessary list renders.
-        .listStyle(.plain)
     }
     
     var topFade: some View {
