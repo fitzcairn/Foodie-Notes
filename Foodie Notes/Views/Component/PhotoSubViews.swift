@@ -9,13 +9,75 @@ import SwiftUI
 import ExyteMediaPicker
 
 
+struct NoPhotoPlaceholderView: View {
+    var body: some View {
+        Image(.noPhoto)
+            .resizable()
+            .scaledToFill()
+    }
+}
+
+struct PhotoView: View {
+    @StateObject var photoModel:AsyncPhotoViewModel = AsyncPhotoViewModel()
+    let img: SavedImage;
+
+    var body: some View {
+        GeometryReader { g in
+            VStack {
+                AsyncPhotoView(
+                    source: photoModel,
+                    img: img,
+                    progressContent: {
+                        ProgressView()
+                    },
+                    photoContent: {
+                        let image = UIImage(data: photoModel.loadedImg?.imgData ?? Data()) ?? UIImage()
+                        Image(uiImage: image)
+                            .resizable()
+                            .scaledToFill()
+                            .aspectRatio(1, contentMode: .fit)
+                    }
+                )
+            }
+            .frame(width: g.size.width, height: g.size.height)
+            .clipped()
+        }
+    }
+}
+
+// Clipped image for meal list.
+struct MealListPicture : View {
+    var picture: Picture?;
+    var isEditMode:Bool = false
+    @State var sheetShowing:Bool = false;
+    
+    var body: some View {
+        HStack {
+            if picture == nil || picture!.deleted || picture?.photo == nil  {
+                NoPhotoPlaceholderView()
+            }
+            else {
+                PhotoView(img:picture!.photo!.thumb)
+                    .aspectRatio(1, contentMode: .fill)
+                    .frame(width:PhotoDimensions.photoThumbWidth, height: PhotoDimensions.photoThumbHeight)
+            }
+        }
+        .frame(width: 64, height: 113, alignment: .center)
+        .clipShape(RoundedRectangle(cornerRadius: 4))
+        .padding(4)
+    }
+}
+
+
+
+
 struct PhotoSubViews {
     struct NoPhotoPlaceholderView: View {
         var body: some View {
             Image(systemName: "fork.knife.circle")
                 .resizable()
                 .padding(4)
-                .frame(width:PhotoDimensions.photoWidth, height: PhotoDimensions.photoHeight)
+                .frame(width:PhotoDimensions.photoThumbWidth, height: PhotoDimensions.photoThumbHeight)
                 .background(Color.gray)
                 .clipShape(Circle())
                 .foregroundColor(.white)
@@ -85,7 +147,7 @@ struct PhotoSubViews {
                     // Only allow on-tap expands if not editing.
                     PhotoView(img:picture!.photo!.thumb)
                         .aspectRatio(1, contentMode: .fill)
-                        .frame(width:PhotoDimensions.photoWidth, height: PhotoDimensions.photoHeight)
+                        .frame(width:PhotoDimensions.photoThumbWidth, height: PhotoDimensions.photoThumbHeight)
                         .onTapGesture {
                             sheetShowing = true;
                         }
@@ -95,7 +157,7 @@ struct PhotoSubViews {
                 } else {
                     PhotoView(img:picture!.photo!.thumb)
                         .aspectRatio(1, contentMode: .fill)
-                        .frame(width:PhotoDimensions.photoWidth, height: PhotoDimensions.photoHeight)
+                        .frame(width:PhotoDimensions.photoThumbWidth, height: PhotoDimensions.photoThumbHeight)
                 }
             } else {
                 NoPhotoPlaceholderView()
@@ -127,7 +189,7 @@ struct PhotoSubViews {
                                 Image(systemName: "minus.circle.fill")
                                     .resizable()
                                     .padding(4)
-                                    .frame(width:PhotoDimensions.photoWidth * 0.8, height: PhotoDimensions.photoWidth * 0.8)
+                                    .frame(width:PhotoDimensions.photoThumbWidth * 0.8, height: PhotoDimensions.photoThumbWidth * 0.8)
                                     .background(Color.gray)
                                     .clipShape(Circle())
                                     .foregroundColor(.white)
@@ -145,7 +207,7 @@ struct PhotoSubViews {
         var body: some View {
             HStack {
                 ProgressView()
-                    .frame(width:PhotoDimensions.photoWidth, height: PhotoDimensions.photoHeight)
+                    .frame(width:PhotoDimensions.photoThumbWidth, height: PhotoDimensions.photoThumbHeight)
             }
         }
     }
@@ -181,7 +243,7 @@ struct PhotoSubViews {
                     }
                 )
                 .disabled(isLoading || isPickingPhoto)
-                .frame(width:PhotoDimensions.photoWidth, height: PhotoDimensions.photoHeight)
+                .frame(width:PhotoDimensions.photoThumbWidth, height: PhotoDimensions.photoThumbHeight)
             }
             .onChange(of:isPickingPhoto) {
                 isLoading = isPickingPhoto ? true : isLoading;

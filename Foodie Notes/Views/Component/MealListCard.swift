@@ -24,14 +24,7 @@ struct MealListCard: View {
                 
                 SwipeView {
                     HStack {
-                        
-                        //PhotoSubViews.PhotoShowView(picture:viewModel.getMealImageFor(meal))
-                        Image(.noPhoto)
-                            .resizable()
-                            .frame(width: 64, height: 113)
-                            .clipShape(RoundedRectangle(cornerRadius: 4))
-                            .padding(4)
-
+                        MealListPicture(picture:viewModel.getMealImageFor(meal))
                         
                         VStack(alignment: .leading) {
                             // Venue name
@@ -94,6 +87,7 @@ struct MealListCard: View {
                 .swipeSpacing(0)
                 .swipeActionsMaskCornerRadius(0)
                 .swipeMinimumDistance(20)
+                .swipeReadyToExpandPadding(20)
             }
             .clipShape(RoundedRectangle(cornerRadius: 8))
             .shadow(color: Colors.ShadowMed, radius: 8, x: 0, y: 8)

@@ -17,8 +17,8 @@ struct PictureSubViews {
 
         var body: some View {
             let columns = (edit && pictures.isEmpty) || (!edit && pictures.count == 1) ?
-            [GridItem(.flexible(minimum: PhotoDimensions.photoWidth))] :
-                [GridItem(.flexible(minimum: PhotoDimensions.photoWidth)), GridItem(.flexible(minimum: PhotoDimensions.photoWidth))]
+            [GridItem(.flexible(minimum: PhotoDimensions.photoThumbWidth))] :
+                [GridItem(.flexible(minimum: PhotoDimensions.photoThumbWidth)), GridItem(.flexible(minimum: PhotoDimensions.photoThumbWidth))]
 
             VStack(alignment: .center) {
                 LazyVGrid(columns: columns, spacing:10) {
@@ -63,7 +63,7 @@ struct PictureSubViews {
                                 data.pictures = $0;
                             }),
                         edit:true)
-                    .frame(width:data.pictures.isEmpty ? PhotoDimensions.photoWidth : 2 * PhotoDimensions.photoWidth)
+                    .frame(width:data.pictures.isEmpty ? PhotoDimensions.photoThumbWidth : 2 * PhotoDimensions.photoThumbWidth)
                     .padding(.trailing, 5)
                     VStack {
                         HStack {
@@ -122,7 +122,7 @@ struct PictureSubViews {
                                 data.pictures = $0;
                             }),
                         edit:true)
-                    .frame(width:data.pictures.isEmpty ? PhotoDimensions.photoWidth : 2 * PhotoDimensions.photoWidth)
+                    .frame(width:data.pictures.isEmpty ? PhotoDimensions.photoThumbWidth : 2 * PhotoDimensions.photoThumbWidth)
                     .padding(.trailing, 5)
                     StyledTextField(inputText:$data.notes)
                         .padding(.trailing, -8)
@@ -146,7 +146,7 @@ struct PictureSubViews {
                                 get: { data.pictures },
                                 set: { _ = $0 })
                             )
-                            .frame(width:data.pictures.count <= 1 ? PhotoDimensions.photoWidth : 2 * PhotoDimensions.photoWidth)
+                            .frame(width:data.pictures.count <= 1 ? PhotoDimensions.photoThumbWidth : 2 * PhotoDimensions.photoThumbWidth)
                             .padding(.trailing, 5)
                         }
                         VStack {

@@ -26,9 +26,9 @@ enum Colors {
 }
 
 enum PhotoDimensions {
-    static let photoWidth:CGFloat = 64;
-    static let photoHeight:CGFloat = 64;
-    static let thumbSize:CGSize = CGSize(width:PhotoDimensions.photoWidth, height:PhotoDimensions.photoHeight)
+    static let photoThumbWidth:CGFloat = 128;
+    static let photoThumbHeight:CGFloat = 128;
+    static let thumbSize:CGSize = CGSize(width:PhotoDimensions.photoThumbWidth, height:PhotoDimensions.photoThumbHeight)
 }
 
 enum SectionTitle {
