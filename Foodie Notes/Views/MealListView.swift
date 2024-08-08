@@ -35,7 +35,7 @@ struct MealListView: View {
                 
                 topFade
                 
-                bottomFade
+                BottomFade()
                 
                 VStack {
                     Spacer()
@@ -127,21 +127,5 @@ struct MealListView: View {
                 .shadow(color: Colors.ShadowEdge, radius: 2, x: 0, y: 1)
             Spacer()
         }
-    }
-    
-    var bottomFade: some View {
-        VStack() {
-            Spacer()
-            LinearGradient(
-                stops: [
-                    Gradient.Stop(color: Color(red: 1, green: 0.98, blue: 0.96).opacity(0), location: 0.00),
-                    Gradient.Stop(color: Color(red: 1, green: 0.99, blue: 0.96), location: 1.00),
-                ],
-                startPoint: .top,
-                endPoint: .bottom
-            )
-            .frame(height:120)
-        }
-        .edgesIgnoringSafeArea(.bottom)
     }
 }

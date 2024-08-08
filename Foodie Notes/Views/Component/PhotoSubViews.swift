@@ -50,6 +50,7 @@ struct MealListPicture : View {
     var picture: Picture?;
     var width:CGFloat = 64;
     var height:CGFloat = 64;
+    var cornerRadius:CGFloat = 4;
     var isEditMode:Bool = false
     @State var sheetShowing:Bool = false;
     
@@ -64,9 +65,6 @@ struct MealListPicture : View {
                     .frame(width:PhotoDimensions.photoThumbWidth, height: PhotoDimensions.photoThumbHeight)
             }
         }
-        .frame(width: width, height: height, alignment: .center)
-        .clipShape(RoundedRectangle(cornerRadius: 4))
-        .padding(4)
     }
 }
 

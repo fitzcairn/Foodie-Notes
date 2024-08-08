@@ -1,5 +1,5 @@
 {
-  "originHash" : "d7e2602c522d2bcf495389a3b2c47ecdf0965f49b23b2ef542b8a1df2e60c87d",
+  "originHash" : "2ac4a47ea4763f3e3bd2175cf0df77d8cc8a371b91b98dcd4642dea394b62cc2",
   "pins" : [
     {
       "identity" : "exytemediapicker",
@@ -35,6 +35,15 @@
       "state" : {
         "revision" : "41e6f6dce02d8cfa164f8c5461a41340850ca3ab",
         "version" : "1.1.0"
+      }
+    },
+    {
+      "identity" : "wrappinghstack",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/dkk/WrappingHStack",
+      "state" : {
+        "revision" : "425d9488ba55f58f0b34498c64c054c77fc2a44b",
+        "version" : "2.2.11"
       }
     }
   ],
