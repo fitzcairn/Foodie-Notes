@@ -162,73 +162,77 @@ struct MealView: View {
                             VerticalSpace
                             
                             getSection("Cuisine") {
-                                HStack(alignment: .top, spacing: 8) {
-                                    HStack(alignment: .center, spacing: 4) {
-                                    }
-                                    .padding(.horizontal, 16)
-                                    .padding(.vertical, 8)
-                                    .frame(width: 28, height: 28, alignment: .center)
-                                    .cornerRadius(80)
-                                    .overlay(
-                                        ZStack {
-                                            FoodieIcon("\u{e91f}", Colors.BorderActionBorderAction, padding:0)
-                                            RoundedRectangle(cornerRadius: 80)
-                                                .inset(by: 0.75)
-                                                .stroke(Colors.BorderActionBorderAction, lineWidth: 1.5)
-                                        }
-                                    )
+                                
+                                GeometryReader { geo in
                                     
-                                    
-                                    ForEach(Array(zip(meal.item.cuisines.indices, meal.item.cuisines)), id: \.0) { index, cuisine in
-
+                                    WrappingHStack() {//alignment: .top, spacing: 8) {
                                         HStack(alignment: .center, spacing: 4) {
-                                            FoodieText(cuisine.displayName, Colors.TextStaticTextSecondary, size:12, weight:.bold)
                                         }
-                                        .fixedSize(horizontal: true, vertical: false)
-                                        .padding(.horizontal, 12)
-                                        .padding(.vertical, 4)
-                                        .frame(height: 28, alignment: .leading)
-                                        .background(Colors.FillStaticFillSecondary)
+                                        .padding(.horizontal, 16)
+                                        .padding(.vertical, 8)
+                                        .frame(width: 28, height: 28, alignment: .center)
                                         .cornerRadius(80)
+                                        .overlay(
+                                            ZStack {
+                                                FoodieIcon("\u{e91f}", Colors.BorderActionBorderAction, padding:0)
+                                                RoundedRectangle(cornerRadius: 80)
+                                                    .inset(by: 0.75)
+                                                    .stroke(Colors.BorderActionBorderAction, lineWidth: 1.5)
+                                            }
+                                        )
                                         
-                                        /*HStack(alignment: .center, spacing: 4) {
-                                            FoodieText(cuisine.displayName, Colors.TextStaticTextSecondary, size:12, weight:.bold)
-                                        }
-                                        .fixedSize(horizontal: true, vertical: false)
-                                        .padding(.horizontal, 12)
-                                        .padding(.vertical, 4)
-                                        .frame(height: 28, alignment: .leading)
-                                        .background(Colors.FillStaticFillSecondary)
-                                        .cornerRadius(80)
                                         
-                                        HStack(alignment: .center, spacing: 4) {
-                                            FoodieText(cuisine.displayName, Colors.TextStaticTextSecondary, size:12, weight:.bold)
+                                        ForEach(Array(zip(meal.item.cuisines.indices, meal.item.cuisines)), id: \.0) { index, cuisine in
+                                            
+                                            HStack(alignment: .center, spacing: 4) {
+                                                FoodieText(cuisine.displayName, Colors.TextStaticTextSecondary, size:12, weight:.bold)
+                                            }
+                                            .fixedSize(horizontal: true, vertical: false)
+                                            .padding(.horizontal, 12)
+                                            .padding(.vertical, 4)
+                                            .frame(height: 28, alignment: .leading)
+                                            .background(Colors.FillStaticFillSecondary)
+                                            .cornerRadius(80)
+                                            
+                                            HStack(alignment: .center, spacing: 4) {
+                                                FoodieText(cuisine.displayName, Colors.TextStaticTextSecondary, size:12, weight:.bold)
+                                            }
+                                            .fixedSize(horizontal: true, vertical: false)
+                                            .padding(.horizontal, 12)
+                                            .padding(.vertical, 4)
+                                            .frame(height: 28, alignment: .leading)
+                                            .background(Colors.FillStaticFillSecondary)
+                                            .cornerRadius(80)
+                                            
+                                            HStack(alignment: .center, spacing: 4) {
+                                                FoodieText(cuisine.displayName, Colors.TextStaticTextSecondary, size:12, weight:.bold)
+                                            }
+                                            .fixedSize(horizontal: true, vertical: false)
+                                            .padding(.horizontal, 12)
+                                            .padding(.vertical, 4)
+                                            .frame(height: 28, alignment: .leading)
+                                            .background(Colors.FillStaticFillSecondary)
+                                            .cornerRadius(80)
+                                            
+                                            /*HStack {
+                                             Text(cuisine.displayName)
+                                             .font(.system(size:14, weight: .regular))
+                                             .foregroundColor(.white)
+                                             .padding(4)
+                                             .fixedSize(horizontal: false, vertical: true)
+                                             .lineLimit(1)
+                                             .frame(minHeight:24)
+                                             }
+                                             .background(Color.gray)
+                                             .clipShape(RoundedRectangle(cornerRadius: 10))
+                                             .buttonStyle(.borderless)*/
                                         }
-                                        .fixedSize(horizontal: true, vertical: false)
-                                        .padding(.horizontal, 12)
-                                        .padding(.vertical, 4)
-                                        .frame(height: 28, alignment: .leading)
-                                        .background(Colors.FillStaticFillSecondary)
-                                        .cornerRadius(80)*/
-
-                                        /*HStack {
-                                            Text(cuisine.displayName)
-                                                .font(.system(size:14, weight: .regular))
-                                                .foregroundColor(.white)
-                                                .padding(4)
-                                                .fixedSize(horizontal: false, vertical: true)
-                                                .lineLimit(1)
-                                                .frame(minHeight:24)
-                                        }
-                                        .background(Color.gray)
-                                        .clipShape(RoundedRectangle(cornerRadius: 10))
-                                        .buttonStyle(.borderless)*/
+                                        
                                     }
-                        
+                                    .padding(8)
+                                    .frame(width: geo.size.width, alignment: .topLeading)
+                                    .cornerRadius(8)
                                 }
-                                .padding(8)
-                                .frame(maxWidth: .infinity, alignment: .topLeading)
-                                .cornerRadius(8)
                             }
 
                             
