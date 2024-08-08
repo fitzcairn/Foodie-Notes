@@ -7,6 +7,38 @@
 
 import SwiftUI
 
+
+
+// Individual course in a list
+struct CourseItemView: View {
+    @EnvironmentObject private var viewModel:AppViewModel;
+    var course:Course
+    
+    var body: some View {
+        ZStack {
+            HStack {
+                PhotoSubViews.PhotoShowView(picture:viewModel.getCourseImageFor(course))
+                VStack(alignment: .leading) {
+                    HStack {
+                        Text(course.name)
+                            .bold()
+                        Spacer()
+                        RatingView(rating:course.rating)
+                    }
+                    Text(course.food.notes)
+                        .foregroundColor(.gray)
+                    Spacer()
+                }
+                .padding(8)
+                Spacer()
+            }
+            NavigationLink(destination: CourseView(course:course)) {
+                EmptyView()
+            }
+        }
+    }
+}
+
 // All views and logic related to courses.
 struct CourseSubViews {
     

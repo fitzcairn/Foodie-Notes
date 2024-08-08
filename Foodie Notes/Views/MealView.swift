@@ -8,6 +8,7 @@
 import SwiftUI
 import UIKit.UIImage
 import WrappingHStack
+import SwipeActions
 
 
 struct MealView: View {
@@ -38,27 +39,39 @@ struct MealView: View {
         VStack {
             FoodieText(title, Colors.TextStaticTextSecondary, size:12, weight:.semibold)
                 .padding(8)
+                .frame(maxWidth: .infinity, alignment: .leading)
             content()
         }
     }
     
+    // TODO: Move to View class
     private var VerticalSpace: some View {
         Spacer()
             .frame(height:24)
     }
     
+    private func getTestCourses() -> [Course] {
+        var courses = [Course(mealId: meal.item.id)]
+        courses[0].name = "Shampoo"
+        courses[0].rating = 4
+        courses[0].date = Date()
+        courses[0].food = PicturesAndNotes()
+        courses[0].food.notes = "Amazing!"
+        return courses;
+    }
+    
     var body: some View {
         NavigationStack {
             ZStack(alignment: .bottom) {
+                Color(Colors.BackgroundBgPrimary)
+
                 ScrollView {
                     ZStack(alignment: .top) {
                         VStack {
-                            
                             // TODO: Replace with photo
                             Rectangle()
                                 .frame(height:200)
                                 .foregroundColor(.black)
-                            Color(Colors.BackgroundBgPrimary)
                         }
                         
                         VStack(alignment: .leading, spacing: 4) {
@@ -68,6 +81,7 @@ struct MealView: View {
                             getEditableTextRow {
                                 FoodieText(meal.item.venue.name, Colors.TextStaticTextPrimary, weight: .semibold)
                                     .padding(.horizontal, 4)
+                                    .frame(maxWidth: .infinity, alignment: .leading)
                             }
                             
                             getEditableTextRow {
@@ -75,6 +89,7 @@ struct MealView: View {
                                     FoodieIcon("\u{e903}", Colors.IconSecondary, padding:0)
                                     FoodieText(meal.item.date.formatted(date:.abbreviated, time:.omitted), Colors.TextStaticTextSecondary, size:12, weight:.medium)
                                 }
+                                .frame(maxWidth: .infinity, alignment: .leading)
                             }
                             
                             getEditableTextRow {
@@ -125,6 +140,7 @@ struct MealView: View {
                                 HStack(alignment: .top, spacing: 0) {
                                     FoodieText("This is a note", Colors.TextStaticTextSecondary, size:14, weight:.semibold)
                                 }
+                                .frame(maxWidth: .infinity, alignment: .leading)
                                 .padding(16)
                                 .background(Colors.FillStaticFillPrimary)
                                 .cornerRadius(8)
@@ -134,6 +150,47 @@ struct MealView: View {
                             
                             VerticalSpace
                             
+                            getSection("Cuisine") {
+                                HStack(alignment: .top, spacing: 8) {
+                                    HStack(alignment: .center, spacing: 4) {
+                                    }
+                                    .padding(.horizontal, 16)
+                                    .padding(.vertical, 8)
+                                    .frame(width: 28, height: 28, alignment: .center)
+                                    .cornerRadius(80)
+                                    .overlay(
+                                        ZStack {
+                                            FoodieIcon("\u{e91f}", Colors.BorderActionBorderAction, padding:0)
+                                            RoundedRectangle(cornerRadius: 80)
+                                                .inset(by: 0.75)
+                                                .stroke(Colors.BorderActionBorderAction, lineWidth: 1.5)
+                                        }
+                                    )
+                                    
+                                    WrappingHStack(meal.item.cuisines, id: \.self) { cuisine in
+                                        VStack {
+                                            HStack(alignment: .center, spacing: 4) {
+                                                FoodieText(cuisine.displayName, Colors.TextStaticTextSecondary, size:12, weight:.bold)
+                                            }
+                                            .fixedSize(horizontal: true, vertical: false)
+                                            .padding(.horizontal, 12)
+                                            .padding(.vertical, 4)
+                                            .frame(height: 28, alignment: .leading)
+                                            .background(Colors.FillStaticFillSecondary)
+                                            .cornerRadius(80)
+                                            Spacer()
+                                                .frame(height:8)
+                                        }
+                                        .frame(height:36)
+                                    }
+                                    
+                                    
+                                }
+                                .padding(8)
+                                .cornerRadius(8)
+                            }
+                            
+                            
                             getSection("Menus") {
                                 HStack(alignment: .top, spacing: 10) {
                                     HStack(alignment: .center) {
@@ -141,7 +198,8 @@ struct MealView: View {
                                         // TODO: Replace with menu photo
                                         MealListPicture(picture:viewModel.getMealImageFor(meal.item))
                                             .padding(4)
-                                            .frame(minWidth: 64, maxWidth: 64, maxHeight: .infinity, alignment: .leading)
+                                            .frame(minWidth: 64, maxWidth: 64, minHeight:64, maxHeight: .infinity, alignment: .leading)
+                                            .clipped()
                                             .clipShape(RoundedRectangle(cornerRadius: 8))
                                         
                                     }
@@ -161,114 +219,43 @@ struct MealView: View {
                             
                             VerticalSpace
                             
-                            getSection("Cuisine") {
-                                
-                                GeometryReader { geo in
-                                    
-                                    WrappingHStack() {//alignment: .top, spacing: 8) {
-                                        HStack(alignment: .center, spacing: 4) {
+                            getSection("Courses") {
+                                VStack {
+                                    SwipeViewGroup {
+                                        List {
+                                            ForEach(getTestCourses(), id:\.self) { course in
+                                                CourseListCard(course:course)
+                                            }
                                         }
-                                        .padding(.horizontal, 16)
-                                        .padding(.vertical, 8)
-                                        .frame(width: 28, height: 28, alignment: .center)
-                                        .cornerRadius(80)
-                                        .overlay(
-                                            ZStack {
-                                                FoodieIcon("\u{e91f}", Colors.BorderActionBorderAction, padding:0)
-                                                RoundedRectangle(cornerRadius: 80)
-                                                    .inset(by: 0.75)
-                                                    .stroke(Colors.BorderActionBorderAction, lineWidth: 1.5)
-                                            }
-                                        )
-                                        
-                                        
-                                        ForEach(Array(zip(meal.item.cuisines.indices, meal.item.cuisines)), id: \.0) { index, cuisine in
-                                            
-                                            HStack(alignment: .center, spacing: 4) {
-                                                FoodieText(cuisine.displayName, Colors.TextStaticTextSecondary, size:12, weight:.bold)
-                                            }
-                                            .fixedSize(horizontal: true, vertical: false)
-                                            .padding(.horizontal, 12)
-                                            .padding(.vertical, 4)
-                                            .frame(height: 28, alignment: .leading)
-                                            .background(Colors.FillStaticFillSecondary)
-                                            .cornerRadius(80)
-                                            
-                                            HStack(alignment: .center, spacing: 4) {
-                                                FoodieText(cuisine.displayName, Colors.TextStaticTextSecondary, size:12, weight:.bold)
-                                            }
-                                            .fixedSize(horizontal: true, vertical: false)
-                                            .padding(.horizontal, 12)
-                                            .padding(.vertical, 4)
-                                            .frame(height: 28, alignment: .leading)
-                                            .background(Colors.FillStaticFillSecondary)
-                                            .cornerRadius(80)
-                                            
-                                            HStack(alignment: .center, spacing: 4) {
-                                                FoodieText(cuisine.displayName, Colors.TextStaticTextSecondary, size:12, weight:.bold)
-                                            }
-                                            .fixedSize(horizontal: true, vertical: false)
-                                            .padding(.horizontal, 12)
-                                            .padding(.vertical, 4)
-                                            .frame(height: 28, alignment: .leading)
-                                            .background(Colors.FillStaticFillSecondary)
-                                            .cornerRadius(80)
-                                            
-                                            /*HStack {
-                                             Text(cuisine.displayName)
-                                             .font(.system(size:14, weight: .regular))
-                                             .foregroundColor(.white)
-                                             .padding(4)
-                                             .fixedSize(horizontal: false, vertical: true)
-                                             .lineLimit(1)
-                                             .frame(minHeight:24)
-                                             }
-                                             .background(Color.gray)
-                                             .clipShape(RoundedRectangle(cornerRadius: 10))
-                                             .buttonStyle(.borderless)*/
-                                        }
-                                        
                                     }
-                                    .padding(8)
-                                    .frame(width: geo.size.width, alignment: .topLeading)
+                                    
+                                    // Add Course button
+                                    HStack {
+                                        FoodieIcon("\u{e91f}", Colors.BorderActionBorderAction, padding:0)
+                                        Spacer()
+                                            .frame(width:8)
+                                        FoodieText("Add a course", Colors.TextActionTextAction, size:14, weight:.semibold)
+                                    }
+                                    .frame(maxWidth: .infinity, minHeight: 64, maxHeight: 64, alignment: .center)
                                     .cornerRadius(8)
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 8)
+                                            .inset(by: 0.75)
+                                            .stroke(Colors.BorderStaticBorderSecondary, lineWidth: 1.5)
+                                    )
                                 }
                             }
-
+                            
                             
                             BottomFade()
-
-                            
                         }
                         .padding(.horizontal, 24)
                     }
-                    
-                    
-
-                    
-                    
-                
-                    if (!meal.item.cuisines.isEmpty) {
-                        CuisineSubViews.CuisineViewSection(
-                            cuisines:meal.item.cuisines
-                        )
-                    }
-                    
-                    if !meal.item.notes.isEmpty {
-                        NotesSubViews.NotesSection(
-                            title:SectionTitle.notes,
-                            note: meal.item.notes
-                        )
-                    }
-                    
-                    if viewModel.checkShow(meal.item.menu) {
-                        PictureSubViews.PictureAndNotesViewSection(title: SectionTitle.menus, data:meal.item.menu)
-                    }
-                    
-                    if !meal.item.courses.isEmpty {
-                        CourseSubViews.CoursesViewSection(courses:meal.item.courses)
-                    }
                 }
+                .safeAreaPadding(EdgeInsets(top: 0, leading: 0, bottom: 100, trailing: 0))
+
+                
+                // Main Nav Buttons
                 PrimaryButtonSubViews.MealViewPrimaryButtons(
                     backClosure: {
                         viewModel.saveEditedMealFor(meal.item)
@@ -285,6 +272,7 @@ struct MealView: View {
             .onAppear() {
                 meal.item = viewModel.getMealFor(meal.item.id) ?? Meal()
             }
+            .ignoresSafeArea(.all)
             .navigationBarHidden(true)
         }
     }
@@ -307,28 +295,4 @@ struct MealView: View {
              .frame(width: 30, height: 30)
              .foregroundColor(.gray)
      }
- )
-
- 
- */
-
-
-/* TODO: move this into the view card
-if (!meal.cuisines.isEmpty) {
-    HStack {
-        Image(systemName: "fork.knife")
-            .resizable()
-            .scaledToFit()
-            .frame(height: 18)
-            .foregroundColor(Color.gray)
-            .opacity(/*@START_MENU_TOKEN@*/0.8/*@END_MENU_TOKEN@*/)
-            .padding(.trailing, 3)
-        Text(meal.cuisines.map({$0.displayName}).joined(separator: ", "))
-            .font(.system(size:14, weight: .regular))
-            .foregroundColor(.gray)
-            .fixedSize(horizontal: false, vertical: true)
-            .lineLimit(1)
-    }
-} else {
-    Spacer()
-}*/
+ )*/

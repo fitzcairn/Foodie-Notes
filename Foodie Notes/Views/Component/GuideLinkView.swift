@@ -62,8 +62,6 @@ struct GuideLinkView: View {
                         .buttonStyle(.borderless)
                         .lineLimit(1)
                         .fixedSize(horizontal: false, vertical: true)
-
-                    //Spacer()
                 }
                 else {
                     EmptyView()

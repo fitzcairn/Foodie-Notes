@@ -111,7 +111,9 @@ enum VenueGuide: String, Codable, CaseIterable {
     }
 }
 
-enum Cuisine: String, Codable, CaseIterable {
+enum Cuisine: String, Codable, CaseIterable, Identifiable {
+    var id: String { return rawValue }
+    
     case afghan = "Afghan"
     case american = "American"
     case americanCalifornia = "American (California)"

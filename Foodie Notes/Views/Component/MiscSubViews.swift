@@ -196,7 +196,6 @@ struct FoodieText: View {
               .weight(weight)
           )
           .foregroundColor(color)
-          .frame(maxWidth: .infinity, alignment: .leading)
     }
 }
 
