@@ -33,6 +33,9 @@ enum Colors {
     static let FillActionFillActionPressed: Color = Color(red: 0.53, green: 0.08, blue: 0.19)
     static let FillActionFillActionPressedIcon: Color = Color(red: 0.99, green: 0.65, blue: 0.70)
     static let FillActionFillActionSubtle: Color = .white
+    static let FillActionFillActionIconDisabled: Color = Color(red: 0.12, green: 0.12, blue: 0.12).opacity(0.3)
+    static let FillActionFillDisabled: Color = Color(red: 0.12, green: 0.12, blue: 0.12).opacity(0.1)
+    static let TextActionTextDisabled: Color = Color(red: 0.12, green: 0.12, blue: 0.12).opacity(0.3)
 }
 
 enum PhotoDimensions {

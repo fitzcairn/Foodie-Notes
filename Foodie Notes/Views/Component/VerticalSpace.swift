@@ -16,6 +16,6 @@ struct VerticalSpace: View {
     
     var body: some View {
         Spacer()
-            .frame(height:24)
+            .frame(height:height)
     }
 }
