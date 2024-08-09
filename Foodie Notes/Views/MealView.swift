@@ -18,46 +18,10 @@ struct MealView: View {
     
     @ObservedObject private var meal:WrappedStruct<Meal>;
     
+    @State private var shareText:String? = "";
+    
     init(meal:Meal) {
         self.meal = WrappedStruct(withItem:meal)
-    }
-    
-    // TODO: Move to View class
-    private func getEditableTextRow(_ content:() -> some View) -> some View {
-        VStack(alignment: .trailing, spacing: 4) {
-            content()
-        }
-        .padding(12)
-        .background(Colors.FillStaticFillPrimary)
-        .cornerRadius(8)
-        .shadow(color: Colors.ShadowMed, radius: 8, x: 0, y: 8)
-        .shadow(color: Colors.ShadowEdge, radius: 4, x: 0, y: 0)
-    }
-    
-    // TODO: Move to View class
-    private func getSection(_ title:String, _ content:() -> some View) -> some View {
-        VStack {
-            FoodieText(title, Colors.TextStaticTextSecondary, size:12, weight:.semibold)
-                .padding(8)
-                .frame(maxWidth: .infinity, alignment: .leading)
-            content()
-        }
-    }
-    
-    // TODO: Move to View class
-    private var VerticalSpace: some View {
-        Spacer()
-            .frame(height:24)
-    }
-    
-    private func getTestCourses() -> [Course] {
-        var courses = [Course(mealId: meal.item.id)]
-        courses[0].name = "Shampoo"
-        courses[0].rating = 4
-        courses[0].date = Date()
-        courses[0].food = PicturesAndNotes()
-        courses[0].food.notes = "Amazing!"
-        return courses;
     }
     
     var body: some View {
@@ -75,68 +39,71 @@ struct MealView: View {
                         }
                         
                         VStack(alignment: .leading, spacing: 4) {
-                            Spacer()
-                                .frame(height: 180)
+                            VerticalSpace(180)
                             
-                            getEditableTextRow {
-                                FoodieText(meal.item.venue.name, Colors.TextStaticTextPrimary, weight: .semibold)
-                                    .padding(.horizontal, 4)
+                            // Meal Metadata
+                            VStack {
+                                EditableTextRow(){
+                                    FoodieText(meal.item.venue.name, Colors.TextStaticTextPrimary, weight: .semibold)
+                                        .padding(.horizontal, 4)
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                }
+                                
+                                EditableTextRow(){
+                                    HStack {
+                                        FoodieIcon("\u{e903}", Colors.IconSecondary, padding:0)
+                                        FoodieText(meal.item.date.formatted(date:.abbreviated, time:.omitted), Colors.TextStaticTextSecondary, size:12, weight:.medium)
+                                    }
                                     .frame(maxWidth: .infinity, alignment: .leading)
-                            }
-                            
-                            getEditableTextRow {
-                                HStack {
-                                    FoodieIcon("\u{e903}", Colors.IconSecondary, padding:0)
-                                    FoodieText(meal.item.date.formatted(date:.abbreviated, time:.omitted), Colors.TextStaticTextSecondary, size:12, weight:.medium)
-                                }
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                            }
-                            
-                            getEditableTextRow {
-                                LocationView(location: meal.item.venue.location)
-                            }
-                            
-                            HStack(alignment: .center, spacing: 4) {
-                                getEditableTextRow {
-                                    RatingView(rating:meal.item.rating)
-                                        .padding(.vertical, 4)
-                                        .padding(.horizontal, 6)
                                 }
                                 
+                                EditableTextRow(){
+                                    LocationView(location: meal.item.venue.location)
+                                }
                                 
-                                // No rating view
-                                if (meal.item.venue.michelin == nil && meal.item.venue.guideLink?.url == nil) {
-                                    getEditableTextRow {
-                                        HStack {
-                                            FoodieText("( not michelin rated )", Colors.TextStaticTextSecondary, size:12, weight:.medium)
-                                                .padding(.vertical, 3)
-                                            Spacer()
-                                        }
+                                HStack(alignment: .center, spacing: 4) {
+                                    EditableTextRow(){
+                                        RatingView(rating:meal.item.rating)
+                                            .padding(.vertical, 4)
+                                            .padding(.horizontal, 6)
                                     }
-                                } else {
-                                    if meal.item.venue.michelin != nil {
-                                        getEditableTextRow {
-                                            MichelinStarView(rating: meal.item.venue.michelin)
-                                                .padding(.horizontal, 4)
-                                                .padding(.vertical, 3)
-                                        }
-                                    }
-                                    if meal.item.venue.guideLink?.url != nil {
-                                        getEditableTextRow {
+                                    
+                                    
+                                    // No rating view
+                                    if (meal.item.venue.michelin == nil && meal.item.venue.guideLink?.url == nil) {
+                                        EditableTextRow() {
                                             HStack {
-                                                FoodieIcon("\u{e911}", Colors.TextActionTextAction, padding:0)
-                                                GuideLinkView(meal:meal.item)
+                                                FoodieText("( not michelin rated )", Colors.TextStaticTextSecondary, size:12, weight:.medium)
+                                                    .padding(.vertical, 3)
+                                                Spacer()
                                             }
-                                            .frame(maxWidth: .infinity, alignment: .leading)
+                                        }
+                                    } else {
+                                        if meal.item.venue.michelin != nil {
+                                            EditableTextRow() {
+                                                MichelinStarView(rating: meal.item.venue.michelin)
+                                                    .padding(.horizontal, 4)
+                                                    .padding(.vertical, 3)
+                                            }
+                                        }
+                                        if meal.item.venue.guideLink?.url != nil {
+                                            EditableTextRow() {
+                                                HStack {
+                                                    FoodieIcon("\u{e911}", Colors.TextActionTextAction, padding:0)
+                                                    GuideLinkView(meal:meal.item)
+                                                }
+                                                .frame(maxWidth: .infinity, alignment: .leading)
+                                            }
                                         }
                                     }
                                 }
+                                .frame(maxWidth: .infinity)
                             }
-                            .frame(maxWidth: .infinity)
                             
-                            VerticalSpace
+                            VerticalSpace(24)
                             
-                            getSection("Overall Notes") {
+                            // Meal Notes
+                            ViewSection("Overall Notes") {
                                 HStack(alignment: .top, spacing: 0) {
                                     FoodieText("This is a note", Colors.TextStaticTextSecondary, size:14, weight:.semibold)
                                 }
@@ -148,9 +115,10 @@ struct MealView: View {
                                 .shadow(color: Colors.ShadowEdge, radius: 4, x: 0, y: 0)
                             }
                             
-                            VerticalSpace
-                            
-                            getSection("Cuisine") {
+                            VerticalSpace(24)
+
+                            // Meal Cuisine
+                            ViewSection("Cuisine") {
                                 HStack(alignment: .top, spacing: 8) {
                                     HStack(alignment: .center, spacing: 4) {
                                     }
@@ -183,15 +151,13 @@ struct MealView: View {
                                         }
                                         .frame(height:36)
                                     }
-                                    
-                                    
                                 }
-                                .padding(8)
-                                .cornerRadius(8)
                             }
                             
-                            
-                            getSection("Menus") {
+                            VerticalSpace(24)
+
+                            // Menu[s]
+                            ViewSection("Menus") {
                                 HStack(alignment: .top, spacing: 10) {
                                     HStack(alignment: .center) {
                                         
@@ -217,57 +183,55 @@ struct MealView: View {
                                 .shadow(color: Colors.ShadowEdge, radius: 4, x: 0, y: 0)
                             }
                             
-                            VerticalSpace
+                            VerticalSpace(24)
                             
-                            getSection("Courses") {
+                            // Courses
+                            ViewSection("Courses") {
                                 VStack {
                                     SwipeViewGroup {
-                                        List {
-                                            ForEach(getTestCourses(), id:\.self) { course in
-                                                CourseListCard(course:course)
-                                            }
+                                        ForEach(meal.item.courses, id: \.self) { course in
+                                            CourseListCard(course:course)
+                                                .padding(.bottom, -2)
+                                            
                                         }
                                     }
                                     
                                     // Add Course button
+                                    // TODO: Move to a shared view component, this is used elsewhere.
                                     HStack {
-                                        FoodieIcon("\u{e91f}", Colors.BorderActionBorderAction, padding:0)
-                                        Spacer()
-                                            .frame(width:8)
-                                        FoodieText("Add a course", Colors.TextActionTextAction, size:14, weight:.semibold)
+                                        NavigationLink(destination: CourseCreateView(mealId: meal.item.id)) {
+                                            HStack {
+                                                FoodieIcon("\u{e91f}", Colors.BorderActionBorderAction, padding:0)
+                                                Spacer()
+                                                    .frame(width:8)
+                                                FoodieText("Add a course", Colors.TextActionTextAction, size:14, weight:.semibold)
+                                            }
+                                            .frame(maxWidth: .infinity, minHeight: 64, maxHeight: 64, alignment: .center)
+                                            .overlay(
+                                                RoundedRectangle(cornerRadius: 8)
+                                                    .inset(by: 0.75)
+                                                    .stroke(Colors.BorderStaticBorderSecondary, lineWidth: 1.5)
+                                            )
+                                        }
+                                        .buttonStyle(AddCourseButtonStyle())
                                     }
-                                    .frame(maxWidth: .infinity, minHeight: 64, maxHeight: 64, alignment: .center)
-                                    .cornerRadius(8)
-                                    .overlay(
-                                        RoundedRectangle(cornerRadius: 8)
-                                            .inset(by: 0.75)
-                                            .stroke(Colors.BorderStaticBorderSecondary, lineWidth: 1.5)
-                                    )
                                 }
                             }
-                            
-                            
-                            BottomFade()
                         }
                         .padding(.horizontal, 24)
                     }
                 }
-                .safeAreaPadding(EdgeInsets(top: 0, leading: 0, bottom: 100, trailing: 0))
+                .safeAreaPadding(EdgeInsets(top: 0, leading: 0, bottom: 150, trailing: 0))
 
-                
-                // Main Nav Buttons
-                PrimaryButtonSubViews.MealViewPrimaryButtons(
-                    backClosure: {
-                        viewModel.saveEditedMealFor(meal.item)
-                        self.presentationMode.wrappedValue.dismiss()
-                    },
-                    editMealDest: MealEditView(
-                        meal:meal.item
-                    ),
-                    createCourseDest: CourseCreateView(
-                        mealId: meal.item.id
-                    )
-                )
+                BottomFade()
+
+                // Buttons
+                BottomButtonContainer(
+                    { LargeActionRedButton(icon:"\u{e900}", action: { self.presentationMode.wrappedValue.dismiss() }) },
+                    { LargeActionWhiteShareButton(
+                        subject: "Notes about my meal at \(meal.item.venue.name) on \(meal.item.date.formatted(date: .complete, time: .omitted))",
+                        message: ModelIOService.exportAsString(meal.item),
+                        preview: "Notes about my meal at \(meal.item.venue.name) on \(meal.item.date.formatted(date: .complete, time: .omitted))") })
             }
             .onAppear() {
                 meal.item = viewModel.getMealFor(meal.item.id) ?? Meal()
@@ -276,23 +240,38 @@ struct MealView: View {
             .navigationBarHidden(true)
         }
     }
-}
 
-/* TODO: move this into share button
- .navigationBarItems(
-     leading: StyledTitleText(ViewTitle.viewMeal),
-     trailing: ShareLink(
-         item: "",
-         subject: Text("Notes about my meal at \(meal.item.venue.name) on \(meal.item.date.formatted(date: .complete, time: .omitted))"),
-         message: Text(ModelIOService.exportAsString(meal.item)),
-         preview: SharePreview(
-             "Notes about my meal at \(meal.item.venue.name) on \(meal.item.date.formatted(date: .complete, time: .omitted))",
-             image: Image(uiImage: UIImage(named: "AppIcon") ?? UIImage())
-         )
-     ) {
-         Image(systemName: "square.and.arrow.up.circle")
-             .resizable()
-             .frame(width: 30, height: 30)
-             .foregroundColor(.gray)
-     }
- )*/
+    private struct LargeActionWhiteButtonStyle: ButtonStyle {
+        let icon:String;
+        
+        func makeBody(configuration: Self.Configuration) -> some View {
+            configuration.label
+                .background(configuration.isPressed ? Colors.FillActionFillActionPressed : Colors.FillActionFillActionSubtle)
+                .cornerRadius(80)
+                .overlay() {
+                    FoodieIcon(icon, configuration.isPressed ? Colors.FillActionFillActionPressedIcon : Colors.FillActionFillAction, size:32, padding:0)
+                }
+        }
+    }
+    
+    private struct LargeActionRedButtonStyle: ButtonStyle {
+        let icon:String;
+
+        func makeBody(configuration: Self.Configuration) -> some View {
+            configuration.label
+                .background(configuration.isPressed ? Colors.FillActionFillActionPressed : Colors.FillActionFillAction)
+                .cornerRadius(80)
+                .overlay() {
+                    FoodieIcon(icon, configuration.isPressed ? Colors.FillActionFillActionPressedIcon : Color.white, size:32, padding:0)
+                }
+        }
+    }
+    
+    private struct AddCourseButtonStyle: ButtonStyle {
+        func makeBody(configuration: Self.Configuration) -> some View {
+            configuration.label
+                .background(configuration.isPressed ? Colors.FillStaticFillSecondary : Colors.BackgroundBgPrimary)
+                .cornerRadius(8)
+        }
+    }
+}

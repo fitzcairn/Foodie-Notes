@@ -23,49 +23,50 @@ struct CourseListCard: View {
             EmptyView()
         } else {
             ZStack(alignment: .leading) {
-                NavigationLink(destination: CourseView(course:course)) { EmptyView() }.opacity(0.0)
                 
                 SwipeView {
-                    // Course Card
-                    HStack(alignment: .top, spacing: 0) {
-                        
-                        // Picture Frame
-                        /*HStack(alignment: .center, spacing: 10) {
-                         
-                         // Actual Picture
-                         CourseListCard      HStack(alignment: .bottom, spacing: 4) {
-                         }
-                         .padding(.horizontal, 0)
-                         .padding(.top, 0)
-                         .padding(.bottom, 0)
-                         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
-                         .background(
-                         // TODO: Picture
-                         Image(.noPhoto)
-                         .resizable()
-                         .aspectRatio(contentMode: .fill)
-                         .frame(width: 56, height: 56)
-                         .clipped()
-                         )
-                         .cornerRadius(4)
-                         
-                         }
-                         .padding(4)
-                         .frame(minWidth: 64, maxWidth: 64, maxHeight: .infinity, alignment: .leading)
-                         .cornerRadius(8)*/
-                        
-                        
-                        //VStack(alignment: .leading, spacing: 4) {
-                        FoodieText(course.name, Colors.TextStaticTextPrimary, size:14, weight:.bold)
-                        
-                        RatingView(rating:course.rating)
-                            .padding(.vertical, 4)
-                            .padding(.horizontal, 6)
-                        //}
-                        //.padding(.leading, 8)
-                        //.padding(.trailing, 16)
-                        //.padding(.vertical, 8)
-                        //.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+                    NavigationLink(destination: CourseView(course:course)) {
+                        // Course Card
+                        HStack(alignment: .top, spacing: 0) {
+                            
+                            // Picture Frame
+                            HStack(alignment: .center, spacing: 10) {
+                                
+                                // Actual Picture
+                                HStack(alignment: .bottom, spacing: 4) {
+                                }
+                                .padding(.horizontal, 0)
+                                .padding(.top, 0)
+                                .padding(.bottom, 0)
+                                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
+                                .background(
+                                    // TODO: Picture
+                                    Image(.noPhoto)
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fill)
+                                        .frame(width: 56, height: 56)
+                                        .clipped()
+                                )
+                                .cornerRadius(4)
+                                
+                            }
+                            .padding(4)
+                            .frame(minWidth: 64, maxWidth: 64, maxHeight: .infinity, alignment: .leading)
+                            .cornerRadius(8)
+                            
+                            
+                            VStack(alignment: .leading, spacing: 4) {
+                                FoodieText(course.name, Colors.TextStaticTextPrimary, size:14, weight:.bold)
+                                
+                                RatingView(rating:course.rating)
+                                    .padding(.vertical, 4)
+                                    .padding(.horizontal, 6)
+                            }
+                            .padding(.leading, 8)
+                            .padding(.trailing, 16)
+                            .padding(.vertical, 8)
+                            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+                        }
                     }
                 } trailingActions: { context in
                     SwipeAction(
@@ -92,7 +93,7 @@ struct CourseListCard: View {
                 .swipeMinimumDistance(20)
                 .swipeReadyToExpandPadding(20)
             }
-            .padding(0)
+            .animation(nil, value: 0)
             .frame(maxWidth: .infinity, minHeight: 64, maxHeight: 64, alignment: .topLeading)
             .background(Colors.FillStaticFillPrimary)
             .cornerRadius(8)

@@ -39,23 +39,11 @@ struct MealListView: View {
                 
                 VStack {
                     Spacer()
-                    Button(
-                        action: {
-                            withAnimation(.linear(duration:0.01)) {
-                                showStartCreate = true;
-                                venue = "";
-                            }
-                        },
-                        label: {
-                            FoodieIcon("\u{e91f}", .white, size:32, padding:0)
-                                .frame(width: 64, height: 64)
-                                .background(Colors.FillActionFillAction)
-                                .foregroundColor(.white)
-                                .clipShape(Circle())
-                                .contentShape(Circle())
-                                .shadow(color: Colors.ShadowHighVibrant, radius: 8, x: 0, y: 16)
-                        }
-                    )
+                    
+                    LargeActionRedButton(icon: "\u{e91f}", action: {
+                        showStartCreate = true;
+                        venue = "";
+                    })
                 }
             }
             .alert("Create a New Meal", isPresented: $showStartCreate) {
