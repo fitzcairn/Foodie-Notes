@@ -43,13 +43,13 @@ struct MealView: View {
                             
                             // Meal Metadata
                             VStack {
-                                EditableTextRow(){
+                                EditableTextRow("What's the name of this venue?") {
                                     FoodieText(meal.item.venue.name, Colors.TextStaticTextPrimary, weight: .semibold)
                                         .padding(.horizontal, 4)
                                         .frame(maxWidth: .infinity, alignment: .leading)
                                 }
                                 
-                                EditableTextRow(){
+                                EditableTextRow("When did you visit?") {
                                     HStack {
                                         FoodieIcon("\u{e903}", Colors.IconSecondary, padding:0)
                                         FoodieText(meal.item.date.formatted(date:.abbreviated, time:.omitted), Colors.TextStaticTextSecondary, size:12, weight:.medium)
@@ -57,12 +57,12 @@ struct MealView: View {
                                     .frame(maxWidth: .infinity, alignment: .leading)
                                 }
                                 
-                                EditableTextRow(){
+                                EditableTextRow("TODO: Location") {
                                     LocationView(location: meal.item.venue.location)
                                 }
                                 
                                 HStack(alignment: .center, spacing: 4) {
-                                    EditableTextRow(){
+                                    EditableTextRow("How would you rate your meal here?"){
                                         RatingView(rating:meal.item.rating)
                                             .padding(.vertical, 4)
                                             .padding(.horizontal, 6)
@@ -71,7 +71,7 @@ struct MealView: View {
                                     
                                     // No rating view
                                     if (meal.item.venue.michelin == nil && meal.item.venue.guideLink?.url == nil) {
-                                        EditableTextRow() {
+                                        EditableTextRow("What was this venue's Michelin rating?") {
                                             HStack {
                                                 FoodieText("( not michelin rated )", Colors.TextStaticTextSecondary, size:12, weight:.medium)
                                                     .padding(.vertical, 3)
@@ -80,20 +80,18 @@ struct MealView: View {
                                         }
                                     } else {
                                         if meal.item.venue.michelin != nil {
-                                            EditableTextRow() {
+                                            EditableTextRow("What was this venue's Michelin rating?") {
                                                 MichelinStarView(rating: meal.item.venue.michelin)
                                                     .padding(.horizontal, 4)
                                                     .padding(.vertical, 3)
                                             }
                                         }
                                         if meal.item.venue.guideLink?.url != nil {
-                                            EditableTextRow() {
-                                                HStack {
-                                                    FoodieIcon("\u{e911}", Colors.TextActionTextAction, padding:0)
-                                                    GuideLinkView(meal:meal.item)
-                                                }
-                                                .frame(maxWidth: .infinity, alignment: .leading)
+                                            HStack {
+                                                FoodieIcon("\u{e911}", Colors.TextActionTextAction, padding:0)
+                                                GuideLinkView(meal:meal.item)
                                             }
+                                            .frame(maxWidth: .infinity, alignment: .leading)
                                         }
                                     }
                                 }
@@ -104,15 +102,7 @@ struct MealView: View {
                             
                             // Meal Notes
                             ViewSection("Overall Notes") {
-                                HStack(alignment: .top, spacing: 0) {
-                                    FoodieText("This is a note", Colors.TextStaticTextSecondary, size:14, weight:.semibold)
-                                }
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .padding(16)
-                                .background(Colors.FillStaticFillPrimary)
-                                .cornerRadius(8)
-                                .shadow(color: Colors.ShadowMed, radius: 8, x: 0, y: 8)
-                                .shadow(color: Colors.ShadowEdge, radius: 4, x: 0, y: 0)
+                                EditableStandaloneTextBox(title: "Overall notes about your meal?", text: "this is a note")
                             }
                             
                             VerticalSpace(24)
@@ -170,12 +160,7 @@ struct MealView: View {
                                         
                                     }
                                     
-                                    HStack(alignment: .top, spacing: 4) {
-                                        FoodieText("This is a menu description", Colors.TextStaticTextSecondary, size:14, weight:.semibold)
-                                    }
-                                    .padding(8)
-                                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-                                    
+                                    EditableTextBoxRow(title: "Any notes about the menu?", text: "this is a a menu description")
                                 }
                                 .background(Colors.FillStaticFillPrimary)
                                 .cornerRadius(8)
@@ -198,7 +183,7 @@ struct MealView: View {
                                     
                                     // Add Course button
                                     // TODO: Move to a shared view component, this is used elsewhere.
-                                    HStack {
+                                    /*HStack {
                                         NavigationLink(destination: CourseCreateView(mealId: meal.item.id)) {
                                             HStack {
                                                 FoodieIcon("\u{e91f}", Colors.BorderActionBorderAction, padding:0)
@@ -214,7 +199,12 @@ struct MealView: View {
                                             )
                                         }
                                         .buttonStyle(AddCourseButtonStyle())
-                                    }
+                                    }*/
+                                    
+                                    
+                                    BarButtonNav(text:"Add a course", destination: CourseCreateView(mealId: meal.item.id))
+                                    
+                                    
                                 }
                             }
                         }
@@ -238,32 +228,6 @@ struct MealView: View {
             }
             .ignoresSafeArea(.all)
             .navigationBarHidden(true)
-        }
-    }
-
-    private struct LargeActionWhiteButtonStyle: ButtonStyle {
-        let icon:String;
-        
-        func makeBody(configuration: Self.Configuration) -> some View {
-            configuration.label
-                .background(configuration.isPressed ? Colors.FillActionFillActionPressed : Colors.FillActionFillActionSubtle)
-                .cornerRadius(80)
-                .overlay() {
-                    FoodieIcon(icon, configuration.isPressed ? Colors.FillActionFillActionPressedIcon : Colors.FillActionFillAction, size:32, padding:0)
-                }
-        }
-    }
-    
-    private struct LargeActionRedButtonStyle: ButtonStyle {
-        let icon:String;
-
-        func makeBody(configuration: Self.Configuration) -> some View {
-            configuration.label
-                .background(configuration.isPressed ? Colors.FillActionFillActionPressed : Colors.FillActionFillAction)
-                .cornerRadius(80)
-                .overlay() {
-                    FoodieIcon(icon, configuration.isPressed ? Colors.FillActionFillActionPressedIcon : Color.white, size:32, padding:0)
-                }
         }
     }
     

@@ -26,10 +26,11 @@
 		AA6026842C651B89008652B4 /* BottomFade.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA6026832C651B89008652B4 /* BottomFade.swift */; };
 		AA6026912C6563F1008652B4 /* WrappingHStack in Frameworks */ = {isa = PBXBuildFile; productRef = AA6026902C6563F1008652B4 /* WrappingHStack */; };
 		AA6026932C6572E4008652B4 /* CourseListCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA6026922C6572E4008652B4 /* CourseListCard.swift */; };
-		AA6026952C666C30008652B4 /* ActionButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA6026942C666C30008652B4 /* ActionButtons.swift */; };
-		AA6026972C667324008652B4 /* EditableTextRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA6026962C667324008652B4 /* EditableTextRow.swift */; };
+		AA6026952C666C30008652B4 /* ActionButtonViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA6026942C666C30008652B4 /* ActionButtonViews.swift */; };
+		AA6026972C667324008652B4 /* EditableTextViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA6026962C667324008652B4 /* EditableTextViews.swift */; };
 		AA6026992C6673C6008652B4 /* VerticalSpace.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA6026982C6673C6008652B4 /* VerticalSpace.swift */; };
 		AA60269B2C667481008652B4 /* ViewSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA60269A2C667481008652B4 /* ViewSection.swift */; };
+		AA60269F2C6811A1008652B4 /* EditSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA60269E2C6811A1008652B4 /* EditSheetView.swift */; };
 		AA63F3842C4A9E370024D1DF /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = AA63F3832C4A9E370024D1DF /* SwiftSoup */; };
 		AA63F3862C4BF6260024D1DF /* AsyncLinkViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA63F3852C4BF6260024D1DF /* AsyncLinkViewModel.swift */; };
 		AA63F38A2C4BF6E20024D1DF /* AsyncLoadableConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA63F3892C4BF6E20024D1DF /* AsyncLoadableConfig.swift */; };
@@ -171,10 +172,11 @@
 		AA6026812C63A6DC008652B4 /* MealListSortMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealListSortMenu.swift; sourceTree = "<group>"; };
 		AA6026832C651B89008652B4 /* BottomFade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomFade.swift; sourceTree = "<group>"; };
 		AA6026922C6572E4008652B4 /* CourseListCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseListCard.swift; sourceTree = "<group>"; };
-		AA6026942C666C30008652B4 /* ActionButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionButtons.swift; sourceTree = "<group>"; };
-		AA6026962C667324008652B4 /* EditableTextRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditableTextRow.swift; sourceTree = "<group>"; };
+		AA6026942C666C30008652B4 /* ActionButtonViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionButtonViews.swift; sourceTree = "<group>"; };
+		AA6026962C667324008652B4 /* EditableTextViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditableTextViews.swift; sourceTree = "<group>"; };
 		AA6026982C6673C6008652B4 /* VerticalSpace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalSpace.swift; sourceTree = "<group>"; };
 		AA60269A2C667481008652B4 /* ViewSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewSection.swift; sourceTree = "<group>"; };
+		AA60269E2C6811A1008652B4 /* EditSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSheetView.swift; sourceTree = "<group>"; };
 		AA63F3852C4BF6260024D1DF /* AsyncLinkViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncLinkViewModel.swift; sourceTree = "<group>"; };
 		AA63F3892C4BF6E20024D1DF /* AsyncLoadableConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncLoadableConfig.swift; sourceTree = "<group>"; };
 		AA63F38B2C4BFBCE0024D1DF /* AyncGuideLinkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AyncGuideLinkView.swift; sourceTree = "<group>"; };
@@ -427,10 +429,11 @@
 				AA6026812C63A6DC008652B4 /* MealListSortMenu.swift */,
 				AA6026832C651B89008652B4 /* BottomFade.swift */,
 				AA6026922C6572E4008652B4 /* CourseListCard.swift */,
-				AA6026942C666C30008652B4 /* ActionButtons.swift */,
-				AA6026962C667324008652B4 /* EditableTextRow.swift */,
+				AA6026942C666C30008652B4 /* ActionButtonViews.swift */,
 				AA6026982C6673C6008652B4 /* VerticalSpace.swift */,
 				AA60269A2C667481008652B4 /* ViewSection.swift */,
+				AA6026962C667324008652B4 /* EditableTextViews.swift */,
+				AA60269E2C6811A1008652B4 /* EditSheetView.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -727,6 +730,7 @@
 				AA0F1ED22C626E3E00B2202A /* MealListCard.swift in Sources */,
 				AAA064D62C46A7DA005397EA /* NotesSubViews.swift in Sources */,
 				AA81D2B32C38190800FF0221 /* CourseModel.swift in Sources */,
+				AA60269F2C6811A1008652B4 /* EditSheetView.swift in Sources */,
 				AA81D29F2C325D0B00FF0221 /* AppModel.swift in Sources */,
 				AA45C09F2C4727B5009F6DEC /* CourseCreateView.swift in Sources */,
 				AA81D2A22C3267C200FF0221 /* AppViewModel.swift in Sources */,
@@ -751,7 +755,7 @@
 				AABE57012C53E48100771A83 /* UIImage_Rotate.swift in Sources */,
 				AAC91A522C4C843C00225BDD /* ImageModels.swift in Sources */,
 				AA63F38C2C4BFBCE0024D1DF /* AyncGuideLinkView.swift in Sources */,
-				AA6026952C666C30008652B4 /* ActionButtons.swift in Sources */,
+				AA6026952C666C30008652B4 /* ActionButtonViews.swift in Sources */,
 				AACB64862C47F47B0008084D /* CuisineSubViews.swift in Sources */,
 				AABE56FC2C53D8C100771A83 /* AsyncLabelRecognitionViewModel.swift in Sources */,
 				AA7344502C4E8D5100A027FF /* PictureAndNotesModel.swift in Sources */,
@@ -765,7 +769,7 @@
 				AA4BF4BC2C47D26D00D01CF1 /* DateSubViews.swift in Sources */,
 				AA81D3002C3AA1DD00FF0221 /* Constants.swift in Sources */,
 				AABE57052C53F7F100771A83 /* String_Error.swift in Sources */,
-				AA6026972C667324008652B4 /* EditableTextRow.swift in Sources */,
+				AA6026972C667324008652B4 /* EditableTextViews.swift in Sources */,
 				AA81D20F2C26EEA100FF0221 /* FoodieNotesApp.swift in Sources */,
 				AAA064D82C46A7DA005397EA /* RatingViews.swift in Sources */,
 				AA6026992C6673C6008652B4 /* VerticalSpace.swift in Sources */,

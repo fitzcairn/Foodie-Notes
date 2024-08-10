@@ -1,5 +1,5 @@
 //
-//  LargeActionButtons.swift
+//  ActionButtonViews.swift
 //  Foodie Notes
 //
 //  Created by Steve Martin on 8/9/24.
@@ -8,6 +8,62 @@
 import SwiftUI
 
 
+
+struct BarButton: View {
+    let text:String;
+    let actionClosure: () -> Void;
+    
+    var body: some View {
+        Text("shit")
+    }
+}
+
+
+struct BarButtonNav<Destination>: View where Destination: View {
+    let text:String;
+    let destination: Destination
+    
+    var body: some View {
+        NavigationLink(destination: destination) {
+            BarButtonContent(text)
+        }
+        .buttonStyle(BarButtonStyle())
+    }
+}
+
+private struct BarButtonContent: View {
+    let text:String;
+    
+    init(_ text: String) {
+        self.text = text
+    }
+    
+    var body: some View {
+        HStack {
+            HStack {
+                FoodieIcon("\u{e91f}", Colors.BorderActionBorderAction, padding:0)
+                Spacer()
+                    .frame(width:8)
+                FoodieText("Add a course", Colors.TextActionTextAction, size:14, weight:.semibold)
+            }
+            .frame(maxWidth: .infinity, minHeight: 64, maxHeight: 64, alignment: .center)
+            .overlay(
+                RoundedRectangle(cornerRadius: 8)
+                    .inset(by: 0.75)
+                    .stroke(Colors.BorderStaticBorderSecondary, lineWidth: 1.5)
+            )
+            .buttonStyle(BarButtonStyle())
+        }
+    }
+}
+
+private struct BarButtonStyle: ButtonStyle {
+    func makeBody(configuration: Self.Configuration) -> some View {
+        configuration.label
+            .background(configuration.isPressed ? Colors.FillStaticFillSecondary : Colors.BackgroundBgPrimary)
+            .cornerRadius(8)
+    }
+}
 
 struct SmallClearButton: View {
     var disabled:Bool = false;
