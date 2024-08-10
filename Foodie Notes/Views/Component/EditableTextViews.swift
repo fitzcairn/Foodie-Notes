@@ -11,15 +11,18 @@ import SwiftUI
 
 struct EditableTextBoxRow: View {
     let title:String
-    var text:String = ""
-    
+    @Binding var text:String;
+    let onSave:() -> Void;
+
     var body : some View {
-        EditableTextComponent(title) {
+        EditableTextComponent(title, $text, onSave) {
             HStack(alignment: .top, spacing: 4) {
                 FoodieText(text, Colors.TextStaticTextSecondary, size:14, weight:.semibold)
             }
             .padding(8)
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+            .background(Colors.FillStaticFillPrimary)
+
         }
     }
 }
@@ -28,10 +31,11 @@ struct EditableTextBoxRow: View {
 
 struct EditableStandaloneTextBox: View {
     let title:String
-    var text:String = ""
+    @Binding var text:String;
+    let onSave:() -> Void;
     
     var body : some View {
-        EditableTextComponent(title) {
+        EditableTextComponent(title, $text, onSave) {
             HStack(alignment: .top, spacing: 0) {
                 FoodieText(text, Colors.TextStaticTextSecondary, size:14, weight:.semibold)
             }
@@ -48,15 +52,19 @@ struct EditableStandaloneTextBox: View {
 
 struct EditableTextRow<Content: View>: View {
     let title:String;
+    @Binding var text:String;
+    let onSave:() -> Void;
     let content: Content;
     
-    init(_ title:String, @ViewBuilder _ content: () -> Content) {
+    init(_ title:String, text:Binding<String>, onSave: @escaping () -> Void, @ViewBuilder _ content: () -> Content) {
         self.title = title;
+        self._text = text;
+        self.onSave = onSave;
         self.content = content()
     }
     
     var body : some View {
-        EditableTextComponent(title) {
+        EditableTextComponent(title, $text, onSave) {
             VStack(alignment: .trailing, spacing: 4) {
                 content
             }
@@ -69,16 +77,18 @@ struct EditableTextRow<Content: View>: View {
     }
 }
 
-struct EditableTextComponent<Content: View>: View {
+private struct EditableTextComponent<Content: View>: View {
     let title:String;
+    @Binding var text:String;
+    let onSave:() -> Void;
     let content: Content;
     
     @State var showSheet:Bool = false;
-    @State var inputText:String = "";
-    @FocusState private var setFocus:Bool;
     
-    init(_ title:String, @ViewBuilder _ content: () -> Content) {
+    init(_ title:String, _ text:Binding<String>, _ onSave: @escaping () -> Void, @ViewBuilder _ content: () -> Content) {
         self.title = title;
+        self._text = text;
+        self.onSave = onSave;
         self.content = content()
     }
     
@@ -95,15 +105,16 @@ struct EditableTextComponent<Content: View>: View {
                     }
                 },
                 topRightButton: {
-                    SmallClearButton(disabled: inputText.isEmpty) {
-                        inputText = ""
+                    SmallClearButton(disabled: text.isEmpty) {
+                        text = ""
                     }
                 },
                 editView: {
                     textFieldControl
                 },
                 saveButton: {
-                    LargeActionRedButton(icon:"\u{e905}", disabled:inputText.isEmpty) {
+                    LargeActionRedButton(icon:"\u{e905}", disabled:text.isEmpty) {
+                        onSave()
                         showSheet.toggle()
                     }
                 }
@@ -127,15 +138,13 @@ struct EditableTextComponent<Content: View>: View {
 
             VerticalSpace(16)
             
-            TextField("", text:$inputText, prompt: textFieldPrompt, axis:.vertical)
+            TextField("", text:$text, prompt: textFieldPrompt, axis:.vertical)
                 .font(
                   Font.custom("Nunito", size: 18)
                       .weight(.semibold)
                 )
                 .foregroundColor(Colors.TextStaticTextPrimary)
                 .padding(8)
-                .focused($setFocus)
-
         }
     }
 }
