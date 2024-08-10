@@ -9,50 +9,74 @@ import SwiftUI
 import ExyteMediaPicker
 
 
-struct NoPhotoPlaceholderView: View {
+// Expandable clipped image for a variable height row
+struct VariableHeightListPicture : View {
+    var picture: Picture?;
+    
     var body: some View {
-        Image(.noPhoto)
-            .resizable()
-            .scaledToFill()
+        PictureView(picture: picture)
+            .frame(width:56)
+            .clipped()
     }
 }
 
-struct PhotoView: View {
-    @StateObject var photoModel:AsyncPhotoViewModel = AsyncPhotoViewModel()
-    let img: SavedImage;
 
+// Clipped image for a cover
+struct CoverPicture : View {
+    var picture: Picture?;
+    
     var body: some View {
-        GeometryReader { g in
-            VStack {
-                AsyncPhotoView(
-                    source: photoModel,
-                    img: img,
-                    progressContent: {
-                        ProgressView()
-                    },
-                    photoContent: {
-                        let image = UIImage(data: photoModel.loadedImg?.imgData ?? Data()) ?? UIImage()
-                        Image(uiImage: image)
-                            .resizable()
-                            .scaledToFill()
-                            .aspectRatio(1, contentMode: .fit)
-                    }
-                )
-            }
-            .frame(width: g.size.width, height: g.size.height)
+        PictureView(picture: picture, useThumb: false)
+            .frame(height:270)
             .clipped()
-        }
     }
 }
 
 // Clipped image for meal list.
 struct MealListPicture : View {
     var picture: Picture?;
-    var width:CGFloat = 64;
-    var height:CGFloat = 64;
-    var cornerRadius:CGFloat = 4;
-    var isEditMode:Bool = false
-    @State var sheetShowing:Bool = false;
+
+    var body: some View {
+        PictureView(picture: picture)
+            .frame(width:64, height:113)
+            .clipped()
+    }
+}
+
+private struct NoPhotoPlaceholderView: View {
+    var body: some View {
+        Image(.noPhoto)
+            .resizable()
+            .scaledToFill()
+            .aspectRatio(contentMode: .fill)
+    }
+}
+
+private struct PhotoView: View {
+    @StateObject var photoModel:AsyncPhotoViewModel = AsyncPhotoViewModel()
+    let img: SavedImage;
+
+    var body: some View {
+        AsyncPhotoView(
+            source: photoModel,
+            img: img,
+            progressContent: {
+                ProgressView()
+            },
+            photoContent: {
+                let image = UIImage(data: photoModel.loadedImg?.imgData ?? Data()) ?? UIImage()
+                Image(uiImage: image)
+                    .resizable()
+                    .scaledToFill()
+                    .aspectRatio(contentMode: .fill)
+            }
+        )
+    }
+}
+
+private struct PictureView : View {
+    var picture: Picture?;
+    var useThumb: Bool = true;
     
     var body: some View {
         HStack {
@@ -60,13 +84,14 @@ struct MealListPicture : View {
                 NoPhotoPlaceholderView()
             }
             else {
-                PhotoView(img:picture!.photo!.thumb)
-                    .aspectRatio(1, contentMode: .fill)
-                    .frame(width:PhotoDimensions.photoThumbWidth, height: PhotoDimensions.photoThumbHeight)
+                PhotoView(img: useThumb ? picture!.photo!.thumb : picture!.photo!.full)
             }
         }
     }
 }
+
+
+
 
 
 

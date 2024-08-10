@@ -32,10 +32,7 @@ struct MealView: View {
                 ScrollView {
                     ZStack(alignment: .top) {
                         ZStack(alignment: .top) {
-                            // TODO: Replace with photo
-                            Rectangle()
-                                .frame(height:270)
-                                .foregroundColor(.black)
+                            CoverPicture(picture: viewModel.getMealImageFor(meal.item))
                             
                             // Edit photo button
                             VStack {
@@ -166,15 +163,13 @@ struct MealView: View {
                                     HStack(alignment: .center) {
                                         
                                         // TODO: Replace with menu photo
-                                        MealListPicture(picture:viewModel.getMealImageFor(meal.item))
-                                            .padding(4)
-                                            .frame(minWidth: 64, maxWidth: 64, minHeight:64, maxHeight: .infinity, alignment: .leading)
-                                            .clipped()
+                                        VariableHeightListPicture(picture:meal.item.menu.pictures.first)
                                             .clipShape(RoundedRectangle(cornerRadius: 8))
-                                        
+                                            .padding(4)
                                     }
+                                    .frame(width:64)
                                     
-                                    EditableTextBoxRow(title: "Any notes about the menu?", text: "this is a a menu description")
+                                    EditableTextBoxRow(title: "Any notes about the menu?", text: "Written by Greta Gerwig (Barbie) and Erin Cressida Wilson (Secretary), Snow White aims to update the 1937 original while keeping all the iconography intact. Zegler, who Steven Spielberg plucked from obscurity for his West Side Story remake and flexed her screen singing skills a second time in the recent The Hunger Games: The Ballad of Songbirds & Snakes, leads the musical film and, yes, will sing. The movie is expected to be a mix of numbers like “Whistle While You Work” and new songs from duo Benj Pasek and Justin Paul, best known for Dear Evan Hansen and that Hugh Jackman circus musical. Gal Gadot will face off against her as the Evil Queen, but unclear if she’ll sing.")
                                 }
                                 .background(Colors.FillStaticFillPrimary)
                                 .cornerRadius(8)
