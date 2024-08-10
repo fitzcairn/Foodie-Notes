@@ -8,16 +8,14 @@
 import SwiftUI
 
 
-
 struct BarButton: View {
     let text:String;
     let actionClosure: () -> Void;
     
     var body: some View {
-        Text("shit")
+        BarButtonContent(text)
     }
 }
-
 
 struct BarButtonNav<Destination>: View where Destination: View {
     let text:String;
@@ -134,6 +132,31 @@ struct LargeActionWhiteButton: View {
     }
 }
 
+struct MedActionWhiteButton: View {
+    let icon:String;
+    let action:() -> Void
+    
+    var body: some View {
+        ActionButton(action:action, dim: 48)
+            .buttonStyle(MedActionWhiteButtonStyle(icon:icon))
+    }
+}
+
+private struct MedActionWhiteButtonStyle: ButtonStyle {
+    let icon:String;
+    
+    func makeBody(configuration: Self.Configuration) -> some View {
+        configuration.label
+            .background(Colors.BackgroundBgTertiary)
+            .cornerRadius(80)
+            .overlay() {
+                FoodieIcon(icon, configuration.isPressed ? .black : Colors.FillActionFillAction, size:24, padding:0)
+            }
+            .shadow(color: Colors.ShadowMed, radius: 8, x: 0, y: 8)
+            .shadow(color: Colors.ShadowEdge, radius: 4, x: 0, y: 0)
+    }
+}
+
 struct LargeActionWhiteShareButton: View {
     let subject:String;
     let message:String;
@@ -158,6 +181,7 @@ struct LargeActionWhiteShareButton: View {
 
 private struct ActionButton: View {
     let action:() -> Void
+    var dim:CGFloat = 64
 
     var body: some View {
         Button(
@@ -165,15 +189,15 @@ private struct ActionButton: View {
                 action()
             },
             label: {
-                ActionButton.label()
+                ActionButton.label(dim)
             }
         )
     }
     
-    static func label() -> some View {
+    static func label(_ dim:CGFloat = 64) -> some View {
         HStack {
         }
-        .frame(width: 64, height: 64, alignment: .center)
+        .frame(width: dim, height: dim, alignment: .center)
     }
 }
 

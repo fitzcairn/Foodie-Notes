@@ -31,15 +31,29 @@ struct MealView: View {
 
                 ScrollView {
                     ZStack(alignment: .top) {
-                        VStack {
+                        ZStack(alignment: .top) {
                             // TODO: Replace with photo
                             Rectangle()
-                                .frame(height:200)
+                                .frame(height:270)
                                 .foregroundColor(.black)
+                            
+                            // Edit photo button
+                            VStack {
+                                VerticalSpace(64)
+
+                                HStack {
+                                    Spacer()
+                                    MedActionWhiteButton(icon: "\u{e914}") {
+                                        // TODO: Pop photo picker
+                                    }
+                                    .padding(.trailing, 25)
+                                }
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                            }
                         }
                         
                         VStack(alignment: .leading, spacing: 4) {
-                            VerticalSpace(180)
+                            VerticalSpace(250)
                             
                             // Meal Metadata
                             VStack {
@@ -181,30 +195,7 @@ struct MealView: View {
                                         }
                                     }
                                     
-                                    // Add Course button
-                                    // TODO: Move to a shared view component, this is used elsewhere.
-                                    /*HStack {
-                                        NavigationLink(destination: CourseCreateView(mealId: meal.item.id)) {
-                                            HStack {
-                                                FoodieIcon("\u{e91f}", Colors.BorderActionBorderAction, padding:0)
-                                                Spacer()
-                                                    .frame(width:8)
-                                                FoodieText("Add a course", Colors.TextActionTextAction, size:14, weight:.semibold)
-                                            }
-                                            .frame(maxWidth: .infinity, minHeight: 64, maxHeight: 64, alignment: .center)
-                                            .overlay(
-                                                RoundedRectangle(cornerRadius: 8)
-                                                    .inset(by: 0.75)
-                                                    .stroke(Colors.BorderStaticBorderSecondary, lineWidth: 1.5)
-                                            )
-                                        }
-                                        .buttonStyle(AddCourseButtonStyle())
-                                    }*/
-                                    
-                                    
                                     BarButtonNav(text:"Add a course", destination: CourseCreateView(mealId: meal.item.id))
-                                    
-                                    
                                 }
                             }
                         }
@@ -228,14 +219,6 @@ struct MealView: View {
             }
             .ignoresSafeArea(.all)
             .navigationBarHidden(true)
-        }
-    }
-    
-    private struct AddCourseButtonStyle: ButtonStyle {
-        func makeBody(configuration: Self.Configuration) -> some View {
-            configuration.label
-                .background(configuration.isPressed ? Colors.FillStaticFillSecondary : Colors.BackgroundBgPrimary)
-                .cornerRadius(8)
         }
     }
 }
