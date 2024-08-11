@@ -38,6 +38,8 @@ enum Colors {
     static let TextActionTextDisabled: Color = Color(red: 0.12, green: 0.12, blue: 0.12).opacity(0.3)
     static let BackgroundBgTertiary: Color = .white
     static let BorderStaticBorderTertiary: Color = Color(red: 0.12, green: 0.12, blue: 0.12).opacity(0.1)
+    static let BorderStaticBorderSubtle: Color = Color(red: 0.12, green: 0.12, blue: 0.12).opacity(0.1)
+    static let FillActionFillActionPressedSubtle: Color = Color(red: 0.97, green: 0.94, blue: 0.87)
 }
 
 enum PhotoDimensions {
@@ -74,7 +76,7 @@ enum Michelin: String, Codable, CaseIterable, Comparable {
     case threeStar = "3star"
     
     // TODO: Write a converter into these values.
-    case none = ""
+    case none = "\u{e91c}"
     case plateIcon = "\u{e918}"
     case bibGourmandIcon = "\u{e902}"
     case oneStarIcon = "\u{e919}"
@@ -104,6 +106,23 @@ enum Michelin: String, Codable, CaseIterable, Comparable {
 
     static func <(lhs: Michelin, rhs: Michelin) -> Bool {
        return lhs.sortOrder < rhs.sortOrder
+    }
+    
+    var displayName: String {
+        switch self {
+        case .none:
+            return "Not Rated"
+        case .plate, .plateIcon:
+            return "Michelin Plate"
+        case .bibGourmand, .bibGourmandIcon:
+            return "Bib Gourmand"
+        case .oneStar, .oneStarIcon:
+            return "1 Michelin Star"
+        case .twoStar, .twoStarIcon:
+            return "2 Michelin Stars"
+        case .threeStar, .threeStarIcon:
+            return "3 Michelin Stars"
+        }
     }
     
     var imgName: String {
