@@ -31,9 +31,6 @@ struct EditableMichelinRatingView<Content: View>: View {
             .shadow(color: Colors.ShadowMed, radius: 8, x: 0, y: 8)
             .shadow(color: Colors.ShadowEdge, radius: 4, x: 0, y: 0)
         }
-        .onAppear() {
-            print(rating)
-        }
     }
 }
 
