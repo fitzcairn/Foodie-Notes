@@ -11,6 +11,7 @@
 		AA0F1ED22C626E3E00B2202A /* MealListCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0F1ED12C626E3E00B2202A /* MealListCard.swift */; };
 		AA0F1ED32C626E3E00B2202A /* MealListCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0F1ED12C626E3E00B2202A /* MealListCard.swift */; };
 		AA0F1ED42C626E3E00B2202A /* MealListCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0F1ED12C626E3E00B2202A /* MealListCard.swift */; };
+		AA2D0AAB2C69469000481CB9 /* EditableDateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2D0AAA2C69469000481CB9 /* EditableDateView.swift */; };
 		AA45C07D2C471B23009F6DEC /* CourseEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA45C07C2C471B22009F6DEC /* CourseEditView.swift */; };
 		AA45C0992C471D09009F6DEC /* PrimaryButtonSubViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA45C0982C471D09009F6DEC /* PrimaryButtonSubViews.swift */; };
 		AA45C09B2C4723B5009F6DEC /* MealCreateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA45C09A2C4723B5009F6DEC /* MealCreateView.swift */; };
@@ -66,6 +67,7 @@
 		AAA064D62C46A7DA005397EA /* NotesSubViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA064CF2C46A7DA005397EA /* NotesSubViews.swift */; };
 		AAA064D72C46A7DA005397EA /* CourseSubViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA064D02C46A7DA005397EA /* CourseSubViews.swift */; };
 		AAA064D82C46A7DA005397EA /* RatingViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA064D12C46A7DA005397EA /* RatingViews.swift */; };
+		AAAA9A812C6952C6003F499F /* EditableRatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAA9A802C6952C6003F499F /* EditableRatingView.swift */; };
 		AAAFBB6D2C600A2100685F25 /* Nunito-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AAAFBB572C600A2100685F25 /* Nunito-Black.ttf */; };
 		AAAFBB6E2C600A2100685F25 /* Nunito-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AAAFBB572C600A2100685F25 /* Nunito-Black.ttf */; };
 		AAAFBB6F2C600A2100685F25 /* Nunito-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AAAFBB572C600A2100685F25 /* Nunito-Black.ttf */; };
@@ -159,6 +161,7 @@
 /* Begin PBXFileReference section */
 		AA0F1ECA2C60166D00B2202A /* foodie-icons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "foodie-icons.ttf"; sourceTree = "<group>"; };
 		AA0F1ED12C626E3E00B2202A /* MealListCard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MealListCard.swift; sourceTree = "<group>"; };
+		AA2D0AAA2C69469000481CB9 /* EditableDateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditableDateView.swift; sourceTree = "<group>"; };
 		AA45C07C2C471B22009F6DEC /* CourseEditView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseEditView.swift; sourceTree = "<group>"; };
 		AA45C0982C471D09009F6DEC /* PrimaryButtonSubViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryButtonSubViews.swift; sourceTree = "<group>"; };
 		AA45C09A2C4723B5009F6DEC /* MealCreateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealCreateView.swift; sourceTree = "<group>"; };
@@ -215,6 +218,7 @@
 		AAA064CF2C46A7DA005397EA /* NotesSubViews.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotesSubViews.swift; sourceTree = "<group>"; };
 		AAA064D02C46A7DA005397EA /* CourseSubViews.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseSubViews.swift; sourceTree = "<group>"; };
 		AAA064D12C46A7DA005397EA /* RatingViews.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RatingViews.swift; sourceTree = "<group>"; };
+		AAAA9A802C6952C6003F499F /* EditableRatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditableRatingView.swift; sourceTree = "<group>"; };
 		AAAFBB572C600A2100685F25 /* Nunito-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Nunito-Black.ttf"; sourceTree = "<group>"; };
 		AAAFBB582C600A2100685F25 /* Nunito-BlackItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Nunito-BlackItalic.ttf"; sourceTree = "<group>"; };
 		AAAFBB592C600A2100685F25 /* Nunito-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Nunito-Bold.ttf"; sourceTree = "<group>"; };
@@ -432,7 +436,9 @@
 				AA6026942C666C30008652B4 /* ActionButtonViews.swift */,
 				AA6026982C6673C6008652B4 /* VerticalSpace.swift */,
 				AA60269A2C667481008652B4 /* ViewSection.swift */,
+				AAAA9A802C6952C6003F499F /* EditableRatingView.swift */,
 				AA6026962C667324008652B4 /* EditableTextViews.swift */,
+				AA2D0AAA2C69469000481CB9 /* EditableDateView.swift */,
 				AA60269E2C6811A1008652B4 /* EditSheetView.swift */,
 			);
 			path = Component;
@@ -739,6 +745,7 @@
 				AAC91A542C4D047500225BDD /* AsyncPhotoViewModel.swift in Sources */,
 				AA6026932C6572E4008652B4 /* CourseListCard.swift in Sources */,
 				AA81D2BB2C39ECAC00FF0221 /* PhotoPickerViewModel.swift in Sources */,
+				AA2D0AAB2C69469000481CB9 /* EditableDateView.swift in Sources */,
 				AA6771CF2C581EB900487278 /* BeverageLinkView.swift in Sources */,
 				AACB03802C49272800D84E52 /* MichelinSubViews.swift in Sources */,
 				AA45C09B2C4723B5009F6DEC /* MealCreateView.swift in Sources */,
@@ -768,6 +775,7 @@
 				AAD2512E2C5C189000180006 /* LoadingView.swift in Sources */,
 				AA4BF4BC2C47D26D00D01CF1 /* DateSubViews.swift in Sources */,
 				AA81D3002C3AA1DD00FF0221 /* Constants.swift in Sources */,
+				AAAA9A812C6952C6003F499F /* EditableRatingView.swift in Sources */,
 				AABE57052C53F7F100771A83 /* String_Error.swift in Sources */,
 				AA6026972C667324008652B4 /* EditableTextViews.swift in Sources */,
 				AA81D20F2C26EEA100FF0221 /* FoodieNotesApp.swift in Sources */,

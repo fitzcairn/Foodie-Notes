@@ -51,10 +51,11 @@ struct EditSheetView<TopLeftButton: View, TopRightButton: View, EditView: View, 
                     Spacer ()
                     saveButton
                 }
+                .padding(.bottom, 0)
+                .padding(.trailing, -8)
             }
             .padding(.horizontal, 32)
             .padding(.top, 24)
-            .padding(.bottom, 32)
             .background(
                 LinearGradient(
                     stops: [

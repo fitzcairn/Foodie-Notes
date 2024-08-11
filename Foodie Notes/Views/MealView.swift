@@ -56,7 +56,7 @@ struct MealView: View {
                                         .frame(maxWidth: .infinity, alignment: .leading)
                                 }
                                 
-                                EditableTextRow("When did you visit?", text: $meal.item.venue.name, onSave:onSave) {
+                                EditableDateView("When did you visit?", date: $meal.item.date, onSave:onSave) {
                                     HStack {
                                         FoodieIcon("\u{e903}", Colors.IconSecondary, padding:0)
                                         FoodieText(meal.item.date.formatted(date:.abbreviated, time:.omitted), Colors.TextStaticTextSecondary, size:12, weight:.medium)
@@ -69,7 +69,7 @@ struct MealView: View {
                                 }
                                 
                                 HStack(alignment: .center, spacing: 4) {
-                                    EditableTextRow("How would you rate your meal here?", text: $meal.item.venue.name, onSave:onSave){
+                                    EditableRatingView("How would you rate your meal here?", rating: $meal.item.rating, onSave:onSave){
                                         RatingView(rating:meal.item.rating)
                                             .padding(.vertical, 4)
                                             .padding(.horizontal, 6)
@@ -197,8 +197,6 @@ struct MealView: View {
             .navigationBarHidden(true)
         }
     }
-    
-    
     
     private func onSave() {
         viewModel.saveEditedMealFor(meal.item)
