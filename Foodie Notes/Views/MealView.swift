@@ -76,8 +76,8 @@ struct MealView: View {
                                     }
                                     
                                     
-                                    // No rating view
-                                    if (meal.item.venue.michelin == nil && meal.item.venue.guideLink?.url == nil) {
+                                    if (meal.item.venue.michelin == nil || meal.item.venue.michelin! == .none) {
+                                        // No rating view
                                         EditableMichelinRatingView("What was this venue's Michelin rating?", rating: $meal.item.venue.michelin, onSave:onSave) {
                                             HStack {
                                                 FoodieText("( not michelin rated )", Colors.TextStaticTextSecondary, size:12, weight:.medium)
@@ -86,19 +86,26 @@ struct MealView: View {
                                             }
                                         }
                                     } else {
-                                        if meal.item.venue.michelin != nil {
-                                            EditableMichelinRatingView("What was this venue's Michelin rating?", rating: $meal.item.venue.michelin, onSave:onSave) {
-                                                MichelinStarView(rating: meal.item.venue.michelin)
-                                                    .padding(.horizontal, 4)
-                                                    .padding(.vertical, 3)
-                                            }
+                                        // Rating
+                                        EditableMichelinRatingView("What was this venue's Michelin rating?", rating: $meal.item.venue.michelin, onSave:onSave) {
+                                            MichelinStarView(rating: meal.item.venue.michelin)
+                                                .padding(.horizontal, 4)
+                                                .padding(.vertical, 3)
+                                                .frame(minWidth: 64, maxWidth: 64, alignment: .center)
                                         }
-                                        if meal.item.venue.guideLink?.url != nil {
-                                            HStack {
+                                        
+                                        // Guide link/link fetch
+                                        HStack {
+                                            HStack(alignment: .center, spacing: 4) {
                                                 FoodieIcon("\u{e911}", Colors.TextActionTextAction, padding:0)
                                                 GuideLinkView(meal:meal.item)
                                             }
                                             .frame(maxWidth: .infinity, alignment: .leading)
+                                            .padding(12)
+                                            .background(Colors.FillStaticFillPrimary)
+                                            .cornerRadius(8)
+                                            .shadow(color: Colors.ShadowMed, radius: 8, x: 0, y: 8)
+                                            .shadow(color: Colors.ShadowEdge, radius: 4, x: 0, y: 0)
                                         }
                                     }
                                 }

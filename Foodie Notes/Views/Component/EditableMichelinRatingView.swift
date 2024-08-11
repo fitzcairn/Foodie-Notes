@@ -31,6 +31,9 @@ struct EditableMichelinRatingView<Content: View>: View {
             .shadow(color: Colors.ShadowMed, radius: 8, x: 0, y: 8)
             .shadow(color: Colors.ShadowEdge, radius: 4, x: 0, y: 0)
         }
+        .onAppear() {
+            print(rating)
+        }
     }
 }
 
@@ -91,9 +94,8 @@ private struct EditableMichelinRatingComponent<Content: View>: View {
             FoodieText(title, Colors.TextStaticTextSecondary, size:16, weight:.semibold)
                 .padding(8)
             
-            VerticalSpace(8)
             
-            VStack(alignment: .center, spacing: 0) {
+            VStack(alignment: .center, spacing: 4) {
                 ForEach(michelinRatings, id: \.rawValue) { rating in
                     MichelinButton(label: rating, rating: $editRating)
                 }
@@ -103,7 +105,6 @@ private struct EditableMichelinRatingComponent<Content: View>: View {
             }
             .padding(.horizontal, 4)
             .padding(.vertical, 16)
-            .frame(maxWidth: .infinity, minHeight: 64, maxHeight: 64, alignment: .leading)
         }
     }
 }
@@ -116,44 +117,46 @@ private struct MichelinButton: View {
     var body: some View {
         Button(
             action: {
+                rating = label;
             },
             label:  {
                 HStack {
-                    HStack {
-                        FoodieText(label.displayName, Colors.TextStaticTextPrimary, size:12, weight:.bold)
-                        Spacer()
-                        FoodieIcon(label.imgName, Colors.BorderActionBorderAction, size:24, padding:0)
-                    }
-                    .padding(.leading, 16)
-                    .padding(.trailing, 12)
-                    .padding(.vertical, 12)
-                    .frame(alignment: .leading)
-                    .cornerRadius(8)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 8)
-                            .inset(by: 0.5)
-                            .stroke(Colors.BorderStaticBorderSubtle, lineWidth: 1)
-                    )
-                    .buttonStyle(MichelinButtonStyle(label: label))
+                    VerticalSpace(32)
                 }
+                .padding(.vertical, 12)
+                .padding(.leading, 16)
+                .padding(.trailing, 12)
+                .frame(maxWidth: .infinity, alignment: .leading)
             }
         )
+        .buttonStyle(MichelinButtonStyle(label: label, isSelected: rating == label))
     }
 }
 
 private struct MichelinButtonStyle: ButtonStyle {
     let label:Michelin;
+    let isSelected:Bool;
     
     func makeBody(configuration: Self.Configuration) -> some View {
         configuration.label
-            .background(configuration.isPressed ? Colors.FillActionFillActionPressedSubtle : .clear)
+            .background(isSelected ? Colors.FillStaticFillPrimary : configuration.isPressed ? Colors.FillActionFillActionPressedSubtle : Colors.BackgroundBgPrimary)
+            .cornerRadius(8)
             .overlay() {
                 HStack {
-                    FoodieText(label.displayName, Colors.TextStaticTextPrimary, size:12, weight:.bold)
+                    FoodieText(label.displayName, isSelected ? Colors.TextActionTextActionSelected : Colors.TextStaticTextPrimary, size:12, weight:.bold)
                     Spacer()
-                    FoodieIcon(label.imgName, Colors.BorderActionBorderAction, size:24, padding:0)
+                    FoodieIcon(label.imgName, isSelected ? Colors.TextActionTextActionSelected : configuration.isPressed ? Colors.TextStaticTextPrimary : Colors.MichelinIconInactive, size:24, padding:0)
                 }
+                .padding(.vertical, 12)
+                .padding(.leading, 16)
+                .padding(.trailing, 12)
+                RoundedRectangle(cornerRadius: 8)
+                    .inset(by: 0.5)
+                    .stroke(configuration.isPressed ? Colors.FillActionFillActionPressedSubtle : Colors.BorderStaticBorderSubtle, lineWidth: 1)
+                    .shadow(color: isSelected ? Colors.ShadowMed : .clear, radius: 8, x: 0, y: 8)
+                    .shadow(color: isSelected ? Colors.ShadowEdge : .clear, radius: 4, x: 0, y: 0)
             }
+
     }
 }
 

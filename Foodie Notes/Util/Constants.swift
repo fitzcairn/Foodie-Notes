@@ -40,6 +40,8 @@ enum Colors {
     static let BorderStaticBorderTertiary: Color = Color(red: 0.12, green: 0.12, blue: 0.12).opacity(0.1)
     static let BorderStaticBorderSubtle: Color = Color(red: 0.12, green: 0.12, blue: 0.12).opacity(0.1)
     static let FillActionFillActionPressedSubtle: Color = Color(red: 0.97, green: 0.94, blue: 0.87)
+    static let MichelinIconInactive: Color = Color(red: 0.78, green: 0.73, blue: 0.66)
+    static let TextActionTextActionSelected: Color = Color(red: 0.12, green: 0.12, blue: 0.12)
 }
 
 enum PhotoDimensions {

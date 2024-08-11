@@ -11,7 +11,6 @@ struct MichelinStarView: View {
     let rating:Michelin?
     
     var body: some View {
-        let rating:Michelin? = Michelin.threeStarIcon
         HStack {
             if let rating = rating {
                 FoodieIcon(rating.imgName, Colors.IconActionSelected, size:18, padding:0)

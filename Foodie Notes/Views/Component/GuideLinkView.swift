@@ -14,6 +14,8 @@ struct GuideLinkView: View {
     @StateObject var linkViewModel:AsyncLinkViewModel = AsyncLinkViewModel()
 
     let meal: Meal;
+    
+    
     // Eventually, allow for other guides.
     let guide:VenueGuide = .michelin
     
