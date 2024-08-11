@@ -9,22 +9,52 @@ import SwiftUI
 
 
 
-struct EditableTextBoxRow: View {
+struct EditableImageAndTextBoxRow: View {
     let title:String
+    let img:Picture?
     @Binding var text:String;
     let onSave:() -> Void;
 
+    @State private var textFieldHeight: CGFloat = .zero
+    
     var body : some View {
-        EditableTextComponent(title, $text, onSave) {
-            HStack(alignment: .top, spacing: 4) {
-                FoodieText(text, Colors.TextStaticTextSecondary, size:14, weight:.semibold)
+        HStack(alignment: .top, spacing: 10) {
+            HStack(alignment: .center) {
+                VariableHeightListPicture(picture: img)
+                    .clipShape(RoundedRectangle(cornerRadius: 4))
+                    .padding(4)
             }
-            .padding(8)
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-            .background(Colors.FillStaticFillPrimary)
-
+            .frame(width:64, height: textFieldHeight)
+            
+            EditableTextComponent(title, $text, onSave) {
+                HStack(alignment: .top, spacing: 4) {
+                    FoodieText(text, Colors.TextStaticTextSecondary, size:14, weight:.semibold)
+                }
+                .padding(8)
+                .frame(maxWidth: .infinity, minHeight:64, alignment: .topLeading)
+                .background(heightReader)
+                
+                .onChange(of: text) {
+                    print(textFieldHeight)
+                }
+            }
         }
+        .frame(minHeight:64)
+        .background(Colors.FillStaticFillPrimary)
+        .cornerRadius(8)
+        .shadow(color: Colors.ShadowMed, radius: 8, x: 0, y: 8)
+        .shadow(color: Colors.ShadowEdge, radius: 4, x: 0, y: 0)
     }
+    
+      private var heightReader: some View {
+          GeometryReader { proxy in
+              let h = proxy.size.height
+              Colors.FillStaticFillPrimary
+                  .onChange(of: h, initial: true) { oldVal, newVal in
+                      textFieldHeight = newVal
+                  }
+          }
+      }
 }
 
 
@@ -84,7 +114,12 @@ private struct EditableTextComponent<Content: View>: View {
     let content: Content;
     
     @State var showSheet:Bool = false;
+    //@State var editText:String;
     
+    // !! -------
+    // TODO: Only save editText on save button
+    // !! -------
+
     init(_ title:String, _ text:Binding<String>, _ onSave: @escaping () -> Void, @ViewBuilder _ content: () -> Content) {
         self.title = title;
         self._text = text;

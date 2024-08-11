@@ -15,7 +15,7 @@ struct VariableHeightListPicture : View {
     
     var body: some View {
         PictureView(picture: picture)
-            .frame(width:56)
+            .frame(minWidth:56, maxWidth:56, minHeight: 56, maxHeight: .infinity)
     }
 }
 

@@ -155,24 +155,9 @@ struct MealView: View {
 
                             // Menu[s]
                             ViewSection("Menus") {
-                                HStack(alignment: .top, spacing: 10) {
-                                    HStack(alignment: .center) {
-                                        
-                                        // TODO: Replace with menu photo
-                                        VariableHeightListPicture(picture:meal.item.menu.pictures.first)
-                                            .clipShape(RoundedRectangle(cornerRadius: 4))
-                                            .padding(4)
-                                    }
-                                    .frame(width:64)
-                                    
-                                    EditableTextBoxRow(title: "Any notes about the menu?", text: $meal.item.menu.notes, onSave:onSave)
-                                }
-                                .background(Colors.FillStaticFillPrimary)
-                                .cornerRadius(8)
-                                .shadow(color: Colors.ShadowMed, radius: 8, x: 0, y: 8)
-                                .shadow(color: Colors.ShadowEdge, radius: 4, x: 0, y: 0)
+                                EditableImageAndTextBoxRow(title: "Any notes about the menu?", img: meal.item.menu.pictures.first, text: $meal.item.menu.notes, onSave:onSave)
                             }
-                            
+
                             VerticalSpace(24)
                             
                             // Courses
@@ -212,6 +197,8 @@ struct MealView: View {
             .navigationBarHidden(true)
         }
     }
+    
+    
     
     private func onSave() {
         viewModel.saveEditedMealFor(meal.item)
