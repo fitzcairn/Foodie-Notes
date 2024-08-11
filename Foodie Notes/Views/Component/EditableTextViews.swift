@@ -8,7 +8,6 @@
 import SwiftUI
 
 
-
 struct EditableImageAndTextBoxRow: View {
     let title:String
     let img:Picture?
@@ -109,22 +108,19 @@ struct EditableTextRow<Content: View>: View {
 
 private struct EditableTextComponent<Content: View>: View {
     let title:String;
-    @Binding var text:String;
+    @Binding var inputText:String;
     let onSave:() -> Void;
     let content: Content;
     
     @State var showSheet:Bool = false;
-    //@State var editText:String;
-    
-    // !! -------
-    // TODO: Only save editText on save button
-    // !! -------
+    @State var editText:String;
 
-    init(_ title:String, _ text:Binding<String>, _ onSave: @escaping () -> Void, @ViewBuilder _ content: () -> Content) {
+    init(_ title:String, _ inputText:Binding<String>, _ onSave: @escaping () -> Void, @ViewBuilder _ content: () -> Content) {
         self.title = title;
-        self._text = text;
+        self._inputText = inputText;
         self.onSave = onSave;
         self.content = content()
+        self._editText = State.init(initialValue: inputText.wrappedValue)
     }
     
     var body: some View {
@@ -140,20 +136,24 @@ private struct EditableTextComponent<Content: View>: View {
                     }
                 },
                 topRightButton: {
-                    SmallClearButton(disabled: text.isEmpty) {
-                        text = ""
+                    SmallClearButton(disabled: editText.isEmpty) {
+                        editText = ""
                     }
                 },
                 editView: {
                     textFieldControl
                 },
                 saveButton: {
-                    LargeActionRedButton(icon:"\u{e905}", disabled:text.isEmpty) {
+                    LargeActionRedButton(icon:"\u{e905}", disabled:editText.isEmpty) {
+                        inputText = editText
                         onSave()
                         showSheet.toggle()
                     }
                 }
             )
+            .onAppear() {
+                editText = inputText;
+            }
         }
     }
     
@@ -173,7 +173,7 @@ private struct EditableTextComponent<Content: View>: View {
 
             VerticalSpace(16)
             
-            TextField("", text:$text, prompt: textFieldPrompt, axis:.vertical)
+            TextField("", text:$editText, prompt: textFieldPrompt, axis:.vertical)
                 .font(
                   Font.custom("Nunito", size: 18)
                       .weight(.semibold)
