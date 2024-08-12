@@ -37,7 +37,7 @@ struct MealView: View {
                                     Spacer()
                                     
                                     // TODO: change to image picker.
-                                    ImageShow(src: .picture(viewModel.getMealImageFor(meal.item)))
+                                    ButtonForExpandableImageGallery(src: .list(viewModel.getAllImagesFor(meal.item)))
                                         .padding(.trailing, 25)
                                 }
                                 .frame(maxWidth: .infinity, alignment: .leading)
