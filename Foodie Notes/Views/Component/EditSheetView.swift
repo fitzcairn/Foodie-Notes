@@ -12,12 +12,14 @@ struct EditSheetView<TopLeftButton: View, TopRightButton: View, EditView: View, 
     let topRightButton: TopRightButton;
     let editView: EditView;
     let saveButton: SaveButton;
+    let renderSave:Bool;
     
-    init(@ViewBuilder topLeftButton: () -> TopLeftButton, @ViewBuilder topRightButton:() -> TopRightButton, @ViewBuilder editView: () -> EditView, @ViewBuilder saveButton: () -> SaveButton) {
+    init(@ViewBuilder topLeftButton: () -> TopLeftButton, @ViewBuilder topRightButton:() -> TopRightButton, @ViewBuilder editView: () -> EditView, @ViewBuilder saveButton: () -> SaveButton, renderSave:Bool = true) {
         self.topLeftButton = topLeftButton()
         self.topRightButton = topRightButton()
         self.editView = editView()
         self.saveButton = saveButton()
+        self.renderSave = renderSave;
     }
 
     var body: some View {
@@ -44,28 +46,32 @@ struct EditSheetView<TopLeftButton: View, TopRightButton: View, EditView: View, 
             }
             .padding(.horizontal, 25)
             
-            Spacer()
             
-            VStack(alignment: .trailing, spacing: 16) {
-                HStack {
-                    Spacer ()
-                    saveButton
+            // Allow overriding of the save button.
+            if renderSave {
+                Spacer()
+                
+                VStack(alignment: .trailing, spacing: 16) {
+                    HStack {
+                        Spacer ()
+                        saveButton
+                    }
+                    .padding(.bottom, 0)
+                    .padding(.trailing, -8)
                 }
-                .padding(.bottom, 0)
-                .padding(.trailing, -8)
-            }
-            .padding(.horizontal, 32)
-            .padding(.top, 24)
-            .background(
-                LinearGradient(
-                    stops: [
-                        Gradient.Stop(color: Color(red: 1, green: 0.98, blue: 0.96).opacity(0), location: 0.00),
-                        Gradient.Stop(color: Color(red: 1, green: 0.99, blue: 0.96), location: 1.00),
-                    ],
-                    startPoint: UnitPoint(x: 0.5, y: 0),
-                    endPoint: UnitPoint(x: 0.5, y: 1)
+                .padding(.horizontal, 32)
+                .padding(.top, 24)
+                .background(
+                    LinearGradient(
+                        stops: [
+                            Gradient.Stop(color: Color(red: 1, green: 0.98, blue: 0.96).opacity(0), location: 0.00),
+                            Gradient.Stop(color: Color(red: 1, green: 0.99, blue: 0.96), location: 1.00),
+                        ],
+                        startPoint: UnitPoint(x: 0.5, y: 0),
+                        endPoint: UnitPoint(x: 0.5, y: 1)
+                    )
                 )
-            )
+            }
         }
         .presentationDetents([.fraction(0.95)])
         .presentationContentInteraction(.scrolls)

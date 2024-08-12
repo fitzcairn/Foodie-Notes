@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import WrappingHStack
 import SwipeActions
 
 
@@ -121,39 +120,7 @@ struct MealView: View {
 
                             // Meal Cuisine
                             ViewSection("Cuisine") {
-                                HStack(alignment: .top, spacing: 8) {
-                                    HStack(alignment: .center, spacing: 4) {
-                                    }
-                                    .padding(.horizontal, 16)
-                                    .padding(.vertical, 8)
-                                    .frame(width: 28, height: 28, alignment: .center)
-                                    .cornerRadius(80)
-                                    .overlay(
-                                        ZStack {
-                                            FoodieIcon("\u{e91f}", Colors.BorderActionBorderAction, padding:0)
-                                            RoundedRectangle(cornerRadius: 80)
-                                                .inset(by: 0.75)
-                                                .stroke(Colors.BorderActionBorderAction, lineWidth: 1.5)
-                                        }
-                                    )
-                                    
-                                    WrappingHStack(meal.item.cuisines, id: \.self) { cuisine in
-                                        VStack {
-                                            HStack(alignment: .center, spacing: 4) {
-                                                FoodieText(cuisine.displayName, Colors.TextStaticTextSecondary, size:12, weight:.bold)
-                                            }
-                                            .fixedSize(horizontal: true, vertical: false)
-                                            .padding(.horizontal, 12)
-                                            .padding(.vertical, 4)
-                                            .frame(height: 28, alignment: .leading)
-                                            .background(Colors.FillStaticFillSecondary)
-                                            .cornerRadius(80)
-                                            Spacer()
-                                                .frame(height:8)
-                                        }
-                                        .frame(height:36)
-                                    }
-                                }
+                                EditableCuisineView(title: "What cuisine[s] were served for this meal?", cuisines: $meal.item.cuisines, onSave:onSave);
                             }
                             
                             VerticalSpace(24)

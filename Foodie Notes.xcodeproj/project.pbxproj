@@ -62,6 +62,8 @@
 		AA81D3002C3AA1DD00FF0221 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D2FF2C3AA1DD00FF0221 /* Constants.swift */; };
 		AA8CED052C6A098900A1395C /* EditableLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8CED042C6A098900A1395C /* EditableLocationView.swift */; };
 		AA8CED072C6A23A500A1395C /* ImageViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8CED062C6A23A500A1395C /* ImageViews.swift */; };
+		AA8CED092C6A4EB100A1395C /* SearchBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8CED082C6A4EB100A1395C /* SearchBox.swift */; };
+		AA8CED0B2C6A501100A1395C /* EditableCuisineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8CED0A2C6A501100A1395C /* EditableCuisineView.swift */; };
 		AAA064C72C46A084005397EA /* ModelIOService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA064C62C46A084005397EA /* ModelIOService.swift */; };
 		AAA064D22C46A7DA005397EA /* PictureSubViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA064CB2C46A7DA005397EA /* PictureSubViews.swift */; };
 		AAA064D32C46A7DA005397EA /* PhotoSubViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA064CC2C46A7DA005397EA /* PhotoSubViews.swift */; };
@@ -216,6 +218,8 @@
 		AA81D2FF2C3AA1DD00FF0221 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		AA8CED042C6A098900A1395C /* EditableLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditableLocationView.swift; sourceTree = "<group>"; };
 		AA8CED062C6A23A500A1395C /* ImageViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViews.swift; sourceTree = "<group>"; };
+		AA8CED082C6A4EB100A1395C /* SearchBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBox.swift; sourceTree = "<group>"; };
+		AA8CED0A2C6A501100A1395C /* EditableCuisineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditableCuisineView.swift; sourceTree = "<group>"; };
 		AAA064C62C46A084005397EA /* ModelIOService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelIOService.swift; sourceTree = "<group>"; };
 		AAA064CB2C46A7DA005397EA /* PictureSubViews.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PictureSubViews.swift; sourceTree = "<group>"; };
 		AAA064CC2C46A7DA005397EA /* PhotoSubViews.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoSubViews.swift; sourceTree = "<group>"; };
@@ -444,11 +448,13 @@
 				AA60269A2C667481008652B4 /* ViewSection.swift */,
 				AAAA9A822C695896003F499F /* EditableMichelinRatingView.swift */,
 				AAAA9A802C6952C6003F499F /* EditableRatingView.swift */,
+				AA8CED0A2C6A501100A1395C /* EditableCuisineView.swift */,
 				AA8CED042C6A098900A1395C /* EditableLocationView.swift */,
 				AA6026962C667324008652B4 /* EditableTextViews.swift */,
 				AA2D0AAA2C69469000481CB9 /* EditableDateView.swift */,
 				AA60269E2C6811A1008652B4 /* EditSheetView.swift */,
 				AA8CED062C6A23A500A1395C /* ImageViews.swift */,
+				AA8CED082C6A4EB100A1395C /* SearchBox.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -748,6 +754,7 @@
 				AA81D2B32C38190800FF0221 /* CourseModel.swift in Sources */,
 				AA60269F2C6811A1008652B4 /* EditSheetView.swift in Sources */,
 				AA81D29F2C325D0B00FF0221 /* AppModel.swift in Sources */,
+				AA8CED092C6A4EB100A1395C /* SearchBox.swift in Sources */,
 				AA45C09F2C4727B5009F6DEC /* CourseCreateView.swift in Sources */,
 				AA81D2A22C3267C200FF0221 /* AppViewModel.swift in Sources */,
 				AAD2512C2C5C17F700180006 /* AppView.swift in Sources */,
@@ -790,6 +797,7 @@
 				AAAA9A812C6952C6003F499F /* EditableRatingView.swift in Sources */,
 				AABE57052C53F7F100771A83 /* String_Error.swift in Sources */,
 				AA6026972C667324008652B4 /* EditableTextViews.swift in Sources */,
+				AA8CED0B2C6A501100A1395C /* EditableCuisineView.swift in Sources */,
 				AA81D20F2C26EEA100FF0221 /* FoodieNotesApp.swift in Sources */,
 				AAA064D82C46A7DA005397EA /* RatingView.swift in Sources */,
 				AA6026992C6673C6008652B4 /* VerticalSpace.swift in Sources */,
