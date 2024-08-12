@@ -34,19 +34,12 @@ struct CourseListCard: View {
                                 
                                 // Actual Picture
                                 HStack(alignment: .bottom, spacing: 4) {
+                                    CourseListPicture(picture: viewModel.getCourseImageFor(course), num:4)
                                 }
                                 .padding(.horizontal, 0)
                                 .padding(.top, 0)
                                 .padding(.bottom, 0)
                                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
-                                .background(
-                                    // TODO: Picture
-                                    Image(.noPhoto)
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fill)
-                                        .frame(width: 56, height: 56)
-                                        .clipped()
-                                )
                                 .cornerRadius(4)
                                 
                             }

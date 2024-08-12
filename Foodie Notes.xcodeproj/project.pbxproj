@@ -61,6 +61,7 @@
 		AA81D2BB2C39ECAC00FF0221 /* PhotoPickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D2BA2C39ECAC00FF0221 /* PhotoPickerViewModel.swift */; };
 		AA81D3002C3AA1DD00FF0221 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D2FF2C3AA1DD00FF0221 /* Constants.swift */; };
 		AA8CED052C6A098900A1395C /* EditableLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8CED042C6A098900A1395C /* EditableLocationView.swift */; };
+		AA8CED072C6A23A500A1395C /* ImageViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8CED062C6A23A500A1395C /* ImageViews.swift */; };
 		AAA064C72C46A084005397EA /* ModelIOService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA064C62C46A084005397EA /* ModelIOService.swift */; };
 		AAA064D22C46A7DA005397EA /* PictureSubViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA064CB2C46A7DA005397EA /* PictureSubViews.swift */; };
 		AAA064D32C46A7DA005397EA /* PhotoSubViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA064CC2C46A7DA005397EA /* PhotoSubViews.swift */; };
@@ -214,6 +215,7 @@
 		AA81D2BA2C39ECAC00FF0221 /* PhotoPickerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerViewModel.swift; sourceTree = "<group>"; };
 		AA81D2FF2C3AA1DD00FF0221 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		AA8CED042C6A098900A1395C /* EditableLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditableLocationView.swift; sourceTree = "<group>"; };
+		AA8CED062C6A23A500A1395C /* ImageViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViews.swift; sourceTree = "<group>"; };
 		AAA064C62C46A084005397EA /* ModelIOService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelIOService.swift; sourceTree = "<group>"; };
 		AAA064CB2C46A7DA005397EA /* PictureSubViews.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PictureSubViews.swift; sourceTree = "<group>"; };
 		AAA064CC2C46A7DA005397EA /* PhotoSubViews.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoSubViews.swift; sourceTree = "<group>"; };
@@ -446,6 +448,7 @@
 				AA6026962C667324008652B4 /* EditableTextViews.swift */,
 				AA2D0AAA2C69469000481CB9 /* EditableDateView.swift */,
 				AA60269E2C6811A1008652B4 /* EditSheetView.swift */,
+				AA8CED062C6A23A500A1395C /* ImageViews.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -775,6 +778,7 @@
 				AA7344502C4E8D5100A027FF /* PictureAndNotesModel.swift in Sources */,
 				AA47BE442C4FD0C000E5D829 /* SearchableMap.swift in Sources */,
 				AA47BE462C4FD1B200E5D829 /* MapViewModel.swift in Sources */,
+				AA8CED072C6A23A500A1395C /* ImageViews.swift in Sources */,
 				AABE57032C53F6B300771A83 /* WebSearchService.swift in Sources */,
 				AA45C0992C471D09009F6DEC /* PrimaryButtonSubViews.swift in Sources */,
 				AAC91A582C4D43E900225BDD /* AsyncPhotoView.swift in Sources */,

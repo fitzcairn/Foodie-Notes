@@ -30,7 +30,7 @@ struct AsyncPhotoView<Source:AsyncImageConfig, ProgressContent: View, PhotoConte
         case .complete:
             photoContent
         case .error, .none:
-            EmptyView()
+            NoPhotoPlaceholderView()
         }
     }
 }
