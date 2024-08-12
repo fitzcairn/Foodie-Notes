@@ -91,6 +91,7 @@ struct NoPhotoPlaceholderView: View {
 struct PhotoView: View {
     @StateObject var photoModel:AsyncPhotoViewModel = AsyncPhotoViewModel()
     let img: SavedImage;
+    var contentMode:ContentMode = .fill;
 
     var body: some View {
         AsyncPhotoView(
@@ -104,7 +105,7 @@ struct PhotoView: View {
                 Image(uiImage: image)
                     .resizable()
                     .scaledToFill()
-                    .aspectRatio(contentMode: .fill)
+                    .aspectRatio(contentMode: contentMode)
             }
         )
     }

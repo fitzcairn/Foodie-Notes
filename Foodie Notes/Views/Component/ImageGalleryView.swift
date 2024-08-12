@@ -67,8 +67,7 @@ private struct ImageSheetView: View {
                 .padding(.horizontal, 0)
                 .padding(.top, 80)
                 .padding(.bottom, 118)
-                .frame(maxWidth: .infinity, alignment: .top)
-
+            
             VStack(alignment: .leading, spacing: 16) {
                 Spacer()
                 
@@ -76,13 +75,14 @@ private struct ImageSheetView: View {
                     LargeActionRedButton(icon:"\u{e900}") {
                         showSheet.toggle()
                     }
-                    // Spacer();
+                    .padding(.leading, -8)
+                    .padding(.bottom, 0)
+                    Spacer()
                 }
                 .padding(.horizontal, 32)
-                //.background(.red)
-                .frame(maxWidth: .infinity, alignment: .top)
             }
         }
+        .frame(maxWidth: .infinity, alignment: .top)
         .presentationDetents([.fraction(0.95)])
         .presentationContentInteraction(.scrolls)
         .presentationBackground(alignment: .bottom) {
@@ -102,12 +102,12 @@ private struct ImageGalleryView: View {
     var body: some View {
         if images.count > 0 {
             VStack(alignment: .center, spacing: 0) {
-                PhotoView(img: images.first!.full)
+                PhotoView(img: images.first!.full, contentMode: .fit)
             }
         } else {
             // TODO: Implement Gallery
             VStack(alignment: .center, spacing: 0) {
-                PhotoView(img: images.first!.full)
+                PhotoView(img: images.first!.full, contentMode: .fit)
             }
         }
     }
