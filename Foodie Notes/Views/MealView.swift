@@ -35,10 +35,10 @@ struct MealView: View {
 
                                 HStack {
                                     Spacer()
-                                    MedActionWhiteButton(icon: "\u{e914}") {
-                                        // TODO: Pop photo picker
-                                    }
-                                    .padding(.trailing, 25)
+                                    
+                                    // TODO: change to image picker.
+                                    ImageShow(src: .picture(viewModel.getMealImageFor(meal.item)))
+                                        .padding(.trailing, 25)
                                 }
                                 .frame(maxWidth: .infinity, alignment: .leading)
                             }

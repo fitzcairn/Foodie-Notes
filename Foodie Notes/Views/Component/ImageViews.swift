@@ -88,7 +88,7 @@ struct NoPhotoPlaceholderView: View {
     }
 }
 
-private struct PhotoView: View {
+struct PhotoView: View {
     @StateObject var photoModel:AsyncPhotoViewModel = AsyncPhotoViewModel()
     let img: SavedImage;
 
