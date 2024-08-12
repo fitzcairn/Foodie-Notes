@@ -13,8 +13,8 @@ import MapKit
 class AsyncLocationViewModel: NSObject, AsyncLocationConfig, CLLocationManagerDelegate {
     var locationManager = CLLocationManager()
 
-    var locStatus: Status = .loading
-    var searchStatus: Status = .loading
+    @Published var locStatus: Status = .loading
+    @Published var searchStatus: Status = .loading
 
     @Published var authorizationStatus: CLAuthorizationStatus?
     @Published var location = Location()
@@ -82,10 +82,11 @@ class AsyncLocationViewModel: NSObject, AsyncLocationConfig, CLLocationManagerDe
                     self.locStatus = (loc.city == nil || loc.country == nil) ? .error : .complete
                     self.location = loc
                 } else {
-                    // Debug only, transparently fail geo lookup.
-                    print("Unable to fetch location information.")
+                    self.locStatus = .none
                 }
             }
+        } else {
+            self.locStatus = .error
         }
     }
     

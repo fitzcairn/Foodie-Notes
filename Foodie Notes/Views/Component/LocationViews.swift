@@ -8,33 +8,23 @@
 import SwiftUI
 import MapKit
 
-struct LocationIcon: View {
+/*struct LocationIcon: View {
     var edit = false;
     
     var body: some View {
-        if edit {
-            EditImg()
-        } else {
-            Image(systemName:"mappin.and.ellipse")
-                .resizable()
-                .scaledToFit()
-                .frame(height: 18)
-                .foregroundColor(Color.gray)
-                .opacity(/*@START_MENU_TOKEN@*/0.8/*@END_MENU_TOKEN@*/)
-        }
+        FoodieIcon("\u{e91e}", Colors.IconSecondary, padding:0)
     }
 }
 
 struct LocationView: View {
     let location: Location?
-    var edit = false;
     
     var body: some View {
         // TODO: REMOVE
         let location: Location? = self.location ?? Location(lat: 10, long: 10, city: "Cambridge", country: "United Kingdom")
         HStack {
             if (location?.city != nil && location?.country != nil) {
-                FoodieIcon("\u{e91e}", Colors.IconSecondary, padding:0)
+                LocationIcon()
                 
                 FoodieText("\(location!.city!), \(location!.country!)", Colors.TextStaticTextSecondary, size:12, weight:.medium)
                 Spacer()
@@ -43,7 +33,7 @@ struct LocationView: View {
             }
         }
     }
-}
+}*/
 
 struct LocationEditView: View {
     @Environment(NetworkService.self) private var networkService
@@ -59,12 +49,13 @@ struct LocationEditView: View {
         HStack {
             if (location != nil) {
                 // If we have a location already, use it.
-                LocationView(location: location!, edit:true)
+                LocationView(location: location!)
             } else if networkService.isConnected {
                 AsyncLocationView(
                     source: locViewModel,
                     progressContent: { Loading() },
-                    locContent: { LocationView(location: locViewModel.location, edit:true) })
+                    locContent: { LocationView(location: locViewModel.location) },
+                    errorContent: { EmptyView() })
                 .onChange(of: locViewModel.location) {
                     location = locViewModel.location
                     locViewModel.fetchVenueSuggestionFor(location)
@@ -77,11 +68,7 @@ struct LocationEditView: View {
             } else {
                 HStack {
                     LocationIcon()
-                    Text("No Internet Connection")
-                        .font(.system(size:14, weight: .regular))
-                        .foregroundColor(.gray)
-                        .fixedSize(horizontal: false, vertical: true)
-                        .lineLimit(1)
+                    FoodieText("( no internet connection )", Colors.TextStaticTextSecondary, size:12, weight:.medium)
                     Spacer()
                 }
             }

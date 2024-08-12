@@ -199,3 +199,14 @@ struct FoodieText: View {
     }
 }
 
+struct Loading: View {
+    var height:CGFloat = 18
+    
+    var body: some View {
+        HStack {
+            ProgressView()
+                .frame(height: 18)
+        }
+    }
+}
+

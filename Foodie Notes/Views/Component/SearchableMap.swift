@@ -45,12 +45,10 @@ struct SearchableMap: View {
                 selectedLocation = firstResult
             }
         }
-        .sheet(isPresented: $isSheetPresented) {
-            SheetView(searchResults: $searchResults)
-        }
+        SearchView(searchResults: $searchResults)
     }
     
-    private struct SheetView: View {
+    private struct SearchView: View {
         @State private var mapViewModel = MapViewModel(completer: .init())
         @State private var search: String = ""
         @Binding var searchResults: [SearchResult]

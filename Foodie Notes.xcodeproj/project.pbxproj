@@ -60,6 +60,7 @@
 		AA81D2B72C38193500FF0221 /* VenueModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D2B62C38193500FF0221 /* VenueModel.swift */; };
 		AA81D2BB2C39ECAC00FF0221 /* PhotoPickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D2BA2C39ECAC00FF0221 /* PhotoPickerViewModel.swift */; };
 		AA81D3002C3AA1DD00FF0221 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA81D2FF2C3AA1DD00FF0221 /* Constants.swift */; };
+		AA8CED052C6A098900A1395C /* EditableLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8CED042C6A098900A1395C /* EditableLocationView.swift */; };
 		AAA064C72C46A084005397EA /* ModelIOService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA064C62C46A084005397EA /* ModelIOService.swift */; };
 		AAA064D22C46A7DA005397EA /* PictureSubViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA064CB2C46A7DA005397EA /* PictureSubViews.swift */; };
 		AAA064D32C46A7DA005397EA /* PhotoSubViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA064CC2C46A7DA005397EA /* PhotoSubViews.swift */; };
@@ -212,6 +213,7 @@
 		AA81D2B62C38193500FF0221 /* VenueModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VenueModel.swift; sourceTree = "<group>"; };
 		AA81D2BA2C39ECAC00FF0221 /* PhotoPickerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerViewModel.swift; sourceTree = "<group>"; };
 		AA81D2FF2C3AA1DD00FF0221 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		AA8CED042C6A098900A1395C /* EditableLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditableLocationView.swift; sourceTree = "<group>"; };
 		AAA064C62C46A084005397EA /* ModelIOService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelIOService.swift; sourceTree = "<group>"; };
 		AAA064CB2C46A7DA005397EA /* PictureSubViews.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PictureSubViews.swift; sourceTree = "<group>"; };
 		AAA064CC2C46A7DA005397EA /* PhotoSubViews.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoSubViews.swift; sourceTree = "<group>"; };
@@ -440,6 +442,7 @@
 				AA60269A2C667481008652B4 /* ViewSection.swift */,
 				AAAA9A822C695896003F499F /* EditableMichelinRatingView.swift */,
 				AAAA9A802C6952C6003F499F /* EditableRatingView.swift */,
+				AA8CED042C6A098900A1395C /* EditableLocationView.swift */,
 				AA6026962C667324008652B4 /* EditableTextViews.swift */,
 				AA2D0AAA2C69469000481CB9 /* EditableDateView.swift */,
 				AA60269E2C6811A1008652B4 /* EditSheetView.swift */,
@@ -733,6 +736,7 @@
 			files = (
 				AAA064D72C46A7DA005397EA /* CourseSubViews.swift in Sources */,
 				AAA064C72C46A084005397EA /* ModelIOService.swift in Sources */,
+				AA8CED052C6A098900A1395C /* EditableLocationView.swift in Sources */,
 				AA47BE482C510DCA00E5D829 /* NetworkService.swift in Sources */,
 				AA7344522C4E8DD800A027FF /* AsyncLocationViewModel.swift in Sources */,
 				AA63F38A2C4BF6E20024D1DF /* AsyncLoadableConfig.swift in Sources */,

@@ -64,9 +64,7 @@ struct MealView: View {
                                     .frame(maxWidth: .infinity, alignment: .leading)
                                 }
                                 
-                                EditableTextRow("TODO: Location", text: $meal.item.venue.name, onSave:onSave) {
-                                    LocationView(location: meal.item.venue.location)
-                                }
+                                EditableLocationView("Where was this venue?", location: $meal.item.venue.location, venueName: $meal.item.venue.name, onSave:onSave)
                                 
                                 HStack(alignment: .center, spacing: 4) {
                                     EditableRatingView("How would you rate your meal here?", rating: $meal.item.rating, onSave:onSave){
