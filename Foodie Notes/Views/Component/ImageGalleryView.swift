@@ -76,7 +76,7 @@ private struct ImageSheetView: View {
                     LargeActionRedButton(icon:"\u{e900}") {
                         showSheet.toggle()
                     }
-                    //Spacer();
+                    // Spacer();
                 }
                 .padding(.horizontal, 32)
                 //.background(.red)

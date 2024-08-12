@@ -33,7 +33,7 @@ struct EditableCuisineView: View {
                 )
                 
                 WrappingHStack(cuisines, id: \.self) { cuisine in
-                    CuisinePill(cuisine)
+                    CuisinePill(cuisine, selected: true, disabled: true)
                 }
             }
         }
@@ -42,14 +42,16 @@ struct EditableCuisineView: View {
 
 private struct CuisinePill: View {
     let cuisine:Cuisine;
+    let disabled:Bool;
     @State var selected:Bool = false;
     let onSelectClosure:() -> Void;
 
 
-    init(_ cuisine: Cuisine, _ selected: Bool = false, onSelectClosure: @escaping () -> Void = {}) {
+    init(_ cuisine: Cuisine, selected: Bool = false, disabled:Bool = false, onSelectClosure: @escaping () -> Void = {}) {
         self.cuisine = cuisine
         self.onSelectClosure = onSelectClosure;
         self._selected = State.init(initialValue: selected)
+        self.disabled = disabled;
     }
     
     var body: some View {
@@ -68,8 +70,10 @@ private struct CuisinePill: View {
         }
         .frame(height:36)
         .onTapGesture {
-            selected.toggle()
-            onSelectClosure()
+            if !disabled {
+                selected.toggle()
+                onSelectClosure()
+            }
         }
     }
 }
@@ -133,7 +137,7 @@ private struct EditableCuisineComponent<Content: View>: View {
             ZStack {
                 ScrollView() {
                     WrappingHStack(Cuisine.allCases.filter() { filterText.isEmpty ? true :  $0.displayName.range(of:filterText, options: .caseInsensitive) != nil }, id: \.self) { cuisine in
-                        CuisinePill(cuisine, newCuisines.contains(cuisine)) {
+                        CuisinePill(cuisine, selected: newCuisines.contains(cuisine)) {
                             if let index = newCuisines.firstIndex(of: cuisine) {
                                 newCuisines.remove(at: index)
                             } else {
