@@ -53,7 +53,7 @@ struct CourseListCard: View {
                                 
                                 RatingView(rating:course.rating)
                                     .padding(.vertical, 4)
-                                    .padding(.horizontal, 6)
+                                    .padding(.horizontal, 2)
                             }
                             .padding(.leading, 8)
                             .padding(.trailing, 16)

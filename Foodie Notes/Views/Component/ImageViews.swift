@@ -48,7 +48,7 @@ struct CourseListPicture : View {
 
     var body: some View {
         ZStack(alignment: .bottom) {
-            PictureView(picture: picture, edit:true)
+            PictureView(picture: picture)
                 .frame(width:56, height:56)
                 .clipped()
             if picture != nil && num > 0 {
