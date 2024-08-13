@@ -35,7 +35,7 @@ enum GallerySource {
     }
 }
 
-struct ButtonForExpandableImageGallery: View {
+struct ExpandableImageGalleryButton: View {
     let src:GallerySource;
     @State var showSheet:Bool = false;
     
@@ -121,11 +121,11 @@ private struct ImageGalleryView: View {
     
     init(_ src: GallerySource) {
         self.images = src.images
-        self._image = State.init(initialValue: images.last!)//.first!)
+        self._image = State.init(initialValue: images.first!)
     }
     
     var body: some View {
-        if images.count == 0 {
+        if images.count == 1 {
             VStack(alignment: .center, spacing: 0) {
                 ImageGalleryImage(photo: image)
             }

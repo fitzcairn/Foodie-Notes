@@ -28,6 +28,7 @@ struct MealView: View {
                     ZStack(alignment: .top) {
                         ZStack(alignment: .top) {
                             CoverPicture(picture: viewModel.getMealImageFor(meal.item))
+                                .id(viewModel.getMealImageFor(meal.item))
                             
                             // Edit photo button
                             VStack {
@@ -37,7 +38,7 @@ struct MealView: View {
                                     Spacer()
                                     
                                     // TODO: change to image picker.
-                                    ButtonForExpandableImageGallery(src: .list(viewModel.getAllImagesFor(meal.item)))
+                                    SingleImagePickerButton(picture:$meal.item.pickedImage, onSave:onSave)
                                         .padding(.trailing, 25)
                                 }
                                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -127,7 +128,7 @@ struct MealView: View {
 
                             // Menu[s]
                             ViewSection("Menus") {
-                                EditableImageAndTextBoxRow(title: "Any notes about the menu?", img: meal.item.menu.pictures.first, text: $meal.item.menu.notes, onSave:onSave)
+                                EditableImageAndTextBoxRow(title: "Any notes about the menu?", pictures: $meal.item.menu.pictures, text: $meal.item.menu.notes, onSave:onSave)
                             }
 
                             VerticalSpace(24)

@@ -97,6 +97,7 @@ struct MealListView: View {
                         .listRowSeparator(.hidden)
                         .deleteDisabled(true)
                         .animation(nil, value: 0)
+                        .id(meal.pickedImage)
                 }
             }
             .safeAreaPadding(EdgeInsets(top: 0, leading: 0, bottom: 100, trailing: 0))

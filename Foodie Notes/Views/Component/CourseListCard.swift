@@ -34,7 +34,7 @@ struct CourseListCard: View {
                                 
                                 // Actual Picture
                                 HStack(alignment: .bottom, spacing: 4) {
-                                    CourseListPicture(picture: viewModel.getCourseImageFor(course), num:4)
+                                    CourseListPicture(picture: viewModel.getCourseImageFor(course))
                                 }
                                 .padding(.horizontal, 0)
                                 .padding(.top, 0)
