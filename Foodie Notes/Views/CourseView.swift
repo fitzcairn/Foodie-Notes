@@ -75,7 +75,7 @@ struct CourseView: View {
                             
                             // Tasting Notes
                             ViewSection("Tasting Notes") {
-                                EditableStandaloneTextBox(title: "Any notes on the food for this course?", text: $course.item.food.notes, onSave:onSave)
+                                EditableStandaloneTextBox(title: "Any notes on the food for this course?", addTitle: "Add Notes", text: $course.item.food.notes, onSave:onSave)
                             }
                             
                             // TODO: Pairings
@@ -99,7 +99,7 @@ struct CourseView: View {
                 
             }
             .onAppear() {
-                //course.item = viewModel.getCourseFor(course.item.id) ?? Course(mealId: course.item.mealId)
+                course.item = viewModel.getCourseFor(course.item.id) ?? Course(mealId: course.item.mealId)
             }
             .navigationBarHidden(true)
             .ignoresSafeArea(.all)

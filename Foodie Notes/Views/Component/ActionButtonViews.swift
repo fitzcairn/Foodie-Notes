@@ -9,6 +9,7 @@ import SwiftUI
 
 
 struct BarButton: View {
+    var icon:String = "\u{e91f}"
     let text: String;
     let action: () -> Void;
     
@@ -20,7 +21,7 @@ struct BarButton: View {
             label: {
                 HStack {
                     HStack {
-                        FoodieIcon("\u{e91f}", Colors.BorderActionBorderAction, padding:0)
+                        FoodieIcon(icon, Colors.BorderActionBorderAction, padding:0)
                         Spacer()
                             .frame(width:8)
                         FoodieText(text, Colors.TextActionTextAction, size:14, weight:.semibold)

@@ -118,7 +118,7 @@ struct MealView: View {
                             
                             // Meal Notes
                             ViewSection("Overall Notes") {
-                                EditableStandaloneTextBox(title: "Overall notes about your meal?", text: $meal.item.notes, onSave:onSave)
+                                EditableStandaloneTextBox(title: "Overall notes about your meal?", addTitle: "Add notes", text: $meal.item.notes, onSave:onSave)
                             }
                             
                             VerticalSpace(24)
@@ -132,7 +132,7 @@ struct MealView: View {
 
                             // Menu[s]
                             ViewSection("Menus") {
-                                EditableImageAndTextBoxRow(title: "Any notes about the menu?", pictures: $meal.item.menu.pictures, text: $meal.item.menu.notes, onSave:onSave)
+                                EditableImageAndTextBoxRow(title: "Any notes about the menu?", addTitle: "Add menu notes", pictures: $meal.item.menu.pictures, text: $meal.item.menu.notes, onSave:onSave)
                             }
 
                             VerticalSpace(24)
@@ -148,7 +148,7 @@ struct MealView: View {
                                         }
                                     }
                                     
-                                    BarButtonTriggeringTextInput(title: "What's the name of the course?", text:$courseName) {
+                                    BarButtonTriggeringTextInput(title: "What's the name of the course?", addTitle: "Add a course", text:$courseName) {
                                         newCourse.name = courseName
                                         viewModel.saveEditedCourse(newCourse)
                                         goToCourseView = true;

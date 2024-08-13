@@ -10,6 +10,7 @@ import SwiftUI
 
 struct EditableImageAndTextBoxRow: View {
     let title:String
+    let addTitle:String
     @Binding var pictures:[Picture]
     @Binding var text:String;
     let onSave:() -> Void;
@@ -18,34 +19,43 @@ struct EditableImageAndTextBoxRow: View {
     @State var showSheet:Bool = false;
     
     var body : some View {
-        HStack(alignment: .top, spacing: 10) {
-            HStack(alignment: .center) {
-                ExpandableImageGallery(src: .list(pictures)) {
-                    VariableHeightListPicture(picture: pictures.first, num:pictures.count)
-                        .clipShape(RoundedRectangle(cornerRadius: 4))
-                        .padding(4)
-                }
-                .id(pictures.first)
-            }
-            .frame(width:64, height: textFieldHeight)
-            
+        if text.isEmpty && pictures.isEmpty {
             EditableTextComponent(title, inputText: $text, showSheet: $showSheet, onSave:onSave, pictures: $pictures) {
-                HStack(alignment: .top, spacing: 4) {
-                    FoodieText(text, Colors.TextStaticTextSecondary, size:14, weight:.semibold)
-                }
-                .padding(8)
-                .frame(maxWidth: .infinity, minHeight:64, alignment: .topLeading)
-                .background(heightReader)
-                .onTapGesture {
+                BarButton(icon: "\u{e91d}", text: addTitle, action: {
+                    text = "";
                     showSheet.toggle()
+                })
+            }
+        } else {
+            HStack(alignment: .top, spacing: 10) {
+                HStack(alignment: .center) {
+                    ExpandableImageGallery(src: .list(pictures)) {
+                        VariableHeightListPicture(picture: pictures.first, num:pictures.count)
+                            .clipShape(RoundedRectangle(cornerRadius: 4))
+                            .padding(4)
+                    }
+                    .id(pictures.first)
+                }
+                .frame(width:64, height: textFieldHeight)
+                
+                EditableTextComponent(title, inputText: $text, showSheet: $showSheet, onSave:onSave, pictures: $pictures) {
+                    HStack(alignment: .top, spacing: 4) {
+                        FoodieText(text, Colors.TextStaticTextSecondary, size:14, weight:.semibold)
+                    }
+                    .padding(8)
+                    .frame(maxWidth: .infinity, minHeight:64, alignment: .topLeading)
+                    .background(heightReader)
+                    .onTapGesture {
+                        showSheet.toggle()
+                    }
                 }
             }
+            .frame(minHeight:64)
+            .background(Colors.FillStaticFillPrimary)
+            .cornerRadius(8)
+            .shadow(color: Colors.ShadowMed, radius: 8, x: 0, y: 8)
+            .shadow(color: Colors.ShadowEdge, radius: 4, x: 0, y: 0)
         }
-        .frame(minHeight:64)
-        .background(Colors.FillStaticFillPrimary)
-        .cornerRadius(8)
-        .shadow(color: Colors.ShadowMed, radius: 8, x: 0, y: 8)
-        .shadow(color: Colors.ShadowEdge, radius: 4, x: 0, y: 0)
     }
     
       private var heightReader: some View {
@@ -61,6 +71,7 @@ struct EditableImageAndTextBoxRow: View {
 
 struct EditableStandaloneTextBox: View {
     let title:String
+    let addTitle:String
     @Binding var text:String;
     let onSave:() -> Void;
     
@@ -68,17 +79,21 @@ struct EditableStandaloneTextBox: View {
 
     var body : some View {
         EditableTextComponent(title, inputText: $text, showSheet: $showSheet, onSave: onSave) {
-            HStack(alignment: .top, spacing: 0) {
-                FoodieText(text, Colors.TextStaticTextSecondary, size:14, weight:.semibold)
-            }
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(16)
-            .background(Colors.FillStaticFillPrimary)
-            .cornerRadius(8)
-            .shadow(color: Colors.ShadowMed, radius: 8, x: 0, y: 8)
-            .shadow(color: Colors.ShadowEdge, radius: 4, x: 0, y: 0)
-            .onTapGesture {
-                showSheet.toggle()
+            if text.isEmpty {
+                BarButtonTriggeringTextInput(title: title, addTitle: addTitle, text: $text, onSave: onSave, icon:"\u{e91d}")
+            } else {
+                HStack(alignment: .top, spacing: 0) {
+                    FoodieText(text, Colors.TextStaticTextSecondary, size:14, weight:.semibold)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(16)
+                .background(Colors.FillStaticFillPrimary)
+                .cornerRadius(8)
+                .shadow(color: Colors.ShadowMed, radius: 8, x: 0, y: 8)
+                .shadow(color: Colors.ShadowEdge, radius: 4, x: 0, y: 0)
+                .onTapGesture {
+                    showSheet.toggle()
+                }
             }
         }
     }
@@ -103,14 +118,16 @@ struct LargeRedButtonTriggeringTextInput: View {
 
 struct BarButtonTriggeringTextInput: View {
     let title:String
+    let addTitle:String
     @Binding var text:String;
     let onSave:() -> Void;
+    var icon:String = "\u{e91f}"
     
     @State var showSheet:Bool = false;
 
     var body : some View {
         EditableTextComponent(title, inputText: $text, showSheet: $showSheet, onSave: onSave) {
-            BarButton(text: "Add a course", action: {
+            BarButton(icon: icon, text: addTitle, action: {
                 text = "";
                 showSheet.toggle()
             })
@@ -220,7 +237,7 @@ private struct EditableTextComponent<Content: View>: View {
     }
     
     private var saveButton: some View {
-        LargeActionRedButton(icon:"\u{e905}", disabled:(editText.isEmpty && newPictures.isEmpty)) {
+        LargeActionRedButton(icon:"\u{e905}", disabled:(editText == inputText && newPictures == pictures)) {
             inputText = editText
             pictures = newPictures
             onSave()
