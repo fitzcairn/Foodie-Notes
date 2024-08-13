@@ -16,7 +16,7 @@ struct CourseListCard: View {
     @State var showConfirm:Bool = false;
     @State var swipeState:SwipeContext?;
     
-    @Binding var course:Course;
+    var course:Course;
     
     var body: some View {
         if deleted {
@@ -24,7 +24,7 @@ struct CourseListCard: View {
         } else {
             ZStack(alignment: .leading) {
                 SwipeView {
-                    NavigationLink(destination: CourseView(course:$course)) {
+                    NavigationLink(destination: CourseView(course:viewModel.getCourseFor(course.id)!)) {
                         // Course Card
                         HStack(alignment: .top, spacing: 0) {
                             

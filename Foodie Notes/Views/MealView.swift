@@ -140,8 +140,8 @@ struct MealView: View {
                         ViewSection("Courses") {
                             VStack {
                                 SwipeViewGroup {
-                                    ForEach(Array(zip(meal.item.courses.indices, meal.item.courses)), id: \.0) { index, course in
-                                        CourseListCard(course:$meal.item.courses[index])
+                                    ForEach(meal.item.courses, id: \.self) { course in
+                                        CourseListCard(course:course)
                                             .padding(.bottom, -2)
                                     }
                                 }
@@ -154,7 +154,7 @@ struct MealView: View {
                                     goToCourseView = true;
                                 }
                                 .navigationDestination(isPresented: $goToCourseView) {
-                                    CourseView(course:$newCourse)
+                                    CourseView(course:newCourse)
                                 }
                             }
                         }
