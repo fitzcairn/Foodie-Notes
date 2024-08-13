@@ -11,11 +11,7 @@ struct CourseView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @EnvironmentObject var viewModel:AppViewModel;
     
-    @ObservedObject private var course:WrappedStruct<Course>;
-    
-    init(course:Course) {
-        self.course = WrappedStruct(withItem:course)
-    }
+    @Binding var course:Course;
     
     var body: some View {
         NavigationStack {
@@ -27,8 +23,8 @@ struct CourseView: View {
                         
                         // Image
                         ZStack(alignment: .top) {
-                            CoverPicture(picture: viewModel.getCourseImageFor(course.item))
-                                .id(course.item.pickedImage)
+                            CoverPicture(picture: viewModel.getCourseImageFor(course))
+                                .id(course.pickedImage)
 
                             // Edit photo button
                             VStack {
@@ -37,11 +33,8 @@ struct CourseView: View {
                                 HStack {
                                     Spacer()
                                     
-                                    SingleImagePickerButton(picture:$course.item.pickedImage, onSave:onSave)
+                                    SingleImagePickerButton(picture:$course.pickedImage, onSave:onSave)
                                         .padding(.trailing, 25)
-                                        .onChange(of: course.item.pickedImage) {
-                                            print(viewModel.getCourseImageFor(course.item))
-                                        }
                                 }
                                 .frame(maxWidth: .infinity, alignment: .leading)
                             }
@@ -52,15 +45,15 @@ struct CourseView: View {
                             
                             // Course Metadata
                             VStack(alignment: .trailing) {
-                                EditableTextRow("What's the name of this course?", text: $course.item.name, onSave:onSave) {
-                                    FoodieText(course.item.name, Colors.TextStaticTextPrimary, weight: .semibold)
+                                EditableTextRow("What's the name of this course?", text: $course.name, onSave:onSave) {
+                                    FoodieText(course.name, Colors.TextStaticTextPrimary, weight: .semibold)
                                         .padding(.horizontal, 4)
                                         .frame(maxWidth: .infinity, alignment: .leading)
                                 }
                                 
                                 HStack(alignment: .center, spacing: 4) {
-                                    EditableRatingView("How would you rate your meal here?", rating: $course.item.rating, onSave:onSave){
-                                        RatingView(rating:course.item.rating)
+                                    EditableRatingView("How would you rate your meal here?", rating: $course.rating, onSave:onSave){
+                                        RatingView(rating:course.rating)
                                             .padding(.vertical, 4)
                                             .padding(.horizontal, 6)
                                     }
@@ -75,7 +68,7 @@ struct CourseView: View {
                             
                             // Tasting Notes
                             ViewSection("Tasting Notes") {
-                                EditableStandaloneTextBox(title: "Any notes on the food for this course?", addTitle: "Add Notes", text: $course.item.food.notes, onSave:onSave)
+                                EditableStandaloneTextBox(title: "Any notes on the food for this course?", addTitle: "Add Notes", text: $course.food.notes, onSave:onSave)
                             }
                             
                             // TODO: Pairings
@@ -94,12 +87,12 @@ struct CourseView: View {
                 // Buttons
                 BottomButtonContainer(
                     { LargeActionRedButton(icon:"\u{e900}", action: { self.presentationMode.wrappedValue.dismiss() }) },
-                    { MultiImagePickerButton(pictures:$course.item.food.pictures) }
+                    { MultiImagePickerButton(pictures:$course.food.pictures) }
                 )
                 
             }
             .onAppear() {
-                course.item = viewModel.getCourseFor(course.item.id) ?? Course(mealId: course.item.mealId)
+                course = viewModel.getCourseFor(course.id) ?? Course(mealId: course.mealId)
             }
             .navigationBarHidden(true)
             .ignoresSafeArea(.all)
@@ -107,7 +100,7 @@ struct CourseView: View {
     }
     
     private func onSave() {
-        viewModel.saveEditedCourse(course.item)
+        viewModel.saveEditedCourse(course)
     }
 }
 

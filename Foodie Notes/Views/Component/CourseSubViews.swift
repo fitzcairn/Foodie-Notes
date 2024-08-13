@@ -32,9 +32,9 @@ struct CourseItemView: View {
                 .padding(8)
                 Spacer()
             }
-            NavigationLink(destination: CourseView(course:course)) {
-                EmptyView()
-            }
+            //NavigationLink(destination: CourseView(course:course)) {
+            //    EmptyView()
+            //}
         }
     }
 }
@@ -116,9 +116,9 @@ struct CourseSubViews {
                     .padding(8)
                     Spacer()
                 }
-                NavigationLink(destination: CourseView(course:course)) {
-                    EmptyView()
-                }
+                //NavigationLink(destination: CourseView(course:course)) {
+                //    EmptyView()
+                //}
             }
         }
     }
