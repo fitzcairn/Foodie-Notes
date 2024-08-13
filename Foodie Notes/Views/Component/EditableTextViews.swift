@@ -84,7 +84,7 @@ struct EditableStandaloneTextBox: View {
     }
 }
 
-struct ButtonTriggeringTextInput: View {
+struct LargeRedButtonTriggeringTextInput: View {
     let title:String
     @Binding var text:String;
     let onSave:() -> Void;
@@ -94,6 +94,23 @@ struct ButtonTriggeringTextInput: View {
     var body : some View {
         EditableTextComponent(title, inputText: $text, showSheet: $showSheet, onSave: onSave) {
             LargeActionRedButton(icon: "\u{e91f}", action: {
+                text = "";
+                showSheet.toggle()
+            })
+        }
+    }
+}
+
+struct BarButtonTriggeringTextInput: View {
+    let title:String
+    @Binding var text:String;
+    let onSave:() -> Void;
+    
+    @State var showSheet:Bool = false;
+
+    var body : some View {
+        EditableTextComponent(title, inputText: $text, showSheet: $showSheet, onSave: onSave) {
+            BarButton(text: "Add a course", action: {
                 text = "";
                 showSheet.toggle()
             })

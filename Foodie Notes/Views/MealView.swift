@@ -14,9 +14,13 @@ struct MealView: View {
     @EnvironmentObject var viewModel:AppViewModel;
     
     @ObservedObject private var meal:WrappedStruct<Meal>;
-    
+    @State var goToCourseView:Bool = false;
+    @State var courseName:String = "";
+    @State var newCourse:Course;
+
     init(meal:Meal) {
         self.meal = WrappedStruct(withItem:meal)
+        self._newCourse = State.init(initialValue: Course(mealId: meal.id))
     }
     
     var body: some View {
@@ -144,7 +148,11 @@ struct MealView: View {
                                         }
                                     }
                                     
-                                    BarButtonNav(text:"Add a course", destination: CourseCreateView(mealId: meal.item.id))
+                                    BarButtonTriggeringTextInput(title: "What's the name of the course?", text:$courseName) {
+                                        newCourse.name = courseName
+                                        viewModel.saveEditedCourse(newCourse)
+                                        goToCourseView = true;
+                                    }
                                 }
                             }
                         }
@@ -166,8 +174,11 @@ struct MealView: View {
             .onAppear() {
                 meal.item = viewModel.getMealFor(meal.item.id) ?? Meal()
             }
-            .ignoresSafeArea(.all)
+            .navigationDestination(isPresented: $goToCourseView) {
+                CourseView(course:newCourse)
+            }
             .navigationBarHidden(true)
+            .ignoresSafeArea(.all)
         }
     }
     

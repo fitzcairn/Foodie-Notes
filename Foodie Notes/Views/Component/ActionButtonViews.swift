@@ -9,49 +9,32 @@ import SwiftUI
 
 
 struct BarButton: View {
-    let text:String;
-    let actionClosure: () -> Void;
+    let text: String;
+    let action: () -> Void;
     
     var body: some View {
-        BarButtonContent(text)
-    }
-}
-
-struct BarButtonNav<Destination>: View where Destination: View {
-    let text:String;
-    let destination: Destination
-    
-    var body: some View {
-        NavigationLink(destination: destination) {
-            BarButtonContent(text)
-        }
-        .buttonStyle(BarButtonStyle())
-    }
-}
-
-private struct BarButtonContent: View {
-    let text:String;
-    
-    init(_ text: String) {
-        self.text = text
-    }
-    
-    var body: some View {
-        HStack {
-            HStack {
-                FoodieIcon("\u{e91f}", Colors.BorderActionBorderAction, padding:0)
-                Spacer()
-                    .frame(width:8)
-                FoodieText("Add a course", Colors.TextActionTextAction, size:14, weight:.semibold)
+        Button(
+            action: {
+                action()
+            },
+            label: {
+                HStack {
+                    HStack {
+                        FoodieIcon("\u{e91f}", Colors.BorderActionBorderAction, padding:0)
+                        Spacer()
+                            .frame(width:8)
+                        FoodieText(text, Colors.TextActionTextAction, size:14, weight:.semibold)
+                    }
+                    .frame(maxWidth: .infinity, minHeight: 64, maxHeight: 64, alignment: .center)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 8)
+                            .inset(by: 0.75)
+                            .stroke(Colors.BorderStaticBorderSecondary, lineWidth: 1.5)
+                    )
+                }
             }
-            .frame(maxWidth: .infinity, minHeight: 64, maxHeight: 64, alignment: .center)
-            .overlay(
-                RoundedRectangle(cornerRadius: 8)
-                    .inset(by: 0.75)
-                    .stroke(Colors.BorderStaticBorderSecondary, lineWidth: 1.5)
-            )
-            .buttonStyle(BarButtonStyle())
-        }
+        )
+        .buttonStyle(BarButtonStyle())
     }
 }
 

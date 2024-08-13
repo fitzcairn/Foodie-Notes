@@ -110,7 +110,7 @@ struct CourseListCard: View {
                 }
                 Button ("Yes", role: .destructive) {
                     deleted = true;
-                    //viewModel.removeCourse(course.id); <-- TODO: Write
+                    viewModel.removeCourse(course)
                 }
             })
         }

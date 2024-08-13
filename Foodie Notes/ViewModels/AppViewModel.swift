@@ -135,6 +135,9 @@ class AppViewModel : ObservableObject {
     func getCourseFor(_ courseId:String) -> Course? {
         return model.getCourseFor(courseId);
     }
+    func removeCourse(_ course:Course) {
+        model.removeCourse(course)
+    }
     func saveEditedCourse(_ course:Course) {
         model.indexCourse(course)
         writeOut()
