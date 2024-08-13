@@ -137,6 +137,7 @@ class AppViewModel : ObservableObject {
     }
     func removeCourse(_ course:Course) {
         model.removeCourse(course)
+        writeOut()
     }
     func saveEditedCourse(_ course:Course) {
         model.indexCourse(course)

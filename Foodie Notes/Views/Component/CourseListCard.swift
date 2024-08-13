@@ -23,7 +23,6 @@ struct CourseListCard: View {
             EmptyView()
         } else {
             ZStack(alignment: .leading) {
-                
                 SwipeView {
                     NavigationLink(destination: CourseView(course:$course)) {
                         // Course Card

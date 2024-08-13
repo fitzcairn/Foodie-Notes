@@ -45,7 +45,6 @@ struct AppModel : Codable, Equatable {
         return []
     }
     mutating func removeCourse(_ course:Course) {
-        coursesById.removeValue(forKey: course.id)
         if let meal = getMealFor(course.mealId) {
             if let idx = meal.courses.firstIndex(where: { $0.id == course.id }) {
                 var meal = meal
@@ -53,6 +52,7 @@ struct AppModel : Codable, Equatable {
                 index(meal)
             }
         }
+        coursesById.removeValue(forKey: course.id)
     }
     mutating func index(_ meal:Meal) {
         let _ = getOrAddVenue(meal.venue.name);

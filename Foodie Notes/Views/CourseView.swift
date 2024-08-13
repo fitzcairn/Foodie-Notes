@@ -14,89 +14,88 @@ struct CourseView: View {
     @Binding var course:Course;
     
     var body: some View {
-        NavigationStack {
-            ZStack(alignment: .bottom) {
-                Color(Colors.BackgroundBgPrimary)
-                
-                ScrollView {
+        ZStack(alignment: .bottom) {
+            Color(Colors.BackgroundBgPrimary)
+            
+            ScrollView {
+                ZStack(alignment: .top) {
+                    
+                    // Image
                     ZStack(alignment: .top) {
+                        CoverPicture(picture: viewModel.getCourseImageFor(course))
+                            .id(course.pickedImage)
                         
-                        // Image
-                        ZStack(alignment: .top) {
-                            CoverPicture(picture: viewModel.getCourseImageFor(course))
-                                .id(course.pickedImage)
-
-                            // Edit photo button
-                            VStack {
-                                VerticalSpace(64)
+                        // Edit photo button
+                        VStack {
+                            VerticalSpace(64)
+                            
+                            HStack {
+                                Spacer()
                                 
-                                HStack {
-                                    Spacer()
-                                    
-                                    SingleImagePickerButton(picture:$course.pickedImage, onSave:onSave)
-                                        .padding(.trailing, 25)
-                                }
-                                .frame(maxWidth: .infinity, alignment: .leading)
+                                SingleImagePickerButton(picture:$course.pickedImage, onSave:onSave)
+                                    .padding(.trailing, 25)
                             }
+                            .frame(maxWidth: .infinity, alignment: .leading)
                         }
+                    }
+                    
+                    VStack(alignment: .leading, spacing: 4) {
+                        VerticalSpace(250)
                         
-                        VStack(alignment: .leading, spacing: 4) {
-                            VerticalSpace(250)
-                            
-                            // Course Metadata
-                            VStack(alignment: .trailing) {
-                                EditableTextRow("What's the name of this course?", text: $course.name, onSave:onSave) {
-                                    FoodieText(course.name, Colors.TextStaticTextPrimary, weight: .semibold)
-                                        .padding(.horizontal, 4)
-                                        .frame(maxWidth: .infinity, alignment: .leading)
-                                }
-                                
-                                HStack(alignment: .center, spacing: 4) {
-                                    EditableRatingView("How would you rate your meal here?", rating: $course.rating, onSave:onSave){
-                                        RatingView(rating:course.rating)
-                                            .padding(.vertical, 4)
-                                            .padding(.horizontal, 6)
-                                    }
-                                }
-                                //.frame(maxWidth: .infinity)
-                                
-                            } // Course Metadata
-                            
-                            VerticalSpace(24)
-                            
-                            // TODO: Photos
-                            
-                            // Tasting Notes
-                            ViewSection("Tasting Notes") {
-                                EditableStandaloneTextBox(title: "Any notes on the food for this course?", addTitle: "Add Notes", text: $course.food.notes, onSave:onSave)
+                        // Course Metadata
+                        VStack(alignment: .trailing) {
+                            EditableTextRow("What's the name of this course?", text: $course.name, onSave:onSave) {
+                                FoodieText(course.name, Colors.TextStaticTextPrimary, weight: .semibold)
+                                    .padding(.horizontal, 4)
+                                    .frame(maxWidth: .infinity, alignment: .leading)
                             }
                             
-                            // TODO: Pairings
+                            HStack(alignment: .center, spacing: 4) {
+                                EditableRatingView("How would you rate your meal here?", rating: $course.rating, onSave:onSave){
+                                    RatingView(rating:course.rating)
+                                        .padding(.vertical, 4)
+                                        .padding(.horizontal, 6)
+                                }
+                            }
+                            //.frame(maxWidth: .infinity)
                             
-                            
+                        } // Course Metadata
+                        
+                        VerticalSpace(24)
+                        
+                        // TODO: Photos
+                        
+                        // Tasting Notes
+                        ViewSection("Tasting Notes") {
+                            EditableStandaloneTextBox(title: "Any notes on the food for this course?", addTitle: "Add Notes", text: $course.food.notes, onSave:onSave)
                         }
-                        .padding(.horizontal, 24)
+                        
+                        // TODO: Pairings
                         
                         
                     }
+                    .padding(.horizontal, 24)
+                    
+                    
                 }
-                .safeAreaPadding(EdgeInsets(top: 0, leading: 0, bottom: 150, trailing: 0))
-                
-                BottomFade()
-                
-                // Buttons
-                BottomButtonContainer(
-                    { LargeActionRedButton(icon:"\u{e900}", action: { self.presentationMode.wrappedValue.dismiss() }) },
-                    { MultiImagePickerButton(pictures:$course.food.pictures) }
-                )
-                
             }
-            .onAppear() {
-                course = viewModel.getCourseFor(course.id) ?? Course(mealId: course.mealId)
-            }
-            .navigationBarHidden(true)
-            .ignoresSafeArea(.all)
+            .safeAreaPadding(EdgeInsets(top: 0, leading: 0, bottom: 150, trailing: 0))
+            
+            BottomFade()
+            
+            // Buttons
+            BottomButtonContainer(
+                { LargeActionRedButton(icon:"\u{e900}", action: { self.presentationMode.wrappedValue.dismiss() }) },
+                { MultiImagePickerButton(pictures:$course.food.pictures) }
+            )
+            
         }
+        .onAppear() {
+            course = viewModel.getCourseFor(course.id) ?? Course(mealId: course.mealId)
+        }
+        .ignoresSafeArea(.all)
+        .navigationBarHidden(true)
+
     }
     
     private func onSave() {
