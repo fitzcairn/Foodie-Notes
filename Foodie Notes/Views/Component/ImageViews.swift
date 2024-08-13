@@ -80,7 +80,7 @@ struct NoPhotoPlaceholderView: View {
     var body: some View {
         ZStack(alignment: .center) {
             Rectangle()
-                .foregroundColor(Colors.FillStaticFillTertirary)
+                .foregroundColor(Colors.FillStaticFillTertiary)
                 .scaledToFill()
             if edit {
                 FoodieIcon("\u{e913}", .white, size:24, padding:0)

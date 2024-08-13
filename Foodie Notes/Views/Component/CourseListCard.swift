@@ -59,6 +59,13 @@ struct CourseListCard: View {
                             .padding(.trailing, 16)
                             .padding(.vertical, 8)
                             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+                            
+                            // Add the chevron
+                            HStack(alignment: .center) {
+                                FoodieIcon("\u{e908}", Colors.FillStaticFillTertiary, size:24, padding:0)
+                            }
+                            .frame(maxHeight: .infinity, alignment: .center)
+                            .padding(.trailing, 6)
                         }
                     }
                 } trailingActions: { context in
