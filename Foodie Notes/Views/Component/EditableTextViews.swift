@@ -15,6 +15,7 @@ struct EditableImageAndTextBoxRow: View {
     let onSave:() -> Void;
 
     @State private var textFieldHeight: CGFloat = .zero
+    @State var showSheet:Bool = false;
     
     var body : some View {
         HStack(alignment: .top, spacing: 10) {
@@ -28,16 +29,15 @@ struct EditableImageAndTextBoxRow: View {
             }
             .frame(width:64, height: textFieldHeight)
             
-            EditableTextComponent(title, inputText: $text, onSave:onSave, pictures: $pictures) {
+            EditableTextComponent(title, inputText: $text, showSheet: $showSheet, onSave:onSave, pictures: $pictures) {
                 HStack(alignment: .top, spacing: 4) {
                     FoodieText(text, Colors.TextStaticTextSecondary, size:14, weight:.semibold)
                 }
                 .padding(8)
                 .frame(maxWidth: .infinity, minHeight:64, alignment: .topLeading)
                 .background(heightReader)
-                
-                .onChange(of: text) {
-                    print(textFieldHeight)
+                .onTapGesture {
+                    showSheet.toggle()
                 }
             }
         }
@@ -59,15 +59,15 @@ struct EditableImageAndTextBoxRow: View {
       }
 }
 
-
-
 struct EditableStandaloneTextBox: View {
     let title:String
     @Binding var text:String;
     let onSave:() -> Void;
     
+    @State var showSheet:Bool = false;
+
     var body : some View {
-        EditableTextComponent(title, inputText: $text, onSave: onSave) {
+        EditableTextComponent(title, inputText: $text, showSheet: $showSheet, onSave: onSave) {
             HStack(alignment: .top, spacing: 0) {
                 FoodieText(text, Colors.TextStaticTextSecondary, size:14, weight:.semibold)
             }
@@ -77,16 +77,37 @@ struct EditableStandaloneTextBox: View {
             .cornerRadius(8)
             .shadow(color: Colors.ShadowMed, radius: 8, x: 0, y: 8)
             .shadow(color: Colors.ShadowEdge, radius: 4, x: 0, y: 0)
+            .onTapGesture {
+                showSheet.toggle()
+            }
         }
     }
 }
 
+struct ButtonTriggeringTextInput: View {
+    let title:String
+    @Binding var text:String;
+    let onSave:() -> Void;
+    
+    @State var showSheet:Bool = false;
+
+    var body : some View {
+        EditableTextComponent(title, inputText: $text, showSheet: $showSheet, onSave: onSave) {
+            LargeActionRedButton(icon: "\u{e91f}", action: {
+                text = "";
+                showSheet.toggle()
+            })
+        }
+    }
+}
 
 struct EditableTextRow<Content: View>: View {
     let title:String;
     @Binding var text:String;
     let onSave:() -> Void;
     let content: Content;
+    
+    @State var showSheet:Bool = false;
     
     init(_ title:String, text:Binding<String>, onSave: @escaping () -> Void, @ViewBuilder _ content: () -> Content) {
         self.title = title;
@@ -96,7 +117,7 @@ struct EditableTextRow<Content: View>: View {
     }
     
     var body : some View {
-        EditableTextComponent(title, inputText: $text, onSave: onSave) {
+        EditableTextComponent(title, inputText: $text, showSheet: $showSheet, onSave: onSave) {
             VStack(alignment: .trailing, spacing: 4) {
                 content
             }
@@ -105,6 +126,9 @@ struct EditableTextRow<Content: View>: View {
             .cornerRadius(8)
             .shadow(color: Colors.ShadowMed, radius: 8, x: 0, y: 8)
             .shadow(color: Colors.ShadowEdge, radius: 4, x: 0, y: 0)
+            .onTapGesture {
+                showSheet.toggle()
+            }
         }
     }
 }
@@ -115,15 +139,17 @@ private struct EditableTextComponent<Content: View>: View {
     let content: Content;
     @Binding var inputText:String;
     @Binding var pictures:[Picture]
-    private let showPictureControls:Bool;
-    
-    @State var showSheet:Bool = false;
+    @Binding var showSheet:Bool;
+
     @State var editText:String;
     @State var newPictures:[Picture] = []
-    
-    init(_ title:String, inputText:Binding<String>, onSave: @escaping () -> Void, @ViewBuilder _ content: () -> Content) {
+
+    private let showPictureControls:Bool;
+
+    init(_ title:String, inputText:Binding<String>, showSheet:Binding<Bool>, onSave: @escaping () -> Void, @ViewBuilder _ content: () -> Content) {
         self.title = title;
         self._inputText = inputText;
+        self._showSheet = showSheet;
         self.onSave = onSave;
         self.content = content()
         self._editText = State.init(initialValue: inputText.wrappedValue)
@@ -131,9 +157,10 @@ private struct EditableTextComponent<Content: View>: View {
         self.showPictureControls = false;
     }
     
-    init(_ title:String, inputText:Binding<String>, onSave: @escaping () -> Void, pictures:Binding<[Picture]>, @ViewBuilder _ content: () -> Content) {
+    init(_ title:String, inputText:Binding<String>, showSheet:Binding<Bool>, onSave: @escaping () -> Void, pictures:Binding<[Picture]>, @ViewBuilder _ content: () -> Content) {
         self.title = title;
         self._inputText = inputText;
+        self._showSheet = showSheet;
         self.onSave = onSave;
         self.content = content()
         self._editText = State.init(initialValue: inputText.wrappedValue)
@@ -142,12 +169,8 @@ private struct EditableTextComponent<Content: View>: View {
         self.showPictureControls = true;
     }
     
-    
     var body: some View {
         content
-            .onTapGesture {
-                showSheet.toggle()
-            }
             .sheet(isPresented: $showSheet) {
                 EditSheetView(
                     topLeftButton: {
@@ -281,8 +304,6 @@ private struct EditableTextComponent<Content: View>: View {
         }
     }
 }
-
-
 
 private struct DeleteButtonStyle: ButtonStyle {
     let icon:String;
