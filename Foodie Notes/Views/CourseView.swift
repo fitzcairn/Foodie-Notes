@@ -68,7 +68,7 @@ struct CourseView: View {
                                                 
                         // Tasting Notes
                         ViewSection("Tasting Notes") {
-                            EditableStandaloneTextBox(title: "Any notes on the food for this course?", addTitle: "Add Notes", text: $course.item.food.notes, onSave:onSave)
+                            EditableStandaloneTextBox(title: "Any notes on the food for this course?", addTitle: "Add notes", text: $course.item.food.notes, onSave:onSave)
                         }
                         .onChange(of: course.item.food.notes) {
                             print(course.item.food.notes)
@@ -81,8 +81,69 @@ struct CourseView: View {
                             ImageCarouselHorizontal(pictures: $course.item.food.pictures, mutable: true)
                         }
 
+                        VerticalSpace(24)
                         
-                        // TODO: Pairings
+                        ViewSection("Pairing Notes") {
+
+                            // TODO: Pairings
+
+                            
+                            VStack(alignment: .leading, spacing: 8) {
+                                
+                                // ForEach picture, show row.
+                                
+                                HStack(alignment: .center, spacing: 8) {
+                                    EditableStandaloneTextBox(title: "What was the name of this pairing?", addTitle: "Add wine name", text: $course.item.beveragePairing.notes, onSave:onSave)
+                                    
+                                    HStack(alignment: .center, spacing: 0) {
+                                        FoodieIcon("\u{e920}", Colors.TextActionTextAction, size:36, padding:0)
+                                    }
+                                    .padding(.horizontal, 16)
+                                    .padding(.vertical, 0)
+                                    .cornerRadius(8)
+                                    .frame(maxHeight:.infinity)
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 8)
+                                            .inset(by: 0.75)
+                                            .stroke(Colors.BorderStaticBorderSecondary, lineWidth: 1.5)
+                                    )
+                                }
+                                .padding(0)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                
+                                EditableStandaloneTextBox(title: "Any notes on this pairing?", addTitle: "Add notes", text: $course.item.beveragePairing.notes, onSave:onSave)
+                                
+                                HStack(alignment: .center, spacing: 8) {
+                                    VStack(alignment: .leading, spacing: 0) {
+                                        
+                                    }
+                                    .padding(8)
+                                    .frame(width: 24, height: 24, alignment: .topLeading)
+                                    
+                                    .cornerRadius(4)
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 4)
+                                            .inset(by: 0.75)
+                                            .stroke(Colors.BorderActionBorderActionSubtle, lineWidth: 1.5)
+                                    )
+                                    
+                                    FoodieText("Shared with previous course", Colors.TextStaticTextSecondary, size:14, weight:.semibold)
+                                    
+                                }
+                                .padding(16)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .cornerRadius(8)
+                            }
+                            .padding(8)
+                            .frame(maxWidth: .infinity, alignment: .topLeading)
+                            .cornerRadius(16)
+                            .overlay(
+                              RoundedRectangle(cornerRadius: 16)
+                                .inset(by: 0.75)
+                                .stroke(Colors.BorderStaticBorderTertiary, lineWidth: 1.5)
+                            )
+                        }
+                        
                         
                         
                     }
