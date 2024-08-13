@@ -62,14 +62,10 @@ struct CourseView: View {
                                         .padding(.horizontal, 6)
                                 }
                             }
-                            //.frame(maxWidth: .infinity)
-                            
                         } // Course Metadata
                         
                         VerticalSpace(24)
-                        
-                        // TODO: Photos
-                        
+                                                
                         // Tasting Notes
                         ViewSection("Tasting Notes") {
                             EditableStandaloneTextBox(title: "Any notes on the food for this course?", addTitle: "Add Notes", text: $course.item.food.notes, onSave:onSave)
@@ -77,6 +73,12 @@ struct CourseView: View {
                         .onChange(of: course.item.food.notes) {
                             print(course.item.food.notes)
                             print("Cjhanged!")
+                        }
+
+                        VerticalSpace(24)
+
+                        ViewSection("Photos") {
+                            ImageCarouselHorizontal(pictures: $course.item.food.pictures, mutable: true)
                         }
 
                         
