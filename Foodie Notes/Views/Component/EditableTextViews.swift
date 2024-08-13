@@ -119,6 +119,7 @@ private struct EditableTextComponent<Content: View>: View {
     
     @State var showSheet:Bool = false;
     @State var editText:String;
+    @State var newPictures:[Picture] = []
     
     init(_ title:String, inputText:Binding<String>, onSave: @escaping () -> Void, @ViewBuilder _ content: () -> Content) {
         self.title = title;
@@ -137,6 +138,7 @@ private struct EditableTextComponent<Content: View>: View {
         self.content = content()
         self._editText = State.init(initialValue: inputText.wrappedValue)
         self._pictures = pictures;
+        self._newPictures = State.init(initialValue: pictures.wrappedValue);
         self.showPictureControls = true;
     }
     
@@ -172,13 +174,15 @@ private struct EditableTextComponent<Content: View>: View {
                 )
                 .onAppear() {
                     editText = inputText;
+                    newPictures = pictures
                 }
             }
     }
     
     private var saveButton: some View {
-        LargeActionRedButton(icon:"\u{e905}", disabled:editText.isEmpty) {
+        LargeActionRedButton(icon:"\u{e905}", disabled:(editText.isEmpty && newPictures.isEmpty)) {
             inputText = editText
+            pictures = newPictures
             onSave()
             showSheet.toggle()
         }
@@ -227,7 +231,7 @@ private struct EditableTextComponent<Content: View>: View {
             
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 8) {
-                    ForEach(pictures.filter { $0.photo != nil }, id: \.self) { picture in
+                    ForEach(newPictures.filter { $0.photo != nil }, id: \.self) { picture in
                         ZStack(alignment: .topTrailing) {
                             ExpandableImageGallery(src: .picture(picture)) {
                                 PhotoView(img: picture.photo!.thumb, contentMode: .fill)
@@ -238,8 +242,8 @@ private struct EditableTextComponent<Content: View>: View {
                             
                             Button(
                                 action: {
-                                    if let index = pictures.firstIndex(where: { $0 == picture }) {
-                                        pictures.remove(at: index)
+                                    if let index = newPictures.firstIndex(where: { $0 == picture }) {
+                                        newPictures.remove(at: index)
                                     }
                                 },
                                 label: {
@@ -260,7 +264,7 @@ private struct EditableTextComponent<Content: View>: View {
                         .contentShape(Rectangle())
                         .frame(width:80, height:80)
                     }
-                    .id(pictures.count)
+                    .id(newPictures.count)
                 }
             }
             .scrollTargetLayout()
@@ -268,7 +272,7 @@ private struct EditableTextComponent<Content: View>: View {
             Spacer()
             
             HStack {
-                MultiImagePickerButton(pictures: $pictures)
+                MultiImagePickerButton(pictures: $newPictures)
                 
                 Spacer()
                 
@@ -291,23 +295,3 @@ private struct DeleteButtonStyle: ButtonStyle {
             }
     }
 }
-
-/*private struct TextAndImageCarousel : View {
-    @Binding var pictures:[Picture]
-    
-    var body: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 4) {
-                ForEach(pictures.filter { $0.photo != nil }, id: \.self) { picture in
-                    ExpandableImageGallery(src: .picture(picture)) {
-                        PhotoView(img: picture.photo!.thumb, contentMode: .fill)
-                            .frame(width: 64, height: 64)
-                            .clipped()
-                            .cornerRadius(8)
-                    }
-                }
-            }
-        }
-        .scrollTargetLayout()
-    }
-}*/

@@ -33,6 +33,7 @@ struct SearchBox: View {
                     Font.custom("Nunito", size: 16)
                         .weight(.semibold)
                 )
+                .foregroundColor(Colors.TextStaticTextPrimary)
                 .lineLimit(1)
             
             FoodieIcon("\u{e92a}", Colors.TextActionTextAction)

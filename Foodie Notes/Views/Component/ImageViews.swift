@@ -18,7 +18,7 @@ struct VariableHeightListPicture : View {
             PictureView(picture: picture, edit:true)
                 .frame(minWidth:56, maxWidth:56, minHeight: 56, maxHeight: .infinity)
                 .clipped()
-            if picture != nil && num > 0 {
+            if picture != nil && num > 1 {
                 HStack {
                     FoodieIcon("\u{e915}", .white, size:24, padding:0)
                     FoodieText("\(num)", .white, size:12, weight:.medium)
@@ -52,7 +52,7 @@ struct CourseListPicture : View {
             PictureView(picture: picture)
                 .frame(width:56, height:56)
                 .clipped()
-            if picture != nil && num > 0 {
+            if picture != nil && num > 1 {
                 HStack {
                     FoodieIcon("\u{e915}", .white, size:24, padding:0)
                     FoodieText("\(num)", .white, size:12, weight:.medium)
