@@ -34,6 +34,14 @@ struct GuideLinkView: View {
                 linkContent: { GuideLink(guideName:guide.displayName, url:linkViewModel.link) }
             )
             .onChange(of: linkViewModel.link) {
+                
+                
+                
+                // TODO: take a hard look at this one, will cause concurrency issues with the model map.
+                
+                
+                
+                
                 var newMeal = meal
                 if let url = linkViewModel.link {
                     newMeal.venue.guideLink = VenueGuideLink(guide: .michelin, url: url)

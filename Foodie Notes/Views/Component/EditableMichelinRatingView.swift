@@ -7,6 +7,22 @@
 
 import SwiftUI
 
+
+struct MichelinStarView: View {
+    let rating:Michelin?
+    
+    var body: some View {
+        HStack {
+            if let rating = rating {
+                FoodieIcon(rating.imgName, Colors.IconActionSelected, size:18, padding:0)
+            }
+            else {
+                EmptyView()
+            }
+        }
+    }
+}
+
 struct EditableMichelinRatingView<Content: View>: View {
     let title:String;
     @Binding var rating: Michelin?
