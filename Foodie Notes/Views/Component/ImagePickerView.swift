@@ -92,6 +92,7 @@ struct MultiImagePickerButton: View {
     @Binding var pictures:[Picture]
     var icon:String = "\u{e913}"
     var limit:Int = Int.max // Get around bug in MediaPicker
+    var onSave: () -> Void = {}
 
     @StateObject var photoPickerModel: PhotoPickerViewModel = PhotoPickerViewModel();
     @State private var isPickingPhoto: Bool = false;
@@ -120,6 +121,7 @@ struct MultiImagePickerButton: View {
         .onChange(of:newPictures) {
             pictures = pictures.filter() { !$0.deleted } + newPictures;
             newPictures = []
+            onSave()
         }
         .sheet(isPresented: $isPickingPhoto, onDismiss: {
             photoPickerModel.load(

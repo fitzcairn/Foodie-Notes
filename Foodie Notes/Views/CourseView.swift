@@ -109,7 +109,7 @@ struct CourseView: View {
                     LargeActionRedButton(icon:"\u{e900}", action: { self.presentationMode.wrappedValue.dismiss() })
                 },
                 {
-                    MultiImagePickerButton(pictures:$course.item.food.pictures)
+                    MultiImagePickerButton(pictures:$course.item.food.pictures, onSave:onSave)
                 }
             )
         }
