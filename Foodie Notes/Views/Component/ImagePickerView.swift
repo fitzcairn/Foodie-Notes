@@ -101,16 +101,19 @@ struct MultiImagePickerButton: View {
     
     var body: some View {
         HStack {
-            if isLoading {
-                Loading(height:36)
-                    .padding(.horizontal, 24)
-                    .padding(.vertical, 8)
-            } else {
-                LargeActionWhiteButton(icon:icon) {
-                    isPickingPhoto = true;
+            ZStack(alignment: .center) {
+                if isLoading {
+                    Loading(height:36)
+                        .padding(.horizontal, 24)
+                        .padding(.vertical, 8)
+                } else {
+                    LargeActionWhiteButton(icon:icon) {
+                        isPickingPhoto = true;
+                    }
                 }
             }
         }
+        .frame(height:64)
         .onChange(of:isPickingPhoto) {
             isLoading = isPickingPhoto ? true : isLoading;
         }
