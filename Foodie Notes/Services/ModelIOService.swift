@@ -54,27 +54,30 @@ class ModelIOService {
         if let city = meal.venue.location?.city, let country = meal.venue.location?.country {
             str += "\(meal.venue.name) is located in \(city), \(country).  "
         }
+        
         if !meal.cuisines.isEmpty {
             str += "The food served is '\(meal.cuisines.map({$0.displayName}).joined(separator: ", "))'.  "
         }
-        /*if let michelin = meal.venue.michelin {
-            switch(michelin) {
-            case .plate:
-                str += "At time of dining, Michelin rates this restaurant as notable.  "
-            case .bibGourmand:
-                str += "At time of dining, Michelin rates this restaurant as a Bib Gourmand.  "
-            case .oneStar:
-                str += "At time of dining, Michelin rates this restaurant as one star.  "
-            case .twoStar:
-                str += "At time of dining, Michelin rates this restaurant as two stars.  "
-            case .threeStar:
-                str += "At time of dining, Michelin rates this restaurant as three stars.  "
-            }
-        }*/
-
+        
+        switch(meal.venue.michelin) {
+        case .none:
+            str += "At time of dining, Michelin has not rated this restaurant.  "
+        case .plate:
+            str += "At time of dining, Michelin rates this restaurant as notable.  "
+        case .bibGourmand:
+            str += "At time of dining, Michelin rates this restaurant as a Bib Gourmand.  "
+        case .oneStar:
+            str += "At time of dining, Michelin rates this restaurant as one star.  "
+        case .twoStar:
+            str += "At time of dining, Michelin rates this restaurant as two stars.  "
+        case .threeStar:
+            str += "At time of dining, Michelin rates this restaurant as three stars.  "
+        }
+        
         if !meal.notes.isEmpty {
             str += "\n\nOverall, I thought: '\(meal.notes)'\n\n"
         }
+        
         if !meal.menu.notes.isEmpty {
             str += "My notes on the menu were: '\(meal.menu.notes)'\n\n"
         }
