@@ -8,7 +8,7 @@
 import SwiftUI
 
 
-struct BeverageLinkView : View {
+/*struct BeverageLinkView : View {
     var infoLink:InfoLink?
     var img:SavedImage?
     
@@ -152,4 +152,4 @@ struct BeverageInfoLinkView: View {
         }
     }
 }
-
+*/

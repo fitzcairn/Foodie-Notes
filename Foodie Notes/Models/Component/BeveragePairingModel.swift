@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct BeverageLookupInfo: Codable, Equatable {
+struct BeverageLookupInfo: Codable, Hashable, Equatable {
     var name:String = ""
     var url:URL?
 }
@@ -17,7 +17,8 @@ struct BeveragePairing: Hashable, Equatable, Identifiable, Codable {
     var picture:Picture?
     var notes:String = ""
     var info:BeverageLookupInfo = BeverageLookupInfo()
-    
+    var sameAsPrevious:Bool = false
+
     static func == (lhs: BeveragePairing, rhs: BeveragePairing) -> Bool {
         guard lhs.id == rhs.id else { return false }
         var lhsHash = Hasher()
@@ -31,5 +32,7 @@ struct BeveragePairing: Hashable, Equatable, Identifiable, Codable {
         hasher.combine(id)
         hasher.combine(picture)
         hasher.combine(notes)
+        hasher.combine(info)
+        hasher.combine(sameAsPrevious)
     }
 }

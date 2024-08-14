@@ -86,14 +86,17 @@ class ModelIOService {
                 if (!course.food.notes.isEmpty) {
                     str += "  My thoughts on the dish: '\(course.food.notes)'\n"
                 }
-                if (!course.beveragePairing.notes.isEmpty) {
-                    str += "  My thoughts on the beverage pairing: '\(course.food.notes)'\n"
-                }
-                if let name = course.beveragePairing.infoLink?.name, let url = course.beveragePairing.infoLink?.url {
-                    str += "  The name of this pairing is \(name), with more information found at \(url).\n"
-                }
-                if (course.beveragePairing.sameAsPrevious != nil && course.beveragePairing.sameAsPrevious!) {
-                    str += "  The pairing was shared with the previous course.\n"
+                for (index, pairing) in course.beveragePairings.enumerated() {
+                    str += "  For beverage pairing #\(index):"
+                    if (!pairing.notes.isEmpty) {
+                        str += "    My thoughts on the beverage pairing: '\(pairing.notes)'\n"
+                    }
+                    if !pairing.info.name.isEmpty, let url = pairing.info.url {
+                        str += "    The name of this pairing is \(pairing.info.name), with more information found at \(url).\n"
+                    }
+                    if (pairing.sameAsPrevious) {
+                        str += "    The pairing was shared with the previous course.\n"
+                    }
                 }
             }
         }

@@ -96,8 +96,8 @@ class AppViewModel : ObservableObject {
 
         // ... Any pictures at all?
         for course in meal.courses {
-            if !course.beveragePairing.pictures.isEmpty || !course.food.pictures.isEmpty {
-                return (course.food.pictures + course.beveragePairing.pictures).filter() { !isPictureEmpty($0) }.first ?? nil
+            if !course.food.pictures.isEmpty {
+                return course.food.pictures.filter() { !isPictureEmpty($0) }.first ?? nil
             }
         }
         
@@ -123,8 +123,8 @@ class AppViewModel : ObservableObject {
         if !isPictureEmpty(course.pickedImage) { return course.pickedImage }
         
         // Any images?
-        if !course.beveragePairing.pictures.isEmpty || !course.food.pictures.isEmpty {
-            return (course.food.pictures + course.beveragePairing.pictures).filter() { !isPictureEmpty($0) }.first ?? nil
+        if !course.food.pictures.isEmpty {
+            return course.food.pictures.filter() { !isPictureEmpty($0) }.first ?? nil
         }
         
         // None
@@ -140,7 +140,6 @@ class AppViewModel : ObservableObject {
     func checkShow(_ pictureAndNotes:PicturesAndNotes?) -> Bool {
         return pictureAndNotes != nil &&
                 (!pictureAndNotes!.notes.isEmpty ||
-                 !pictureAndNotes!.pictures.isEmpty ||
-                 pictureAndNotes!.sameAsPrevious != nil && pictureAndNotes!.sameAsPrevious!)
+                 !pictureAndNotes!.pictures.isEmpty)
     }
 }
