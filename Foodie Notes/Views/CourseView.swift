@@ -12,12 +12,10 @@ struct CourseView: View {
     @EnvironmentObject var viewModel:AppViewModel;
     
     @ObservedObject private var course:WrappedStruct<Course>;
-    @State private var pairings:[BeveragePairing];
     @State private var newPairing:BeveragePairing = BeveragePairing()
 
     init(course:Course) {
         self.course = WrappedStruct(withItem:course)
-        self._pairings = State(initialValue: course.beveragePairings)
     }
 
     var body: some View {
@@ -72,9 +70,6 @@ struct CourseView: View {
                         // Tasting Notes
                         ViewSection("Tasting Notes") {
                             EditableStandaloneTextBox(title: "Any notes on the food for this course?", addTitle: "Add notes", text: $course.item.food.notes, onSave:onSave)
-                                .onChange(of: course.item.food.notes) {
-                                    
-                                }
                         }
 
                         VerticalSpace(24)
@@ -86,13 +81,12 @@ struct CourseView: View {
                         VerticalSpace(24)
                         
                         ViewSection("Pairing Notes") {
-                            EditableWinePairingView(pairings: $pairings, onSave:onSave)
+                            EditableWinePairingView(pairings: $course.item.beveragePairings, onSave:onSave)
                             
                             BarButtonTriggeringAddWinePairing(title: "How was this pairing?", addTitle: "Add a pairing", pairing:$newPairing) {
-                                pairings.append(newPairing)
+                                course.item.beveragePairings.append(newPairing)
                                 newPairing = BeveragePairing()
-                                course.item.beveragePairings = pairings;
-                                viewModel.saveEditedCourse(course.item)
+                                onSave()
                             }
                         }
                     }
@@ -116,7 +110,6 @@ struct CourseView: View {
         .onAppear() {
             if let savedCourse = viewModel.getCourseFor(course.item.id) {
                 course.item = savedCourse
-                pairings = savedCourse.beveragePairings
             }
         }
         .ignoresSafeArea(.all)

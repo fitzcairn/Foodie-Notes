@@ -142,28 +142,9 @@ struct EditableWinePairingView: View {
                     .padding(0)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     
-                    EditableWinePairingRow(title: "Any notes on this pairing?", addTitle: "Add notes", pairing:$pairings[index])
+                    EditableWinePairingRow(title: "Any notes on this pairing?", addTitle: "Add notes", pairing:$pairings[index], onSave: onSave)
                     
-                    HStack(alignment: .center, spacing: 8) {
-                        VStack(alignment: .leading, spacing: 0) {
-                            
-                        }
-                        .padding(8)
-                        .frame(width: 24, height: 24, alignment: .topLeading)
-                        
-                        .cornerRadius(4)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 4)
-                                .inset(by: 0.75)
-                                .stroke(Colors.BorderActionBorderActionSubtle, lineWidth: 1.5)
-                        )
-                        
-                        FoodieText("Shared with previous course", Colors.TextStaticTextSecondary, size:14, weight:.semibold)
-                        
-                    }
-                    .padding(16)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .cornerRadius(8)
+                    CheckboxButton(value: $pairings[index].sameAsPrevious, text:"Shared with previous course", action:onSave)
                 }
                 .padding(8)
                 .frame(maxWidth: .infinity, alignment: .topLeading)
@@ -175,5 +156,65 @@ struct EditableWinePairingView: View {
                 )
             }
         }
+    }
+}
+
+private struct CheckboxButton : View {
+    @Binding var value:Bool
+    let text:String;
+    var action: () -> Void = {}
+    
+    var body: some View {
+        Button(
+            action: {
+                value.toggle()
+                action()
+            },
+            label: {
+                HStack(alignment: .center, spacing: 8) {
+                }
+                .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, minHeight: 56, maxHeight:56, alignment: .leading)
+            }
+        )
+        .buttonStyle(CheckboxButtonStyle(text:text, selected:value))
+    }
+}
+
+
+private struct CheckboxButtonStyle: ButtonStyle {
+    let text:String;
+    var selected:Bool = false;
+    
+    func makeBody(configuration: Self.Configuration) -> some View {
+        configuration.label
+            .background(configuration.isPressed ? Colors.FillActionFillActionPressedSubtle : Colors.BackgroundBgPrimary)
+            .cornerRadius(8)
+            .overlay(
+                ZStack {
+                    HStack(alignment: .center, spacing: 8) {
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 4)
+                                .inset(by: 0.75)
+                                .stroke(Colors.BorderActionBorderActionSubtle, lineWidth: !configuration.isPressed && !selected ? 1.5 : 0)
+                                .frame(width: 24, height: 24, alignment: .topLeading)
+                                .background(selected ? Colors.FillActionFillActionSelected: configuration.isPressed ? Colors.FillActionFillActionPressed : Colors.BackgroundBgPrimary)
+                                .cornerRadius(4)
+                            
+                            FoodieIcon("\u{e905}", .white, size:24, padding:0)
+                                .opacity(selected ? 1.0 : 0)
+                        }
+                        .padding(.leading, 8)
+                        
+                        
+                        FoodieText(text, Colors.TextStaticTextSecondary, size:14, weight:.semibold)
+                    }
+                    .padding(.horizontal, 8)
+                    .cornerRadius(8)
+                    .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: .leading)
+                    
+                    RoundedRectangle(cornerRadius: 8)
+                        .stroke(configuration.isPressed ? Colors.BorderStaticBorderSubtle : Colors.BackgroundBgPrimary, lineWidth: 1)
+                }
+            )
     }
 }
