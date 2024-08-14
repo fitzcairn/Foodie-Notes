@@ -63,7 +63,7 @@ class AppViewModel : ObservableObject {
         case .rating:
             return meals.sorted(by: {$0.rating > $1.rating });
         case .michelin:
-            return meals.sorted(by: {$0.venue.michelin ?? .none > $1.venue.michelin ?? .none });
+            return meals.sorted(by: {$0.venue.michelin > $1.venue.michelin });
         }
     }
     func getMealFor(_ mealId:String?) -> Meal? {
