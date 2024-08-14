@@ -74,33 +74,26 @@ enum ViewTitle {
 }
 
 enum Michelin: String, Codable, CaseIterable, Comparable {
-    case plate = "plate"
-    case bibGourmand = "bib-gourmand"
-    case oneStar = "1star"
-    case twoStar = "2star"
-    case threeStar = "3star"
-    
-    // TODO: Write a converter into these values.
     case none = "\u{e91c}"
-    case plateIcon = "\u{e918}"
-    case bibGourmandIcon = "\u{e902}"
-    case oneStarIcon = "\u{e919}"
-    case twoStarIcon = "\u{e919}\u{e919}"
-    case threeStarIcon = "\u{e919}\u{e919}\u{e919}"
+    case plate = "\u{e918}"
+    case bibGourmand = "\u{e902}"
+    case oneStar = "\u{e919}"
+    case twoStar = "\u{e919}\u{e919}"
+    case threeStar = "\u{e919}\u{e919}\u{e919}"
     
     private var sortOrder: Int {
         switch self {
         case .none:
             return 0
-        case .plate, .plateIcon:
+        case .plate:
             return 1
-        case .bibGourmand, .bibGourmandIcon:
+        case .bibGourmand:
             return 2
-        case .oneStar, .oneStarIcon:
+        case .oneStar:
             return 3
-        case .twoStar, .twoStarIcon:
+        case .twoStar:
             return 4
-        case .threeStar, .threeStarIcon:
+        case .threeStar:
             return 5
         }
     }
@@ -117,15 +110,15 @@ enum Michelin: String, Codable, CaseIterable, Comparable {
         switch self {
         case .none:
             return "Not Rated"
-        case .plate, .plateIcon:
+        case .plate:
             return "Michelin Plate"
-        case .bibGourmand, .bibGourmandIcon:
+        case .bibGourmand:
             return "Bib Gourmand"
-        case .oneStar, .oneStarIcon:
+        case .oneStar:
             return "1 Michelin Star"
-        case .twoStar, .twoStarIcon:
+        case .twoStar:
             return "2 Michelin Stars"
-        case .threeStar, .threeStarIcon:
+        case .threeStar:
             return "3 Michelin Stars"
         }
     }

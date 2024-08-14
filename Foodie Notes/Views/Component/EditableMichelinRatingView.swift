@@ -25,7 +25,7 @@ struct MichelinStarView: View {
 
 struct EditableMichelinRatingView<Content: View>: View {
     let title:String;
-    @Binding var rating: Michelin?
+    @Binding var rating: Michelin
     var onSave:() -> Void = { }
     @ViewBuilder let content: Content;
     
@@ -45,7 +45,7 @@ struct EditableMichelinRatingView<Content: View>: View {
 
 private struct EditableMichelinRatingComponent<Content: View>: View {
     let title:String;
-    @Binding var rating: Michelin?
+    @Binding var rating: Michelin
     var onSave:() -> Void = { }
 
     @State var showSheet:Bool = false;
@@ -53,8 +53,7 @@ private struct EditableMichelinRatingComponent<Content: View>: View {
  
     @ViewBuilder let content: Content;
  
-    // TODO: Update once conversion complete on old data.
-    private let michelinRatings:[Michelin] = [.none, .plateIcon, .bibGourmandIcon, .oneStarIcon, .twoStarIcon, .threeStarIcon] //.allCases
+    private let michelinRatings:[Michelin] = Michelin.allCases
     
     var body: some View {
         content
@@ -85,7 +84,7 @@ private struct EditableMichelinRatingComponent<Content: View>: View {
                 )
             }
             .onAppear() {
-                newRating = rating ?? .none;
+                newRating = rating
             }
     }
     

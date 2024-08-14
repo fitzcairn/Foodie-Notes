@@ -13,43 +13,31 @@ struct GuideLinkView: View {
     @Environment(NetworkService.self) private var networkService
     @StateObject var linkViewModel:AsyncLinkViewModel = AsyncLinkViewModel()
 
-    let meal: Meal;
-    
+    @Binding var venue: Venue;
+    var onSave:() -> Void = {}
     
     // Eventually, allow for other guides.
     let guide:VenueGuide = .michelin
     
     var body: some View {
         // If we have a link already, use it.
-        if let guideLink = meal.venue.guideLink {
+        if let guideLink = venue.guideLink {
             GuideLink(guideName:guideLink.guide.displayName, url:guideLink.url)
         } else if networkService.isConnected {
             // Load link async, and update view.
             AyncGuideLinkView(
                 source:linkViewModel,
-                venue:meal.venue,
+                venue:venue,
                 guide:guide,
                 progressContent: { Searching() },
                 // Can safely unwrap link due to switch statement in AyncGuideLink
                 linkContent: { GuideLink(guideName:guide.displayName, url:linkViewModel.link) }
             )
             .onChange(of: linkViewModel.link) {
-                
-                
-                
-                // TODO: take a hard look at this one, will cause concurrency issues with the model map.
-                
-                
-                
-                
-                var newMeal = meal
                 if let url = linkViewModel.link {
-                    newMeal.venue.guideLink = VenueGuideLink(guide: .michelin, url: url)
-                } else {
-                    // Not found, don't look again for this guide type.
-                    newMeal.venue.guideLink = VenueGuideLink(guide: .michelin, url: nil)
+                    venue.guideLink = VenueGuideLink(guide: .michelin, url: url)
+                    onSave()
                 }
-                viewModel.saveEditedMealFor(newMeal)
             }
         } else {
             FoodieText("( not connected )", Colors.TextStaticTextSecondary, size:12, weight:.medium)

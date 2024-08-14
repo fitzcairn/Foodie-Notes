@@ -22,26 +22,9 @@ struct VenueGuideLink: Codable {
 struct Venue : Hashable, Codable, Equatable {
     var id:String = Id.createId()
     var name: String = ""
-        
-    // Michelin rating
-    var michelin: Michelin?
-    // Reference guide link, if there is one.
+    var michelin: Michelin = .none
     var guideLink:VenueGuideLink?
-
-    // Location
     var location:Location?
-    
-    // TODO: Converter to eliminate
-    @available(*, deprecated, message: "Don't use")
-    var latitude: Double?
-    @available(*, deprecated, message: "Don't use")
-    var longitude: Double?
-    
-    // Geo info
-    @available(*, deprecated, message: "Don't use")
-    var city:String?
-    @available(*, deprecated, message: "Don't use")
-    var country:String?
     
     init(_ name: String = "") {
         self.name = name

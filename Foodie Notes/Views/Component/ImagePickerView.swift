@@ -140,7 +140,6 @@ struct MultiImagePickerButton: View {
                 })
             .mediaSelectionLimit(limit)
             .mediaSelectionType(.photo)
-            .showLiveCameraCell()
             .onDisappear() {
                 Task {
                     await photoPickerModel.onStart()

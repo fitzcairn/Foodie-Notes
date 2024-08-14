@@ -77,7 +77,7 @@ struct MealView: View {
                                         .padding(.horizontal, 6)
                                 }
                                 
-                                if (meal.item.venue.michelin == nil || meal.item.venue.michelin! == .none) {
+                                if (meal.item.venue.michelin == .none) {
                                     // No rating view
                                     EditableMichelinRatingView(title: "What was this venue's Michelin rating?", rating: $meal.item.venue.michelin, onSave:onSave) {
                                         HStack {
@@ -97,7 +97,7 @@ struct MealView: View {
                                     
                                     // Guide link/link fetch
                                     HStack {
-                                        GuideLinkView(meal:meal.item)
+                                        GuideLinkView(venue:$meal.item.venue, onSave:onSave)
                                             .frame(maxWidth: .infinity, alignment: .leading)
                                             .padding(12)
                                             .background(Colors.FillStaticFillPrimary)
