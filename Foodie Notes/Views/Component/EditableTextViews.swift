@@ -13,14 +13,14 @@ struct EditableImageAndTextBoxRow: View {
     let addTitle:String
     @Binding var pictures:[Picture]
     @Binding var text:String;
-    var onSave:() -> Void = {}
+    let onSave:() -> Void
 
     @State private var textFieldHeight: CGFloat = .zero
     @State var showSheet:Bool = false;
     
     var body : some View {
         if text.isEmpty && pictures.isEmpty {
-            EditableTextAndMultiImageSheetLayout(title:title, text: $text, pictures: $pictures, showSheet: $showSheet) {
+            EditableTextAndMultiImageSheetLayout(title:title, text: $text, pictures: $pictures, showSheet: $showSheet, onSave:onSave) {
                 BarButton(icon: "\u{e91d}", text: addTitle, action: {
                     text = "";
                     showSheet.toggle()
@@ -38,7 +38,7 @@ struct EditableImageAndTextBoxRow: View {
                 }
                 .frame(width:64, height: textFieldHeight)
                 
-                EditableTextAndMultiImageSheetLayout(title:title, text: $text, pictures: $pictures, showSheet: $showSheet) {
+                EditableTextAndMultiImageSheetLayout(title:title, text: $text, pictures: $pictures, showSheet: $showSheet, onSave:onSave) {
                     HStack(alignment: .top, spacing: 4) {
                         FoodieText(text, Colors.TextStaticTextSecondary, size:14, weight:.semibold)
                     }
@@ -73,13 +73,14 @@ struct EditableStandaloneTextBox: View {
     let title:String
     let addTitle:String
     @Binding var text:String;
-    
+    let onSave:() -> Void
+
     @State var showSheet:Bool = false;
 
     var body : some View {
-        EditableTextSheetLayout(title: title, text: $text, showSheet: $showSheet) {
+        EditableTextSheetLayout(title: title, text: $text, showSheet: $showSheet, onSave:onSave) {
             if text.isEmpty {
-                BarButtonTriggeringTextInput(title: title, addTitle: addTitle, text: $text, icon:"\u{e91d}")
+                BarButtonTriggeringTextInput(title: title, addTitle: addTitle, text: $text, icon:"\u{e91d}", onSave:onSave)
             } else {
                 HStack(alignment: .top, spacing: 0) {
                     FoodieText(text, Colors.TextStaticTextSecondary, size:14, weight:.semibold)
@@ -101,12 +102,12 @@ struct EditableStandaloneTextBox: View {
 struct LargeRedButtonTriggeringTextInput: View {
     let title:String
     @Binding var text:String;
-    var onSaveClosure:() -> Void = { }
+    let onSave:() -> Void
 
     @State var showSheet:Bool = false;
 
     var body : some View {
-        EditableTextSheetLayout(title: title, text: $text, showSheet: $showSheet, onSaveClosure:onSaveClosure) {
+        EditableTextSheetLayout(title: title, text: $text, showSheet: $showSheet, onSave:onSave) {
             LargeActionRedButton(icon: "\u{e91f}", action: {
                 text = "";
                 showSheet.toggle()
@@ -120,12 +121,12 @@ struct BarButtonTriggeringTextInput: View {
     let addTitle:String
     @Binding var text:String;
     var icon:String = "\u{e91f}"
-    var onSaveClosure:() -> Void = { }
+    let onSave:() -> Void
     
     @State var showSheet:Bool = false;
 
     var body : some View {
-        EditableTextSheetLayout(title: title, text: $text, showSheet: $showSheet, onSaveClosure:onSaveClosure) {
+        EditableTextSheetLayout(title: title, text: $text, showSheet: $showSheet, onSave:onSave) {
             BarButton(icon: icon, text: addTitle, action: {
                 text = "";
                 showSheet.toggle()
@@ -137,12 +138,13 @@ struct BarButtonTriggeringTextInput: View {
 struct EditableTextRow<Content: View>: View {
     let title:String;
     @Binding var text:String;
+    let onSave:() -> Void
     @ViewBuilder let content: Content;
     
     @State var showSheet:Bool = false;
     
     var body : some View {
-        EditableTextSheetLayout(title: title, text: $text, showSheet: $showSheet) {
+        EditableTextSheetLayout(title: title, text: $text, showSheet: $showSheet, onSave:onSave) {
             VStack(alignment: .trailing, spacing: 4) {
                 content
             }
@@ -166,7 +168,7 @@ struct EditableTextSheetLayout<Content: View>: View {
 
     @State private var newText:String = ""
     
-    var onSaveClosure:() -> Void = { }
+    var onSave:() -> Void = { }
 
     @ViewBuilder let content: Content;
 
@@ -195,7 +197,7 @@ struct EditableTextSheetLayout<Content: View>: View {
                                     action: {
                                         text = newText
                                         showSheet.toggle()
-                                        onSaveClosure()
+                                        onSave()
                                     }
                                 )
                             }
@@ -214,6 +216,7 @@ struct EditableTextAndMultiImageSheetLayout<Content: View>: View {
     @Binding var text:String;
     @Binding var pictures:[Picture]
     @Binding var showSheet:Bool;
+    let onSave:() -> Void
     
     @State var newText:String = ""
     @State var newPictures:[Picture] = []
@@ -247,6 +250,7 @@ struct EditableTextAndMultiImageSheetLayout<Content: View>: View {
                                     action: {
                                         text = newText
                                         pictures = newPictures
+                                        onSave()
                                         showSheet.toggle()
                                     }
                                 )

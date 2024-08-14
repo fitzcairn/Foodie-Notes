@@ -10,10 +10,11 @@ import SwiftUI
 struct EditableRatingView<Content: View>: View {
     let title:String;
     @Binding var rating: Int
+    let onSave:() -> Void
     @ViewBuilder let content: Content;
     
     var body : some View {
-        EditableRatingSheetLayout(title:title, rating:$rating) {
+        EditableRatingSheetLayout(title:title, rating:$rating, onSave:onSave) {
             VStack(alignment: .trailing, spacing: 4) {
                 content
             }
@@ -29,6 +30,7 @@ struct EditableRatingView<Content: View>: View {
 private struct EditableRatingSheetLayout<Content: View>: View {
     let title:String;
     @Binding var rating: Int
+    let onSave:() -> Void
     @ViewBuilder let content: Content;
     
     @State var showSheet:Bool = false;
@@ -56,6 +58,7 @@ private struct EditableRatingSheetLayout<Content: View>: View {
                             saveButton: {
                                 EditSheetComponentSaveButton() {
                                     rating = newRating
+                                    onSave()
                                     showSheet.toggle()
                                 }
                             }

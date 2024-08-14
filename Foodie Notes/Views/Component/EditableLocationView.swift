@@ -14,9 +14,10 @@ struct EditableLocationView: View {
     let title:String;
     @Binding var location: Location?
     @Binding var venueName: String
-        
+    let onSave:() -> Void
+    
     var body : some View {
-        EditableLocationSheetLayout(title:title, location:$location) {
+        EditableLocationSheetLayout(title:title, location:$location, onSave:onSave) {
             VStack(alignment: .trailing, spacing: 4) {
                 HStack {
                     if (location != nil) {
@@ -92,6 +93,7 @@ private struct EditableLocationSheetLayout<Content: View>: View {
     
     let title:String;
     @Binding var location: Location?
+    let onSave:() -> Void
     
     @State var showSheet:Bool = false;
     @State private var newLocation: SearchResult?
@@ -127,6 +129,7 @@ private struct EditableLocationSheetLayout<Content: View>: View {
                                 disabledClosure: { false },
                                 action: {
                                     location = newLocation != nil ? newLocation?.toLocation() : location;
+                                    onSave()
                                     showSheet.toggle()
                                 }
                             )

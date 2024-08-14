@@ -10,11 +10,11 @@ import SwiftUI
 struct EditableMichelinRatingView<Content: View>: View {
     let title:String;
     @Binding var rating: Michelin?
-    var onSaveClosure:() -> Void = { }
+    var onSave:() -> Void = { }
     @ViewBuilder let content: Content;
     
     var body : some View {
-        EditableMichelinRatingComponent(title:title, rating:$rating, onSaveClosure:onSaveClosure) {
+        EditableMichelinRatingComponent(title:title, rating:$rating, onSave:onSave) {
             VStack(alignment: .trailing, spacing: 4) {
                 content
             }
@@ -30,7 +30,7 @@ struct EditableMichelinRatingView<Content: View>: View {
 private struct EditableMichelinRatingComponent<Content: View>: View {
     let title:String;
     @Binding var rating: Michelin?
-    var onSaveClosure:() -> Void = { }
+    var onSave:() -> Void = { }
 
     @State var showSheet:Bool = false;
     @State var newRating:Michelin = .none
@@ -61,8 +61,8 @@ private struct EditableMichelinRatingComponent<Content: View>: View {
                         EditSheetComponentBottomSingleButton() {
                             EditSheetComponentSaveButton() {
                                 rating = newRating
+                                onSave()
                                 showSheet.toggle()
-                                onSaveClosure()
                             }
                         }
                     }

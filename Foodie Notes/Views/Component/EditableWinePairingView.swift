@@ -16,7 +16,7 @@ struct EditableWineSheetLayout<Content: View>: View {
     @Binding var picture:Picture?
     @Binding var showSheet:Bool;
 
-    var onSaveClosure:() -> Void = {}
+    var onSave:() -> Void = {}
     
     @State private var newText:String = ""
     @State private var newPicture:Picture? = nil
@@ -52,7 +52,7 @@ struct EditableWineSheetLayout<Content: View>: View {
                                         text = newText
                                         picture = newPicture
                                         showSheet.toggle()
-                                        onSaveClosure()
+                                        onSave()
                                     }
                                 )
                             }
@@ -71,12 +71,12 @@ struct BarButtonTriggeringAddWinePairing: View {
     let title:String
     let addTitle:String
     @Binding var pairing:BeveragePairing
-    var onSaveClosure:() -> Void = {}
+    var onSave:() -> Void = {}
 
     @State var showSheet:Bool = false;
     
     var body : some View {
-        EditableWineSheetLayout(title:title, text: $pairing.notes, picture: $pairing.picture, showSheet: $showSheet, onSaveClosure:onSaveClosure) {
+        EditableWineSheetLayout(title:title, text: $pairing.notes, picture: $pairing.picture, showSheet: $showSheet, onSave:onSave) {
             BarButton(icon: "\u{e91d}", text: addTitle, action: {
                 pairing.notes = "";
                 showSheet.toggle()
@@ -114,7 +114,8 @@ struct EditableWinePairingRow: View {
 
 struct EditableWinePairingView: View {
     @Binding var pairings:[BeveragePairing];
-    
+    var onSave:() -> Void = {}
+
     var body: some View {
         if (pairings.isEmpty) {
             EmptyView()
@@ -123,7 +124,7 @@ struct EditableWinePairingView: View {
                 
                 VStack(alignment: .leading, spacing: 8) {
                     HStack(alignment: .center, spacing: 8) {
-                        EditableStandaloneTextBox(title: "What was the name of this pairing?", addTitle: "Add wine name", text: $pairings[index].info.name)
+                        EditableStandaloneTextBox(title: "What was the name of this pairing?", addTitle: "Add wine name", text: $pairings[index].info.name, onSave:onSave)
                         
                         HStack(alignment: .center, spacing: 0) {
                             FoodieIcon("\u{e920}", Colors.TextActionTextAction, size:36, padding:0)

@@ -12,9 +12,10 @@ import WrappingHStack
 struct EditableCuisineView: View {
     let title:String;
     @Binding var cuisines:[Cuisine];
-    
+    let onSave:() -> Void
+
     var body : some View {
-        EditableCuisineSheetLayout(title:title, cuisines:$cuisines) {
+        EditableCuisineSheetLayout(title:title, cuisines:$cuisines, onSave:onSave) {
             HStack(alignment: .top, spacing: 8) {
                 HStack(alignment: .center, spacing: 4) {
                 }
@@ -80,11 +81,12 @@ private struct CuisinePill: View {
 private struct EditableCuisineSheetLayout<Content: View>: View {
     let title:String;
     @Binding var cuisines:[Cuisine];
-    
+    let onSave:() -> Void
+
     @State var showSheet:Bool = false;
     @State private var newCuisines:[Cuisine] = []
     @State private var filterText:String = "";
-
+    
     @ViewBuilder let content: Content;
     
     var body: some View {
@@ -146,6 +148,7 @@ private struct EditableCuisineSheetLayout<Content: View>: View {
                         Spacer ()
                         LargeActionRedButton(icon:"\u{e905}") {
                             cuisines = newCuisines;
+                            onSave()
                             showSheet.toggle()
                         }
                     }

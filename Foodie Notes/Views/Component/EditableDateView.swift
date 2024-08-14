@@ -10,10 +10,11 @@ import SwiftUI
 struct EditableDateView<Content: View>: View {
     let title:String;
     @Binding var date:Date;
+    let onSave:() -> Void
     @ViewBuilder let content: Content;
     
     var body : some View {
-        EditableDateSheetLayout(title:title, date:$date) {
+        EditableDateSheetLayout(title:title, date:$date, onSave:onSave) {
             VStack(alignment: .trailing, spacing: 4) {
                 content
             }
@@ -29,6 +30,7 @@ struct EditableDateView<Content: View>: View {
 private struct EditableDateSheetLayout<Content: View>: View {
     let title:String;
     @Binding var date:Date;
+    let onSave:() -> Void
     
     @State var showSheet:Bool = false;
     @State var newDate:Date = Date()
@@ -58,6 +60,7 @@ private struct EditableDateSheetLayout<Content: View>: View {
                                 disabledClosure: { newDate == date },
                                 action: {
                                     date = newDate
+                                    onSave()
                                     showSheet.toggle()
                                 }
                             )

@@ -59,14 +59,14 @@ struct CourseView: View {
                         
                         // Course Metadata
                         VStack(alignment: .trailing) {
-                            EditableTextRow(title: "What's the name of this course?", text: $course.item.name) {
+                            EditableTextRow(title: "What's the name of this course?", text: $course.item.name, onSave:onSave) {
                                 FoodieText(course.item.name, Colors.TextStaticTextPrimary, weight: .semibold)
                                     .padding(.horizontal, 4)
                                     .frame(maxWidth: .infinity, alignment: .leading)
                             }
 
                             HStack(alignment: .center, spacing: 4) {
-                                EditableRatingView(title: "How would you rate your meal here?", rating: $course.item.rating){
+                                EditableRatingView(title: "How would you rate your meal here?", rating: $course.item.rating, onSave:onSave){
                                     RatingView(rating:course.item.rating)
                                         .padding(.vertical, 4)
                                         .padding(.horizontal, 6)
@@ -78,7 +78,7 @@ struct CourseView: View {
                                                 
                         // Tasting Notes
                         ViewSection("Tasting Notes") {
-                            EditableStandaloneTextBox(title: "Any notes on the food for this course?", addTitle: "Add notes", text: $course.item.food.notes)
+                            EditableStandaloneTextBox(title: "Any notes on the food for this course?", addTitle: "Add notes", text: $course.item.food.notes, onSave:onSave)
                                 .onChange(of: course.item.food.notes) {
                                     
                                 }
@@ -93,7 +93,7 @@ struct CourseView: View {
                         VerticalSpace(24)
                         
                         ViewSection("Pairing Notes") {
-                            EditableWinePairingView(pairings: $pairings)
+                            EditableWinePairingView(pairings: $pairings, onSave:onSave)
                             
                             BarButtonTriggeringAddWinePairing(title: "How was this pairing?", addTitle: "Add a pairing", pairing:$newPairing) {
                                 pairings.append(newPairing)
@@ -127,9 +127,13 @@ struct CourseView: View {
         }
         .onChange(of: course.item) {
             // TODO: Solve enabling this on all changes.
-            //viewModel.saveEditedCourse(course.item)
+            viewModel.saveEditedCourse(course.item)
         }
         .ignoresSafeArea(.all)
         .navigationBarHidden(true)
+    }
+    
+    private func onSave() {
+        viewModel.saveEditedCourse(course.item)
     }
 }
