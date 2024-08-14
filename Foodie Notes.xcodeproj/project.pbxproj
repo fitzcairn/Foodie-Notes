@@ -626,7 +626,6 @@
 			mainGroup = AA81D2022C26EEA100FF0221;
 			packageReferences = (
 				AA81D2A72C37065300FF0221 /* XCRemoteSwiftPackageReference "ExyteMediaPicker" */,
-				AACB64822C47F41A0008084D /* XCRemoteSwiftPackageReference "iOSDropDown" */,
 				AA63F3822C4A9E370024D1DF /* XCRemoteSwiftPackageReference "SwiftSoup" */,
 				AA60267C2C626F23008652B4 /* XCRemoteSwiftPackageReference "SwipeActions" */,
 				AA60268F2C6563F1008652B4 /* XCRemoteSwiftPackageReference "WrappingHStack" */,
@@ -1204,14 +1203,6 @@
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 2.2.3;
-			};
-		};
-		AACB64822C47F41A0008084D /* XCRemoteSwiftPackageReference "iOSDropDown" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/jriosdev/iOSDropDown.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.4.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
