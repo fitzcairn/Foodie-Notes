@@ -10,6 +10,9 @@ import SwiftUI
 struct EditSheetComponentMainTextControl: View {
     let title:String;
     @Binding var text:String;
+    var assumesFocus:Bool = true;
+    
+    @FocusState private var focus:Bool;
 
     private var textFieldPrompt: Text {
         Text("Start writing...")
@@ -26,8 +29,14 @@ struct EditSheetComponentMainTextControl: View {
                 Font.custom("Nunito", size: 18)
                     .weight(.semibold)
             )
+            .focused($focus)
             .foregroundColor(Colors.TextStaticTextPrimary)
             .padding(8)
+            .onAppear{
+                DispatchQueue.main.asyncAfter(deadline:.now()){
+                    focus = assumesFocus
+                }
+            }
     }
 
     var body: some View {
