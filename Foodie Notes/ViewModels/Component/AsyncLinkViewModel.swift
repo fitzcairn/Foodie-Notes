@@ -20,12 +20,22 @@ class AsyncLinkViewModel: AsyncSearchConfig {
                 query: [name, city ?? "", country ?? ""])
         ) else { return }
         
-        WebSearchService.getFirstSearchResultFor(url) { (_, guideLink) in
+        WebSearchService.getSearchResultsFor(url) { searchNameAndUrls in
+            var resultUrl:URL?
+            
+            // Take the first link that looks like a reasonably helpful one.
+            for (searchName, searchUrl) in searchNameAndUrls {
+                if (searchUrl != nil && searchName != nil && !searchName!.contains("/restaurant/")) {
+                    resultUrl = searchUrl;
+                    break;
+                }
+            }
             DispatchQueue.main.async {
-                self.link = guideLink
-                self.status = guideLink == nil ? .none : .complete
+                self.link = resultUrl
+                self.status = resultUrl == nil ? .none : .complete
             }
         }
+        
     }
     
     private func getGuideDomainFor(_ guide:VenueGuide?) -> String {
