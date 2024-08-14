@@ -29,7 +29,6 @@ class AppViewModel : ObservableObject {
             do {
                 try await ModelIOService.saveAppModel(model: self.model)
             }
-            //self.objectWillChange.send()
         }
     }
 
