@@ -19,15 +19,28 @@ class AsyncLinkViewModel: AsyncSearchConfig {
                 domain:getGuideDomainFor(guide),
                 query: [name, city ?? "", country ?? ""])
         ) else { return }
-        
+        let charsInName = Set(name.split(separator: ""))
+       
         WebSearchService.getSearchResultsFor(url) { searchNameAndUrls in
             var resultUrl:URL?
             
             // Take the first link that looks like a reasonably helpful one.
             for (searchName, searchUrl) in searchNameAndUrls {
-                if (searchUrl != nil && searchName != nil && !searchName!.contains("/restaurant/")) {
-                    resultUrl = searchUrl;
-                    break;
+                if (searchUrl != nil && searchName != nil && searchUrl!.absoluteString.contains("/restaurant/")) {
+                    
+                    // Pull out only the restaurant name.
+                    let searchName = searchName!.split(separator: " - ").first!
+                    
+                    // Allow for mispelling; if >50% of the characters intersect, accept the match,
+                    // choosing to trust in search relevance.
+                    let charsInSearchName = Set(searchName.split(separator: ""))
+                    let overlap = charsInName.intersection(charsInSearchName)
+                    let union = charsInName.union(charsInSearchName)
+                    let perc = Float(overlap.count) / Float(union.count)
+                    if perc > 0.5 {
+                        resultUrl = searchUrl;
+                        break;
+                    }
                 }
             }
             DispatchQueue.main.async {

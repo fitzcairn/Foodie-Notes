@@ -54,6 +54,7 @@ class AsyncLocationViewModel: NSObject, AsyncLocationConfig, CLLocationManagerDe
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         // Needed as a delegate, but no update needed for my app at the moment.
+        fetchLocation()
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {

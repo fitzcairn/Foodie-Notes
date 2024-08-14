@@ -47,8 +47,8 @@ struct LoadingView: View {
         .task {
             do {
                 // TODO: re-enable this to prevent data loss.
-                viewModel.fromLoad(model: AppModel())
-                //try await viewModel.fromLoad(model:ModelIOService.loadAppModel())
+                //viewModel.fromLoad(model: AppModel())
+                try await viewModel.fromLoad(model:ModelIOService.loadAppModel())
             } catch {
                 // TODO: re-enable this to prevent data loss.
                 // fatalError(error.localizedDescription)
