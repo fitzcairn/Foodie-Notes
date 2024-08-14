@@ -24,7 +24,7 @@ struct CourseListCard: View {
         } else {
             ZStack(alignment: .leading) {
                 SwipeView {
-                    NavigationLink(destination: CourseView(course:viewModel.getCourseFor(course.id)!)) {
+                    NavigationLink(destination: NavigationLazyView(CourseView(course:viewModel.getCourseFor(course.id)!))) {
                         // Course Card
                         HStack(alignment: .top, spacing: 0) {
                             

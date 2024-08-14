@@ -13,14 +13,14 @@ struct EditableImageAndTextBoxRow: View {
     let addTitle:String
     @Binding var pictures:[Picture]
     @Binding var text:String;
-    let onSave:() -> Void;
+    var onSave:() -> Void = {}
 
     @State private var textFieldHeight: CGFloat = .zero
     @State var showSheet:Bool = false;
     
     var body : some View {
         if text.isEmpty && pictures.isEmpty {
-            EditableTextComponent(title, inputText: $text, showSheet: $showSheet, onSave:onSave, pictures: $pictures) {
+            EditableTextAndMultiImageSheetLayout(title:title, text: $text, pictures: $pictures, showSheet: $showSheet) {
                 BarButton(icon: "\u{e91d}", text: addTitle, action: {
                     text = "";
                     showSheet.toggle()
@@ -38,7 +38,7 @@ struct EditableImageAndTextBoxRow: View {
                 }
                 .frame(width:64, height: textFieldHeight)
                 
-                EditableTextComponent(title, inputText: $text, showSheet: $showSheet, onSave:onSave, pictures: $pictures) {
+                EditableTextAndMultiImageSheetLayout(title:title, text: $text, pictures: $pictures, showSheet: $showSheet) {
                     HStack(alignment: .top, spacing: 4) {
                         FoodieText(text, Colors.TextStaticTextSecondary, size:14, weight:.semibold)
                     }
@@ -73,14 +73,13 @@ struct EditableStandaloneTextBox: View {
     let title:String
     let addTitle:String
     @Binding var text:String;
-    let onSave:() -> Void;
     
     @State var showSheet:Bool = false;
 
     var body : some View {
-        EditableTextComponent(title, inputText: $text, showSheet: $showSheet, onSave: onSave) {
+        EditableTextSheetLayout(title: title, text: $text, showSheet: $showSheet) {
             if text.isEmpty {
-                BarButtonTriggeringTextInput(title: title, addTitle: addTitle, text: $text, onSave: onSave, icon:"\u{e91d}")
+                BarButtonTriggeringTextInput(title: title, addTitle: addTitle, text: $text, icon:"\u{e91d}")
             } else {
                 HStack(alignment: .top, spacing: 0) {
                     FoodieText(text, Colors.TextStaticTextSecondary, size:14, weight:.semibold)
@@ -102,12 +101,12 @@ struct EditableStandaloneTextBox: View {
 struct LargeRedButtonTriggeringTextInput: View {
     let title:String
     @Binding var text:String;
-    let onSave:() -> Void;
-    
+    var onSaveClosure:() -> Void = { }
+
     @State var showSheet:Bool = false;
 
     var body : some View {
-        EditableTextComponent(title, inputText: $text, showSheet: $showSheet, onSave: onSave) {
+        EditableTextSheetLayout(title: title, text: $text, showSheet: $showSheet, onSaveClosure:onSaveClosure) {
             LargeActionRedButton(icon: "\u{e91f}", action: {
                 text = "";
                 showSheet.toggle()
@@ -120,13 +119,13 @@ struct BarButtonTriggeringTextInput: View {
     let title:String
     let addTitle:String
     @Binding var text:String;
-    let onSave:() -> Void;
     var icon:String = "\u{e91f}"
+    var onSaveClosure:() -> Void = { }
     
     @State var showSheet:Bool = false;
 
     var body : some View {
-        EditableTextComponent(title, inputText: $text, showSheet: $showSheet, onSave: onSave) {
+        EditableTextSheetLayout(title: title, text: $text, showSheet: $showSheet, onSaveClosure:onSaveClosure) {
             BarButton(icon: icon, text: addTitle, action: {
                 text = "";
                 showSheet.toggle()
@@ -138,20 +137,12 @@ struct BarButtonTriggeringTextInput: View {
 struct EditableTextRow<Content: View>: View {
     let title:String;
     @Binding var text:String;
-    let onSave:() -> Void;
-    let content: Content;
+    @ViewBuilder let content: Content;
     
     @State var showSheet:Bool = false;
     
-    init(_ title:String, text:Binding<String>, onSave: @escaping () -> Void, @ViewBuilder _ content: () -> Content) {
-        self.title = title;
-        self._text = text;
-        self.onSave = onSave;
-        self.content = content()
-    }
-    
     var body : some View {
-        EditableTextComponent(title, inputText: $text, showSheet: $showSheet, onSave: onSave) {
+        EditableTextSheetLayout(title: title, text: $text, showSheet: $showSheet) {
             VStack(alignment: .trailing, spacing: 4) {
                 content
             }
@@ -167,42 +158,18 @@ struct EditableTextRow<Content: View>: View {
     }
 }
 
-private struct EditableTextComponent<Content: View>: View {
+struct EditableTextSheetLayout<Content: View>: View {
     let title:String;
-    let onSave:() -> Void;
-    let content: Content;
-    @Binding var inputText:String;
-    @Binding var pictures:[Picture]
+
+    @Binding var text:String;
     @Binding var showSheet:Bool;
 
-    @State var editText:String;
-    @State var newPictures:[Picture] = []
-
-    private let showPictureControls:Bool;
-
-    init(_ title:String, inputText:Binding<String>, showSheet:Binding<Bool>, onSave: @escaping () -> Void, @ViewBuilder _ content: () -> Content) {
-        self.title = title;
-        self._inputText = inputText;
-        self._showSheet = showSheet;
-        self.onSave = onSave;
-        self.content = content()
-        self._editText = State.init(initialValue: inputText.wrappedValue)
-        self._pictures = Binding<[Picture]> ( get: { [] }, set: { _ = $0 } )
-        self.showPictureControls = false;
-    }
+    @State private var newText:String = ""
     
-    init(_ title:String, inputText:Binding<String>, showSheet:Binding<Bool>, onSave: @escaping () -> Void, pictures:Binding<[Picture]>, @ViewBuilder _ content: () -> Content) {
-        self.title = title;
-        self._inputText = inputText;
-        self._showSheet = showSheet;
-        self.onSave = onSave;
-        self.content = content()
-        self._editText = State.init(initialValue: inputText.wrappedValue)
-        self._pictures = pictures;
-        self._newPictures = State.init(initialValue: pictures.wrappedValue);
-        self.showPictureControls = true;
-    }
-    
+    var onSaveClosure:() -> Void = { }
+
+    @ViewBuilder let content: Content;
+
     var body: some View {
         content
             .sheet(isPresented: $showSheet) {
@@ -213,90 +180,84 @@ private struct EditableTextComponent<Content: View>: View {
                         }
                     },
                     topRightButton: {
-                        SmallClearButton(disabled: editText.isEmpty) {
-                            editText = ""
+                        SmallClearButton(disabled: { newText.isEmpty }) {
+                            newText = ""
                         }
                     },
-                    editView: {
-                        if (showPictureControls) {
-                            textAndImageFieldControl
-                        } else {
-                            textFieldControl
-                        }
+                    mainView: {
+                        EditSheetComponentMainTextControl(title: title, text: $newText)
                     },
-                    saveButton: {
-                        saveButton
-                    },
-                    renderSave: !showPictureControls
+                    bottomView: {
+                        EditSheetComponentBottomSingleButton(
+                            saveButton: {
+                                EditSheetComponentSaveButton(
+                                    disabledClosure: { text == newText },
+                                    action: {
+                                        text = newText
+                                        showSheet.toggle()
+                                        onSaveClosure()
+                                    }
+                                )
+                            }
+                        )
+                    }
                 )
                 .onAppear() {
-                    editText = inputText;
-                    newPictures = pictures
+                    newText = text
                 }
             }
     }
-    
-    private var saveButton: some View {
-        LargeActionRedButton(icon:"\u{e905}", disabled:(editText == inputText && newPictures == pictures)) {
-            inputText = editText
-            pictures = newPictures
-            onSave()
-            showSheet.toggle()
-        }
-    }
-    
-    private var textFieldPrompt: Text {
-        Text("Start writing...")
-            .font(
-                Font.custom("Nunito", size: 18)
-                    .weight(.semibold)
-            )
-            .foregroundColor(Colors.TextStaticTextPrompt)
-    }
-    
-    private var textField: some View {
-        TextField("", text:$editText, prompt: textFieldPrompt, axis:.vertical)
-            .font(
-                Font.custom("Nunito", size: 18)
-                    .weight(.semibold)
-            )
-            .foregroundColor(Colors.TextStaticTextPrimary)
-            .padding(8)
-    }
+}
 
-    private var textFieldControl: some View {
-        VStack(alignment: .leading) {
-            FoodieText(title, Colors.TextStaticTextSecondary, size:16, weight:.semibold)
-                .padding(8)
-            
-            VerticalSpace(16)
-            
-            textField
-        }
-    }
+struct EditableTextAndMultiImageSheetLayout<Content: View>: View {
+    let title:String;
+    @Binding var text:String;
+    @Binding var pictures:[Picture]
+    @Binding var showSheet:Bool;
     
-    private var textAndImageFieldControl: some View {
-        VStack(alignment: .leading) {
-            FoodieText(title, Colors.TextStaticTextSecondary, size:16, weight:.semibold)
-                .padding(8)
-            
-            VerticalSpace(16)
-            
-            textField
-            
-            VerticalSpace(16)
-            
-            ImageCarouselHorizontal(pictures: $newPictures, mutable: true)
-            
-            Spacer()
-            
-            HStack {
-                MultiImagePickerButton(pictures: $newPictures)
-                
-                Spacer()
-                
-                saveButton
+    @State var newText:String = ""
+    @State var newPictures:[Picture] = []
+    
+    @ViewBuilder let content: Content;
+    
+    var body: some View {
+        content
+            .sheet(isPresented: $showSheet) {
+                EditSheetViewNoBottom(
+                    topLeftButton: {
+                        SmallActionBackButton(icon: "\u{e900}") {
+                            showSheet.toggle()
+                        }
+                    },
+                    topRightButton: {
+                        SmallClearButton(disabled: { newText.isEmpty }) {
+                            newText = ""
+                        }
+                    },
+                    mainView: {
+                        EditSheetComponentMainTextAndMultiImageControl(
+                            title: title,
+                            text: $newText,
+                            pictures: $newPictures,
+                            saveButton: {
+                                EditSheetComponentSaveButton(
+                                    disabledClosure: {
+                                        newText == text && newPictures == pictures
+                                    },
+                                    action: {
+                                        text = newText
+                                        pictures = newPictures
+                                        showSheet.toggle()
+                                    }
+                                )
+                            }
+                        )
+                    }
+                )
+                .onAppear() {
+                    newText = text;
+                    newPictures = pictures
+                }
             }
-        }
     }
 }

@@ -52,7 +52,6 @@ struct MealListCard: View {
                             if (meal.venue.michelin != nil || meal.venue.guideLink?.url != nil) {
                                 HStack {
                                     if meal.venue.guideLink?.url != nil {
-                                        FoodieIcon("\u{e911}", Colors.TextActionTextAction, padding:0)
                                         GuideLinkView(meal:meal)
                                     }
                                     Spacer()

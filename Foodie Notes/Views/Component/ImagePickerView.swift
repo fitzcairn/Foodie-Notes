@@ -11,7 +11,7 @@ import ExyteMediaPicker
 
 struct SingleImagePickerButton: View {
     @Binding var picture: Picture?;
-    let onSave:() -> Void;
+    var onSave:() -> Void = {}
 
     var body: some View {
         MultiImagePickerButton(
@@ -90,6 +90,7 @@ struct MultiImagePicker<Content: View>: View {
 
 struct MultiImagePickerButton: View {
     @Binding var pictures:[Picture]
+    var icon:String = "\u{e913}"
     var limit:Int = Int.max // Get around bug in MediaPicker
 
     @StateObject var photoPickerModel: PhotoPickerViewModel = PhotoPickerViewModel();
@@ -103,7 +104,7 @@ struct MultiImagePickerButton: View {
             if isLoading {
                 Loading(height:36)
             } else {
-                LargeActionWhiteButton(icon:"\u{e913}") {
+                LargeActionWhiteButton(icon:icon) {
                     isPickingPhoto = true;
                 }
 

@@ -12,13 +12,23 @@ struct CourseView: View {
     @EnvironmentObject var viewModel:AppViewModel;
     
     @ObservedObject private var course:WrappedStruct<Course>;
+    @State private var pairings:[BeveragePairing];
+    @State private var newPairing:BeveragePairing = BeveragePairing()
 
     init(course:Course) {
         self.course = WrappedStruct(withItem:course)
+        self._pairings = State(initialValue: course.beveragePairings ?? [])
     }
     
+    init(name:String, mealId:String) {
+        var course = Course(mealId: mealId)
+        course.name = name
+        self.course = WrappedStruct(withItem:course)
+        self._pairings = State(initialValue: course.beveragePairings ?? [])
+    }
     
     var body: some View {
+        let _ = Self._printChanges()
         ZStack(alignment: .bottom) {
             Color(Colors.BackgroundBgPrimary)
             
@@ -37,7 +47,7 @@ struct CourseView: View {
                             HStack {
                                 Spacer()
                                 
-                                SingleImagePickerButton(picture:$course.item.pickedImage, onSave:onSave)
+                                SingleImagePickerButton(picture:$course.item.pickedImage)
                                     .padding(.trailing, 25)
                             }
                             .frame(maxWidth: .infinity, alignment: .leading)
@@ -49,14 +59,14 @@ struct CourseView: View {
                         
                         // Course Metadata
                         VStack(alignment: .trailing) {
-                            EditableTextRow("What's the name of this course?", text: $course.item.name, onSave:onSave) {
+                            EditableTextRow(title: "What's the name of this course?", text: $course.item.name) {
                                 FoodieText(course.item.name, Colors.TextStaticTextPrimary, weight: .semibold)
                                     .padding(.horizontal, 4)
                                     .frame(maxWidth: .infinity, alignment: .leading)
                             }
 
                             HStack(alignment: .center, spacing: 4) {
-                                EditableRatingView("How would you rate your meal here?", rating: $course.item.rating, onSave:onSave){
+                                EditableRatingView(title: "How would you rate your meal here?", rating: $course.item.rating){
                                     RatingView(rating:course.item.rating)
                                         .padding(.vertical, 4)
                                         .padding(.horizontal, 6)
@@ -68,11 +78,10 @@ struct CourseView: View {
                                                 
                         // Tasting Notes
                         ViewSection("Tasting Notes") {
-                            EditableStandaloneTextBox(title: "Any notes on the food for this course?", addTitle: "Add notes", text: $course.item.food.notes, onSave:onSave)
-                        }
-                        .onChange(of: course.item.food.notes) {
-                            print(course.item.food.notes)
-                            print("Cjhanged!")
+                            EditableStandaloneTextBox(title: "Any notes on the food for this course?", addTitle: "Add notes", text: $course.item.food.notes)
+                                .onChange(of: course.item.food.notes) {
+                                    
+                                }
                         }
 
                         VerticalSpace(24)
@@ -84,72 +93,17 @@ struct CourseView: View {
                         VerticalSpace(24)
                         
                         ViewSection("Pairing Notes") {
-
-                            // TODO: Pairings
-
+                            EditableWinePairingView(pairings: $pairings)
                             
-                            VStack(alignment: .leading, spacing: 8) {
-                                
-                                // ForEach picture, show row.
-                                
-                                HStack(alignment: .center, spacing: 8) {
-                                    EditableStandaloneTextBox(title: "What was the name of this pairing?", addTitle: "Add wine name", text: $course.item.beveragePairing.notes, onSave:onSave)
-                                    
-                                    HStack(alignment: .center, spacing: 0) {
-                                        FoodieIcon("\u{e920}", Colors.TextActionTextAction, size:36, padding:0)
-                                    }
-                                    .padding(.horizontal, 16)
-                                    .padding(.vertical, 0)
-                                    .cornerRadius(8)
-                                    .frame(maxHeight:.infinity)
-                                    .overlay(
-                                        RoundedRectangle(cornerRadius: 8)
-                                            .inset(by: 0.75)
-                                            .stroke(Colors.BorderStaticBorderSecondary, lineWidth: 1.5)
-                                    )
-                                }
-                                .padding(0)
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                
-                                EditableStandaloneTextBox(title: "Any notes on this pairing?", addTitle: "Add notes", text: $course.item.beveragePairing.notes, onSave:onSave)
-                                
-                                HStack(alignment: .center, spacing: 8) {
-                                    VStack(alignment: .leading, spacing: 0) {
-                                        
-                                    }
-                                    .padding(8)
-                                    .frame(width: 24, height: 24, alignment: .topLeading)
-                                    
-                                    .cornerRadius(4)
-                                    .overlay(
-                                        RoundedRectangle(cornerRadius: 4)
-                                            .inset(by: 0.75)
-                                            .stroke(Colors.BorderActionBorderActionSubtle, lineWidth: 1.5)
-                                    )
-                                    
-                                    FoodieText("Shared with previous course", Colors.TextStaticTextSecondary, size:14, weight:.semibold)
-                                    
-                                }
-                                .padding(16)
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .cornerRadius(8)
+                            BarButtonTriggeringAddWinePairing(title: "How was this pairing?", addTitle: "Add a pairing", pairing:$newPairing) {
+                                pairings.append(newPairing)
+                                newPairing = BeveragePairing()
+                                course.item.beveragePairings = pairings;
+                                viewModel.saveEditedCourse(course.item)
                             }
-                            .padding(8)
-                            .frame(maxWidth: .infinity, alignment: .topLeading)
-                            .cornerRadius(16)
-                            .overlay(
-                              RoundedRectangle(cornerRadius: 16)
-                                .inset(by: 0.75)
-                                .stroke(Colors.BorderStaticBorderTertiary, lineWidth: 1.5)
-                            )
                         }
-                        
-                        
-                        
                     }
                     .padding(.horizontal, 24)
-                    
-                    
                 }
             }
             .safeAreaPadding(EdgeInsets(top: 0, leading: 0, bottom: 150, trailing: 0))
@@ -158,21 +112,24 @@ struct CourseView: View {
             
             // Buttons
             BottomButtonContainer(
-                { LargeActionRedButton(icon:"\u{e900}", action: { self.presentationMode.wrappedValue.dismiss() }) },
+                { LargeActionRedButton(icon:"\u{e900}", action: {
+                    viewModel.saveEditedCourse(course.item)
+                    self.presentationMode.wrappedValue.dismiss()
+                }) },
                 { MultiImagePickerButton(pictures:$course.item.food.pictures) }
             )
             
         }
         .onAppear() {
-            course.item = viewModel.getCourseFor(course.item.id) ?? Course(mealId: course.item.mealId)
+            if let savedCourse = viewModel.getCourseFor(course.item.id) {
+                course.item = savedCourse
+            }
         }
         .onChange(of: course.item) {
-            viewModel.saveEditedCourse(course.item)
+            // TODO: Solve enabling this on all changes.
+            //viewModel.saveEditedCourse(course.item)
         }
         .ignoresSafeArea(.all)
         .navigationBarHidden(true)
-    }
-    
-    private func onSave() {
     }
 }

@@ -44,7 +44,7 @@ struct GuideLinkView: View {
                 viewModel.saveEditedMealFor(newMeal)
             }
         } else {
-            GuideLink(guideName: "No Internet Connection", url: URL(string: ""))
+            FoodieText("( not connected )", Colors.TextStaticTextSecondary, size:12, weight:.medium)
         }
     }
 
@@ -55,15 +55,20 @@ struct GuideLinkView: View {
         var body: some View {
             HStack {
                 if let url = url {
-                    Link(guideName, destination:url)
-                        .font(
-                          Font.custom("Nunito", size: 12)
-                            .weight(.semibold)
-                        )
-                        .foregroundColor(Colors.TextActionTextAction)
-                        .buttonStyle(.borderless)
-                        .lineLimit(1)
-                        .fixedSize(horizontal: false, vertical: true)
+                    HStack(alignment: .center, spacing: 4) {
+                        FoodieIcon("\u{e911}", Colors.TextActionTextAction, padding:0)
+                            .padding(.trailing, 4)
+                        
+                        Link(guideName, destination:url)
+                            .font(
+                                Font.custom("Nunito", size: 12)
+                                    .weight(.semibold)
+                            )
+                            .foregroundColor(Colors.TextActionTextAction)
+                            .buttonStyle(.borderless)
+                            .lineLimit(1)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
                 }
                 else {
                     EmptyView()

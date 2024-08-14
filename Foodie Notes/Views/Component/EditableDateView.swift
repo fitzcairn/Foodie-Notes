@@ -10,18 +10,10 @@ import SwiftUI
 struct EditableDateView<Content: View>: View {
     let title:String;
     @Binding var date:Date;
-    let onSave:() -> Void;
-    let content: Content;
-    
-    init(_ title:String, date:Binding<Date>, onSave: @escaping () -> Void, @ViewBuilder _ content: () -> Content) {
-        self.title = title;
-        self._date = date;
-        self.onSave = onSave;
-        self.content = content()
-    }
+    @ViewBuilder let content: Content;
     
     var body : some View {
-        EditableDateComponent(title, $date, onSave) {
+        EditableDateSheetLayout(title:title, date:$date) {
             VStack(alignment: .trailing, spacing: 4) {
                 content
             }
@@ -34,23 +26,15 @@ struct EditableDateView<Content: View>: View {
     }
 }
 
-private struct EditableDateComponent<Content: View>: View {
+private struct EditableDateSheetLayout<Content: View>: View {
     let title:String;
-    @Binding var inputDate:Date;
-    let onSave:() -> Void;
-    let content: Content;
+    @Binding var date:Date;
     
     @State var showSheet:Bool = false;
-    @State var editDate:Date;
-    
-    init(_ title:String, _ inputDate:Binding<Date>, _ onSave: @escaping () -> Void, @ViewBuilder _ content: () -> Content) {
-        self.title = title;
-        self._inputDate = inputDate;
-        self.onSave = onSave;
-        self.content = content()
-        self._editDate = State.init(initialValue: inputDate.wrappedValue)
-    }
-    
+    @State var newDate:Date = Date()
+
+    @ViewBuilder let content: Content;
+
     var body: some View {
         content
             .onTapGesture {
@@ -65,24 +49,33 @@ private struct EditableDateComponent<Content: View>: View {
                     },
                     topRightButton: {
                     },
-                    editView: {
-                        dateFieldControl
+                    mainView: {
+                        EditSheetComponentMainDateControl(title:title, date:$newDate)
                     },
-                    saveButton: {
-                        LargeActionRedButton(icon:"\u{e905}") {
-                            inputDate = editDate
-                            onSave()
-                            showSheet.toggle()
+                    bottomView: {
+                        EditSheetComponentBottomSingleButton() {
+                            EditSheetComponentSaveButton(
+                                disabledClosure: { newDate == date },
+                                action: {
+                                    date = newDate
+                                    showSheet.toggle()
+                                }
+                            )
                         }
                     }
                 )
-                .onAppear() {
-                    editDate = inputDate;
-                }
+            }
+            .onAppear() {
+                newDate = date;
             }
     }
+}
+
+struct EditSheetComponentMainDateControl: View {
+    let title:String;
+    @Binding var date:Date;
     
-    private var dateFieldControl: some View {
+    var body: some View {
         VStack(alignment: .leading) {
             FoodieText(title, Colors.TextStaticTextSecondary, size:16, weight:.semibold)
                 .padding(8)
@@ -91,7 +84,7 @@ private struct EditableDateComponent<Content: View>: View {
             
             HStack(alignment: .center, spacing: 4) {
                 HStack {
-                    FoodieText(editDate.formatted(date: .abbreviated, time: .omitted), Colors.TextStaticTextPrimary, size:18, weight:.semibold)
+                    FoodieText(date.formatted(date: .abbreviated, time: .omitted), Colors.TextStaticTextPrimary, size:18, weight:.semibold)
                         .padding(8)
                         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
                         .background(Colors.FillStaticFillPrimary)
@@ -105,7 +98,7 @@ private struct EditableDateComponent<Content: View>: View {
                 .overlay {
                     DatePicker(
                         "",
-                        selection: $editDate,
+                        selection: $date,
                         in: ...Date(),
                         displayedComponents: .date
                     )
@@ -113,7 +106,7 @@ private struct EditableDateComponent<Content: View>: View {
                 }
                 
                 HStack {
-                    FoodieText(editDate.formatted(date: .omitted, time: .shortened), Colors.TextStaticTextPrimary, size:18, weight:.semibold)
+                    FoodieText(date.formatted(date: .omitted, time: .shortened), Colors.TextStaticTextPrimary, size:18, weight:.semibold)
                         .padding(8)
                         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
                         .background(Colors.FillStaticFillPrimary)
@@ -127,7 +120,7 @@ private struct EditableDateComponent<Content: View>: View {
                 .overlay {
                     DatePicker(
                         "",
-                        selection: $editDate,
+                        selection: $date,
                         in: ...Date(),
                         displayedComponents: .hourAndMinute
                     )

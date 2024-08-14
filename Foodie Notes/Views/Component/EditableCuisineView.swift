@@ -12,10 +12,9 @@ import WrappingHStack
 struct EditableCuisineView: View {
     let title:String;
     @Binding var cuisines:[Cuisine];
-    let onSave:() -> Void;
     
     var body : some View {
-        EditableCuisineComponent(title, $cuisines, onSave) {
+        EditableCuisineSheetLayout(title:title, cuisines:$cuisines) {
             HStack(alignment: .top, spacing: 8) {
                 HStack(alignment: .center, spacing: 4) {
                 }
@@ -78,23 +77,15 @@ private struct CuisinePill: View {
     }
 }
 
-private struct EditableCuisineComponent<Content: View>: View {
+private struct EditableCuisineSheetLayout<Content: View>: View {
     let title:String;
     @Binding var cuisines:[Cuisine];
-    let onSave:() -> Void;
-    let content: Content;
     
     @State var showSheet:Bool = false;
-    @State private var newCuisines:[Cuisine];
+    @State private var newCuisines:[Cuisine] = []
     @State private var filterText:String = "";
-    
-    init(_ title:String, _ cuisines:Binding<[Cuisine]>, _ onSave: @escaping () -> Void, @ViewBuilder _ content: () -> Content) {
-        self.title = title;
-        self._cuisines = cuisines;
-        self.onSave = onSave;
-        self.content = content()
-        self._newCuisines = State.init(initialValue: cuisines.wrappedValue)
-    }
+
+    @ViewBuilder let content: Content;
     
     var body: some View {
         content
@@ -102,7 +93,7 @@ private struct EditableCuisineComponent<Content: View>: View {
             showSheet.toggle()
         }
         .sheet(isPresented: $showSheet) {
-            EditSheetView(
+            EditSheetViewNoBottom(
                 topLeftButton: {
                     SmallActionBackButton(icon: "\u{e900}") {
                         showSheet.toggle()
@@ -110,7 +101,7 @@ private struct EditableCuisineComponent<Content: View>: View {
                 },
                 topRightButton: {
                 },
-                editView: {
+                mainView: {
                     FoodieText(title, Colors.TextStaticTextSecondary, size:16, weight:.semibold)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(8)
@@ -118,9 +109,7 @@ private struct EditableCuisineComponent<Content: View>: View {
                     VerticalSpace(8)
                     
                     cuisineSelectionControl
-                },
-                saveButton: { },
-                renderSave: false
+                }
             )
             .onAppear() {
                 newCuisines = cuisines;
@@ -157,7 +146,6 @@ private struct EditableCuisineComponent<Content: View>: View {
                         Spacer ()
                         LargeActionRedButton(icon:"\u{e905}") {
                             cuisines = newCuisines;
-                            onSave()
                             showSheet.toggle()
                         }
                     }

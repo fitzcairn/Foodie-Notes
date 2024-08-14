@@ -13,10 +13,16 @@ struct Course : Hashable, Equatable, Identifiable, Codable {
     var name:String = "";
     var date:Date = Date();
     var food:PicturesAndNotes = PicturesAndNotes();
-    var beveragePairing:PicturesAndNotes = PicturesAndNotes();
     var pickedImage:Picture?
     var rating: Int = 0;
     
+    // New as of Aug 13
+    var beveragePairings:[BeveragePairing]?
+
+    // TODO: Remove
+    @available(*, deprecated, message: "Don't use")
+    var beveragePairing:PicturesAndNotes = PicturesAndNotes();
+   
     init(mealId: String) {
         self.mealId = mealId
     }

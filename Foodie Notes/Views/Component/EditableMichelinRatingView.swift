@@ -10,18 +10,11 @@ import SwiftUI
 struct EditableMichelinRatingView<Content: View>: View {
     let title:String;
     @Binding var rating: Michelin?
-    let onSave:() -> Void;
-    let content: Content;
-    
-    init(_ title:String, rating:Binding<Michelin?>, onSave: @escaping () -> Void, @ViewBuilder _ content: () -> Content) {
-        self.title = title;
-        self._rating = rating;
-        self.onSave = onSave;
-        self.content = content()
-    }
+    var onSaveClosure:() -> Void = { }
+    @ViewBuilder let content: Content;
     
     var body : some View {
-        EditableMichelinRatingComponent(title, $rating, onSave) {
+        EditableMichelinRatingComponent(title:title, rating:$rating, onSaveClosure:onSaveClosure) {
             VStack(alignment: .trailing, spacing: 4) {
                 content
             }
@@ -36,24 +29,16 @@ struct EditableMichelinRatingView<Content: View>: View {
 
 private struct EditableMichelinRatingComponent<Content: View>: View {
     let title:String;
-    @Binding var inputRating: Michelin?
-    let onSave:() -> Void;
-    let content: Content;
-    
+    @Binding var rating: Michelin?
+    var onSaveClosure:() -> Void = { }
+
     @State var showSheet:Bool = false;
-    @State var editRating:Michelin
-    
+    @State var newRating:Michelin = .none
+ 
+    @ViewBuilder let content: Content;
+ 
     // TODO: Update once conversion complete on old data.
-    let michelinRatings:[Michelin] = [.none, .plateIcon, .bibGourmandIcon, .oneStarIcon, .twoStarIcon, .threeStarIcon] //.allCases
-    
-    
-    init(_ title:String, _ inputRating:Binding<Michelin?>, _ onSave: @escaping () -> Void, @ViewBuilder _ content: () -> Content) {
-        self.title = title;
-        self._inputRating = inputRating;
-        self.onSave = onSave;
-        self.content = content()
-        self._editRating = State.init(initialValue: inputRating.wrappedValue ?? .none)
-    }
+    private let michelinRatings:[Michelin] = [.none, .plateIcon, .bibGourmandIcon, .oneStarIcon, .twoStarIcon, .threeStarIcon] //.allCases
     
     var body: some View {
         content
@@ -69,20 +54,22 @@ private struct EditableMichelinRatingComponent<Content: View>: View {
                     },
                     topRightButton: {
                     },
-                    editView: {
+                    mainView: {
                         ratingFieldControl
                     },
-                    saveButton: {
-                        LargeActionRedButton(icon:"\u{e905}") {
-                            inputRating = editRating
-                            onSave()
-                            showSheet.toggle()
+                    bottomView: {
+                        EditSheetComponentBottomSingleButton() {
+                            EditSheetComponentSaveButton() {
+                                rating = newRating
+                                showSheet.toggle()
+                                onSaveClosure()
+                            }
                         }
                     }
                 )
-                .onAppear() {
-                    editRating = inputRating ?? .none;
-                }
+            }
+            .onAppear() {
+                newRating = rating ?? .none;
             }
     }
     
@@ -91,10 +78,9 @@ private struct EditableMichelinRatingComponent<Content: View>: View {
             FoodieText(title, Colors.TextStaticTextSecondary, size:16, weight:.semibold)
                 .padding(8)
             
-            
             VStack(alignment: .center, spacing: 4) {
                 ForEach(michelinRatings, id: \.rawValue) { rating in
-                    MichelinButton(label: rating, rating: $editRating)
+                    MichelinButton(label: rating, rating: $newRating)
                 }
                 .buttonStyle(.plain)
                 .padding(0)
@@ -105,7 +91,6 @@ private struct EditableMichelinRatingComponent<Content: View>: View {
         }
     }
 }
-
 
 private struct MichelinButton: View {
     let label:Michelin;

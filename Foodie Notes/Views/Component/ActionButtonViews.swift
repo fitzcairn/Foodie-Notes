@@ -48,12 +48,12 @@ private struct BarButtonStyle: ButtonStyle {
 }
 
 struct SmallClearButton: View {
-    var disabled:Bool = false;
+    var disabled:() -> Bool = { false };
     let action:() -> Void
     
     var body: some View {
         ActionButton(action:action)
-            .buttonStyle(SmallClearButtonStyle(disabled:disabled))
+            .buttonStyle(SmallClearButtonStyle(disabled:disabled()))
     }
 }
 

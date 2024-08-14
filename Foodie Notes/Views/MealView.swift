@@ -41,7 +41,7 @@ struct MealView: View {
                                 Spacer()
                                 
                                 // TODO: change to image picker.
-                                SingleImagePickerButton(picture:$meal.item.pickedImage, onSave:onSave)
+                                SingleImagePickerButton(picture:$meal.item.pickedImage)
                                     .padding(.trailing, 25)
                             }
                             .frame(maxWidth: .infinity, alignment: .leading)
@@ -53,42 +53,53 @@ struct MealView: View {
                         
                         // Meal Metadata
                         VStack {
-                            EditableTextRow("What's the name of this venue?", text: $meal.item.venue.name, onSave:onSave) {
+                            EditableTextRow(title: "What's the name of this venue?", text: $meal.item.venue.name) {
                                 FoodieText(meal.item.venue.name, Colors.TextStaticTextPrimary, weight: .semibold)
                                     .padding(.horizontal, 4)
                                     .frame(maxWidth: .infinity, alignment: .leading)
+                                    .onChange(of: meal.item.venue.name) {
+                                        viewModel.saveEditedMealFor(meal.item)
+                                    }
                             }
                             
-                            EditableDateView("When did you visit?", date: $meal.item.date, onSave:onSave) {
+                            EditableDateView(title: "When did you visit?", date: $meal.item.date) {
                                 HStack {
                                     FoodieIcon("\u{e903}", Colors.IconSecondary, padding:0)
                                     FoodieText(meal.item.date.formatted(date:.abbreviated, time:.omitted), Colors.TextStaticTextSecondary, size:12, weight:.medium)
                                 }
                                 .frame(maxWidth: .infinity, alignment: .leading)
+                                .onChange(of: meal.item.date) {
+                                    viewModel.saveEditedMealFor(meal.item)
+                                }
                             }
                             
-                            EditableLocationView("Where was this venue?", location: $meal.item.venue.location, venueName: $meal.item.venue.name, onSave:onSave)
+                            EditableLocationView(title: "Where was this venue?", location: $meal.item.venue.location, venueName: $meal.item.venue.name)
+                                .onChange(of: meal.item.venue.location) {
+                                    viewModel.saveEditedMealFor(meal.item)
+                                }
                             
                             HStack(alignment: .center, spacing: 4) {
-                                EditableRatingView("How would you rate your meal here?", rating: $meal.item.rating, onSave:onSave){
+                                EditableRatingView(title: "How would you rate your meal here?", rating: $meal.item.rating) {
                                     RatingView(rating:meal.item.rating)
                                         .padding(.vertical, 4)
                                         .padding(.horizontal, 6)
+                                        .onChange(of: meal.item.rating) {
+                                            viewModel.saveEditedMealFor(meal.item)
+                                        }
                                 }
-                                
                                 
                                 if (meal.item.venue.michelin == nil || meal.item.venue.michelin! == .none) {
                                     // No rating view
-                                    EditableMichelinRatingView("What was this venue's Michelin rating?", rating: $meal.item.venue.michelin, onSave:onSave) {
+                                    EditableMichelinRatingView(title: "What was this venue's Michelin rating?", rating: $meal.item.venue.michelin, onSaveClosure: { viewModel.saveEditedMealFor(meal.item) }) {
                                         HStack {
                                             FoodieText("( not michelin rated )", Colors.TextStaticTextSecondary, size:12, weight:.medium)
-                                                .padding(.vertical, 3)
+                                                .padding(.vertical, 4)
                                             Spacer()
                                         }
                                     }
                                 } else {
                                     // Rating
-                                    EditableMichelinRatingView("What was this venue's Michelin rating?", rating: $meal.item.venue.michelin, onSave:onSave) {
+                                    EditableMichelinRatingView(title: "What was this venue's Michelin rating?", rating: $meal.item.venue.michelin, onSaveClosure: { viewModel.saveEditedMealFor(meal.item) }) {
                                         MichelinStarView(rating: meal.item.venue.michelin)
                                             .padding(.horizontal, 4)
                                             .padding(.vertical, 3)
@@ -97,41 +108,48 @@ struct MealView: View {
                                     
                                     // Guide link/link fetch
                                     HStack {
-                                        HStack(alignment: .center, spacing: 4) {
-                                            FoodieIcon("\u{e911}", Colors.TextActionTextAction, padding:0)
-                                            GuideLinkView(meal:meal.item)
-                                        }
-                                        .frame(maxWidth: .infinity, alignment: .leading)
-                                        .padding(12)
-                                        .background(Colors.FillStaticFillPrimary)
-                                        .cornerRadius(8)
-                                        .shadow(color: Colors.ShadowMed, radius: 8, x: 0, y: 8)
-                                        .shadow(color: Colors.ShadowEdge, radius: 4, x: 0, y: 0)
+                                        GuideLinkView(meal:meal.item)
+                                            .frame(maxWidth: .infinity, alignment: .leading)
+                                            .padding(12)
+                                            .background(Colors.FillStaticFillPrimary)
+                                            .cornerRadius(8)
+                                            .shadow(color: Colors.ShadowMed, radius: 8, x: 0, y: 8)
+                                            .shadow(color: Colors.ShadowEdge, radius: 4, x: 0, y: 0)
                                     }
                                 }
                             }
                             .frame(maxWidth: .infinity)
+                            .id(meal.item.venue)
                         }
                         
                         VerticalSpace(24)
                         
                         // Meal Notes
                         ViewSection("Overall Notes") {
-                            EditableStandaloneTextBox(title: "Overall notes about your meal?", addTitle: "Add notes", text: $meal.item.notes, onSave:onSave)
+                            EditableStandaloneTextBox(title: "Overall notes about your meal?", addTitle: "Add notes", text: $meal.item.notes)
+                                .onChange(of: meal.item.notes) {
+                                    viewModel.saveEditedMealFor(meal.item)
+                                }
                         }
                         
                         VerticalSpace(24)
                         
                         // Meal Cuisine
                         ViewSection("Cuisine") {
-                            EditableCuisineView(title: "What cuisine[s] were served for this meal?", cuisines: $meal.item.cuisines, onSave:onSave);
+                            EditableCuisineView(title: "What cuisine[s] were served for this meal?", cuisines: $meal.item.cuisines)
+                                .onChange(of: meal.item.cuisines) {
+                                    viewModel.saveEditedMealFor(meal.item)
+                                }
                         }
                         
                         VerticalSpace(24)
                         
                         // Menu[s]
                         ViewSection("Menus") {
-                            EditableImageAndTextBoxRow(title: "Any notes about the menu?", addTitle: "Add menu notes", pictures: $meal.item.menu.pictures, text: $meal.item.menu.notes, onSave:onSave)
+                            EditableImageAndTextBoxRow(title: "Any notes about the menu?", addTitle: "Add menu notes", pictures: $meal.item.menu.pictures, text: $meal.item.menu.notes)
+                                .onChange(of: meal.item.menu) {
+                                    viewModel.saveEditedMealFor(meal.item)
+                                }
                         }
                         
                         VerticalSpace(24)
@@ -146,15 +164,14 @@ struct MealView: View {
                                     }
                                 }
                                 .id(meal.item.courses)
-
+                                
                                 BarButtonTriggeringTextInput(title: "What's the name of the course?", addTitle: "Add a course", text:$courseName) {
                                     newCourse = Course(mealId: meal.item.id)
                                     newCourse.name = courseName
-                                    viewModel.saveEditedCourse(newCourse)
                                     goToCourseView = true;
                                 }
                                 .navigationDestination(isPresented: $goToCourseView) {
-                                    CourseView(course:newCourse)
+                                    NavigationLazyView(CourseView(course:newCourse))
                                 }
                             }
                         }
@@ -162,6 +179,7 @@ struct MealView: View {
                     .padding(.horizontal, 24)
                 }
             }
+
             .safeAreaPadding(EdgeInsets(top: 0, leading: 0, bottom: 150, trailing: 0))
             
             BottomFade()
@@ -179,9 +197,5 @@ struct MealView: View {
         }
         .ignoresSafeArea(.all)
         .navigationBarHidden(true)
-    }
-    
-    private func onSave() {
-        viewModel.saveEditedMealFor(meal.item)
     }
 }

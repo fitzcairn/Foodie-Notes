@@ -10,18 +10,10 @@ import SwiftUI
 struct EditableRatingView<Content: View>: View {
     let title:String;
     @Binding var rating: Int
-    let onSave:() -> Void;
-    let content: Content;
-    
-    init(_ title:String, rating:Binding<Int>, onSave: @escaping () -> Void, @ViewBuilder _ content: () -> Content) {
-        self.title = title;
-        self._rating = rating;
-        self.onSave = onSave;
-        self.content = content()
-    }
+    @ViewBuilder let content: Content;
     
     var body : some View {
-        EditableRatingComponent(title, $rating, onSave) {
+        EditableRatingSheetLayout(title:title, rating:$rating) {
             VStack(alignment: .trailing, spacing: 4) {
                 content
             }
@@ -34,23 +26,14 @@ struct EditableRatingView<Content: View>: View {
     }
 }
 
-private struct EditableRatingComponent<Content: View>: View {
+private struct EditableRatingSheetLayout<Content: View>: View {
     let title:String;
-    @Binding var inputRating: Int
-    let onSave:() -> Void;
-    let content: Content;
+    @Binding var rating: Int
+    @ViewBuilder let content: Content;
     
     @State var showSheet:Bool = false;
-    @State var editRating:Int
-    
-    init(_ title:String, _ inputRating:Binding<Int>, _ onSave: @escaping () -> Void, @ViewBuilder _ content: () -> Content) {
-        self.title = title;
-        self._inputRating = inputRating;
-        self.onSave = onSave;
-        self.content = content()
-        self._editRating = State.init(initialValue: inputRating.wrappedValue)
-    }
-    
+    @State var newRating:Int = 0;
+        
     var body: some View {
         content
             .onTapGesture {
@@ -65,19 +48,22 @@ private struct EditableRatingComponent<Content: View>: View {
                     },
                     topRightButton: {
                     },
-                    editView: {
+                    mainView: {
                         ratingFieldControl
                     },
-                    saveButton: {
-                        LargeActionRedButton(icon:"\u{e905}") {
-                            inputRating = editRating
-                            onSave()
-                            showSheet.toggle()
-                        }
+                    bottomView: {
+                        EditSheetComponentBottomSingleButton(
+                            saveButton: {
+                                EditSheetComponentSaveButton() {
+                                    rating = newRating
+                                    showSheet.toggle()
+                                }
+                            }
+                        )
                     }
                 )
                 .onAppear() {
-                    editRating = inputRating;
+                    newRating = rating;
                 }
             }
     }
@@ -94,9 +80,9 @@ private struct EditableRatingComponent<Content: View>: View {
                     ForEach(1..<RatingView.maximumRating + 1, id: \.self) { number in
                         Button(
                             action: {
-                                editRating = number
+                                newRating = number
                             }, label: {
-                                RatingView.image(for: number, score:editRating, size:32, padding:0)
+                                RatingView.image(for: number, score:newRating, size:32, padding:0)
                                     .padding(0)
                             }
                         )

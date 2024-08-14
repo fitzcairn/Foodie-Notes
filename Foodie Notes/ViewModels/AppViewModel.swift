@@ -29,7 +29,7 @@ class AppViewModel : ObservableObject {
             do {
                 try await ModelIOService.saveAppModel(model: self.model)
             }
-            self.objectWillChange.send()
+            //self.objectWillChange.send()
         }
     }
 
@@ -104,30 +104,6 @@ class AppViewModel : ObservableObject {
         
         // None!
         return nil
-    }
-    func getAllImagesFor(_ meal:Meal) -> [Picture] {
-        guard(model.getMealFor(meal.id) != nil) else { return [] }
-        let meal = model.getMealFor(meal.id)!
-        var images:[Picture] = []
-
-        if !isPictureEmpty(meal.pickedImage) { images.append(meal.pickedImage!) }
-
-        for course in meal.courses {
-            if !isPictureEmpty(course.pickedImage) { images.append(course.pickedImage!) }
-        }
-        
-        for img in meal.menu.pictures {
-            if (!isPictureEmpty(img)) {
-                images.append(img)
-            }
-        }
-
-        for course in meal.courses {
-            if !course.beveragePairing.pictures.isEmpty || !course.food.pictures.isEmpty {
-                images += (course.food.pictures + course.beveragePairing.pictures).filter() { !isPictureEmpty($0) }
-            }
-        }
-        return images
     }
 
     

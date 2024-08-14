@@ -65,17 +65,15 @@ struct ExpandableImageGallery<Content: View>: View {
     @State var showSheet:Bool = false;
     
     var body: some View {
-        if src.isEmpty {
-            EmptyView()
-        } else {
-            content
-                .onTapGesture {
+        content
+            .onTapGesture {
+                if !src.isEmpty {
                     showSheet.toggle()
                 }
-                .sheet(isPresented: $showSheet) {
-                    ImageSheetView(src:src, showSheet: $showSheet)
-                }
-        }
+            }
+            .sheet(isPresented: $showSheet) {
+                ImageSheetView(src:src, showSheet: $showSheet)
+            }
     }
 }
 

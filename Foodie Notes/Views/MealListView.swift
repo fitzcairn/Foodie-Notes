@@ -39,9 +39,9 @@ struct MealListView: View {
                     Spacer()
                     
                     LargeRedButtonTriggeringTextInput(title: "What's the name of the venue?", text:$venue) {
-                        newMeal = viewModel.createMealAtVenue(venue)
-                        goToMealView = true;
-                    }
+                            newMeal = viewModel.createMealAtVenue(venue)
+                            goToMealView = true;
+                        }
                 }
             }
             .navigationDestination(isPresented: $goToMealView) {

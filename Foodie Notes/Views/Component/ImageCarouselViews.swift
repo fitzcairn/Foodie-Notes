@@ -7,6 +7,28 @@
 
 import SwiftUI
 
+
+struct SingleImageCarousel: View {
+    @Binding var picture:Picture?
+    var mutable:Bool = false;
+    
+    var body: some View {
+        if picture?.photo == nil || picture!.deleted {
+            // Show the nil image to remind folks to add.
+            NoPhotoPlaceholderView(edit:true)
+                .frame(width: 80, height: 80)
+                .clipped()
+                .cornerRadius(8)
+        } else {
+            ExpandableImageGallery(src: .picture(picture)) {
+                MutableImage(picture: picture!, mutable: mutable) {
+                    picture = nil;
+                }
+            }
+        }
+    }
+}
+
 struct ImageCarouselHorizontal: View {
     @Binding var pictures:[Picture]
     var mutable:Bool = false;
@@ -15,45 +37,63 @@ struct ImageCarouselHorizontal: View {
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 8) {
-                ForEach(pictures.filter { $0.photo != nil }, id: \.self) { picture in
-                    ZStack(alignment: .topTrailing) {
-                        ExpandableImageGallery(src: .picture(picture)) {
-                            PhotoView(img: picture.photo!.thumb, contentMode: .fill)
-                                .frame(width: 80, height: 80)
-                                .clipped()
-                                .cornerRadius(8)
-                        }
-                        
-                        if (mutable) {
-                            Button(
-                                action: {
-                                    if let index = pictures.firstIndex(where: { $0 == picture }) {
-                                        pictures.remove(at: index)
-                                    }
-                                },
-                                label: {
-                                    Rectangle()
-                                        .frame(width:32, height:32)
-                                        .clipShape(
-                                            .rect(
-                                                topLeadingRadius: 0,
-                                                bottomLeadingRadius: 8,
-                                                bottomTrailingRadius: 0,
-                                                topTrailingRadius: 8
-                                            )
-                                        )
-                                }
-                            )
-                            .buttonStyle(DeleteButtonStyle(icon:"\u{e90a}"))
+                if pictures.isEmpty {
+                    // Show the nil image to remind folks to add.
+                    NoPhotoPlaceholderView(edit:true)
+                        .frame(width: 80, height: 80)
+                        .clipped()
+                        .cornerRadius(8)
+                } else {
+                    ForEach(pictures.filter { $0.photo != nil }, id: \.self) { picture in
+                        MutableImage(picture: picture, mutable: mutable) {
+                            if let index = pictures.firstIndex(where: { $0 == picture }) {
+                                pictures.remove(at: index)
+                            }
                         }
                     }
-                    .contentShape(Rectangle())
-                    .frame(width:80, height:80)
+                    .id(pictures.count)
                 }
-                .id(pictures.count)
             }
         }
         .scrollTargetLayout()
+    }
+}
+
+private struct MutableImage: View {
+    let picture:Picture
+    let mutable:Bool
+    let action:() -> Void;
+    
+    var body: some View {
+        ZStack(alignment: .topTrailing) {
+            ExpandableImageGallery(src: .picture(picture)) {
+                PhotoView(img: picture.photo!.thumb, contentMode: .fill)
+                    .frame(width: 80, height: 80)
+                    .clipped()
+                    .cornerRadius(8)
+            }
+            
+            if (mutable) {
+                Button(
+                    action: action,
+                    label: {
+                        Rectangle()
+                            .frame(width:32, height:32)
+                            .clipShape(
+                                .rect(
+                                    topLeadingRadius: 0,
+                                    bottomLeadingRadius: 8,
+                                    bottomTrailingRadius: 0,
+                                    topTrailingRadius: 8
+                                )
+                            )
+                    }
+                )
+                .buttonStyle(DeleteButtonStyle(icon:"\u{e90a}"))
+            }
+        }
+        .contentShape(Rectangle())
+        .frame(width:80, height:80)
     }
 }
 

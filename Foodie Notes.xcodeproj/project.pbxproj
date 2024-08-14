@@ -11,6 +11,10 @@
 		AA0F1ED22C626E3E00B2202A /* MealListCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0F1ED12C626E3E00B2202A /* MealListCard.swift */; };
 		AA0F1ED32C626E3E00B2202A /* MealListCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0F1ED12C626E3E00B2202A /* MealListCard.swift */; };
 		AA0F1ED42C626E3E00B2202A /* MealListCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0F1ED12C626E3E00B2202A /* MealListCard.swift */; };
+		AA20D3702C6BDC5000C63895 /* EditableWinePairingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA20D36F2C6BDC5000C63895 /* EditableWinePairingView.swift */; };
+		AA20D3722C6BF77C00C63895 /* BeveragePairingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA20D3712C6BF77C00C63895 /* BeveragePairingModel.swift */; };
+		AA20D3742C6BFFA700C63895 /* EditableSheetComponentViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA20D3732C6BFFA700C63895 /* EditableSheetComponentViews.swift */; };
+		AA20D3762C6C3E7100C63895 /* NavigationLazyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA20D3752C6C3E7100C63895 /* NavigationLazyView.swift */; };
 		AA2D0AAB2C69469000481CB9 /* EditableDateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2D0AAA2C69469000481CB9 /* EditableDateView.swift */; };
 		AA45C07D2C471B23009F6DEC /* CourseEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA45C07C2C471B22009F6DEC /* CourseEditView.swift */; };
 		AA45C0992C471D09009F6DEC /* PrimaryButtonSubViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA45C0982C471D09009F6DEC /* PrimaryButtonSubViews.swift */; };
@@ -169,6 +173,10 @@
 /* Begin PBXFileReference section */
 		AA0F1ECA2C60166D00B2202A /* foodie-icons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "foodie-icons.ttf"; sourceTree = "<group>"; };
 		AA0F1ED12C626E3E00B2202A /* MealListCard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MealListCard.swift; sourceTree = "<group>"; };
+		AA20D36F2C6BDC5000C63895 /* EditableWinePairingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditableWinePairingView.swift; sourceTree = "<group>"; };
+		AA20D3712C6BF77C00C63895 /* BeveragePairingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeveragePairingModel.swift; sourceTree = "<group>"; };
+		AA20D3732C6BFFA700C63895 /* EditableSheetComponentViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditableSheetComponentViews.swift; sourceTree = "<group>"; };
+		AA20D3752C6C3E7100C63895 /* NavigationLazyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationLazyView.swift; sourceTree = "<group>"; };
 		AA2D0AAA2C69469000481CB9 /* EditableDateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditableDateView.swift; sourceTree = "<group>"; };
 		AA45C07C2C471B22009F6DEC /* CourseEditView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseEditView.swift; sourceTree = "<group>"; };
 		AA45C0982C471D09009F6DEC /* PrimaryButtonSubViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryButtonSubViews.swift; sourceTree = "<group>"; };
@@ -337,6 +345,7 @@
 				AA81D2B42C38192400FF0221 /* PictureModels.swift */,
 				AA73444F2C4E8D5100A027FF /* PictureAndNotesModel.swift */,
 				AA81D2B62C38193500FF0221 /* VenueModel.swift */,
+				AA20D3712C6BF77C00C63895 /* BeveragePairingModel.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -458,12 +467,14 @@
 				AA8CED042C6A098900A1395C /* EditableLocationView.swift */,
 				AA6026962C667324008652B4 /* EditableTextViews.swift */,
 				AA2D0AAA2C69469000481CB9 /* EditableDateView.swift */,
+				AA20D3732C6BFFA700C63895 /* EditableSheetComponentViews.swift */,
 				AA60269E2C6811A1008652B4 /* EditSheetView.swift */,
 				AA8CED062C6A23A500A1395C /* ImageViews.swift */,
 				AA8CED082C6A4EB100A1395C /* SearchBox.swift */,
 				AA8CED0C2C6A611500A1395C /* ImageGalleryViews.swift */,
 				AA9D9FEA2C6BBE0400B23B5A /* ImageCarouselViews.swift */,
 				AA9D9FE82C6AB75500B23B5A /* ImagePickerView.swift */,
+				AA20D36F2C6BDC5000C63895 /* EditableWinePairingView.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -537,6 +548,7 @@
 				AA45C09C2C4726B6009F6DEC /* WrappedStruct.swift */,
 				AA81D2FF2C3AA1DD00FF0221 /* Constants.swift */,
 				AAC91A5E2C4DC96900225BDD /* ThreadSafeDictionary.swift */,
+				AA20D3752C6C3E7100C63895 /* NavigationLazyView.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -760,6 +772,7 @@
 				AA63F38A2C4BF6E20024D1DF /* AsyncLoadableConfig.swift in Sources */,
 				AA0F1ED22C626E3E00B2202A /* MealListCard.swift in Sources */,
 				AAA064D62C46A7DA005397EA /* NotesSubViews.swift in Sources */,
+				AA20D3702C6BDC5000C63895 /* EditableWinePairingView.swift in Sources */,
 				AA81D2B32C38190800FF0221 /* CourseModel.swift in Sources */,
 				AA60269F2C6811A1008652B4 /* EditSheetView.swift in Sources */,
 				AA81D29F2C325D0B00FF0221 /* AppModel.swift in Sources */,
@@ -784,6 +797,7 @@
 				AAC91A5F2C4DC96900225BDD /* ThreadSafeDictionary.swift in Sources */,
 				AA9D9FE92C6AB75500B23B5A /* ImagePickerView.swift in Sources */,
 				AA73444C2C4E8B3800A027FF /* GuideLinkView.swift in Sources */,
+				AA20D3742C6BFFA700C63895 /* EditableSheetComponentViews.swift in Sources */,
 				AA63F3862C4BF6260024D1DF /* AsyncLinkViewModel.swift in Sources */,
 				AAA064D52C46A7DA005397EA /* MiscSubViews.swift in Sources */,
 				AA60269B2C667481008652B4 /* ViewSection.swift in Sources */,
@@ -818,9 +832,11 @@
 				AA45C09D2C4726B6009F6DEC /* WrappedStruct.swift in Sources */,
 				AA9D9FEB2C6BBE0400B23B5A /* ImageCarouselViews.swift in Sources */,
 				AAA064D32C46A7DA005397EA /* PhotoSubViews.swift in Sources */,
+				AA20D3762C6C3E7100C63895 /* NavigationLazyView.swift in Sources */,
 				AAA064D22C46A7DA005397EA /* PictureSubViews.swift in Sources */,
 				AAC91A5A2C4D4BAD00225BDD /* ConversionService.swift in Sources */,
 				AA81D2922C3209E100FF0221 /* CourseView.swift in Sources */,
+				AA20D3722C6BF77C00C63895 /* BeveragePairingModel.swift in Sources */,
 				AA81D2802C309BF000FF0221 /* MealListView.swift in Sources */,
 				AAF0FDBA2C49B62B00932EB5 /* LocationViews.swift in Sources */,
 				AAE6A7AA2C4E9A3200765C76 /* AsyncLocationView.swift in Sources */,

@@ -29,10 +29,13 @@ struct AyncGuideLinkView<Source:AsyncSearchConfig, ProgressContent: View, LinkCo
                 .onAppear {
                     source.searchFor(name: venue.name, guide: guide, city: venue.location?.city, country: venue.location?.country)
                 }
+                .padding(.top, 2)
+                .padding(.bottom, 2)
         case .complete:
             linkContent
         case .error, .none:
-            EmptyView()
+            FoodieText("( no guide link found )", Colors.TextStaticTextSecondary, size:12, weight:.medium)
+                .padding(.vertical, 4)
         }
     }
 }

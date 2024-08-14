@@ -14,17 +14,9 @@ struct EditableLocationView: View {
     let title:String;
     @Binding var location: Location?
     @Binding var venueName: String
-    let onSave:() -> Void;
-    
-    init(_ title: String, location: Binding<Location?>, venueName: Binding<String>, onSave: @escaping () -> Void) {
-        self.title = title
-        self._location = location
-        self._venueName = venueName
-        self.onSave = onSave
-    }
-    
+        
     var body : some View {
-        EditableLocationComponent(title, $location, onSave) {
+        EditableLocationSheetLayout(title:title, location:$location) {
             VStack(alignment: .trailing, spacing: 4) {
                 HStack {
                     if (location != nil) {
@@ -94,25 +86,18 @@ struct LocationView: View {
     }
 }
 
-private struct EditableLocationComponent<Content: View>: View {
+private struct EditableLocationSheetLayout<Content: View>: View {
     @Environment(NetworkService.self) private var networkService
     @StateObject var locViewModel:AsyncLocationViewModel = AsyncLocationViewModel()
     
     let title:String;
     @Binding var location: Location?
-    let onSave:() -> Void;
-    let content: Content;
     
     @State var showSheet:Bool = false;
     @State private var newLocation: SearchResult?
-    
-    init(_ title:String, _ location:Binding<Location?>, _ onSave: @escaping () -> Void, @ViewBuilder _ content: () -> Content) {
-        self.title = title;
-        self._location = location;
-        self.onSave = onSave;
-        self.content = content()
-    }
-    
+
+    @ViewBuilder let content: Content;
+
     var body: some View {
         content
             .onTapGesture {
@@ -127,7 +112,7 @@ private struct EditableLocationComponent<Content: View>: View {
                     },
                     topRightButton: {
                     },
-                    editView: {
+                    mainView: {
                         FoodieText(title, Colors.TextStaticTextSecondary, size:16, weight:.semibold)
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .padding(8)
@@ -136,11 +121,15 @@ private struct EditableLocationComponent<Content: View>: View {
                         
                         SearchableMap(newLocation: $newLocation)
                     },
-                    saveButton: {
-                        LargeActionRedButton(icon:"\u{e905}") {
-                            location = newLocation != nil ? newLocation?.toLocation() : location;
-                            onSave()
-                            showSheet.toggle()
+                    bottomView: {
+                        EditSheetComponentBottomSingleButton() {
+                            EditSheetComponentSaveButton(
+                                disabledClosure: { false },
+                                action: {
+                                    location = newLocation != nil ? newLocation?.toLocation() : location;
+                                    showSheet.toggle()
+                                }
+                            )
                         }
                     }
                 )
