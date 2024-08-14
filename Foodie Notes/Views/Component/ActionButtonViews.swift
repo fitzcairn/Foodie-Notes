@@ -39,14 +39,6 @@ struct BarButton: View {
     }
 }
 
-private struct BarButtonStyle: ButtonStyle {
-    func makeBody(configuration: Self.Configuration) -> some View {
-        configuration.label
-            .background(configuration.isPressed ? Colors.FillStaticFillSecondary : Colors.BackgroundBgPrimary)
-            .cornerRadius(8)
-    }
-}
-
 struct SmallClearButton: View {
     var disabled:() -> Bool = { false };
     let action:() -> Void
@@ -66,7 +58,6 @@ struct SmallActionBackButton: View {
         .buttonStyle(SmallActionBackButtonStyle(icon:icon))
     }
 }
-
 
 struct BottomButtonContainer<Left: View, Right: View>: View {
     let left: Left
@@ -126,21 +117,6 @@ struct MedActionWhiteButton: View {
     }
 }
 
-private struct MedActionWhiteButtonStyle: ButtonStyle {
-    let icon:String;
-    
-    func makeBody(configuration: Self.Configuration) -> some View {
-        configuration.label
-            .background(Colors.BackgroundBgTertiary)
-            .cornerRadius(80)
-            .overlay() {
-                FoodieIcon(icon, configuration.isPressed ? .black : Colors.FillActionFillAction, size:24, padding:0)
-            }
-            .shadow(color: Colors.ShadowMed, radius: 8, x: 0, y: 8)
-            .shadow(color: Colors.ShadowEdge, radius: 4, x: 0, y: 0)
-    }
-}
-
 struct LargeActionWhiteShareButton: View {
     let subject:String;
     let message:String;
@@ -160,6 +136,37 @@ struct LargeActionWhiteShareButton: View {
         .buttonStyle(LargeActionWhiteButtonStyle(icon:"\u{e922}"))
         .padding(.horizontal, 16)
         .padding(.vertical, 8)
+    }
+}
+
+struct CheckboxButton : View {
+    @Binding var value:Bool
+    let text:String;
+    var action: () -> Void = {}
+    
+    var body: some View {
+        Button(
+            action: {
+                value.toggle()
+                action()
+            },
+            label: {
+                HStack(alignment: .center, spacing: 8) {
+                }
+                .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, minHeight: 56, maxHeight:56, alignment: .leading)
+            }
+        )
+        .buttonStyle(CheckboxButtonStyle(text:text, selected:value))
+    }
+}
+
+// MARK: - Styles
+
+private struct BarButtonStyle: ButtonStyle {
+    func makeBody(configuration: Self.Configuration) -> some View {
+        configuration.label
+            .background(configuration.isPressed ? Colors.FillStaticFillSecondary : Colors.BackgroundBgPrimary)
+            .cornerRadius(8)
     }
 }
 
@@ -184,7 +191,6 @@ private struct ActionButton: View {
         .frame(width: dim, height: dim, alignment: .center)
     }
 }
-
 
 private struct SmallClearButtonStyle: ButtonStyle {
     var disabled:Bool = false;
@@ -242,6 +248,60 @@ private struct LargeActionWhiteButtonStyle: ButtonStyle {
             }
             .shadow(color: Colors.ShadowHigh, radius: 8, x: 0, y: 16)
             .shadow(color: Colors.ShadowEdge, radius: 2, x: 0, y: 1)
-
+        
     }
 }
+
+private struct CheckboxButtonStyle: ButtonStyle {
+    let text:String;
+    var selected:Bool = false;
+    
+    func makeBody(configuration: Self.Configuration) -> some View {
+        configuration.label
+            .background(configuration.isPressed ? Colors.FillActionFillActionPressedSubtle : Colors.BackgroundBgPrimary)
+            .cornerRadius(8)
+            .overlay(
+                ZStack {
+                    HStack(alignment: .center, spacing: 8) {
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 4)
+                                .inset(by: 0.75)
+                                .stroke(Colors.BorderActionBorderActionSubtle, lineWidth: !configuration.isPressed && !selected ? 1.5 : 0)
+                                .frame(width: 24, height: 24, alignment: .topLeading)
+                                .background(selected ? Colors.FillActionFillActionSelected: configuration.isPressed ? Colors.FillActionFillActionPressed : Colors.BackgroundBgPrimary)
+                                .cornerRadius(4)
+                            
+                            FoodieIcon("\u{e905}", .white, size:24, padding:0)
+                                .opacity(selected ? 1.0 : 0)
+                        }
+                        .padding(.leading, 8)
+                        
+                        
+                        FoodieText(text, Colors.TextStaticTextSecondary, size:14, weight:.semibold)
+                    }
+                    .padding(.horizontal, 8)
+                    .cornerRadius(8)
+                    .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: .leading)
+                    
+                    RoundedRectangle(cornerRadius: 8)
+                        .stroke(configuration.isPressed ? Colors.BorderStaticBorderSubtle : Colors.BackgroundBgPrimary, lineWidth: 1)
+                }
+            )
+    }
+}
+
+private struct MedActionWhiteButtonStyle: ButtonStyle {
+    let icon:String;
+    
+    func makeBody(configuration: Self.Configuration) -> some View {
+        configuration.label
+            .background(Colors.BackgroundBgTertiary)
+            .cornerRadius(80)
+            .overlay() {
+                FoodieIcon(icon, configuration.isPressed ? .black : Colors.FillActionFillAction, size:24, padding:0)
+            }
+            .shadow(color: Colors.ShadowMed, radius: 8, x: 0, y: 8)
+            .shadow(color: Colors.ShadowEdge, radius: 4, x: 0, y: 0)
+    }
+}
+
