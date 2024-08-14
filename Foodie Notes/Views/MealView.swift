@@ -19,7 +19,7 @@ struct MealView: View {
     @State var newCourse:Course;
 
     init(meal:Meal) {
-        self.meal = WrappedStruct(withItem:meal)
+        _meal = ObservedObject(wrappedValue: WrappedStruct(withItem:meal))
         self._newCourse = State.init(initialValue: Course(mealId: meal.id))
     }
     
