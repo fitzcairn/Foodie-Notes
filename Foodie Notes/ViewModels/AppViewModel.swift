@@ -40,8 +40,7 @@ class AppViewModel : ObservableObject {
         writeOut()
     }
     func createMealAtVenue(_ venue:String) -> Meal {
-        var meal = Meal()
-        meal.venue = Venue(venue)
+        var meal = Meal(venueName: venue)
         saveEditedMealFor(meal)
         return meal;
     }

@@ -19,14 +19,7 @@ struct CourseView: View {
         self.course = WrappedStruct(withItem:course)
         self._pairings = State(initialValue: course.beveragePairings ?? [])
     }
-    
-    init(name:String, mealId:String) {
-        var course = Course(mealId: mealId)
-        course.name = name
-        self.course = WrappedStruct(withItem:course)
-        self._pairings = State(initialValue: course.beveragePairings ?? [])
-    }
-    
+
     var body: some View {
         let _ = Self._printChanges()
         ZStack(alignment: .bottom) {
@@ -47,7 +40,7 @@ struct CourseView: View {
                             HStack {
                                 Spacer()
                                 
-                                SingleImagePickerButton(picture:$course.item.pickedImage)
+                                SingleImagePickerButton(picture:$course.item.pickedImage, onSave:onSave)
                                     .padding(.trailing, 25)
                             }
                             .frame(maxWidth: .infinity, alignment: .leading)
@@ -112,10 +105,7 @@ struct CourseView: View {
             
             // Buttons
             BottomButtonContainer(
-                { LargeActionRedButton(icon:"\u{e900}", action: {
-                    viewModel.saveEditedCourse(course.item)
-                    self.presentationMode.wrappedValue.dismiss()
-                }) },
+                { LargeActionRedButton(icon:"\u{e900}", action: { self.presentationMode.wrappedValue.dismiss() }) },
                 { MultiImagePickerButton(pictures:$course.item.food.pictures) }
             )
             
@@ -123,17 +113,15 @@ struct CourseView: View {
         .onAppear() {
             if let savedCourse = viewModel.getCourseFor(course.item.id) {
                 course.item = savedCourse
+                pairings = savedCourse.beveragePairings ?? []
             }
-        }
-        .onChange(of: course.item) {
-            // TODO: Solve enabling this on all changes.
-            viewModel.saveEditedCourse(course.item)
         }
         .ignoresSafeArea(.all)
         .navigationBarHidden(true)
     }
     
     private func onSave() {
+        print("saving Course \(course.item.id)")
         viewModel.saveEditedCourse(course.item)
     }
 }

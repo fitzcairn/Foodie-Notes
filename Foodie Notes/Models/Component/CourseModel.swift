@@ -22,9 +22,10 @@ struct Course : Hashable, Equatable, Identifiable, Codable {
     // TODO: Remove
     @available(*, deprecated, message: "Don't use")
     var beveragePairing:PicturesAndNotes = PicturesAndNotes();
-   
-    init(mealId: String) {
+    
+    init(mealId: String, name: String) {
         self.mealId = mealId
+        self.name = name
     }
 
     static func == (lhs: Course, rhs: Course) -> Bool {

@@ -16,11 +16,14 @@ struct MealListView: View {
     
     @State var goToMealView:Bool = false;
     @State var venue:String = "";
-    @State var newMeal:Meal = Meal();
     @State var sortOrder:AppViewModel.MealSortOrder = .dateDesc;
     @State var filterText:String = "";
+
+    // Only one new meal can exist at a time.
+    @State var newMeal = Meal(venueName: "")
     
     var body: some View {
+        let _ = Self._printChanges()
         NavigationStack {
             ZStack {
                 VStack {
@@ -39,26 +42,23 @@ struct MealListView: View {
                     Spacer()
                     
                     LargeRedButtonTriggeringTextInput(title: "What's the name of the venue?", text:$venue) {
-                            newMeal = viewModel.createMealAtVenue(venue)
-                            goToMealView = true;
-                        }
+                        newMeal = Meal(venueName: venue)
+                        newMeal.rating = 0;
+                        viewModel.saveEditedMealFor(newMeal)
+                        goToMealView = true;
+                    }
                 }
             }
+            .onChange(of: newMeal) {
+            }
             .navigationDestination(isPresented: $goToMealView) {
-                MealView(meal:newMeal)
+                MealCreateView(meal:$newMeal)
             }
         }
         .navigationBarHidden(true)
         .onChange(of: scenePhase) { oldPhase, newPhase in
             if newPhase == .inactive {
-                Task {
-                    do {
-                        try await ModelIOService.saveAppModel(model: viewModel.model)
-                    } catch {
-                        // Blow up
-                        fatalError(error.localizedDescription)
-                    }
-                }
+                viewModel.writeOut()
             }
         }
     }
@@ -76,7 +76,6 @@ struct MealListView: View {
                 }
             }
             .safeAreaPadding(EdgeInsets(top: 0, leading: 0, bottom: 100, trailing: 0))
-            //.id(UUID()) <-- caused a lot of unnecessary list renders.
             .listStyle(.plain)
         }
     }

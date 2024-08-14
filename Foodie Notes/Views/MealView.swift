@@ -16,14 +16,17 @@ struct MealView: View {
     @ObservedObject private var meal:WrappedStruct<Meal>;
     @State var goToCourseView:Bool = false;
     @State var courseName:String = "";
+    
+    // Only one new course can exist at a time.
     @State var newCourse:Course;
-
+    
     init(meal:Meal) {
         _meal = ObservedObject(wrappedValue: WrappedStruct(withItem:meal))
-        self._newCourse = State.init(initialValue: Course(mealId: meal.id))
+        _newCourse = State.init(initialValue: Course(mealId: meal.id, name: ""))
     }
     
     var body: some View {
+        let _ = Self._printChanges()
         ZStack(alignment: .bottom) {
             Color(Colors.BackgroundBgPrimary)
             
@@ -39,9 +42,7 @@ struct MealView: View {
                             
                             HStack {
                                 Spacer()
-                                
-                                // TODO: change to image picker.
-                                SingleImagePickerButton(picture:$meal.item.pickedImage)
+                                SingleImagePickerButton(picture:$meal.item.pickedImage, onSave:onSave)
                                     .padding(.trailing, 25)
                             }
                             .frame(maxWidth: .infinity, alignment: .leading)
@@ -137,27 +138,31 @@ struct MealView: View {
                         ViewSection("Courses") {
                             VStack {
                                 SwipeViewGroup {
-                                    ForEach(meal.item.courses, id: \.self) { course in
+                                    ForEach(viewModel.getMealFor(meal.item.id)!.courses, id: \.self) { course in
                                         CourseListCard(course:course)
                                             .padding(.bottom, -2)
                                     }
                                 }
-                                .id(meal.item.courses)
                                 
                                 BarButtonTriggeringTextInput(title: "What's the name of the course?", addTitle: "Add a course", text:$courseName) {
-                                    newCourse = Course(mealId: meal.item.id)
-                                    newCourse.name = courseName
+                                    newCourse = Course(mealId: meal.item.id, name: courseName)
+                                    meal.item.courses.append(newCourse)
+                                    onSave()
                                     goToCourseView = true;
                                 }
                                 .navigationDestination(isPresented: $goToCourseView) {
-                                    NavigationLazyView(CourseView(course:newCourse))
+                                    NavigationLazyView(CourseCreateView(course:$newCourse))
                                 }
                             }
                         }
                     }
                     .padding(.horizontal, 24)
                 }
+            }        
+            .onAppear() {
+                reload()
             }
+
 
             .safeAreaPadding(EdgeInsets(top: 0, leading: 0, bottom: 150, trailing: 0))
             
@@ -171,14 +176,19 @@ struct MealView: View {
                     message: ModelIOService.exportAsString(meal.item),
                     preview: "Notes about my meal at \(meal.item.venue.name) on \(meal.item.date.formatted(date: .complete, time: .omitted))") })
         }
-        .onAppear() {
-            meal.item = viewModel.getMealFor(meal.item.id) ?? Meal()
-        }
         .ignoresSafeArea(.all)
         .navigationBarHidden(true)
     }
     
+    private func reload() {
+        if let savedMeal = viewModel.getMealFor(meal.item.id) {
+            meal.item = savedMeal
+            print("Refreshing meal \(savedMeal.id)")
+        }
+    }
+    
     private func onSave() {
+        print("saving Meal \(meal.item.id)")
         viewModel.saveEditedMealFor(meal.item)
     }
 }

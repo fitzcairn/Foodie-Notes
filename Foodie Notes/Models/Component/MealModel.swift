@@ -24,7 +24,8 @@ struct Meal : Identifiable, Hashable, Codable {
         set { _cuisines = newValue }
     }
     
-    init() {
+    init(venueName:String) {
+        venue.name = venueName;
     }
     
     static func == (lhs: Meal, rhs: Meal) -> Bool {
