@@ -17,7 +17,7 @@ struct CourseView: View {
 
     init(course:Course) {
         self.course = WrappedStruct(withItem:course)
-        self._pairings = State(initialValue: course.beveragePairings ?? [])
+        self._pairings = State(initialValue: course.beveragePairings)
     }
 
     var body: some View {
@@ -116,7 +116,7 @@ struct CourseView: View {
         .onAppear() {
             if let savedCourse = viewModel.getCourseFor(course.item.id) {
                 course.item = savedCourse
-                pairings = savedCourse.beveragePairings ?? []
+                pairings = savedCourse.beveragePairings
             }
         }
         .ignoresSafeArea(.all)
