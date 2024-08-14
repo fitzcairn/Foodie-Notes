@@ -205,7 +205,8 @@ struct Loading: View {
     var body: some View {
         HStack {
             ProgressView()
-                .frame(height: 18)
+                //.frame(width:height, height: height)
+                .scaleEffect(CGSize(width: height/18, height: height/18))
         }
     }
 }

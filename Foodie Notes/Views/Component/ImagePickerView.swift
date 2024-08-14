@@ -103,11 +103,12 @@ struct MultiImagePickerButton: View {
         HStack {
             if isLoading {
                 Loading(height:36)
+                    .padding(.horizontal, 24)
+                    .padding(.vertical, 8)
             } else {
                 LargeActionWhiteButton(icon:icon) {
                     isPickingPhoto = true;
                 }
-
             }
         }
         .onChange(of:isPickingPhoto) {

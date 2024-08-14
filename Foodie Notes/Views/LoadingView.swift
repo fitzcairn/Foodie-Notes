@@ -48,7 +48,8 @@ struct LoadingView: View {
             do {
                 try await viewModel.fromLoad(model:ModelIOService.loadAppModel())
             } catch {
-                fatalError(error.localizedDescription)
+                // TODO: re-enable this to prevent data loss.
+                // fatalError(error.localizedDescription)
             }
         }
     }
