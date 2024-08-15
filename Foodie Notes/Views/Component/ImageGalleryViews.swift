@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Combine
 
 enum GallerySource {
     case picture(Picture?)
@@ -82,25 +83,30 @@ private struct ImageSheetView: View {
     @Binding var showSheet:Bool;
     
     var body: some View {
+        HStack(alignment: .top) {
+            HStack(alignment: .center, spacing: 4) {
+                SmallActionBackButton(icon: "\u{e900}") {
+                    showSheet.toggle()
+                }
+            }
+            .padding(.horizontal, 16)
+            .frame(width: 48, height: 48, alignment: .center)
+            .cornerRadius(80)
+            
+            Spacer()
+        }
+        .padding(.horizontal, 16)
+        .padding(.top, 16)
+        .padding(.bottom, -8) // Hack
+
+        Divider()
+            .padding(.bottom, 8)
+        
         ZStack {
             ImageGalleryView(src)
                 .padding(.horizontal, 0)
                 .padding(.top, 80)
                 .padding(.bottom, 118)
-            
-            VStack(alignment: .leading, spacing: 16) {
-                Spacer()
-                
-                HStack {
-                    LargeActionRedButton(icon:"\u{e900}") {
-                        showSheet.toggle()
-                    }
-                    .padding(.leading, -8)
-                    .padding(.bottom, 0)
-                    Spacer()
-                }
-                .padding(.horizontal, 32)
-            }
         }
         .frame(maxWidth: .infinity, alignment: .top)
         .presentationDetents([.fraction(0.95)])
@@ -115,24 +121,26 @@ private struct ImageSheetView: View {
 private struct ImageGalleryView: View {
     let images:[Photo]
     
-    @State private var image:Photo;
+    @State private var selectedGallery:Int = 0;
+    @State private var selectedCarousel:Int = 0;
+
     
     init(_ src: GallerySource) {
         self.images = src.images
-        self._image = State.init(initialValue: images.first!)
     }
     
     var body: some View {
         if images.count == 1 {
             VStack(alignment: .center, spacing: 0) {
-                ImageGalleryImage(photo: image)
+                ImageGalleryImage(images:images, selectedGallery:$selectedGallery, selectedCarousel:$selectedCarousel)
             }
         } else {
             VStack {
-                ImageGalleryImage(photo: image)
-                    .id(image)
+                ImageGalleryImage(images:images, selectedGallery:$selectedGallery, selectedCarousel:$selectedCarousel)
+                    .id(selectedGallery)
                 Spacer()
-                ImageGalleryCarousel(images:images, selected:$image)
+                ImageGalleryCarousel(images:images, selectedGallery:$selectedGallery, selectedCarousel:$selectedCarousel)
+                    .id(selectedCarousel)
             }
         }
     }
@@ -140,11 +148,13 @@ private struct ImageGalleryView: View {
 
 private struct ImageGalleryCarousel: View {
     let images:[Photo]
-    @Binding var selected:Photo;
-    @State private var focusedIndex:Int = 0;
+    @Binding var selectedGallery:Int
+    @Binding var selectedCarousel:Int
     
+    @State var test:Int = 0;
+
     var body: some View {
-        ScrollViewReader { v in
+        ScrollViewReader { carousel in
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 4) {
                     ForEach(Array(zip(images.indices, images)), id: \.0) { index, img in
@@ -152,24 +162,24 @@ private struct ImageGalleryCarousel: View {
                             .frame(width: 64, height: 64)
                             .clipped()
                             .cornerRadius(8)
+                            .opacity(selectedGallery == index ? 1 : 0.5)
                             .onTapGesture {
-                                selected = img;
-                                focusedIndex = index
-                            }
-                            .opacity(selected == img ? 1 : 0.5)
-                            .onAppear {
-                                if selected == img {
-                                    focusedIndex = index
-                                }
+                                selectedGallery = index;
                             }
                     }
                 }
                 .scrollTargetLayout()
-                .onChange(of: focusedIndex) {
+                .onChange(of: selectedGallery) {
                     withAnimation {
-                        v.scrollTo(focusedIndex, anchor: .center)
+                        carousel.scrollTo(selectedGallery, anchor: .center)
                     }
                 }
+                /*.onChange(of: selectedGallery) {
+                    print("Carousel got a change to \(selectedGallery)")
+                    test = max(test, selectedGallery)
+                    selectedCarousel = test
+                }*/
+
             }
             .contentMargins(24, for: .scrollContent)
             .scrollTargetBehavior(.viewAligned)
@@ -184,82 +194,31 @@ private struct ImageGalleryCarousel: View {
 }
 
 private struct ImageGalleryImage: View {
-    let photo:Photo
+    let images:[Photo]
+    @Binding var selectedGallery:Int
+    @Binding var selectedCarousel:Int
+    
     @State private var showFull:Bool = false;
     @State private var screenW = 0.0
     @State private var scale = 1.0
     @State private var lastScale = 0.0
     @State private var offset: CGSize = .zero
     @State private var lastOffset: CGSize = .zero
-
     
     var body: some View {
-        PhotoView(img: photo.full, contentMode: .fit)
-            .onTapGesture {
-                // Disabled for now pending discussion with designer.
-                // showFull.toggle()
-            }
-            .fullScreenCover(isPresented: $showFull) {
-                ZStack {
-                    Color.black
-                    
-                    GeometryReader { geometry in
-                        
-                        PhotoView(img: photo.full, contentMode: .fit)
-                            .scaleEffect(scale)
-                            .offset(offset)
-                            .gesture(
-                                MagnificationGesture(minimumScaleDelta: 0)
-                                    .onChanged({ value in
-                                        withAnimation(.interactiveSpring()) {
-                                            scale = handleScaleChange(value)
-                                        }
-                                    })
-                                    .onEnded({ _ in
-                                        lastScale = scale
-                                    })
-                                    .simultaneously(with: DragGesture(minimumDistance: 0)
-                                        .onChanged({ value in
-                                            withAnimation(.interactiveSpring()) {
-                                                offset = handleOffsetChange(value.translation)
-                                            }
-                                        })
-                                            .onEnded({ _ in
-                                                lastOffset = offset
-                                            })
-                                    )
-                            )
-                            .onAppear {
-                                screenW = geometry.size.width
-                                offset.height = (UIScreen.main.bounds.height - geometry.size.height)
-                                offset.width = (UIScreen.main.bounds.width - geometry.size.width)
+        GeometryReader { geo in
+            TabView(selection:$selectedGallery) {
+                ForEach(Array(zip(images.indices, images)), id: \.0) { index, img in
+                    PhotoView(img: img.full, contentMode: .fit)
+                        .frame(width:geo.size.width)
+                        .tag(index)
+                        .transaction { $0.animation = nil }
+                }
+                .transaction { $0.animation = nil }
 
-                            }
-                    }
-                }
-                .onTapGesture {
-                    showFull.toggle()
-                }
-                .onAppear {
-                    screenW = 0.0
-                    scale = 1.0
-                    lastScale = 0.0
-                    offset = .zero
-                    lastOffset = .zero
-                }
             }
-    }
-                                                        
-    private func handleScaleChange(_ zoom: CGFloat) -> CGFloat {
-        lastScale + zoom - (lastScale == 0 ? 0 : 1)
-    }
-
-    private func handleOffsetChange(_ offset: CGSize) -> CGSize {
-        var newOffset: CGSize = .zero
-        
-        newOffset.width = offset.width + lastOffset.width
-        newOffset.height = offset.height + lastOffset.height
-        
-        return newOffset
+            .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+            .transaction { $0.animation = nil }
+        }
     }
 }

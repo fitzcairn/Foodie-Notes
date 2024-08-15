@@ -93,12 +93,13 @@ struct PhotoView: View {
     @StateObject var photoModel:AsyncPhotoViewModel = AsyncPhotoViewModel()
     let img: SavedImage;
     var contentMode:ContentMode = .fill;
+    @State var isAnimating:Bool = false;
 
     var body: some View {
         AsyncPhotoView(
             source: photoModel,
             img: img,
-            progressContent: {
+            progressContent: { 
                 ProgressView()
             },
             photoContent: {

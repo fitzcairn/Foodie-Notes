@@ -10,24 +10,15 @@ import SwiftUI
 struct AsyncPhotoView<Source:AsyncImageConfig, ProgressContent: View, PhotoContent:View>: View {
     @ObservedObject var source:Source
     let img: SavedImage;
-    let progressContent: ProgressContent;
-    let photoContent: PhotoContent;
-    
-    init(source: Source, img:SavedImage, @ViewBuilder progressContent: () -> ProgressContent, @ViewBuilder photoContent: () -> PhotoContent) {
-        self.source = source
-        self.img = img;
-        self.progressContent = progressContent()
-        self.photoContent = photoContent()
-    }
-    
+    @ViewBuilder let progressContent: ProgressContent;
+    @ViewBuilder let photoContent: PhotoContent;
+        
     var body: some View {
         switch source.status {
         case .loading:
             progressContent
                 .onAppear {
-                    withAnimation {
-                        source.loadImageFor(img)
-                    }
+                    source.loadImageFor(img)
                 }
         case .complete:
             withAnimation {

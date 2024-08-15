@@ -28,10 +28,8 @@ struct CourseView: View {
                     
                     // Image
                     ZStack(alignment: .top) {
-                        withAnimation {
-                            CoverPicture(picture: viewModel.getCourseImageFor(course.item))
-                                .id(course.item.pickedImage)
-                        }
+                        CoverPicture(picture: viewModel.getCourseImageFor(course.item))
+                            .id(course.item.pickedImage)
                         
                         // Edit photo button
                         VStack {
