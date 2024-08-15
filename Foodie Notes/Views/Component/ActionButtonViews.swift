@@ -233,6 +233,7 @@ private struct LargeActionRedButtonStyle: ButtonStyle {
                 FoodieIcon(icon, disabled ? Colors.FillActionFillActionIconDisabled : configuration.isPressed ? Colors.FillActionFillActionPressedIcon : Color.white, size:32, padding:0)
             }
             .shadow(color: disabled ? Color.clear : Colors.ShadowHighVibrant, radius: 8, x: 0, y: 16)
+            .opacity(disabled ? 0 : 1)
     }
 }
 
