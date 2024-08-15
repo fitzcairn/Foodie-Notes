@@ -67,15 +67,8 @@ struct CourseView: View {
                         
                         VerticalSpace(24)
                                                 
-                        // Tasting Notes
                         ViewSection("Tasting Notes") {
                             EditableStandaloneTextBox(title: "Any notes on the food for this course?", addTitle: "Add notes", text: $course.item.food.notes, onSave:onSave)
-                        }
-
-                        VerticalSpace(24)
-
-                        ViewSection("Photos") {
-                            ImageCarouselHorizontal(pictures: $course.item.food.pictures, mutable: true)
                         }
 
                         VerticalSpace(24)
@@ -89,6 +82,15 @@ struct CourseView: View {
                                 onSave()
                             }
                         }
+
+                        VerticalSpace(24)
+
+                        ViewSection("Photos") {
+                            FlexibleImageGrid(pictures: $course.item.food.pictures, mutable: true)
+                        }
+
+                        VerticalSpace(24)
+
                     }
                     .padding(.horizontal, 24)
                 }

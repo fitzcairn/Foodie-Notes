@@ -8,6 +8,7 @@
 import SwiftUI
 import Combine
 
+
 enum GallerySource {
     case picture(Picture?)
     case pictureAndNotes(PicturesAndNotes)

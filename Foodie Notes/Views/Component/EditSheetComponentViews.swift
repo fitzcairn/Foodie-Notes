@@ -63,7 +63,7 @@ struct EditSheetComponentMainTextAndMultiImageControl: View {
             
             VerticalSpace(16)
             
-            ImageCarouselHorizontal(pictures: $pictures, mutable: true)
+            FlexibleImageGrid(pictures: $pictures, mutable: true)
             
             Spacer()
         }

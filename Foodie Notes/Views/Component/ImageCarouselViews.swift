@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import WrappingHStack
 
 
 struct SingleImageCarousel: View {
@@ -46,6 +47,38 @@ struct ImageLoading : View {
                         isAnimating = true
                     }
             }
+    }
+}
+
+struct FlexibleImageGrid : View {
+    @Binding var pictures:[Picture]
+    var mutable:Bool = false;
+    
+    @State var loadingCount:Int = 0;
+
+    var body: some View {
+        let columns: [GridItem] = [
+            GridItem(.adaptive(minimum: 80, maximum: 80), spacing:4)
+        ]
+        
+        
+        LazyVGrid(columns: columns, spacing:4) {
+            ForEach(pictures.filter { $0.photo != nil }, id: \.self) { picture in
+                MutableImage(picture: picture, mutable: mutable) {
+                    if let index = pictures.firstIndex(where: { $0 == picture }) {
+                        pictures.remove(at: index)
+                    }
+                }
+            }
+            .id(pictures.count)
+            
+            ForEach(0..<loadingCount, id: \.self) { _ in
+                ImageLoading()
+            }
+            
+            MultiImagePicker(pictures: $pictures, loadingCount:$loadingCount)
+        }
+        .frame(maxWidth:.infinity)
     }
 }
 
