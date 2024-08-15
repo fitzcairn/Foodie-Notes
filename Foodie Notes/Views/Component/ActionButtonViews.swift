@@ -14,27 +14,21 @@ struct AddImageButton: View {
     var dim:CGFloat = 80;
     var action:() -> Void = {}
     
-    @State var isAnimating:Bool = false;
-    
     var body: some View {
-        if loading {
-            ImageLoading(dim:dim)
-        } else {
-            Button(
-                action: action,
-                label: {
-                    VStack(alignment: .center, spacing: 0) {
-                        FoodieIcon("\u{e913}", Colors.FillActionFillAction, size:24, padding:0)
-                    }
-                    .padding(0)
-                    .frame(width: dim, height: dim, alignment: .center)
-                    .cornerRadius(8)
+        Button(
+            action: action,
+            label: {
+                VStack(alignment: .center, spacing: 0) {
+                    FoodieIcon("\u{e913}", Colors.FillActionFillAction, size:24, padding:0)
                 }
-            )
-            .buttonStyle(AddImageButtonButtonStyle())
-            .disabled(loading)
-            .opacity(loading ? 0 : 1)
-        }
+                .padding(0)
+                .frame(width: dim, height: dim, alignment: .center)
+                .cornerRadius(8)
+            }
+        )
+        .buttonStyle(AddImageButtonButtonStyle())
+        .disabled(loading)
+        .opacity(loading ? 0 : 1)
     }
 }
 
