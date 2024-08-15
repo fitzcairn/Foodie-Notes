@@ -19,6 +19,8 @@ struct MealListView: View {
     @State var sortOrder:AppViewModel.MealSortOrder = .dateDesc;
     @State var filterText:String = "";
 
+    @State var isSearching:Bool = false
+    
     // Only one new meal can exist at a time.
     @State var newMeal = Meal(venueName: "")
     
@@ -27,7 +29,7 @@ struct MealListView: View {
         NavigationStack {
             ZStack {
                 VStack {
-                    MealListSearchSortMode(filterText:$filterText, sortOrder:$sortOrder)
+                    MealListSearchSortMode(filterText:$filterText, sortOrder:$sortOrder, isSearching:$isSearching)
 
                     list
                 }
@@ -48,6 +50,7 @@ struct MealListView: View {
                         goToMealView = true;
                     }
                 }
+                .opacity(isSearching ? 0 : 1)
             }
             .onChange(of: newMeal) {
             }

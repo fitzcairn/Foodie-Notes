@@ -10,6 +10,7 @@ import SwiftUI
 struct SearchBox: View {
     var prompt:String = "Search"
     @Binding var searchText:String
+    @Binding var isSearching:Bool
     var onChangeClosure:(() -> Void) = {}
     
     @FocusState private var editing;
@@ -38,7 +39,10 @@ struct SearchBox: View {
                 .foregroundColor(Colors.TextStaticTextPrimary)
                 .lineLimit(1)
                 .focused($editing)
-            
+                .onChange(of: editing) {
+                    isSearching = editing
+                }
+
             FoodieIcon("\u{e92a}", Colors.TextActionTextAction)
                 .onTapGesture {
                     searchText = ""

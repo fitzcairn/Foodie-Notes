@@ -11,14 +11,15 @@ struct MealListSearchSortMode: View {
     var prompt:String = "Search"
     @Binding var filterText:String;
     @Binding var sortOrder:AppViewModel.MealSortOrder;
+    @Binding var isSearching:Bool;
 
     var body: some View {
         VStack {
             Spacer()
                 .frame(height:24)
             
-            HStack {                
-                SearchBox(searchText: $filterText)
+            HStack {
+                SearchBox(searchText: $filterText, isSearching:$isSearching)
                 
                 Spacer()
                     .frame(width:26)

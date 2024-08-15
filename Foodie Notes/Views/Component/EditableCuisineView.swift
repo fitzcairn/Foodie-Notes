@@ -87,6 +87,7 @@ private struct EditableCuisineSheetLayout<Content: View>: View {
     @State var showSheet:Bool = false;
     @State private var newCuisines:[Cuisine] = []
     @State private var filterText:String = "";
+    @State var isSearching:Bool = false;
     
     @ViewBuilder let content: Content;
     
@@ -122,7 +123,7 @@ private struct EditableCuisineSheetLayout<Content: View>: View {
     
     private var cuisineSelectionControl: some View {
         VStack(alignment: .leading) {
-            SearchBox(searchText: $filterText)
+            SearchBox(searchText: $filterText, isSearching: $isSearching)
             
             VerticalSpace(8)
             
@@ -147,7 +148,7 @@ private struct EditableCuisineSheetLayout<Content: View>: View {
                     
                     HStack {
                         Spacer ()
-                        LargeActionRedButton(icon:"\u{e905}") {
+                        LargeActionRedButton(icon:"\u{e905}", disabled:newCuisines == cuisines) {
                             cuisines = newCuisines;
                             onSave()
                             showSheet.toggle()
