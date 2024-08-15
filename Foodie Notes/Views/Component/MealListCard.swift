@@ -18,7 +18,6 @@ struct MealListCard: View {
     
     let meal:Meal;
     @Binding var forceClose:Bool;
-
     
     var body: some View {
         if deleted {

@@ -16,9 +16,8 @@ struct MealView: View {
     @ObservedObject private var meal:WrappedStruct<Meal>;
     @State var goToCourseView:Bool = false;
     @State var courseName:String = "";
-    
-    // Only one new course can exist at a time.
     @State var newCourse:Course;
+    @State var forceAllSwipesClosed:Bool = false;
     
     init(meal:Meal) {
         _meal = ObservedObject(wrappedValue: WrappedStruct(withItem:meal))
@@ -140,7 +139,7 @@ struct MealView: View {
                             VStack {
                                 SwipeViewGroup {
                                     ForEach(viewModel.getMealFor(meal.item.id)!.courses, id: \.self) { course in
-                                        CourseListCard(course:course)
+                                        CourseListCard(course:course, forceClose: $forceAllSwipesClosed)
                                             .padding(.bottom, -2)
                                     }
                                 }
@@ -182,6 +181,9 @@ struct MealView: View {
                     message: ModelIOService.exportAsString(meal.item),
                     preview: "Notes about my meal at \(meal.item.venue.name) on \(meal.item.date.formatted(date: .complete, time: .omitted))")
             }
+        }
+        .onDisappear() {
+            forceAllSwipesClosed.toggle()
         }
         .ignoresSafeArea(.all)
         .navigationBarHidden(true)

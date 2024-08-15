@@ -15,10 +15,10 @@ struct SwipeableListCard<Content: View>: View {
     @State var showConfirm:Bool = false;
     @State var swipeState:SwipeContext?;
     
-    @ViewBuilder let content:Content;
     let confirmString:String;
     var onDelete:() -> Void = {}
     @Binding var forceClose:Bool;
+    @ViewBuilder let content:Content;
 
     
     var body: some View {
@@ -27,9 +27,7 @@ struct SwipeableListCard<Content: View>: View {
         } else {
             ZStack(alignment: .leading) {
                 SwipeView {
-                    
-                    // Content
-                    
+                     content
                 } trailingActions: { context in
                     SwipeAction(
                         action: {
