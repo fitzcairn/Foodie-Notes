@@ -12,6 +12,8 @@ struct SearchBox: View {
     @Binding var searchText:String
     var onChangeClosure:(() -> Void) = {}
     
+    @FocusState private var editing;
+    
     var promptText: Text {
         Text(prompt)
           .font(
@@ -35,18 +37,20 @@ struct SearchBox: View {
                 )
                 .foregroundColor(Colors.TextStaticTextPrimary)
                 .lineLimit(1)
+                .focused($editing)
             
             FoodieIcon("\u{e92a}", Colors.TextActionTextAction)
                 .onTapGesture {
                     searchText = ""
                 }
+                .opacity(searchText.isEmpty ? 0 : 1)
         }
         .frame(maxWidth: .infinity, minHeight: 48, maxHeight: 48, alignment: .leading)
         .cornerRadius(80)
         .overlay(
             RoundedRectangle(cornerRadius: 80)
                 .inset(by: 0.75)
-                .stroke(Colors.BorderStaticBorderSecondary, lineWidth: 1.5)
+                .stroke(editing ? Colors.BorderActionBorderActionInvert : Colors.BorderStaticBorderSecondary, lineWidth: 1.5)
         )
     }
 }
