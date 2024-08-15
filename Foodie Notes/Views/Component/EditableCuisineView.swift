@@ -34,7 +34,7 @@ struct EditableCuisineView: View {
                 .padding(.leading, 8)
                 
                 WrappingHStack(cuisines, id: \.self) { cuisine in
-                    CuisinePill(cuisine, selected: true, disabled: true)
+                    CuisinePill(cuisine, selected: false, disabled: true)
                 }
             }
         }
