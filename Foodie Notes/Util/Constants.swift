@@ -46,6 +46,8 @@ enum Colors {
     static let TextActionTextActionSelectedInvert: Color = .white
     static let BorderActionBorderActionSubtle: Color = Color(red: 0.88, green: 0.83, blue: 0.72)
     static let BorderActionBorderActionInvert: Color = Color(red: 0.32, green: 0.32, blue: 0.32)
+    static let LoadingBorder: Color = Color(red: 0.78, green: 0.73, blue: 0.66)
+    static let LoadingBoarderClear: Color = Color(red: 0.78, green: 0.73, blue: 0.66).opacity(0)
 }
 
 enum PhotoDimensions {

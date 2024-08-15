@@ -25,10 +25,14 @@ struct AsyncPhotoView<Source:AsyncImageConfig, ProgressContent: View, PhotoConte
         case .loading:
             progressContent
                 .onAppear {
-                    source.loadImageFor(img)
+                    withAnimation {
+                        source.loadImageFor(img)
+                    }
                 }
         case .complete:
-            photoContent
+            withAnimation {
+                photoContent
+            }
         case .error, .none:
             NoPhotoPlaceholderView()
         }

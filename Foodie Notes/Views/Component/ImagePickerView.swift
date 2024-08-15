@@ -21,15 +21,17 @@ struct SingleImagePickerButton: View {
             ),
             limit:1)
         .onChange(of: picture) {
-            onSave()
+            withAnimation {
+                onSave()
+            }
         }
     }
 }
 
-struct MultiImagePicker<Content: View>: View {
+struct MultiImagePicker: View {
     @Binding var pictures:[Picture]
+    @Binding var loadingCount:Int
     var limit:Int = Int.max // Get around bug in MediaPicker
-    let content: Content;
     
     @StateObject private var photoPickerModel: PhotoPickerViewModel = PhotoPickerViewModel();
     @State private var isPickingPhoto: Bool = false;
@@ -37,34 +39,27 @@ struct MultiImagePicker<Content: View>: View {
     @State private var newMedia: [Media] = [];
     @State private var newPictures: [Picture] = [];
     
-    init(pictures: Binding<[Picture]>, limit: Int, @ViewBuilder _ content: () -> Content) {
-        self._pictures = pictures
-        self.limit = limit
-        self.content = content()
-    }
-    
     var body: some View {
         HStack {
-            if isLoading {
-                Loading(height:36)
-            } else {
-                content
-                    .onTapGesture {
-                        isPickingPhoto = true;
-                    }
+            AddImageButton(loading:$isLoading) {
+                isPickingPhoto = true;
             }
         }
         .onChange(of:isPickingPhoto) {
             isLoading = isPickingPhoto ? true : isLoading;
         }
         .onChange(of:newPictures) {
-            pictures = pictures.filter() { !$0.deleted } + newPictures;
-            newPictures = []
+            withAnimation {
+                pictures = pictures.filter() { !$0.deleted } + newPictures;
+                newPictures = []
+                loadingCount = 0
+            }
         }
         .sheet(isPresented: $isPickingPhoto, onDismiss: {
             photoPickerModel.load(
                 pickedMedia: newMedia,
                 onLoaded: { photos in
+                    newPictures = []
                     for photo in photos {
                         newPictures.append(Picture(photo:photo))
                     }
@@ -79,7 +74,11 @@ struct MultiImagePicker<Content: View>: View {
             .mediaSelectionLimit(limit)
             .mediaSelectionType(.photo)
             .showLiveCameraCell()
+            .onAppear() {
+                newMedia = []
+            }
             .onDisappear() {
+                loadingCount = newMedia.count
                 Task {
                     await photoPickerModel.onStart()
                 }

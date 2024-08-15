@@ -8,6 +8,56 @@
 import SwiftUI
 
 
+
+struct AddImageButton: View {
+    @Binding var loading:Bool;
+    var dim:CGFloat = 80;
+    var action:() -> Void = {}
+    
+    @State var isAnimating:Bool = false;
+    
+    var body: some View {
+        if loading {
+            ImageLoading(dim:dim)
+        } else {
+            Button(
+                action: action,
+                label: {
+                    VStack(alignment: .center, spacing: 0) {
+                        FoodieIcon("\u{e913}", Colors.FillActionFillAction, size:24, padding:0)
+                    }
+                    .padding(0)
+                    .frame(width: dim, height: dim, alignment: .center)
+                    .cornerRadius(8)
+                }
+            )
+            .buttonStyle(AddImageButtonButtonStyle())
+            .disabled(loading)
+            .opacity(loading ? 0 : 1)
+        }
+    }
+}
+
+private struct AddImageButtonButtonStyle: ButtonStyle {
+    func makeBody(configuration: Self.Configuration) -> some View {
+        configuration.label
+            .background(configuration.isPressed ? Colors.FillActionFillActionPressedSubtle : Colors.BackgroundBgPrimary)
+            .overlay(
+                ZStack {
+                    RoundedRectangle(cornerRadius: 8)
+                        .inset(by: 0.75)
+                        .stroke(Colors.BorderActionBorderActionSubtle, style: StrokeStyle(lineWidth: 1.5, dash: [2, 2]))
+                        .opacity(configuration.isPressed ? 0 : 1)
+                    RoundedRectangle(cornerRadius: 8)
+                        .inset(by: 0.5)
+                        .stroke(Colors.BorderStaticBorderSubtle, lineWidth: 1)
+                        .opacity(configuration.isPressed ? 1 : 0)
+                }
+            )
+    }
+}
+
+
 struct BarButton: View {
     var icon:String = "\u{e91f}"
     let text: String;

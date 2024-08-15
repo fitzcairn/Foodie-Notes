@@ -29,30 +29,49 @@ struct SingleImageCarousel: View {
     }
 }
 
+struct ImageLoading : View {
+    var dim:CGFloat = 80;
+    @State var isAnimating:Bool = false;
+
+    var body: some View {
+        Rectangle()
+            .padding(0)
+            .frame(width: dim, height: dim, alignment: .center)
+            .cornerRadius(8)
+            .foregroundStyle(.clear)
+            .borderLoadingAnimation(isAnimating: $isAnimating)
+            .onAppear {
+                withAnimation(.linear(duration: 4)
+                    .repeatForever(autoreverses: false)) {
+                        isAnimating = true
+                    }
+            }
+    }
+}
+
 struct ImageCarouselHorizontal: View {
     @Binding var pictures:[Picture]
     var mutable:Bool = false;
     
+    @State var loadingCount:Int = 0;
     
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 8) {
-                if pictures.isEmpty {
-                    // Show the nil image to remind folks to add.
-                    NoPhotoPlaceholderView(edit:true)
-                        .frame(width: 80, height: 80)
-                        .clipped()
-                        .cornerRadius(8)
-                } else {
-                    ForEach(pictures.filter { $0.photo != nil }, id: \.self) { picture in
-                        MutableImage(picture: picture, mutable: mutable) {
-                            if let index = pictures.firstIndex(where: { $0 == picture }) {
-                                pictures.remove(at: index)
-                            }
+                ForEach(pictures.filter { $0.photo != nil }, id: \.self) { picture in
+                    MutableImage(picture: picture, mutable: mutable) {
+                        if let index = pictures.firstIndex(where: { $0 == picture }) {
+                            pictures.remove(at: index)
                         }
                     }
-                    .id(pictures.count)
                 }
+                .id(pictures.count)
+                
+                ForEach(0..<loadingCount, id: \.self) { _ in
+                    ImageLoading()
+                }
+                
+                MultiImagePicker(pictures: $pictures, loadingCount:$loadingCount)
             }
         }
         .scrollTargetLayout()
