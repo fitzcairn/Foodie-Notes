@@ -31,6 +31,7 @@ struct EditableCuisineView: View {
                             .stroke(Colors.BorderActionBorderAction, lineWidth: 1.5)
                     }
                 )
+                .padding(.leading, 8)
                 
                 WrappingHStack(cuisines, id: \.self) { cuisine in
                     CuisinePill(cuisine, selected: true, disabled: true)
