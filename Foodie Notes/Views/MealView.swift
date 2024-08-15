@@ -16,6 +16,7 @@ struct MealView: View {
     @ObservedObject private var meal:WrappedStruct<Meal>;
     @State var goToCourseView:Bool = false;
     @State var courseName:String = "";
+    @State var newMenu:PicturesAndNotes = PicturesAndNotes();
     @State var newCourse:Course;
     @State var forceAllSwipesClosed:Bool = false;
     
@@ -129,7 +130,21 @@ struct MealView: View {
                         
                         // Menu[s]
                         ViewSection("Menus") {
-                            EditableImageAndTextBoxRow(title: "Any notes about the menu?", addTitle: "Add menu notes", pictures: $meal.item.menu.pictures, text: $meal.item.menu.notes, onSave:onSave)
+                            SwipeViewGroup {
+                                ForEach(Array(zip(meal.item.menus.indices, meal.item.menus)), id: \.0) { index, menu in
+                                    MenuListCard(pictures:$meal.item.menus[index].pictures, text:$meal.item.menus[index].notes, forceClose: $forceAllSwipesClosed, onSave: onSave) {
+                                        meal.item.menus.remove(at: index)
+                                        onSave()
+                                    }
+                                        .padding(.bottom, -2)
+                                }
+                                .id(meal.item.menus.count)
+                            }
+
+                            BarButtonTriggeringMultiImageTextInput(title: "What's the name of this menu?", addTitle: "Add menu", pictures:$newMenu.pictures, text:$newMenu.notes) {
+                                meal.item.menus.append(newMenu)
+                                onSave()
+                            }
                         }
                         
                         VerticalSpace(24)
@@ -162,8 +177,6 @@ struct MealView: View {
             .onAppear() {
                 reload()
             }
-            
-            
             .safeAreaPadding(EdgeInsets(top: 0, leading: 0, bottom: 150, trailing: 0))
             
             BottomFade()

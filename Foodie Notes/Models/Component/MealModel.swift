@@ -10,7 +10,7 @@ import Foundation
 struct Meal : Identifiable, Hashable, Codable {
     var id:String = Id.createId();
     var venue: Venue = Venue();
-    var menu: PicturesAndNotes = PicturesAndNotes()
+    var menus: [PicturesAndNotes] = [];
     var courses: [Course] = [];
     var date:Date = Date();
     var notes:String = ""
@@ -36,6 +36,7 @@ struct Meal : Identifiable, Hashable, Codable {
         hasher.combine(id)
         hasher.combine(venue)
         hasher.combine(date)
+        hasher.combine(menus)
         hasher.combine(notes)
         hasher.combine(rating)
     }

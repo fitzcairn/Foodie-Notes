@@ -74,14 +74,14 @@ class ModelIOService {
             str += "At time of dining, Michelin rates this restaurant as three stars.  "
         }
         
+        if !meal.menus.isEmpty {
+            str += "This meal was captured by \(meal.menus.count) menus, named \(ListFormatter.localizedString(byJoining: meal.menus.map() { $0.notes })))."
+        }
+
         if !meal.notes.isEmpty {
             str += "\n\nOverall, I thought: '\(meal.notes)'\n\n"
         }
-        
-        if !meal.menu.notes.isEmpty {
-            str += "My notes on the menu were: '\(meal.menu.notes)'\n\n"
-        }
- 
+
         if (!meal.courses.isEmpty) {
             str += "Here are my notes for each course:\n"
             for (index, course) in meal.courses.enumerated() {

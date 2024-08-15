@@ -87,9 +87,11 @@ class AppViewModel : ObservableObject {
         }
         
         // ... Followed by first menu picture we find, if needed
-        for img in meal.menu.pictures {
-            if (!isPictureEmpty(img)) {
-                return img;
+        for menu in meal.menus {
+            for img in menu.pictures {
+                if (!isPictureEmpty(img)) {
+                    return img;
+                }
             }
         }
 

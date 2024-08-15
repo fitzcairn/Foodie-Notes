@@ -12,9 +12,6 @@ import Combine
 
 struct CourseListCard: View {
     @EnvironmentObject var viewModel:AppViewModel;
-    @State var deleted:Bool = false;
-    @State var showConfirm:Bool = false;
-    @State var swipeState:SwipeContext?;
     
     var course:Course;
     @Binding var forceClose:Bool;

@@ -8,7 +8,7 @@
 import SwiftUI
 
 
-struct EditableImageAndTextBoxRow: View {
+struct EditableVerticallyExpandingImageAndTextBoxRow: View {
     let title:String
     let addTitle:String
     @Binding var pictures:[Picture]
@@ -135,6 +135,26 @@ struct BarButtonTriggeringTextInput: View {
     }
 }
 
+struct BarButtonTriggeringMultiImageTextInput: View {
+    let title:String
+    let addTitle:String
+    @Binding var pictures:[Picture]
+    @Binding var text:String;
+    var icon:String = "\u{e91f}"
+    let onSave:() -> Void
+    
+    @State var showSheet:Bool = false;
+
+    var body : some View {
+        EditableTextAndMultiImageSheetLayout(title: title, text: $text, pictures:$pictures, showSheet: $showSheet, onSave:onSave) {
+            BarButton(icon: icon, text: addTitle, action: {
+                text = "";
+                showSheet.toggle()
+            })
+        }
+    }
+}
+
 struct EditableTextRow<Content: View>: View {
     let title:String;
     @Binding var text:String;
@@ -249,7 +269,9 @@ struct EditableTextAndMultiImageSheetLayout<Content: View>: View {
                             saveButton: {
                                 EditSheetComponentSaveButton(
                                     disabledClosure: {
-                                        newText == text && newPictures == pictures
+                                        (newText == text && newPictures == pictures)
+                                        ||
+                                        (newText.isEmpty && newPictures.isEmpty)
                                     },
                                     action: {
                                         text = newText
