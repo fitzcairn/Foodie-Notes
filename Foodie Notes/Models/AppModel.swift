@@ -9,11 +9,9 @@ import Foundation
 
 // Backend model for global app state.
 struct AppModel : Codable, Equatable {
-    // All top-level storage.  Yes, there is duplication here.
-    private var mealsById:[String:Meal] = [:];
-    private var venuesByName:[String:Venue] = [:];
-    private var coursesById:[String:Course] = [:];
-    
+    private var venuesByName = ThreadSafeDictionary<String,Venue>()
+    private var coursesById = ThreadSafeDictionary<String,Course>()
+    private var mealsById = ThreadSafeDictionary<String,Meal>()
     var showSplash:Bool = true;
     
     // MARK: - Meal Management

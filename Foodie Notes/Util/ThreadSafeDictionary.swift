@@ -7,9 +7,12 @@
 
 import Foundation
 
-class ThreadSafeDictionary<V: Hashable,T>: Collection {
+class ThreadSafeDictionary<V,T> : Collection, Codable, Equatable where V:Hashable, V:Codable, T:Codable {
+    enum CodingKeys: CodingKey {
+        case dictionary
+    }
 
-    private var dictionary: [V: T]
+    var dictionary: [V: T] = [:]
     private let concurrentQueue = DispatchQueue(label: "Dictionary Barrier Queue",
                                                 attributes: .concurrent)
 
@@ -80,4 +83,9 @@ class ThreadSafeDictionary<V: Hashable,T>: Collection {
             self?.dictionary.removeAll()
         }
     }
+    
+    static func == (lhs: ThreadSafeDictionary<V, T>, rhs: ThreadSafeDictionary<V, T>) -> Bool {
+        return (lhs.dictionary as NSDictionary).isEqual(to: rhs.dictionary)
+    }
+
 }
