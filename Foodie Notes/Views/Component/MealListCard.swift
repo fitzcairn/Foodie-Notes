@@ -11,12 +11,14 @@ import Combine
 
 struct MealListCard: View {
     @EnvironmentObject var viewModel:AppViewModel;
+
     @State var deleted:Bool = false;
     @State var showConfirm:Bool = false;
     @State var swipeState:SwipeContext?;
     
     let meal:Meal;
-    
+    @Binding var forceClose:Bool;
+
     
     var body: some View {
         if deleted {
@@ -75,6 +77,9 @@ struct MealListCard: View {
                         },
                         label: { highlight in
                             FoodieIcon("\u{e928}", .white)
+                                .onAppear() {
+                                    swipeState = context;
+                                }
                         },
                         background: { highlight in
                             Rectangle()
@@ -111,6 +116,11 @@ struct MealListCard: View {
                     viewModel.removeMeal(meal.id);
                 }
             })
+            .onChange(of: forceClose) {
+                if let context = swipeState {
+                    context.state.wrappedValue = .closed
+                }
+            }
         }
     }
 }

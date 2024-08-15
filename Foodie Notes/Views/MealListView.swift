@@ -18,7 +18,7 @@ struct MealListView: View {
     @State var venue:String = "";
     @State var sortOrder:AppViewModel.MealSortOrder = .dateDesc;
     @State var filterText:String = "";
-
+    @State var forceAllSwipesClosed:Bool = false;
     @State var isSearching:Bool = false
     
     // Only one new meal can exist at a time.
@@ -52,6 +52,9 @@ struct MealListView: View {
                 }
                 .opacity(isSearching ? 0 : 1)
             }
+            .onDisappear() {
+                forceAllSwipesClosed.toggle()
+            }
             .onChange(of: newMeal) {
             }
             .navigationDestination(isPresented: $goToMealView) {
@@ -70,7 +73,7 @@ struct MealListView: View {
         SwipeViewGroup {
             List {
                 ForEach(viewModel.getMeals(filterText: filterText, sortOrder: sortOrder), id: \.self) { meal in
-                    MealListCard(meal:meal)
+                    MealListCard(meal:meal, forceClose:$forceAllSwipesClosed)
                         .listRowBackground(Color.clear)
                         .listRowSeparator(.hidden)
                         .deleteDisabled(true)
