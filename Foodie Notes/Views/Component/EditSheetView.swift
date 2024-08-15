@@ -19,7 +19,6 @@ private struct EditSheetCommon<TopLeftButton: View, TopRightButton: View, MainVi
                 topLeftButton
             }
             .padding(.horizontal, 16)
-            .padding(.vertical, 8)
             .frame(width: 48, height: 48, alignment: .center)
             .cornerRadius(80)
             
@@ -27,7 +26,12 @@ private struct EditSheetCommon<TopLeftButton: View, TopRightButton: View, MainVi
             
             topRightButton
         }
-        .padding(16)
+        .padding(.horizontal, 16)
+        .padding(.top, 16)
+        .padding(.bottom, -8) // Hack
+
+        Divider()
+            .padding(.bottom, 8)
         
         VStack {
             mainView
