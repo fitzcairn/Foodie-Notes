@@ -90,12 +90,12 @@ struct EditSheetComponentMainDateControl: View {
                     FoodieText(date.formatted(date: .abbreviated, time: .omitted), Colors.TextStaticTextPrimary, size:18, weight:.semibold)
                         .padding(8)
                         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
-                        .background(Colors.FillStaticFillPrimary)
+                        .background(Colors.BackgroundBgPrimary)
                         .cornerRadius(8)
                         .overlay(
                             RoundedRectangle(cornerRadius: 8)
-                                .inset(by: 0.5)
-                                .stroke(Colors.BorderStaticBorderTertiary, lineWidth: 1)
+                                .inset(by: 0.75)
+                                .stroke(Colors.BorderStaticBorderSecondary, lineWidth: 1.5)
                         )
                 }
                 .overlay {
@@ -112,12 +112,12 @@ struct EditSheetComponentMainDateControl: View {
                     FoodieText(date.formatted(date: .omitted, time: .shortened), Colors.TextStaticTextPrimary, size:18, weight:.semibold)
                         .padding(8)
                         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
-                        .background(Colors.FillStaticFillPrimary)
+                        .background(Colors.BackgroundBgPrimary)
                         .cornerRadius(8)
                         .overlay(
                             RoundedRectangle(cornerRadius: 8)
-                                .inset(by: 0.5)
-                                .stroke(Colors.BorderStaticBorderTertiary, lineWidth: 1)
+                                .inset(by: 0.75)
+                                .stroke(Colors.BorderStaticBorderSecondary, lineWidth: 1.5)
                         )
                 }
                 .overlay {
