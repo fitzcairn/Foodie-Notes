@@ -15,6 +15,7 @@ struct GuideLinkView: View {
 
     @Binding var venue: Venue;
     var onSave:() -> Void = {}
+    var iconOnRight:Bool = false;
     
     // Eventually, allow for other guides.
     let guide:VenueGuide = .michelin
@@ -22,7 +23,7 @@ struct GuideLinkView: View {
     var body: some View {
         // If we have a link already, use it.
         if let guideLink = venue.guideLink {
-            GuideLink(guideName:guideLink.guide.displayName, url:guideLink.url)
+            GuideLink(guideName:guideLink.guide.displayName, url:guideLink.url, iconOnRight:iconOnRight)
         } else if networkService.isConnected {
             // Load link async, and update view.
             AyncGuideLinkView(
@@ -31,7 +32,7 @@ struct GuideLinkView: View {
                 guide:guide,
                 progressContent: { Searching() },
                 // Can safely unwrap link due to switch statement in AyncGuideLink
-                linkContent: { GuideLink(guideName:guide.displayName, url:linkViewModel.link) }
+                linkContent: { GuideLink(guideName:guide.displayName, url:linkViewModel.link, iconOnRight:iconOnRight) }
             )
             .onChange(of: linkViewModel.link) {
                 if let url = linkViewModel.link {
@@ -47,23 +48,38 @@ struct GuideLinkView: View {
     private struct GuideLink: View {
         let guideName:String
         let url:URL?
+        var iconOnRight:Bool = false;
+        
+        var icon: some View {
+                FoodieIcon("\u{e911}", Colors.TextActionTextAction, padding:0)
+        }
+        
+        var link: some View {
+            Link(guideName, destination:url!) // unwrap handled below
+                .font(
+                    Font.custom("Nunito", size: 12)
+                        .weight(.semibold)
+                )
+                .foregroundColor(Colors.TextActionTextAction)
+                .buttonStyle(.borderless)
+                .lineLimit(1)
+                .fixedSize(horizontal: false, vertical: true)
+                .padding(0)
+        }
         
         var body: some View {
             HStack {
-                if let url = url {
+                if url != nil {
                     HStack(alignment: .center, spacing: 4) {
-                        FoodieIcon("\u{e911}", Colors.TextActionTextAction, padding:0)
-                            .padding(.trailing, 4)
-                        
-                        Link(guideName, destination:url)
-                            .font(
-                                Font.custom("Nunito", size: 12)
-                                    .weight(.semibold)
-                            )
-                            .foregroundColor(Colors.TextActionTextAction)
-                            .buttonStyle(.borderless)
-                            .lineLimit(1)
-                            .fixedSize(horizontal: false, vertical: true)
+                        if iconOnRight {
+                            link
+                                .padding(.trailing, 4)
+                            icon
+                        } else {
+                            icon
+                                .padding(.trailing, 4)
+                            link
+                        }
                     }
                 }
                 else {

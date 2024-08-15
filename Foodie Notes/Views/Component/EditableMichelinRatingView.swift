@@ -31,8 +31,10 @@ struct EditableMichelinRatingView<Content: View>: View {
     
     var body : some View {
         EditableMichelinRatingComponent(title:title, rating:$rating, onSave:onSave) {
-            VStack(alignment: .trailing, spacing: 4) {
+            HStack(spacing: 4) {
+                Spacer()
                 content
+                Spacer()
             }
             .padding(12)
             .background(Colors.FillStaticFillPrimary)

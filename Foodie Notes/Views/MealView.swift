@@ -53,7 +53,7 @@ struct MealView: View {
                         VerticalSpace(250)
                         
                         // Meal Metadata
-                        VStack {
+                        VStack(spacing:4) {
                             EditableTextRow(title: "What's the name of this venue?", text: $meal.item.venue.name, onSave:onSave) {
                                 FoodieText(meal.item.venue.name, Colors.TextStaticTextPrimary, weight: .semibold)
                                     .padding(.horizontal, 4)
@@ -70,40 +70,41 @@ struct MealView: View {
                             
                             EditableLocationView(title: "Where was this venue?", location: $meal.item.venue.location, venueName: $meal.item.venue.name, onSave:onSave)
                             
+                            
+                            
                             HStack(alignment: .center, spacing: 4) {
-                                EditableRatingView(title: "How would you rate your meal here?", rating: $meal.item.rating, onSave:onSave) {
-                                    RatingView(rating:meal.item.rating)
-                                        .padding(.vertical, 4)
-                                        .padding(.horizontal, 6)
-                                }
-                                
                                 if (meal.item.venue.michelin == .none) {
                                     // No rating view
                                     EditableMichelinRatingView(title: "What was this venue's Michelin rating?", rating: $meal.item.venue.michelin, onSave:onSave) {
                                         HStack {
-                                            FoodieText("( not michelin rated )", Colors.TextStaticTextSecondary, size:12, weight:.medium)
+                                            FoodieText("Add Michelin Rating", Colors.TextActionTextAction, size:12, weight:.medium)
                                                 .padding(.vertical, 4)
-                                            Spacer()
                                         }
+                                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+                                    }
+                                    
+                                    EditableRatingView(title: "How would you rate your meal here?", rating: $meal.item.rating, onSave:onSave) {
+                                        RatingView(rating:meal.item.rating)
+                                            .padding(.vertical, 4)
+                                            .padding(.horizontal, 4)
+                                            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
                                     }
                                 } else {
                                     // Rating
                                     EditableMichelinRatingView(title: "What was this venue's Michelin rating?", rating: $meal.item.venue.michelin, onSave:onSave) {
                                         MichelinStarView(rating: meal.item.venue.michelin)
-                                            .padding(.horizontal, 4)
+                                            .padding(.leading, 4)
+                                            .padding(.trailing, 16)
                                             .padding(.vertical, 3)
-                                            .frame(minWidth: 64, maxWidth: 64, alignment: .center)
+ 
+                                        GuideLinkView(venue:$meal.item.venue, onSave:onSave, iconOnRight:true)
                                     }
                                     
-                                    // Guide link/link fetch
-                                    HStack {
-                                        GuideLinkView(venue:$meal.item.venue, onSave:onSave)
-                                            .frame(maxWidth: .infinity, alignment: .leading)
-                                            .padding(12)
-                                            .background(Colors.FillStaticFillPrimary)
-                                            .cornerRadius(8)
-                                            .shadow(color: Colors.ShadowMed, radius: 8, x: 0, y: 8)
-                                            .shadow(color: Colors.ShadowEdge, radius: 4, x: 0, y: 0)
+                                    
+                                    EditableRatingView(title: "How would you rate your meal here?", rating: $meal.item.rating, onSave:onSave) {
+                                        RatingView(rating:meal.item.rating)
+                                            .padding(.vertical, 4)
+                                            .padding(.horizontal, 4)
                                     }
                                 }
                             }
