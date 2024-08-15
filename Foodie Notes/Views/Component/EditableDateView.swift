@@ -54,7 +54,7 @@ private struct EditableDateSheetLayout<Content: View>: View {
                     mainView: {
                         EditSheetComponentMainDateControl(title:title, date:$newDate)
                     },
-                    bottomView: {
+                    bottomButtons: {
                         EditSheetComponentBottomSingleButton() {
                             EditSheetComponentSaveButton(
                                 disabledClosure: { newDate == date },

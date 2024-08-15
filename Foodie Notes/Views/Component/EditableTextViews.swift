@@ -189,7 +189,7 @@ struct EditableTextSheetLayout<Content: View>: View {
                     mainView: {
                         EditSheetComponentMainTextControl(title: title, text: $newText)
                     },
-                    bottomView: {
+                    bottomButtons: {
                         EditSheetComponentBottomSingleButton(
                             saveButton: {
                                 EditSheetComponentSaveButton(
@@ -226,7 +226,7 @@ struct EditableTextAndMultiImageSheetLayout<Content: View>: View {
     var body: some View {
         content
             .sheet(isPresented: $showSheet) {
-                EditSheetViewNoBottom(
+                EditSheetView(
                     topLeftButton: {
                         SmallActionBackButton(icon: "\u{e900}") {
                             showSheet.toggle()
@@ -241,7 +241,11 @@ struct EditableTextAndMultiImageSheetLayout<Content: View>: View {
                         EditSheetComponentMainTextAndMultiImageControl(
                             title: title,
                             text: $newText,
-                            pictures: $newPictures,
+                            pictures: $newPictures
+                        )
+                    },
+                    bottomButtons: {
+                        EditSheetComponentBottomSingleButton(
                             saveButton: {
                                 EditSheetComponentSaveButton(
                                     disabledClosure: {

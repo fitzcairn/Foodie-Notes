@@ -26,7 +26,7 @@ struct EditableWineSheetLayout<Content: View>: View {
     var body: some View {
         content
             .sheet(isPresented: $showSheet) {
-                EditSheetViewNoBottom(
+                EditSheetView(
                     topLeftButton: {
                         SmallActionBackButton(icon: "\u{e900}") {
                             showSheet.toggle()
@@ -42,7 +42,11 @@ struct EditableWineSheetLayout<Content: View>: View {
                             title: title,
                             icon: "\u{e913}",
                             text: $newText,
-                            picture: $newPicture,
+                            picture: $newPicture
+                        )
+                    },
+                    bottomButtons: {
+                        EditSheetComponentBottomSingleButton(
                             saveButton: {
                                 EditSheetComponentSaveButton(
                                     disabledClosure: {

@@ -123,7 +123,7 @@ private struct EditableLocationSheetLayout<Content: View>: View {
                         
                         SearchableMap(newLocation: $newLocation)
                     },
-                    bottomView: {
+                    bottomButtons: {
                         EditSheetComponentBottomSingleButton() {
                             EditSheetComponentSaveButton(
                                 disabledClosure: { false },

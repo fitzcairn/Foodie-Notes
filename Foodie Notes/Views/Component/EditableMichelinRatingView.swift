@@ -72,7 +72,7 @@ private struct EditableMichelinRatingComponent<Content: View>: View {
                     mainView: {
                         ratingFieldControl
                     },
-                    bottomView: {
+                    bottomButtons: {
                         EditSheetComponentBottomSingleButton() {
                             EditSheetComponentSaveButton() {
                                 rating = newRating

@@ -75,7 +75,7 @@ private struct EditableRatingSheetLayout<Content: View>: View {
                     mainView: {
                         ratingFieldControl
                     },
-                    bottomView: {
+                    bottomButtons: {
                         EditSheetComponentBottomSingleButton(
                             saveButton: {
                                 EditSheetComponentSaveButton() {

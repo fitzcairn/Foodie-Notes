@@ -97,7 +97,7 @@ private struct EditableCuisineSheetLayout<Content: View>: View {
             showSheet.toggle()
         }
         .sheet(isPresented: $showSheet) {
-            EditSheetViewNoBottom(
+            EditSheetView(
                 topLeftButton: {
                     SmallActionBackButton(icon: "\u{e900}") {
                         showSheet.toggle()
@@ -113,6 +113,19 @@ private struct EditableCuisineSheetLayout<Content: View>: View {
                     VerticalSpace(8)
                     
                     cuisineSelectionControl
+                },
+                bottomButtons: {
+                    EditSheetComponentBottomSingleButton(
+                        saveButton: {
+                            EditSheetComponentSaveButton(
+                                action: {
+                                    cuisines = newCuisines;
+                                    onSave()
+                                    showSheet.toggle()
+                                }
+                            )
+                        }
+                    )
                 }
             )
             .onAppear() {
@@ -142,20 +155,6 @@ private struct EditableCuisineSheetLayout<Content: View>: View {
                 }
                 
                 BottomFade()
-                
-                VStack(alignment: .trailing, spacing: 16) {
-                    Spacer()
-                    
-                    HStack {
-                        Spacer ()
-                        LargeActionRedButton(icon:"\u{e905}", disabled:newCuisines == cuisines) {
-                            cuisines = newCuisines;
-                            onSave()
-                            showSheet.toggle()
-                        }
-                    }
-                    .padding(.horizontal, 32)
-                }
             }
         }
     }

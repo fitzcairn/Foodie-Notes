@@ -37,6 +37,7 @@ struct EditSheetComponentMainTextControl: View {
                     focus = assumesFocus
                 }
             }
+            .fixedSize(horizontal: false, vertical: true)
     }
 
     var body: some View {
@@ -51,11 +52,10 @@ struct EditSheetComponentMainTextControl: View {
     }
 }
 
-struct EditSheetComponentMainTextAndMultiImageControl<SaveButton: View>: View {
+struct EditSheetComponentMainTextAndMultiImageControl: View {
     let title:String;
     @Binding var text:String;
     @Binding var pictures:[Picture]
-    @ViewBuilder let saveButton:SaveButton
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -66,49 +66,25 @@ struct EditSheetComponentMainTextAndMultiImageControl<SaveButton: View>: View {
             ImageCarouselHorizontal(pictures: $pictures, mutable: true)
             
             Spacer()
-            
-            HStack {
-                MultiImagePickerButton(pictures: $pictures)
-                
-                Spacer()
-                
-                saveButton
-            }
         }
     }
 }
 
-struct EditSheetComponentMainTextAndSingleImageControl<SaveButton: View>: View {
+struct EditSheetComponentMainTextAndSingleImageControl: View {
     let title:String;
     let icon:String;
     @Binding var text:String;
     @Binding var picture:Picture?
-    @ViewBuilder let saveButton:SaveButton
     
     var body: some View {
-        VStack(alignment: .leading) {           
+        VStack(alignment: .leading) {
             EditSheetComponentMainTextControl(title:title, text: $text)
-                        
+            
             VerticalSpace(16)
             
             SingleImageCarousel(picture: $picture, mutable:true)
-
-            Spacer()
             
-            HStack {
-                MultiImagePickerButton(
-                    pictures: Binding<[Picture]>(
-                        get: { if picture == nil { [] } else { [picture!] } },
-                        set: { picture = $0.first! }
-                    ),
-                    icon:icon,
-                    limit: 1
-                )
-                
-                Spacer()
-                
-                saveButton
-            }
+            Spacer()
         }
     }
 }

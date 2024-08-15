@@ -36,35 +36,25 @@ private struct EditSheetCommon<TopLeftButton: View, TopRightButton: View, MainVi
     }
 }
 
-struct EditSheetViewNoBottom<TopLeftButton: View, TopRightButton: View, MainView: View> : View {
+struct EditSheetView<TopLeftButton: View, TopRightButton: View, MainView: View, BottomButtons: View> : View {
     @ViewBuilder let topLeftButton: TopLeftButton;
     @ViewBuilder let topRightButton: TopRightButton;
     @ViewBuilder let mainView: MainView;
+    @ViewBuilder let bottomButtons: BottomButtons;
 
     var body: some View {
-        VStack {
-            EditSheetCommon(topLeftButton: {topLeftButton}, topRightButton: {topRightButton}, mainView: {mainView})
-        }
-        .presentationDetents([.fraction(0.95)])
-        .presentationContentInteraction(.scrolls)
-        .presentationBackground(alignment: .bottom) {
-            Color(Colors.BackgroundBgPrimary)
-                .cornerRadius(24)
-        }
-    }
-}
-
-struct EditSheetView<TopLeftButton: View, TopRightButton: View, MainView: View, BottomView: View> : View {
-    @ViewBuilder let topLeftButton: TopLeftButton;
-    @ViewBuilder let topRightButton: TopRightButton;
-    @ViewBuilder let mainView: MainView;
-    @ViewBuilder let bottomView: BottomView;
-
-    var body: some View {
-        VStack {
-            EditSheetCommon(topLeftButton: {topLeftButton}, topRightButton: {topRightButton}, mainView: {mainView})
-            Spacer()
-            bottomView
+        ZStack {
+            ScrollView {
+                EditSheetCommon(topLeftButton: {topLeftButton}, topRightButton: {topRightButton}, mainView: {mainView})
+                Spacer()
+            }
+            .scrollIndicators(.hidden)
+            
+            VStack {
+                Spacer()
+                
+                bottomButtons
+            }
         }
         .presentationDetents([.fraction(0.95)])
         .presentationContentInteraction(.scrolls)
