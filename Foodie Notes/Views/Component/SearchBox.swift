@@ -42,6 +42,7 @@ struct SearchBox: View {
                 .onChange(of: editing) {
                     isSearching = editing
                 }
+                .submitLabel(.search)
 
             FoodieIcon("\u{e92a}", Colors.TextActionTextAction)
                 .onTapGesture {
