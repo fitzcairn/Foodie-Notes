@@ -59,20 +59,12 @@ struct SmallActionBackButton: View {
     }
 }
 
-struct BottomButtonContainer<Left: View, Right: View>: View {
-    let left: Left
-    let right: Right
-
-    init( @ViewBuilder _ left: () -> Left,  @ViewBuilder _ right: () -> Right) {
-        self.left = left()
-        self.right = right()
-    }
+struct BottomButtonContainer<Content: View>: View {
+    @ViewBuilder let buttons: Content
     
     var body: some View {
         HStack(alignment: .top) {
-            left
-            Spacer()
-            right
+            buttons
         }
         .padding(.horizontal, 32)
         .padding(.top, 24)

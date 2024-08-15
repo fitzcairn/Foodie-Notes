@@ -158,23 +158,29 @@ struct MealView: View {
                     }
                     .padding(.horizontal, 24)
                 }
-            }        
+            }
             .onAppear() {
                 reload()
             }
-
-
+            
+            
             .safeAreaPadding(EdgeInsets(top: 0, leading: 0, bottom: 150, trailing: 0))
             
             BottomFade()
             
             // Buttons
-            BottomButtonContainer(
-                { LargeActionRedButton(icon:"\u{e900}", action: { self.presentationMode.wrappedValue.dismiss() }) },
-                { LargeActionWhiteShareButton(
+            BottomButtonContainer() {
+                LargeActionRedButton(icon:"\u{e900}") {
+                    self.presentationMode.wrappedValue.dismiss()
+                }
+                
+                Spacer()
+                
+                LargeActionWhiteShareButton(
                     subject: "Notes about my meal at \(meal.item.venue.name) on \(meal.item.date.formatted(date: .complete, time: .omitted))",
                     message: ModelIOService.exportAsString(meal.item),
-                    preview: "Notes about my meal at \(meal.item.venue.name) on \(meal.item.date.formatted(date: .complete, time: .omitted))") })
+                    preview: "Notes about my meal at \(meal.item.venue.name) on \(meal.item.date.formatted(date: .complete, time: .omitted))")
+            }
         }
         .ignoresSafeArea(.all)
         .navigationBarHidden(true)

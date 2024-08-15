@@ -97,15 +97,13 @@ struct CourseView: View {
             
             BottomFade()
             
-            // Buttons
-            BottomButtonContainer(
-                {
-                    LargeActionRedButton(icon:"\u{e900}", action: { self.presentationMode.wrappedValue.dismiss() })
-                },
-                {
-                    MultiImagePickerButton(pictures:$course.item.food.pictures, onSave:onSave)
+            BottomButtonContainer()  {
+                LargeActionRedButton(icon:"\u{e900}") {
+                    self.presentationMode.wrappedValue.dismiss()
                 }
-            )
+                
+                Spacer()
+            }
         }
         .onAppear() {
             if let savedCourse = viewModel.getCourseFor(course.item.id) {
