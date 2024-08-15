@@ -17,12 +17,7 @@ struct MealListSearchSortMode: View {
             Spacer()
                 .frame(height:24)
             
-            HStack {
-                FoodieIcon("\u{e926}", Colors.TextActionTextAction)
-                
-                Spacer()
-                    .frame(width:26)
-                
+            HStack {                
                 SearchBox(searchText: $filterText)
                 
                 Spacer()
