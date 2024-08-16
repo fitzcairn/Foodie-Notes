@@ -170,7 +170,7 @@ struct MealView: View {
                                     .onMove(perform: {_, _  in })
                                 }
                                 
-                                BarButtonTriggeringTextInput(title: "What's the name of the course?", addTitle: "Add a course", text:$courseName) {
+                                BarButtonTriggeringTextInput(title: "What's the name of the course?", addTitle: "Add a course", text:$courseName, itemNum:meal.item.courses.count) {
                                     newCourse = Course(mealId: meal.item.id, name: courseName)
                                     meal.item.courses.append(newCourse)
                                     onSave()
@@ -216,38 +216,10 @@ struct MealView: View {
     private func reload() {
         if let savedMeal = viewModel.getMealFor(meal.item.id) {
             meal.item = savedMeal
-            print("Refreshing meal \(savedMeal.id)")
         }
     }
     
     private func onSave() {
-        print("saving Meal \(meal.item.id)")
         viewModel.saveEditedMealFor(meal.item)
-    }
-}
-
-struct DragDelegate<Item: Equatable>: DropDelegate {
-    let dropIndex:Int
-    @Binding var listData:[Item]
-    @Binding var dragIndex: Int?
-    var onSave:() -> Void = {}
-        
-    func dropEntered(info: DropInfo) {
-     }
-    
-    func dropUpdated(info: DropInfo) -> DropProposal? {
-        return DropProposal(operation: .move)
-    }
-    
-    func performDrop(info: DropInfo) -> Bool {
-        if dragIndex != nil && dropIndex != dragIndex! {
-            let from = dragIndex!
-            let to = dropIndex
-            listData.move(fromOffsets: IndexSet(integer: from),
-                          toOffset: to > from ? to + 1 : to)
-        }
-        onSave()
-        dragIndex = nil
-        return true
     }
 }

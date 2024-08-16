@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-
+import WrappingHStack
 
 struct EditableVerticallyExpandingImageAndTextBoxRow: View {
     let title:String
@@ -120,13 +120,14 @@ struct BarButtonTriggeringTextInput: View {
     let title:String
     let addTitle:String
     @Binding var text:String;
+    var itemNum:Int? = nil;
     var icon:String = "\u{e91f}"
     let onSave:() -> Void
     
     @State var showSheet:Bool = false;
 
     var body : some View {
-        EditableTextSheetLayout(title: title, text: $text, showSheet: $showSheet, onSave:onSave) {
+        EditableTextSheetLayout(title: title, text: $text, showSheet: $showSheet, onSave:onSave, itemNum:itemNum) {
             BarButton(icon: icon, text: addTitle, action: {
                 text = "";
                 showSheet.toggle()
@@ -180,7 +181,54 @@ struct EditableTextRow<Content: View>: View {
     }
 }
 
-struct EditableTextSheetLayout<Content: View>: View {
+
+struct OfferCourseNameSuggestions : View {
+    @Binding var text:String;
+    let suggestions:[CourseNameSuggestion]
+    
+    @State var currentSuggestion:CourseNameSuggestion?
+    
+    init(text: Binding<String>, numCourses: Int) {
+        self._text = text
+        if numCourses <= 3 {
+            self.suggestions = CourseNameSuggestion.earlyCourses
+        } else if numCourses <= 5 {
+            self.suggestions = CourseNameSuggestion.middleCourses
+        } else {
+            self.suggestions = CourseNameSuggestion.lateCourses
+        }
+    }
+    
+    var body: some View {
+        WrappingHStack(suggestions.sorted(by: {$0.displayName() < $1.displayName()}), id: \.self) { suggestion in
+            suggestionPill(value: suggestion)
+        }
+        .padding(8)
+    }
+    
+    func suggestionPill(value:CourseNameSuggestion) -> some View {
+        VStack {
+            HStack(alignment: .center, spacing: 4) {
+                FoodieText(value.displayName(), Colors.TextStaticTextSecondary, size:12, weight:.bold)
+            }
+            .fixedSize(horizontal: true, vertical: false)
+            .padding(.horizontal, 12)
+            .padding(.vertical, 4)
+            .frame(height: 28, alignment: .leading)
+            .background(Colors.FillStaticFillSecondary)
+            .cornerRadius(80)
+            Spacer()
+                .frame(height:8)
+        }
+        .frame(height:36)
+        .onTapGesture {
+            text = value.displayName()
+        }
+    }
+}
+
+
+struct AddCourseEditableTextSheetLayout<Content: View>: View {
     let title:String;
 
     @Binding var text:String;
@@ -208,6 +256,60 @@ struct EditableTextSheetLayout<Content: View>: View {
                     },
                     mainView: {
                         EditSheetComponentMainTextControl(title: title, text: $newText)
+                    },
+                    bottomButtons: {
+                        EditSheetComponentBottomSingleButton(
+                            saveButton: {
+                                EditSheetComponentSaveButton(
+                                    disabledClosure: { text == newText },
+                                    action: {
+                                        text = newText
+                                        showSheet.toggle()
+                                        onSave()
+                                    }
+                                )
+                            }
+                        )
+                    }
+                )
+                .onAppear() {
+                    newText = text
+                }
+            }
+    }
+}
+
+
+struct EditableTextSheetLayout<Content: View>: View {
+    let title:String;
+    
+    @Binding var text:String;
+    @Binding var showSheet:Bool;
+    
+    @State private var newText:String = ""
+    
+    var onSave:() -> Void = { }
+
+    var itemNum:Int? = nil;
+    
+    @ViewBuilder let content: Content;
+
+    var body: some View {
+        content
+            .sheet(isPresented: $showSheet) {
+                EditSheetView(
+                    topLeftButton: {
+                        SmallActionBackButton(icon: "\u{e900}") {
+                            showSheet.toggle()
+                        }
+                    },
+                    topRightButton: {
+                        SmallClearButton(disabled: { newText.isEmpty }) {
+                            newText = ""
+                        }
+                    },
+                    mainView: {
+                        EditSheetComponentMainTextControl(title: title, text: $newText, itemNum:itemNum)
                     },
                     bottomButtons: {
                         EditSheetComponentBottomSingleButton(

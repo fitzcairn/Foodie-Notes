@@ -56,6 +56,55 @@ enum PhotoDimensions {
     static let thumbSize:CGSize = CGSize(width:PhotoDimensions.photoThumbWidth, height:PhotoDimensions.photoThumbHeight)
 }
 
+
+enum CourseNameSuggestion: String {
+    case amuseBouche = "Amuse-Bouche"
+    case canapé = "Canapé"
+    case horsDoeuvre = "Hors d'Oeuvre"
+    case snack = "Snack"
+    case firstAppetizer = "First Appetizer"
+    case secondAppetizer = "Second Appetizer"
+    case soup = "Soup"
+    case salad = "Salad"
+    case appetizer = "Appetizer"
+    case firstCourse = "First Course"
+    case fishCourse = "Fish Course"
+    case pastaCourse = "Pasta Course"
+    case secondCourse = "Second Course"
+    case poultryCourse = "Poultry Course"
+    case meatCourse = "Meat Course"
+    case gameCourse = "Game Course"
+    case palateCleanser = "Palate Cleanser"
+    case cheeseCourse = "Cheese Course"
+    case preDessert = "Pre-Dessert"
+    case dessert = "Dessert"
+    case firstDessert = "First Dessert"
+    case secondDessert = "Second Dessert"
+    case mignardise = "Mignardise"
+    case petitFours = "Petit Fours"
+    case breadService = "Bread Service"
+    
+    func displayName() -> String {
+        return self.rawValue
+    }
+
+    // Early = <= 3
+    static var earlyCourses:[CourseNameSuggestion] {
+        [.breadService, .amuseBouche, .canapé, .horsDoeuvre, .snack, .firstAppetizer, .secondAppetizer, .soup, .salad]
+    }
+
+    // Middle = 4 - 6
+    static var middleCourses:[CourseNameSuggestion] {
+        [.breadService, .firstAppetizer, .secondAppetizer, .soup, .salad, .firstCourse, .fishCourse, .pastaCourse, .secondCourse, .poultryCourse, .meatCourse, .gameCourse, .cheeseCourse, .preDessert]
+    }
+    
+    // Late = >= 6
+    static var lateCourses:[CourseNameSuggestion] {
+        [.meatCourse, .gameCourse, .palateCleanser, .cheeseCourse, .preDessert, .dessert, .mignardise, .petitFours, .breadService, .secondDessert, .firstDessert]
+    }
+}
+
+
 enum SectionTitle {
     static let food = "Food"
     static let beverage = "Drink Pairing"
@@ -64,16 +113,6 @@ enum SectionTitle {
     static let menus = "Menu[s]"
     static let courses = "Courses"
     static let cuisine = "Cuisine[s]"
-}
-
-enum ViewTitle {
-    static let viewMeal = "View Meal"
-    static let editMeal = "Edit Meal"
-    static let createMeal = "Add a Meal"
-    static let viewCourse = "View Course"
-    static let editCourse = "Edit Course"
-    static let createCourse = "Add a Course"
-    static let listMeals = "Your Meals"
 }
 
 enum Michelin: String, Codable, CaseIterable, Comparable {

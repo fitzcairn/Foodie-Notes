@@ -11,6 +11,7 @@ struct EditSheetComponentMainTextControl: View {
     let title:String;
     @Binding var text:String;
     var assumesFocus:Bool = true;
+    var itemNum:Int? = nil;
     
     @FocusState private var focus:Bool;
 
@@ -48,6 +49,10 @@ struct EditSheetComponentMainTextControl: View {
             VerticalSpace(16)
             
             textField
+            
+            if let courseNumber = itemNum {
+                OfferCourseNameSuggestions(text: $text, numCourses: courseNumber)
+            }
         }
     }
 }
