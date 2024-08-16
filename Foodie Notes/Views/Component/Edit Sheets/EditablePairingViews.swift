@@ -72,6 +72,10 @@ struct EditablePairingSheetComponentNameAndImageControl: View {
                 RecogninzePairingView(info:$info, picture:$picture)
             }
 
+            Divider()
+                .padding(.horizontal, -50) // hack
+                .padding(.top, 8)
+
             VerticalSpace(16)
             
             EditSheetComponentMainTextControl(title:title, text: $name)
@@ -80,7 +84,6 @@ struct EditablePairingSheetComponentNameAndImageControl: View {
         }
     }
 }
-
 
 struct EditablePairingSheetLayoutForNameAndImage<Content: View>: View {
     let title:String;
@@ -109,6 +112,7 @@ struct EditablePairingSheetLayoutForNameAndImage<Content: View>: View {
                             newName = ""
                         }
                     },
+                    showDivider: false,
                     mainView: {
                         EditablePairingSheetComponentNameAndImageControl(
                             title: title,

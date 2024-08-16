@@ -11,13 +11,14 @@ import SwiftUI
 struct EditSheetView<TopLeftButton: View, TopRightButton: View, MainView: View, BottomButtons: View> : View {
     @ViewBuilder let topLeftButton: TopLeftButton;
     @ViewBuilder let topRightButton: TopRightButton;
+    var showDivider:Bool = true;
     @ViewBuilder let mainView: MainView;
     @ViewBuilder let bottomButtons: BottomButtons;
 
     var body: some View {
         ZStack {
             ScrollView {
-                EditSheetCommon(topLeftButton: {topLeftButton}, topRightButton: {topRightButton}, mainView: {mainView})
+                EditSheetCommon(showDivider:showDivider, topLeftButton: {topLeftButton}, topRightButton: {topRightButton}, mainView: {mainView})
                 Spacer()
             }
             .scrollIndicators(.hidden)
@@ -44,6 +45,7 @@ struct EditSheetView<TopLeftButton: View, TopRightButton: View, MainView: View, 
 }
 
 private struct EditSheetCommon<TopLeftButton: View, TopRightButton: View, MainView: View>: View {
+    var showDivider:Bool = true;
     @ViewBuilder let topLeftButton: TopLeftButton;
     @ViewBuilder let topRightButton: TopRightButton;
     @ViewBuilder let mainView: MainView;
@@ -65,8 +67,10 @@ private struct EditSheetCommon<TopLeftButton: View, TopRightButton: View, MainVi
         .padding(.top, 16)
         .padding(.bottom, -8) // Hack
 
-        Divider()
-            .padding(.bottom, 8)
+        if (showDivider) {
+            Divider()
+                .padding(.bottom, 8)
+        }
         
         VStack {
             mainView

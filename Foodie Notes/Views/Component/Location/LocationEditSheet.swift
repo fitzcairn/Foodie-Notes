@@ -9,6 +9,8 @@ import SwiftUI
 import MapKit
 
 struct LocationEditSheet: View {
+    @Environment(NetworkService.self) private var networkService
+
     @State private var mapViewModel = MapViewModel()
     @State private var searchResults:[SearchResult] = []
     @State private var search: String = ""
@@ -29,19 +31,27 @@ struct LocationEditSheet: View {
                     }
                 },
                 onSubmitClosure: {
+                    print("firing search!")
                     Task {
                         searchResults = (try? await mapViewModel.search(with: search)) ?? []
                     }
                 }
             )
-                        
-            Spacer()
+            .padding(.bottom, 8)
 
-            ForEach(searchResults) { result in
-                SearchResultCard(result: result, selected: newLocation == result) {
-                    print("tap!")
-                    newLocation = result
+            Divider()
+                .padding(.horizontal, -50) // hack
+                .padding(.bottom, 8)
+
+            if networkService.isConnected {
+                ForEach(searchResults) { result in
+                    SearchResultCard(result: result, selected: newLocation == result) {
+                        print("tap!")
+                        newLocation = result
+                    }
                 }
+            } else {
+                FoodieText("Location search requires an internet connection.", Colors.TextStaticTextSecondary, size:12, weight:.semibold)
             }
         }
         .onChange(of: searchResults) {

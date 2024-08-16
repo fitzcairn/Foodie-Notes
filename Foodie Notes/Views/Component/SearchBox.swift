@@ -38,19 +38,21 @@ struct SearchBox: View {
                 )
                 .foregroundColor(Colors.TextStaticTextPrimary)
                 .lineLimit(1)
-                .focused($focused, equals: true)
                 .submitLabel(.search)
+                .focused($focused, equals: true)
                 .autocorrectionDisabled()
                 .onChange(of: focused) {
                     isFocused = focused
                 }
                 .onChange(of: searchText) {
                     onChangeClosure()
-                }
-                .onSubmit(of: .search) {
-                    print("submit!")
-                    onSubmitClosure()
-                    focused = false;
+                    guard let newValueLastChar = searchText.last else { return }
+                    if newValueLastChar == "\n" { // Hack due to styles applied.
+                        searchText.removeLast()
+                        print("submission!")
+                        onSubmitClosure()
+                        focused = false;
+                    }
                 }
                 .onAppear {
                     if (assumeFocus) {
@@ -63,6 +65,7 @@ struct SearchBox: View {
             FoodieIcon("\u{e92a}", Colors.TextActionTextAction)
                 .onTapGesture {
                     searchText = ""
+                    focused = false;
                 }
                 .opacity(searchText.isEmpty ? 0 : 1)
         }

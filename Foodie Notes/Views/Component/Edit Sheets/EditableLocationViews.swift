@@ -31,7 +31,7 @@ struct EditableLocationView: View {
                                 Loading()
                                     .padding(.leading, 2)
                                     .padding(.trailing, 6)
-                                FoodieText("( finding location )", Colors.TextStaticTextSecondary, size:12, weight:.medium)
+                                FoodieText("Finding location...", Colors.TextStaticTextSecondary, size:12, weight:.medium)
                             },
                             locContent: {
                                 LocationView(location: locViewModel.location, showLinkIcon: showLinkIcon)
@@ -51,7 +51,7 @@ struct EditableLocationView: View {
                     } else {
                         HStack {
                             LocationIcon()
-                            FoodieText("( no internet connection )", Colors.TextStaticTextSecondary, size:12, weight:.medium)
+                            FoodieText("No internet connection.", Colors.TextStaticTextSecondary, size:12, weight:.medium)
                             Spacer()
                         }
                     }
@@ -97,7 +97,7 @@ struct LocationView: View {
                         .padding(0)
                 }
             } else {
-                FoodieText("( no location found )", Colors.TextStaticTextSecondary, size:12, weight:.medium)
+                FoodieText("No location found.", Colors.TextStaticTextSecondary, size:12, weight:.medium)
             }
         }
     }
@@ -131,6 +131,7 @@ private struct EditableLocationSheetLayout<Content: View>: View {
                     },
                     topRightButton: {
                     },
+                    showDivider: false,
                     mainView: {
                         FoodieText(title, Colors.TextStaticTextSecondary, size:16, weight:.semibold)
                             .frame(maxWidth: .infinity, alignment: .leading)
@@ -143,7 +144,7 @@ private struct EditableLocationSheetLayout<Content: View>: View {
                     bottomButtons: {
                         EditSheetComponentBottomSingleButton() {
                             EditSheetComponentSaveButton(
-                                disabledClosure: { false },
+                                disabledClosure: { newLocation == nil },
                                 action: {
                                     location = newLocation != nil ? newLocation?.toLocation() : location;
                                     onSave()
