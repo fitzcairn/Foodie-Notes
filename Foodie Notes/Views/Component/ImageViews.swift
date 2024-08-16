@@ -29,6 +29,34 @@ struct VariableHeightListPicture : View {
     }
 }
 
+struct ImageLoadingView : View {
+    var body: some View {
+        ImageLoadingBorder {
+            Rectangle()
+                .padding(0)
+                .cornerRadius(8)
+                .foregroundStyle(.clear)
+        }
+    }
+}
+
+struct ImageLoadingBorder<ForContent: View> : View {
+    @ViewBuilder let content:ForContent
+    
+    @State var isAnimating:Bool = false;
+
+    var body: some View {
+        content
+            .borderLoadingAnimation(isAnimating: $isAnimating)
+            .onAppear {
+                withAnimation(.linear(duration: 4)
+                    .repeatForever(autoreverses: false)) {
+                        isAnimating = true
+                    }
+            }
+    }
+}
+
 
 // Clipped image for a cover
 struct CoverPicture : View {
@@ -40,7 +68,6 @@ struct CoverPicture : View {
             .clipped()
     }
 }
-
 
 // Clipped image for course list.
 struct CourseListPicture : View {

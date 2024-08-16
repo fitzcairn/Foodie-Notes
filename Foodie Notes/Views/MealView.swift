@@ -32,22 +32,13 @@ struct MealView: View {
             
             ScrollView {
                 ZStack(alignment: .top) {
-                    ZStack(alignment: .top) {
-                        CoverPicture(picture: viewModel.getMealImageFor(meal.item))
-                            .id(viewModel.getMealImageFor(meal.item))
-                        
-                        // Edit photo button
-                        VStack {
-                            VerticalSpace(64)
-                            
-                            HStack {
-                                Spacer()
-                                SingleImagePickerButton(picture:$meal.item.pickedImage, onSave:onSave)
-                                    .padding(.trailing, 25)
-                            }
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                        }
-                    }
+
+                    CoverImageAndPickerView(
+                        picture: Binding<Picture?> (
+                            get: { viewModel.getMealImageFor(meal.item) },
+                            set: { meal.item.pickedImage = $0 }
+                        ),
+                        onSave:onSave)
                     
                     VStack(alignment: .leading, spacing: 4) {
                         VerticalSpace(250)
@@ -144,6 +135,7 @@ struct MealView: View {
                             BarButtonTriggeringMultiImageTextInput(title: "What's the name of this menu?", addTitle: "Add menu", pictures:$newMenu.pictures, text:$newMenu.notes) {
                                 meal.item.menus.append(newMenu)
                                 onSave()
+                                newMenu = PicturesAndNotes()
                             }
                         }
                         

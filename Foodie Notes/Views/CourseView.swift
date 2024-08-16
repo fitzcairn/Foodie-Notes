@@ -26,24 +26,13 @@ struct CourseView: View {
             ScrollView {
                 ZStack(alignment: .top) {
                     
-                    // Image
-                    ZStack(alignment: .top) {
-                        CoverPicture(picture: viewModel.getCourseImageFor(course.item))
-                            .id(course.item.pickedImage)
-                        
-                        // Edit photo button
-                        VStack {
-                            VerticalSpace(64)
-                            
-                            HStack {
-                                Spacer()
-                                
-                                SingleImagePickerButton(picture:$course.item.pickedImage, onSave:onSave)
-                                    .padding(.trailing, 25)
-                            }
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                        }
-                    }
+                    CoverImageAndPickerView(
+                        picture: Binding<Picture?> (
+                            get: { viewModel.getCourseImageFor(course.item) },
+                            set: { course.item.pickedImage = $0 }
+                        ),
+                        onSave:onSave)
+                    .id(course.item.pickedImage)
                     
                     VStack(alignment: .leading, spacing: 4) {
                         VerticalSpace(250)
@@ -86,7 +75,7 @@ struct CourseView: View {
                         VerticalSpace(24)
 
                         ViewSection("Photos") {
-                            FlexibleImageGrid(pictures: $course.item.food.pictures, mutable: true)
+                            FlexibleImageGrid(pictures: $course.item.food.pictures, mutable: true, onSave:onSave)
                         }
 
                         VerticalSpace(24)

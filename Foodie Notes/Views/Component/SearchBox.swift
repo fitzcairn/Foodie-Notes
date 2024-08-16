@@ -47,7 +47,7 @@ struct SearchBox: View {
                 .onChange(of: searchText) {
                     onChangeClosure()
                 }
-                .onSubmit {
+                .onSubmit(of: .search) {
                     print("submit!")
                     onSubmitClosure()
                     focused = false;

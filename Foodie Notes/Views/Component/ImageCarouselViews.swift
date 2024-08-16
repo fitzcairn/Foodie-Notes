@@ -30,37 +30,19 @@ struct SingleImageCarousel: View {
     }
 }
 
-struct ImageLoading : View {
-    var dim:CGFloat = 80;
-    @State var isAnimating:Bool = false;
-
-    var body: some View {
-        Rectangle()
-            .padding(0)
-            .frame(width: dim, height: dim, alignment: .center)
-            .cornerRadius(8)
-            .foregroundStyle(.clear)
-            .borderLoadingAnimation(isAnimating: $isAnimating)
-            .onAppear {
-                withAnimation(.linear(duration: 4)
-                    .repeatForever(autoreverses: false)) {
-                        isAnimating = true
-                    }
-            }
-    }
-}
-
 struct FlexibleImageGrid : View {
     @Binding var pictures:[Picture]
     var mutable:Bool = false;
+    var onSave:() -> Void = {}
     
-    @State var loadingCount:Int = 0;
+    @State private var loadingCount:Int = 0;
+    @State var isPickingPhoto: Bool = false;
+    @State var isLoading:Bool = false;
 
     var body: some View {
         let columns: [GridItem] = [
             GridItem(.adaptive(minimum: 80, maximum: 80), spacing:4)
         ]
-        
         
         LazyVGrid(columns: columns, spacing:4) {
             ForEach(pictures.filter { $0.photo != nil }, id: \.self) { picture in
@@ -73,10 +55,20 @@ struct FlexibleImageGrid : View {
             .id(pictures.count)
             
             ForEach(0..<loadingCount, id: \.self) { _ in
-                ImageLoading()
+                ImageLoadingView()
+                    .frame(width: 80, height: 80, alignment: .center)
             }
             
-            MultiImagePicker(pictures: $pictures, loadingCount:$loadingCount)
+            MultiImagePicker(
+                pictures: $pictures,
+                loadingCount:$loadingCount,
+                isPickingPhoto: $isPickingPhoto,
+                isLoading: $isLoading,
+                onSave:onSave) {
+                AddImageButton(loading:$isLoading) {
+                    isPickingPhoto = true;
+                }
+            }
         }
         .frame(maxWidth:.infinity)
     }
@@ -87,6 +79,8 @@ struct ImageCarouselHorizontal: View {
     var mutable:Bool = false;
     
     @State var loadingCount:Int = 0;
+    @State var isPickingPhoto: Bool = false;
+    @State var isLoading:Bool = false;
     
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
@@ -101,10 +95,19 @@ struct ImageCarouselHorizontal: View {
                 .id(pictures.count)
                 
                 ForEach(0..<loadingCount, id: \.self) { _ in
-                    ImageLoading()
+                    ImageLoadingView()
+                        .frame(width: 80, height: 80, alignment: .center)
                 }
                 
-                MultiImagePicker(pictures: $pictures, loadingCount:$loadingCount)
+                MultiImagePicker(
+                    pictures: $pictures,
+                    loadingCount:$loadingCount,
+                    isPickingPhoto: $isPickingPhoto,
+                    isLoading: $isLoading) {
+                    AddImageButton(loading:$isLoading) {
+                        isPickingPhoto = true;
+                    }
+                }
             }
         }
         .scrollTargetLayout()

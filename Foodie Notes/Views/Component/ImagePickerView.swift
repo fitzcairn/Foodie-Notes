@@ -9,41 +9,87 @@ import SwiftUI
 import ExyteMediaPicker
 
 
-struct SingleImagePickerButton: View {
+struct CoverImageAndPickerView: View {
+    @EnvironmentObject var viewModel:AppViewModel;
+
     @Binding var picture: Picture?;
     var onSave:() -> Void = {}
-
+    
+    @State var isLoading:Bool = false;
+    @State var isPickingPhoto: Bool = false;
+    @State var loadingCount:Int = 0;
+    
     var body: some View {
-        MultiImagePickerButton(
-            pictures: Binding<[Picture]>(
-                get: { [] },
-                set: { if !$0.isEmpty { picture = $0[0] } }
-            ),
-            limit:1)
-        .onChange(of: picture) {
-            withAnimation {
-                onSave()
+        ZStack(alignment: .top) {
+            if (isLoading && viewModel.isPictureEmpty(picture)) {
+                ImageLoadingView()
+                    .frame(height:270)
+            } else if (isLoading) {
+                ImageLoadingBorder {
+                    CoverPicture(picture: picture)
+                        .id(picture)
+                }
+            } else {
+                CoverPicture(picture: picture)
+                    .id(picture)
+            }
+            
+            VStack {
+                VerticalSpace(64)
+                
+                HStack {
+                    Spacer()
+                    
+                    MultiImagePicker(
+                        pictures: Binding<[Picture]>(
+                            get: { [] },
+                            set: { if !$0.isEmpty { picture = $0[0] } }
+                        ),
+                        loadingCount:$loadingCount,
+                        isPickingPhoto: $isPickingPhoto,
+                        isLoading: $isLoading,
+                        limit:1,
+                        onSave: onSave) {
+                            LargeActionWhiteButton(icon:"\u{e913}") {
+                                isPickingPhoto = true;
+                                isLoading = true;
+                            }
+                        }
+                    .onChange(of: picture) {
+                        onSave()
+                    }
+                    .padding(.trailing, 25)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
             }
         }
     }
 }
 
-struct MultiImagePicker: View {
+
+
+
+// TODO:  Unify the below into a content wrapper struct
+
+
+
+struct MultiImagePicker<ButtonContent: View>: View {
     @Binding var pictures:[Picture]
     @Binding var loadingCount:Int
-    var limit:Int = Int.max // Get around bug in MediaPicker
+    @Binding var isPickingPhoto:Bool
+    @Binding var isLoading:Bool
+    var limit:Int = Int.max
+    var onSave: () -> Void = {}
     
+    @ViewBuilder let content: ButtonContent;
+
     @StateObject private var photoPickerModel: PhotoPickerViewModel = PhotoPickerViewModel();
-    @State private var isPickingPhoto: Bool = false;
-    @State private var isLoading: Bool = false;
     @State private var newMedia: [Media] = [];
     @State private var newPictures: [Picture] = [];
     
     var body: some View {
         HStack {
-            AddImageButton(loading:$isLoading) {
-                isPickingPhoto = true;
-            }
+            content
         }
         .onChange(of:isPickingPhoto) {
             isLoading = isPickingPhoto ? true : isLoading;
@@ -53,6 +99,7 @@ struct MultiImagePicker: View {
                 pictures = pictures.filter() { !$0.deleted } + newPictures;
                 newPictures = []
                 loadingCount = 0
+                onSave()
             }
         }
         .sheet(isPresented: $isPickingPhoto, onDismiss: {
@@ -79,67 +126,6 @@ struct MultiImagePicker: View {
             }
             .onDisappear() {
                 loadingCount = newMedia.count
-                Task {
-                    await photoPickerModel.onStart()
-                }
-            }
-        }
-    }
-}
-
-struct MultiImagePickerButton: View {
-    @Binding var pictures:[Picture]
-    var icon:String = "\u{e913}"
-    var limit:Int = Int.max // Get around bug in MediaPicker
-    var onSave: () -> Void = {}
-
-    @StateObject var photoPickerModel: PhotoPickerViewModel = PhotoPickerViewModel();
-    @State private var isPickingPhoto: Bool = false;
-    @State private var isLoading: Bool = false;
-    @State private var newMedia: [Media] = [];
-    @State private var newPictures: [Picture] = [];
-    
-    var body: some View {
-        HStack {
-            ZStack(alignment: .center) {
-                if isLoading {
-                    Loading(height:36)
-                        .padding(.horizontal, 24)
-                        .padding(.vertical, 8)
-                } else {
-                    LargeActionWhiteButton(icon:icon) {
-                        isPickingPhoto = true;
-                    }
-                }
-            }
-        }
-        .frame(height:64)
-        .onChange(of:isPickingPhoto) {
-            isLoading = isPickingPhoto ? true : isLoading;
-        }
-        .onChange(of:newPictures) {
-            pictures = pictures.filter() { !$0.deleted } + newPictures;
-            newPictures = []
-            onSave()
-        }
-        .sheet(isPresented: $isPickingPhoto, onDismiss: {
-            photoPickerModel.load(
-                pickedMedia: newMedia,
-                onLoaded: { photos in
-                    for photo in photos {
-                        newPictures.append(Picture(photo:photo))
-                    }
-                    isLoading = false;
-                })
-        }) {
-            MediaPicker(
-                isPresented: $isPickingPhoto,
-                onChange: {
-                    if !$0.isEmpty { newMedia = $0 }
-                })
-            .mediaSelectionLimit(limit)
-            .mediaSelectionType(.photo)
-            .onDisappear() {
                 Task {
                     await photoPickerModel.onStart()
                 }
