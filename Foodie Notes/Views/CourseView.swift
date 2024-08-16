@@ -12,7 +12,9 @@ struct CourseView: View {
     @EnvironmentObject var viewModel:AppViewModel;
     
     @ObservedObject private var course:WrappedStruct<Course>;
+
     @State private var newPairing:BeveragePairing = BeveragePairing()
+    @State private var forceAllSwipesClosed:Bool = false;
 
     init(course:Course) {
         self.course = WrappedStruct(withItem:course)
@@ -63,12 +65,33 @@ struct CourseView: View {
                         VerticalSpace(24)
                         
                         ViewSection("Pairing Notes") {
-                            EditableWinePairingView(pairings: $course.item.beveragePairings, onSave:onSave)
                             
-                            BarButtonTriggeringAddWinePairing(title: "How was this pairing?", addTitle: "Add a pairing", pairing:$newPairing) {
-                                course.item.beveragePairings.append(newPairing)
-                                newPairing = BeveragePairing()
-                                onSave()
+                            if course.item.beveragePairings.isEmpty {
+                                WineBox() {
+                                    BarButtonTriggeringAddWinePhoto(text: "Add pairing label photo", pairing:$newPairing) {
+                                        course.item.beveragePairings.append(newPairing)
+                                        newPairing = BeveragePairing()
+                                        onSave()
+                                    }
+                                }
+                            } else {
+                                ForEach(Array(zip(course.item.beveragePairings.indices, course.item.beveragePairings)), id: \.0) { index, pairing in
+                                    WineListCard(
+                                        name: $course.item.beveragePairings[index].name,
+                                        picture: $course.item.beveragePairings[index].picture,
+                                        notes: $course.item.beveragePairings[index].notes,
+                                        forceClose: $forceAllSwipesClosed,
+                                        onSave:onSave) {
+                                            course.item.beveragePairings.remove(at: index)
+                                            onSave()
+                                        }
+                                }
+                                
+                                BarButtonTriggeringAddWinePhoto(text: "Add another pairing", icon:"\u{e91f}", pairing:$newPairing) {
+                                    course.item.beveragePairings.append(newPairing)
+                                    newPairing = BeveragePairing()
+                                    onSave()
+                                }
                             }
                         }
 

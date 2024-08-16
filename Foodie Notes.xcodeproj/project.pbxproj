@@ -72,6 +72,7 @@
 		AA8CED0B2C6A501100A1395C /* EditableCuisineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8CED0A2C6A501100A1395C /* EditableCuisineView.swift */; };
 		AA8CED0D2C6A611500A1395C /* ImageGalleryViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8CED0C2C6A611500A1395C /* ImageGalleryViews.swift */; };
 		AA8ED2502C6F99E200F35B95 /* DragDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8ED24F2C6F99E200F35B95 /* DragDelegate.swift */; };
+		AA8ED2522C6FA6E600F35B95 /* WineListCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8ED2512C6FA6E600F35B95 /* WineListCard.swift */; };
 		AA9D9FE92C6AB75500B23B5A /* ImagePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9D9FE82C6AB75500B23B5A /* ImagePickerView.swift */; };
 		AA9D9FEB2C6BBE0400B23B5A /* ImageCarouselViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9D9FEA2C6BBE0400B23B5A /* ImageCarouselViews.swift */; };
 		AAA064C72C46A084005397EA /* ModelIOService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA064C62C46A084005397EA /* ModelIOService.swift */; };
@@ -230,6 +231,7 @@
 		AA8CED0A2C6A501100A1395C /* EditableCuisineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditableCuisineView.swift; sourceTree = "<group>"; };
 		AA8CED0C2C6A611500A1395C /* ImageGalleryViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageGalleryViews.swift; sourceTree = "<group>"; };
 		AA8ED24F2C6F99E200F35B95 /* DragDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DragDelegate.swift; sourceTree = "<group>"; };
+		AA8ED2512C6FA6E600F35B95 /* WineListCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WineListCard.swift; sourceTree = "<group>"; };
 		AA9D9FE82C6AB75500B23B5A /* ImagePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerView.swift; sourceTree = "<group>"; };
 		AA9D9FEA2C6BBE0400B23B5A /* ImageCarouselViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCarouselViews.swift; sourceTree = "<group>"; };
 		AAA064C62C46A084005397EA /* ModelIOService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelIOService.swift; sourceTree = "<group>"; };
@@ -450,6 +452,7 @@
 				AA60267F2C62C29D008652B4 /* MealListSearchSortMode.swift */,
 				AA6026812C63A6DC008652B4 /* MealListSortMenu.swift */,
 				AA410FF52C6E2DF40006D7A6 /* MenuListCard.swift */,
+				AA8ED2512C6FA6E600F35B95 /* WineListCard.swift */,
 				AA47BE432C4FD0C000E5D829 /* SearchableMap.swift */,
 				AA410FFB2C6EC5B50006D7A6 /* LocationEditSheet.swift */,
 				AA8CED082C6A4EB100A1395C /* SearchBox.swift */,
@@ -792,6 +795,7 @@
 				AA7344502C4E8D5100A027FF /* PictureAndNotesModel.swift in Sources */,
 				AA47BE442C4FD0C000E5D829 /* SearchableMap.swift in Sources */,
 				AA47BE462C4FD1B200E5D829 /* MapViewModel.swift in Sources */,
+				AA8ED2522C6FA6E600F35B95 /* WineListCard.swift in Sources */,
 				AA8CED072C6A23A500A1395C /* ImageViews.swift in Sources */,
 				AABE57032C53F6B300771A83 /* WebSearchService.swift in Sources */,
 				AA410FF62C6E2DF40006D7A6 /* MenuListCard.swift in Sources */,

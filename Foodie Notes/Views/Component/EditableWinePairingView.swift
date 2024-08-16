@@ -7,7 +7,23 @@
 
 import SwiftUI
 
-
+struct WineBox<Content:View> : View {
+    @ViewBuilder let content:Content;
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            content
+        }
+        .padding(8)
+        .frame(maxWidth: .infinity, alignment: .topLeading)
+        .cornerRadius(16)
+        .overlay(
+            RoundedRectangle(cornerRadius: 16)
+                .inset(by: 0.75)
+                .stroke(Colors.BorderStaticBorderTertiary, lineWidth: 1.5)
+        )
+    }
+}
 
 struct EditableWineSheetLayout<Content: View>: View {
     let title:String;
@@ -71,17 +87,17 @@ struct EditableWineSheetLayout<Content: View>: View {
     }
 }
 
-struct BarButtonTriggeringAddWinePairing: View {
-    let title:String
-    let addTitle:String
+struct BarButtonTriggeringAddWinePhoto: View {
+    let text:String;
+    var icon:String = "\u{e913}";
     @Binding var pairing:BeveragePairing
     var onSave:() -> Void = {}
 
     @State var showSheet:Bool = false;
     
     var body : some View {
-        EditableWineSheetLayout(title:title, text: $pairing.notes, picture: $pairing.picture, showSheet: $showSheet, onSave:onSave) {
-            BarButton(icon: "\u{e91d}", text: addTitle, action: {
+        EditableWineSheetLayout(title:"What was the name of this pairing?", text: $pairing.name, picture: $pairing.picture, showSheet: $showSheet, onSave:onSave) {
+            BarButton(icon: icon, text: text, action: {
                 pairing.notes = "";
                 showSheet.toggle()
             })
@@ -89,76 +105,3 @@ struct BarButtonTriggeringAddWinePairing: View {
     }
 }
 
-struct EditableWinePairingRow: View {
-    let title:String
-    let addTitle:String
-    @Binding var pairing:BeveragePairing;
-    var onSave:() -> Void = {}
-    
-    @State private var textFieldHeight: CGFloat = .zero
-    @State var showSheet:Bool = false;
-    
-    var body : some View {
-        EditableWineSheetLayout(title:title, text: $pairing.notes, picture: $pairing.picture, showSheet: $showSheet) {
-            HStack(alignment: .top, spacing: 0) {
-                FoodieText(pairing.notes, Colors.TextStaticTextSecondary, size:14, weight:.semibold)
-            }
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(16)
-            .background(Colors.FillStaticFillPrimary)
-            .cornerRadius(8)
-            .shadow(color: Colors.ShadowMed, radius: 8, x: 0, y: 8)
-            .shadow(color: Colors.ShadowEdge, radius: 4, x: 0, y: 0)
-            .onTapGesture {
-                showSheet.toggle()
-            }
-        }
-    }
-}
-
-struct EditableWinePairingView: View {
-    @Binding var pairings:[BeveragePairing];
-    var onSave:() -> Void = {}
-
-    var body: some View {
-        if (pairings.isEmpty) {
-            EmptyView()
-        } else {
-            ForEach(Array(zip(pairings.indices, pairings)), id: \.0) { index, pairing in
-                
-                VStack(alignment: .leading, spacing: 8) {
-                    HStack(alignment: .center, spacing: 8) {
-                        EditableStandaloneTextBox(title: "What was the name of this pairing?", addTitle: "Add wine name", text: $pairings[index].info.name, onSave:onSave)
-                        
-                        HStack(alignment: .center, spacing: 0) {
-                            FoodieIcon("\u{e920}", Colors.TextActionTextAction, size:36, padding:0)
-                        }
-                        .padding(.horizontal, 16)
-                        .padding(.vertical, 0)
-                        .cornerRadius(8)
-                        .frame(maxHeight:.infinity)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 8)
-                                .inset(by: 0.75)
-                                .stroke(Colors.BorderStaticBorderSecondary, lineWidth: 1.5)
-                        )
-                    }
-                    .padding(0)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    
-                    EditableWinePairingRow(title: "Any notes on this pairing?", addTitle: "Add notes", pairing:$pairings[index], onSave: onSave)
-                    
-                    CheckboxButton(value: $pairings[index].sameAsPrevious, text:"Shared with previous course", action:onSave)
-                }
-                .padding(8)
-                .frame(maxWidth: .infinity, alignment: .topLeading)
-                .cornerRadius(16)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 16)
-                        .inset(by: 0.75)
-                        .stroke(Colors.BorderStaticBorderTertiary, lineWidth: 1.5)
-                )
-            }
-        }
-    }
-}

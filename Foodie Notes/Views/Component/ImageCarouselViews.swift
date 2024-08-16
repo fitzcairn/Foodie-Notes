@@ -12,14 +12,22 @@ import WrappingHStack
 struct SingleImageCarousel: View {
     @Binding var picture:Picture?
     var mutable:Bool = false;
+    @State var isPickingPhoto: Bool = false;
+    @State var isLoading:Bool = false;
+    var onSave:() -> Void = {}
+
     
     var body: some View {
         if picture?.photo == nil || picture!.deleted {
-            // Show the nil image to remind folks to add.
-            NoPhotoPlaceholderView(edit:true)
-                .frame(width: 80, height: 80)
-                .clipped()
-                .cornerRadius(8)
+            SingleImagePicker(
+                picture: $picture,
+                isPickingPhoto: $isPickingPhoto,
+                isLoading: $isLoading,
+                onSave:onSave) {
+                AddImageButton(loading:$isLoading) {
+                    isPickingPhoto = true;
+                }
+            }
         } else {
             ExpandableImageGallery(src: .picture(picture)) {
                 MutableImage(picture: picture!, mutable: mutable) {

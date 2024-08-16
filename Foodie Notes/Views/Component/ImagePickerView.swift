@@ -17,7 +17,6 @@ struct CoverImageAndPickerView: View {
     
     @State var isLoading:Bool = false;
     @State var isPickingPhoto: Bool = false;
-    @State var loadingCount:Int = 0;
     
     var body: some View {
         ZStack(alignment: .top) {
@@ -40,15 +39,10 @@ struct CoverImageAndPickerView: View {
                 HStack {
                     Spacer()
                     
-                    MultiImagePicker(
-                        pictures: Binding<[Picture]>(
-                            get: { [] },
-                            set: { if !$0.isEmpty { picture = $0[0] } }
-                        ),
-                        loadingCount:$loadingCount,
+                    SingleImagePicker(
+                        picture:$picture,
                         isPickingPhoto: $isPickingPhoto,
                         isLoading: $isLoading,
-                        limit:1,
                         onSave: onSave) {
                             LargeActionWhiteButton(icon:"\u{e913}") {
                                 isPickingPhoto = true;
@@ -67,10 +61,32 @@ struct CoverImageAndPickerView: View {
 }
 
 
-
-
-// TODO:  Unify the below into a content wrapper struct
-
+struct SingleImagePicker<ButtonContent: View>: View {
+    @Binding var picture:Picture?
+    @Binding var isPickingPhoto:Bool
+    @Binding var isLoading:Bool
+    var limit:Int = Int.max
+    var onSave: () -> Void = {}
+    
+    @ViewBuilder let content: ButtonContent;
+    
+    
+    var body: some View {
+        MultiImagePicker(
+            pictures: Binding<[Picture]>(
+                get: { [] },
+                set: { if !$0.isEmpty { picture = $0[0] } }),
+            loadingCount: Binding<Int>(
+                get: { 0 },
+                set: { _ = $0 }),
+            isPickingPhoto: $isPickingPhoto,
+            isLoading: $isLoading,
+            limit:1,
+            onSave:onSave) {
+                content
+            }
+    }
+}
 
 
 struct MultiImagePicker<ButtonContent: View>: View {
