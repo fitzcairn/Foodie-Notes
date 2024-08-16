@@ -20,6 +20,7 @@
 		AA410FF62C6E2DF40006D7A6 /* MenuListCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA410FF52C6E2DF40006D7A6 /* MenuListCard.swift */; };
 		AA410FF82C6E47E30006D7A6 /* View_BorderAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA410FF72C6E47E30006D7A6 /* View_BorderAnimation.swift */; };
 		AA410FFA2C6EC2490006D7A6 /* CodableIgnored.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA410FF92C6EC2490006D7A6 /* CodableIgnored.swift */; };
+		AA410FFC2C6EC5B50006D7A6 /* LocationEditSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA410FFB2C6EC5B50006D7A6 /* LocationEditSheet.swift */; };
 		AA45C09B2C4723B5009F6DEC /* MealCreateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA45C09A2C4723B5009F6DEC /* MealCreateView.swift */; };
 		AA45C09D2C4726B6009F6DEC /* WrappedStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA45C09C2C4726B6009F6DEC /* WrappedStruct.swift */; };
 		AA45C09F2C4727B5009F6DEC /* CourseCreateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA45C09E2C4727B5009F6DEC /* CourseCreateView.swift */; };
@@ -174,6 +175,7 @@
 		AA410FF52C6E2DF40006D7A6 /* MenuListCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuListCard.swift; sourceTree = "<group>"; };
 		AA410FF72C6E47E30006D7A6 /* View_BorderAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View_BorderAnimation.swift; sourceTree = "<group>"; };
 		AA410FF92C6EC2490006D7A6 /* CodableIgnored.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodableIgnored.swift; sourceTree = "<group>"; };
+		AA410FFB2C6EC5B50006D7A6 /* LocationEditSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationEditSheet.swift; sourceTree = "<group>"; };
 		AA45C09A2C4723B5009F6DEC /* MealCreateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealCreateView.swift; sourceTree = "<group>"; };
 		AA45C09C2C4726B6009F6DEC /* WrappedStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WrappedStruct.swift; sourceTree = "<group>"; };
 		AA45C09E2C4727B5009F6DEC /* CourseCreateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseCreateView.swift; sourceTree = "<group>"; };
@@ -445,6 +447,7 @@
 				AA6026812C63A6DC008652B4 /* MealListSortMenu.swift */,
 				AA410FF52C6E2DF40006D7A6 /* MenuListCard.swift */,
 				AA47BE432C4FD0C000E5D829 /* SearchableMap.swift */,
+				AA410FFB2C6EC5B50006D7A6 /* LocationEditSheet.swift */,
 				AA8CED082C6A4EB100A1395C /* SearchBox.swift */,
 				AA410FF12C6E23D20006D7A6 /* SwipeableListCard.swift */,
 				AA6026982C6673C6008652B4 /* VerticalSpace.swift */,
@@ -785,6 +788,7 @@
 				AA8CED072C6A23A500A1395C /* ImageViews.swift in Sources */,
 				AABE57032C53F6B300771A83 /* WebSearchService.swift in Sources */,
 				AA410FF62C6E2DF40006D7A6 /* MenuListCard.swift in Sources */,
+				AA410FFC2C6EC5B50006D7A6 /* LocationEditSheet.swift in Sources */,
 				AAC91A582C4D43E900225BDD /* AsyncPhotoView.swift in Sources */,
 				AA6026822C63A6DC008652B4 /* MealListSortMenu.swift in Sources */,
 				AA410FF22C6E23D20006D7A6 /* SwipeableListCard.swift in Sources */,

@@ -19,7 +19,7 @@ struct MealListSearchSortMode: View {
                 .frame(height:24)
             
             HStack {
-                SearchBox(searchText: $filterText, isSearching:$isSearching)
+                SearchBox(searchText: $filterText, isFocused:$isSearching)
                 
                 Spacer()
                     .frame(width:26)

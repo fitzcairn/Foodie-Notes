@@ -10,10 +10,13 @@ import SwiftUI
 struct SearchBox: View {
     var prompt:String = "Search"
     @Binding var searchText:String
-    @Binding var isSearching:Bool
+    @Binding var isFocused:Bool
+    var assumeFocus:Bool = false;
     var onChangeClosure:(() -> Void) = {}
+    var onSubmitClosure:(() -> Void) = {}
+
     
-    @FocusState private var editing;
+    @FocusState private var focused;
     
     var promptText: Text {
         Text(prompt)
@@ -29,20 +32,32 @@ struct SearchBox: View {
             FoodieIcon("\u{e921}", Colors.TextActionTextAction)
             
             TextField("", text:$searchText, prompt: promptText, axis:.vertical)
-                .onChange(of: searchText) {
-                    onChangeClosure()
-                }
                 .font(
                     Font.custom("Nunito", size: 16)
                         .weight(.semibold)
                 )
                 .foregroundColor(Colors.TextStaticTextPrimary)
                 .lineLimit(1)
-                .focused($editing)
-                .onChange(of: editing) {
-                    isSearching = editing
+                .focused($focused, equals: true)
+                .onChange(of: focused) {
+                    isFocused = focused
                 }
                 .submitLabel(.search)
+                .autocorrectionDisabled()
+                .onChange(of: searchText) {
+                    onChangeClosure()
+                }
+                .onSubmit {
+                    onSubmitClosure()
+                }
+                .onAppear {
+                    if (assumeFocus) {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                            self.focused = true
+                        }
+                    }
+                }
+
 
             FoodieIcon("\u{e92a}", Colors.TextActionTextAction)
                 .onTapGesture {
@@ -55,7 +70,7 @@ struct SearchBox: View {
         .overlay(
             RoundedRectangle(cornerRadius: 80)
                 .inset(by: 0.75)
-                .stroke(editing ? Colors.BorderActionBorderActionInvert : Colors.BorderStaticBorderSecondary, lineWidth: 1.5)
+                .stroke(focused ? Colors.BorderActionBorderActionInvert : Colors.BorderStaticBorderSecondary, lineWidth: 1.5)
         )
     }
 }

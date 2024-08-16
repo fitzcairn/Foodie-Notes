@@ -9,7 +9,7 @@
 import SwiftUI
 import MapKit
 
-struct SearchableMap: View {
+/*struct SearchableMap: View {
     @Binding var newLocation: SearchResult?;
     
     @State private var selectedLocation: SearchResult?
@@ -117,4 +117,4 @@ struct SearchableMap: View {
                 .foregroundColor(.primary)
         }
     }
-}
+}*/

@@ -136,7 +136,7 @@ private struct EditableCuisineSheetLayout<Content: View>: View {
     
     private var cuisineSelectionControl: some View {
         VStack(alignment: .leading) {
-            SearchBox(searchText: $filterText, isSearching: $isSearching)
+            SearchBox(searchText: $filterText, isFocused: $isSearching)
             
             VerticalSpace(8)
             

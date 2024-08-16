@@ -17,7 +17,7 @@ struct EditableLocationView: View {
     let onSave:() -> Void
     
     var body : some View {
-        EditableLocationSheetLayout(title:title, location:$location, onSave:onSave) {
+        EditableLocationSheetLayout(title:title, location:$location, name:$venueName, onSave:onSave) {
             VStack(alignment: .trailing, spacing: 4) {
                 HStack {
                     if (location != nil) {
@@ -93,6 +93,7 @@ private struct EditableLocationSheetLayout<Content: View>: View {
     
     let title:String;
     @Binding var location: Location?
+    @Binding var name:String;
     let onSave:() -> Void
     
     @State var showSheet:Bool = false;
@@ -121,7 +122,7 @@ private struct EditableLocationSheetLayout<Content: View>: View {
                         
                         VerticalSpace(8)
                         
-                        SearchableMap(newLocation: $newLocation)
+                        LocationEditSheet(newLocation: $newLocation, name:$name)
                     },
                     bottomButtons: {
                         EditSheetComponentBottomSingleButton() {
