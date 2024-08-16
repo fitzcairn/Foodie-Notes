@@ -68,7 +68,7 @@ struct MealView: View {
                                 .frame(maxWidth: .infinity, alignment: .leading)
                             }
                             
-                            EditableLocationView(title: "Where was this venue?", location: $meal.item.venue.location, venueName: $meal.item.venue.name, onSave:onSave)
+                            EditableLocationView(title: "Where was this venue?", location: $meal.item.venue.location, venueName: $meal.item.venue.name, showLinkIcon:true, onSave:onSave)
                             
                             
                             

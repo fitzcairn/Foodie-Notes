@@ -39,16 +39,18 @@ struct SearchBox: View {
                 .foregroundColor(Colors.TextStaticTextPrimary)
                 .lineLimit(1)
                 .focused($focused, equals: true)
+                .submitLabel(.search)
+                .autocorrectionDisabled()
                 .onChange(of: focused) {
                     isFocused = focused
                 }
-                .submitLabel(.search)
-                .autocorrectionDisabled()
                 .onChange(of: searchText) {
                     onChangeClosure()
                 }
                 .onSubmit {
+                    print("submit!")
                     onSubmitClosure()
+                    focused = false;
                 }
                 .onAppear {
                     if (assumeFocus) {
@@ -57,7 +59,6 @@ struct SearchBox: View {
                         }
                     }
                 }
-
 
             FoodieIcon("\u{e92a}", Colors.TextActionTextAction)
                 .onTapGesture {

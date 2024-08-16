@@ -14,6 +14,7 @@ struct EditableLocationView: View {
     let title:String;
     @Binding var location: Location?
     @Binding var venueName: String
+    var showLinkIcon: Bool = false;
     let onSave:() -> Void
     
     var body : some View {
@@ -22,7 +23,7 @@ struct EditableLocationView: View {
                 HStack {
                     if (location != nil) {
                         // If we have a location already, use it.
-                        LocationView(location: location!)
+                        LocationView(location: location!, showLinkIcon: showLinkIcon)
                     } else if networkService.isConnected {
                         AsyncLocationView(
                             source: locViewModel,
@@ -33,7 +34,7 @@ struct EditableLocationView: View {
                                 FoodieText("( finding location )", Colors.TextStaticTextSecondary, size:12, weight:.medium)
                             },
                             locContent: {
-                                LocationView(location: locViewModel.location)
+                                LocationView(location: locViewModel.location, showLinkIcon: showLinkIcon)
                             },
                             errorContent: {
                                 LocationView(location: nil)
@@ -74,12 +75,27 @@ struct LocationIcon: View {
 
 struct LocationView: View {
     let location: Location?
+    var showLinkIcon: Bool = false;
+    
+    func createLink(_ lat:Double, _ long:Double) -> URL {
+        return URL(string: "maps://?q=\(lat),\(long)")!
+    }
     
     var body: some View {
         HStack {
             LocationIcon()
             if (location?.city != nil && location?.country != nil) {
+
                 FoodieText("\(location!.city!), \(location!.country!)", Colors.TextStaticTextSecondary, size:12, weight:.medium)
+
+                if showLinkIcon, let lat = location?.lat, let long = location?.long {
+                    Spacer()
+                    Link("\u{e911}", destination:createLink(lat, long)) // unwrap handled below
+                        .font(Font.custom("foodie-icons", size: 24))
+                        .foregroundColor(Colors.TextActionTextAction)
+                        .buttonStyle(.borderless)
+                        .padding(0)
+                }
             } else {
                 FoodieText("( no location found )", Colors.TextStaticTextSecondary, size:12, weight:.medium)
             }
