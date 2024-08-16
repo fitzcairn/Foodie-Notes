@@ -29,7 +29,12 @@ struct Meal : Identifiable, Hashable, Codable {
     }
     
     static func == (lhs: Meal, rhs: Meal) -> Bool {
-        return lhs.id == rhs.id
+        guard lhs.id == rhs.id else { return false }
+        var lhsHash = Hasher()
+        lhsHash.combine(lhs)
+        var rhsHash = Hasher()
+        rhsHash.combine(rhs)
+        return lhsHash.finalize() == rhsHash.finalize()
     }
     
     func hash(into hasher: inout Hasher) {
@@ -39,6 +44,8 @@ struct Meal : Identifiable, Hashable, Codable {
         hasher.combine(menus)
         hasher.combine(notes)
         hasher.combine(rating)
+        hasher.combine(courses)
+        hasher.combine(pickedImage)
     }
 }
 

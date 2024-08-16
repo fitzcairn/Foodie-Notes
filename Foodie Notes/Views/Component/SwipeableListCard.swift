@@ -16,7 +16,7 @@ struct SwipeableListCard<Content: View>: View {
     @State var swipeState:SwipeContext?;
     
     let confirmString:String;
-    var onDelete:() -> Void = {}
+    let onDelete:() -> Void;
     @Binding var forceClose:Bool;
     @ViewBuilder let content:Content;
 
@@ -73,7 +73,9 @@ struct SwipeableListCard<Content: View>: View {
                 }
                 Button ("Yes", role: .destructive) {
                     deleted = true;
-                    onDelete()
+                    Task {
+                        onDelete()
+                    }
                 }
             })
             .onChange(of: forceClose) {

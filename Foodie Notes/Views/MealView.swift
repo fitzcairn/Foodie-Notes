@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SwipeActions
+import UniformTypeIdentifiers
 
 
 struct MealView: View {
@@ -14,11 +15,13 @@ struct MealView: View {
     @EnvironmentObject var viewModel:AppViewModel;
     
     @ObservedObject private var meal:WrappedStruct<Meal>;
-    @State var goToCourseView:Bool = false;
-    @State var courseName:String = "";
-    @State var newMenu:PicturesAndNotes = PicturesAndNotes();
-    @State var newCourse:Course;
-    @State var forceAllSwipesClosed:Bool = false;
+    @State private var goToCourseView:Bool = false;
+    @State private var courseName:String = "";
+    @State private var newMenu:PicturesAndNotes = PicturesAndNotes();
+    @State private var newCourse:Course;
+    @State private var forceAllSwipesClosed:Bool = false;
+    @State private var draggingIndex: Int?
+
     
     init(meal:Meal) {
         _meal = ObservedObject(wrappedValue: WrappedStruct(withItem:meal))
@@ -32,7 +35,7 @@ struct MealView: View {
             
             ScrollView {
                 ZStack(alignment: .top) {
-
+                    
                     CoverImageAndPickerView(
                         picture: Binding<Picture?> (
                             get: { viewModel.getMealImageFor(meal.item) },
@@ -87,7 +90,7 @@ struct MealView: View {
                                             .padding(.leading, 4)
                                             .padding(.trailing, 16)
                                             .padding(.vertical, 3)
- 
+                                        
                                         GuideLinkView(venue:$meal.item.venue, onSave:onSave, iconOnRight:true)
                                     }
                                     
@@ -127,11 +130,20 @@ struct MealView: View {
                                         meal.item.menus.remove(at: index)
                                         onSave()
                                     }
-                                        .padding(.bottom, -2)
+                                    .padding(.bottom, -2)
+                                    .onDrag {
+                                        self.draggingIndex = index
+                                        return NSItemProvider(object: NSString())
+                                    }
+                                    .onDrop(of: [UTType.text], delegate: DragDelegate(dropIndex: index, listData: $meal.item.menus, dragIndex: $draggingIndex, onSave:onSave))
                                 }
+                                .onMove(perform: {_, _  in })
+                                .transition(.asymmetric(insertion: .opacity,
+                                                        removal: .slide))
+
                                 .id(meal.item.menus.count)
                             }
-
+                            
                             BarButtonTriggeringMultiImageTextInput(title: "What's the name of this menu?", addTitle: "Add menu", pictures:$newMenu.pictures, text:$newMenu.notes) {
                                 meal.item.menus.append(newMenu)
                                 onSave()
@@ -145,10 +157,17 @@ struct MealView: View {
                         ViewSection("Courses") {
                             VStack {
                                 SwipeViewGroup {
-                                    ForEach(viewModel.getMealFor(meal.item.id)!.courses, id: \.self) { course in
+                                    ForEach(Array(zip(meal.item.courses.indices, meal.item.courses)), id: \.0) { index, course in
+                                        
                                         CourseListCard(course:course, forceClose: $forceAllSwipesClosed)
                                             .padding(.bottom, -2)
+                                            .onDrag {
+                                                self.draggingIndex = index
+                                                return NSItemProvider(object: NSString())
+                                            }
+                                            .onDrop(of: [UTType.text], delegate: DragDelegate(dropIndex: index, listData: $meal.item.courses, dragIndex: $draggingIndex, onSave:onSave))
                                     }
+                                    .onMove(perform: {_, _  in })
                                 }
                                 
                                 BarButtonTriggeringTextInput(title: "What's the name of the course?", addTitle: "Add a course", text:$courseName) {
@@ -204,5 +223,31 @@ struct MealView: View {
     private func onSave() {
         print("saving Meal \(meal.item.id)")
         viewModel.saveEditedMealFor(meal.item)
+    }
+}
+
+struct DragDelegate<Item: Equatable>: DropDelegate {
+    let dropIndex:Int
+    @Binding var listData:[Item]
+    @Binding var dragIndex: Int?
+    var onSave:() -> Void = {}
+        
+    func dropEntered(info: DropInfo) {
+     }
+    
+    func dropUpdated(info: DropInfo) -> DropProposal? {
+        return DropProposal(operation: .move)
+    }
+    
+    func performDrop(info: DropInfo) -> Bool {
+        if dragIndex != nil && dropIndex != dragIndex! {
+            let from = dragIndex!
+            let to = dropIndex
+            listData.move(fromOffsets: IndexSet(integer: from),
+                          toOffset: to > from ? to + 1 : to)
+        }
+        onSave()
+        dragIndex = nil
+        return true
     }
 }
