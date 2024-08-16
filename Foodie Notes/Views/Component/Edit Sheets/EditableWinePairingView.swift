@@ -57,6 +57,30 @@ struct EditableStandaloneWineNotesBox: View {
     }
 }
 
+struct EditableWineSheetComponentMainTextAndSingleImageControl: View {
+    let title:String;
+    let icon:String;
+    @Binding var text:String;
+    @Binding var picture:Picture?
+    
+    var body: some View {
+        VStack(alignment: .leading) {
+            HStack {
+                SingleImageCarousel(picture: $picture, mutable:true)
+                    .padding(.trailing, 8)
+
+                FoodieText("Add label photo", Colors.TextStaticTextSecondary, size:12, weight:.semibold)
+            }
+
+            VerticalSpace(16)
+            
+            EditSheetComponentMainTextControl(title:title, text: $text)
+            
+            Spacer()
+        }
+    }
+}
+
 
 struct EditableWineSheetLayoutForNameAndImage<Content: View>: View {
     let title:String;
@@ -87,7 +111,7 @@ struct EditableWineSheetLayoutForNameAndImage<Content: View>: View {
                         }
                     },
                     mainView: {
-                        EditSheetComponentMainTextAndSingleImageControl(
+                        EditableWineSheetComponentMainTextAndSingleImageControl(
                             title: title,
                             icon: "\u{e913}",
                             text: $newText,

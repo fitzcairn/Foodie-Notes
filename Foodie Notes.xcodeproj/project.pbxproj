@@ -425,41 +425,19 @@
 		AA81D2932C324BA800FF0221 /* Component */ = {
 			isa = PBXGroup;
 			children = (
+				AA8ED25C2C6FFC4900F35B95 /* Edit Sheets */,
+				AA8ED2582C6FFBF000F35B95 /* List */,
+				AA8ED2572C6FFBCA00F35B95 /* Cards */,
+				AA8ED2562C6FFBA700F35B95 /* Guide */,
+				AA8ED2552C6FFB8B00F35B95 /* Images */,
+				AA8ED2542C6FFB5A00F35B95 /* Pairing */,
+				AA8ED2532C6FFB3D00F35B95 /* Location */,
 				AA6026942C666C30008652B4 /* ActionButtonViews.swift */,
-				AAE6A7A92C4E9A3100765C76 /* AsyncLocationView.swift */,
-				AAC91A572C4D43E900225BDD /* AsyncPhotoView.swift */,
-				AABE56FD2C53DA1700771A83 /* AsyncRecognizedWineLabelView.swift */,
-				AA63F38B2C4BFBCE0024D1DF /* AyncGuideLinkView.swift */,
-				AA6771CE2C581EB900487278 /* BeverageLinkView.swift */,
 				AA6026832C651B89008652B4 /* BottomFade.swift */,
-				AA6026922C6572E4008652B4 /* CourseListCard.swift */,
-				AA8CED0A2C6A501100A1395C /* EditableCuisineView.swift */,
-				AA2D0AAA2C69469000481CB9 /* EditableDateView.swift */,
-				AA8CED042C6A098900A1395C /* EditableLocationView.swift */,
-				AAAA9A822C695896003F499F /* EditableMichelinRatingView.swift */,
-				AAAA9A802C6952C6003F499F /* EditableRatingView.swift */,
-				AA6026962C667324008652B4 /* EditableTextViews.swift */,
-				AA20D36F2C6BDC5000C63895 /* EditableWinePairingView.swift */,
-				AA20D3732C6BFFA700C63895 /* EditSheetComponentViews.swift */,
-				AA60269E2C6811A1008652B4 /* EditSheetView.swift */,
-				AA73444B2C4E8B3800A027FF /* GuideLinkView.swift */,
 				AAA064CE2C46A7DA005397EA /* IconsAndText.swift */,
-				AA9D9FEA2C6BBE0400B23B5A /* ImageCarouselViews.swift */,
-				AA8CED0C2C6A611500A1395C /* ImageGalleryViews.swift */,
-				AA9D9FE82C6AB75500B23B5A /* ImagePickerView.swift */,
-				AA8CED062C6A23A500A1395C /* ImageViews.swift */,
-				AA0F1ED12C626E3E00B2202A /* MealListCard.swift */,
-				AA60267F2C62C29D008652B4 /* MealListSearchSortMode.swift */,
-				AA6026812C63A6DC008652B4 /* MealListSortMenu.swift */,
-				AA410FF52C6E2DF40006D7A6 /* MenuListCard.swift */,
-				AA8ED2512C6FA6E600F35B95 /* WineListCard.swift */,
-				AA47BE432C4FD0C000E5D829 /* SearchableMap.swift */,
-				AA410FFB2C6EC5B50006D7A6 /* LocationEditSheet.swift */,
 				AA8CED082C6A4EB100A1395C /* SearchBox.swift */,
-				AA410FF12C6E23D20006D7A6 /* SwipeableListCard.swift */,
 				AA6026982C6673C6008652B4 /* VerticalSpace.swift */,
 				AA60269A2C667481008652B4 /* ViewSection.swift */,
-				AA410FFD2C6F8C6B0006D7A6 /* SwipeableDraggableList.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -471,6 +449,84 @@
 				AA81D29E2C325D0B00FF0221 /* AppModel.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		AA8ED2532C6FFB3D00F35B95 /* Location */ = {
+			isa = PBXGroup;
+			children = (
+				AAE6A7A92C4E9A3100765C76 /* AsyncLocationView.swift */,
+				AA8CED042C6A098900A1395C /* EditableLocationView.swift */,
+				AA410FFB2C6EC5B50006D7A6 /* LocationEditSheet.swift */,
+				AA47BE432C4FD0C000E5D829 /* SearchableMap.swift */,
+			);
+			path = Location;
+			sourceTree = "<group>";
+		};
+		AA8ED2542C6FFB5A00F35B95 /* Pairing */ = {
+			isa = PBXGroup;
+			children = (
+				AABE56FD2C53DA1700771A83 /* AsyncRecognizedWineLabelView.swift */,
+				AA6771CE2C581EB900487278 /* BeverageLinkView.swift */,
+				AA8ED2512C6FA6E600F35B95 /* WineListCard.swift */,
+			);
+			path = Pairing;
+			sourceTree = "<group>";
+		};
+		AA8ED2552C6FFB8B00F35B95 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				AAC91A572C4D43E900225BDD /* AsyncPhotoView.swift */,
+				AA9D9FEA2C6BBE0400B23B5A /* ImageCarouselViews.swift */,
+				AA8CED0C2C6A611500A1395C /* ImageGalleryViews.swift */,
+				AA9D9FE82C6AB75500B23B5A /* ImagePickerView.swift */,
+				AA8CED062C6A23A500A1395C /* ImageViews.swift */,
+			);
+			path = Images;
+			sourceTree = "<group>";
+		};
+		AA8ED2562C6FFBA700F35B95 /* Guide */ = {
+			isa = PBXGroup;
+			children = (
+				AA63F38B2C4BFBCE0024D1DF /* AyncGuideLinkView.swift */,
+				AAAA9A822C695896003F499F /* EditableMichelinRatingView.swift */,
+				AA73444B2C4E8B3800A027FF /* GuideLinkView.swift */,
+			);
+			path = Guide;
+			sourceTree = "<group>";
+		};
+		AA8ED2572C6FFBCA00F35B95 /* Cards */ = {
+			isa = PBXGroup;
+			children = (
+				AA6026922C6572E4008652B4 /* CourseListCard.swift */,
+				AA0F1ED12C626E3E00B2202A /* MealListCard.swift */,
+				AA410FF52C6E2DF40006D7A6 /* MenuListCard.swift */,
+				AA410FF12C6E23D20006D7A6 /* SwipeableListCard.swift */,
+			);
+			path = Cards;
+			sourceTree = "<group>";
+		};
+		AA8ED2582C6FFBF000F35B95 /* List */ = {
+			isa = PBXGroup;
+			children = (
+				AA60267F2C62C29D008652B4 /* MealListSearchSortMode.swift */,
+				AA6026812C63A6DC008652B4 /* MealListSortMenu.swift */,
+				AA410FFD2C6F8C6B0006D7A6 /* SwipeableDraggableList.swift */,
+			);
+			path = List;
+			sourceTree = "<group>";
+		};
+		AA8ED25C2C6FFC4900F35B95 /* Edit Sheets */ = {
+			isa = PBXGroup;
+			children = (
+				AA8CED0A2C6A501100A1395C /* EditableCuisineView.swift */,
+				AA2D0AAA2C69469000481CB9 /* EditableDateView.swift */,
+				AAAA9A802C6952C6003F499F /* EditableRatingView.swift */,
+				AA6026962C667324008652B4 /* EditableTextViews.swift */,
+				AA20D36F2C6BDC5000C63895 /* EditableWinePairingView.swift */,
+				AA20D3732C6BFFA700C63895 /* EditSheetComponentViews.swift */,
+				AA60269E2C6811A1008652B4 /* EditSheetView.swift */,
+			);
+			path = "Edit Sheets";
 			sourceTree = "<group>";
 		};
 		AAA064C52C46A052005397EA /* Services */ = {
