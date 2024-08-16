@@ -22,11 +22,15 @@ class WebSearchService {
         }
     }
     
-    static func constructLinkFor(domain:String, query:[String]) -> String {
-        // Easiest to just ask DuckDuckGo for now.  Later, I'll host my own webservice for this.
-        let baseUrl = "https://duckduckgo.com/html/?q="
+    // Easiest to just ask DuckDuckGo for now.  Later, I'll host my own webservice for this.
+    static func constructLinkFor(baseUrl:String = "https://duckduckgo.com/html/?q=", domain:String? = nil, query:[String]) -> String {
         
-        return "\(baseUrl)site%3A\(domain)+\(query.joined(separator: " ").addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!)"
+        if let domain = domain {
+            return "\(baseUrl)site%3A\(domain)+\(query.joined(separator: " ").addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!)"
+        }
+        else {
+            return "\(baseUrl)\(query.joined(separator: " ").addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!)"
+        }
     }
     
     static private func getResultLinksFrom(_ html:String) throws -> [(String?, URL?)] {

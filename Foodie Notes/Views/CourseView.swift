@@ -77,10 +77,7 @@ struct CourseView: View {
                             } else {
                                 ForEach(Array(zip(course.item.beveragePairings.indices, course.item.beveragePairings)), id: \.0) { index, pairing in
                                     WineListCard(
-                                        name: $course.item.beveragePairings[index].name,
-                                        picture: $course.item.beveragePairings[index].picture,
-                                        notes: $course.item.beveragePairings[index].notes,
-                                        sameAsPrevious: $course.item.beveragePairings[index].sameAsPrevious,
+                                        pairing: $course.item.beveragePairings[index],
                                         forceClose: $forceAllSwipesClosed,
                                         onSave:onSave) {
                                             course.item.beveragePairings.remove(at: index)

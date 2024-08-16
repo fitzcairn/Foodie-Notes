@@ -9,25 +9,31 @@ import SwiftUI
 
 
 struct RecogninzePairingView : View {
-    @Binding var infoLink:BeverageLookupInfo
-    var img:SavedImage?
+    @Binding var info:BeverageLookupInfo
+    @Binding var picture:Picture?
     
     var body: some View {
-        if let link = infoLink.url {
-            BeverageInfoLinkView(link:$infoLink)
-        } else if let img = img {
-            BeverageAsyncView(infoLink:$infoLink, img:img)
+        if let img = picture?.photo?.full {
+            if info.imgIdRecognized == img.id {
+                if info.url != nil {
+                    PairingBeverageInfoLinkView(info:$info)
+                } else {
+                    // We previously tried and failed to find a match.
+                    StatusText("Unable to recognize label.")
+                }
+            } else {
+                // New image
+                PairingBeverageInfoLinkAsyncView(info:$info, img:img)
+            }
         } else {
-            EmptyView()
+            StatusText("Add the label photo")
         }
     }
 }
 
-struct BeverageAsyncView : View {
-    @Binding var infoLink:BeverageLookupInfo;
+struct PairingBeverageInfoLinkAsyncView : View {
+    @Binding var info:BeverageLookupInfo;
     var img:SavedImage;
-    var edit:Bool = false;
-    var executeCompletion: ((AsyncLabelRecognitionViewModel) -> Void)? = nil
     
     @StateObject var labelRecModel:AsyncLabelRecognitionViewModel = AsyncLabelRecognitionViewModel()
     @Environment(NetworkService.self) private var networkService
@@ -39,36 +45,78 @@ struct BeverageAsyncView : View {
             AsyncRecognizedWineLabelView(
                 source:labelRecModel,
                 img:img,
-                progressContent: { Searching() },
-                // Can safely unwrap link due to switch statement in AyncGuideLink
-                linkContent: { BeverageInfoLinkView(link:BeverageLookupInfo(name: labelRecModel.name ?? "", url:labelRecModel.link), edit:edit) },
-                edit: edit,
-                executeCompletion: executeCompletion
+                progressContent: {
+                    StatusText("Attempting to recognize label...")
+                },
+                linkContent: {
+                    PairingBeverageInfoLinkView(info:$info)
+                },
+                errorContent: {
+                    StatusText("Unable to recognize label.")
+                }
             )
             .onChange(of: labelRecModel.status) {
                 if labelRecModel.status != .loading {
                     // Lookup completed; regardless of outcome make sure we don't repeat.
-                    infoLink = BeverageLookupInfo(name:labelRecModel.name ?? "", url:labelRecModel.link)
+                    info.name = labelRecModel.name ?? ""
+                    info.url = labelRecModel.link
+                    info.imgIdRecognized = img.id
+                }
+                if labelRecModel.status == .complete && info.name.isEmpty {
+                    info.name = info.name
                 }
             }
         } else {
-            BeverageInfoLinkView(link:BeverageLookupInfo(name: "No Internet Connection", url: URL(string: "")))
+            StatusText("Label recognition requires an internet connection.")
         }
     }
 }
 
-struct BeverageInfoLinkView: View {
-    @Binding var link:BeverageLookupInfo
+private struct StatusText : View {
+    let text:String;
+    init(_ text: String) {
+        self.text = text
+    }
+    var body: some View {
+        FoodieText(text, Colors.TextStaticTextSecondary, size:12, weight:.semibold)
+    }
+}
+
+struct PairingBeverageInfoLinkView: View {
+    @Binding var info:BeverageLookupInfo
     
     var body: some View {
-        if let url = link.url, !link.name.isEmpty {
-            HStack {
-                LinkImg()
-                Link(link.name, destination:url)
-                    .font(.system(size:14, weight: .regular))
-                    .foregroundColor(.gray)
-                    .fixedSize(horizontal: false, vertical: true)
-                    .lineLimit(1)
+        if let url = info.url, !info.name.isEmpty {
+            HStack(alignment: .center, spacing: 4) {
+                Link("Wine Searcher", destination:url)
+                    .font(Font.custom("Nunito", size: 12).weight(.semibold))
+                    .foregroundColor(Colors.TextActionTextAction)
+                    .buttonStyle(.borderless)
+                    .padding(0)
+                
+                Link("\u{e911}", destination:url)
+                    .font(Font.custom("foodie-icons", size: 24))
+                    .foregroundColor(Colors.TextActionTextAction)
+                    .buttonStyle(.borderless)
+                    .padding(0)
+            }
+        } else if !info.name.isEmpty {
+            let url = URL(string:WebSearchService.constructLinkFor(baseUrl:"https://www.wine-searcher.com/find/", query:[info.name]))!
+            HStack(alignment: .center, spacing: 4) {
+                Link("Wine Searcher", destination:url)
+                    .font(Font.custom("Nunito", size: 12).weight(.semibold))
+                    .foregroundColor(Colors.TextActionTextAction)
+                    .buttonStyle(.borderless)
+                    .padding(0)
+                
+                Link("\u{e911}", destination:url)
+                    .font(Font.custom("foodie-icons", size: 24))
+                    .foregroundColor(Colors.TextActionTextAction)
+                    .buttonStyle(.borderless)
+                    .padding(0)
+            }
+            .onAppear() {
+                info.url = url;
             }
         } else {
             EmptyView()

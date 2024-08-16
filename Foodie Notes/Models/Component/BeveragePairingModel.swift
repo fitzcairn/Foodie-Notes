@@ -10,13 +10,13 @@ import Foundation
 struct BeverageLookupInfo: Codable, Hashable, Equatable {
     var name:String = ""
     var url:URL?
+    var imgIdRecognized: String? // Don't try again unless there's another image.
 }
 
 struct BeveragePairing: Hashable, Equatable, Identifiable, Codable {
     var id:String = Id.createId();
     var picture:Picture?
     var notes:String = ""
-    var name:String = ""
     var info:BeverageLookupInfo = BeverageLookupInfo()
     var sameAsPrevious:Bool = false
 
@@ -33,7 +33,6 @@ struct BeveragePairing: Hashable, Equatable, Identifiable, Codable {
         hasher.combine(id)
         hasher.combine(picture)
         hasher.combine(notes)
-        hasher.combine(name)
         hasher.combine(info)
         hasher.combine(sameAsPrevious)
     }

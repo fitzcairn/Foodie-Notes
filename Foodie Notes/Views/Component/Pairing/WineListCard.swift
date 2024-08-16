@@ -11,10 +11,7 @@ struct WineListCard: View {
     @EnvironmentObject var viewModel:AppViewModel;
     @State var showSheet:Bool = false;
     
-    @Binding var name:String
-    @Binding var picture:Picture?
-    @Binding var notes:String
-    @Binding var sameAsPrevious:Bool;
+    @Binding var pairing:BeveragePairing;
     @Binding var forceClose:Bool;
     var onSave:() -> Void = {}
     let onDelete:() -> Void;
@@ -35,8 +32,8 @@ struct WineListCard: View {
                             
                             // Actual Picture
                             HStack(alignment: .bottom, spacing: 4) {
-                                ExpandableImageGallery(src: .picture(picture)) {
-                                    CourseListPicture(picture:picture)
+                                ExpandableImageGallery(src: .picture(pairing.picture)) {
+                                    CourseListPicture(picture:pairing.picture)
                                 }
                             }
                             .padding(.horizontal, 0)
@@ -52,8 +49,8 @@ struct WineListCard: View {
                         
                         
                         VStack(alignment: .leading, spacing: 4) {
-                            EditableWineSheetLayoutForNameAndImage(title:"What's the name of this pairing?", text: $name, picture: $picture, showSheet: $showSheet, onSave:onSave) {
-                                FoodieText(name, Colors.TextStaticTextPrimary, size:14, weight:.bold)
+                            EditableWineSheetLayoutForNameAndImage(title:"What's the name of this pairing?", pairing:$pairing, showSheet: $showSheet, onSave:onSave) {
+                                FoodieText(pairing.info.name, Colors.TextStaticTextPrimary, size:14, weight:.bold)
                             }
                             .padding(.leading, 8)
                             .padding(.trailing, 16)
@@ -68,10 +65,10 @@ struct WineListCard: View {
                 }
             
             // Bottom: notes field.
-            EditableStandaloneWineNotesBox(title: "What were your notes on this pairing?", addTitle: "Add notes", text: $notes, sameAsPrevious:$sameAsPrevious, onSave:onSave)
+            EditableStandaloneWineNotesBox(title: "What were your notes on this pairing?", addTitle: "Add notes", pairing:$pairing, onSave:onSave)
             
             HStack(alignment: .center, spacing: 4) {
-                if (sameAsPrevious) {
+                if (pairing.sameAsPrevious) {
                     HStack(alignment: .center, spacing: 4) {
                         FoodieIcon("\u{e90e}", Colors.IconSecondary, size:24, padding:0)
                         FoodieText("Shared with prior course", Colors.TextStaticTextSecondary, size:12, weight:.semibold)
@@ -82,12 +79,7 @@ struct WineListCard: View {
                 
                 Spacer()
                 
-                if (true) { // Has wine searcher link
-                    HStack(alignment: .center, spacing: 4) {
-                        FoodieText("Wine Searcher", Colors.TextActionTextAction, size:12, weight:.semibold)
-                        FoodieIcon("\u{e911}", Colors.TextActionTextAction, size:24, padding:0)
-                    }
-                }
+                PairingBeverageInfoLinkView(info: $pairing.info)
             }
             .padding(8)
         }

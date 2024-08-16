@@ -11,16 +11,8 @@ struct AyncGuideLinkView<Source:AsyncSearchConfig, ProgressContent: View, LinkCo
     @ObservedObject var source:Source
     let venue:Venue;
     let guide:VenueGuide;
-    let progressContent: ProgressContent;
-    let linkContent: LinkContent;
-
-    init(source: Source, venue:Venue, guide:VenueGuide = .michelin,@ViewBuilder progressContent: () -> ProgressContent, @ViewBuilder linkContent: () -> LinkContent) {
-        self.source = source
-        self.guide = guide;
-        self.venue = venue
-        self.progressContent = progressContent()
-        self.linkContent = linkContent()
-    }
+    @ViewBuilder let progressContent: ProgressContent;
+    @ViewBuilder let linkContent: LinkContent;
     
     var body: some View {
         switch source.status {

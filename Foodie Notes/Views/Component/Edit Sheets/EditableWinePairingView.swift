@@ -28,20 +28,19 @@ struct WineBox<Content:View> : View {
 struct EditableStandaloneWineNotesBox: View {
     let title:String
     let addTitle:String
-    @Binding var text:String;
-    @Binding var sameAsPrevious:Bool
+    @Binding var pairing:BeveragePairing;
 
     let onSave:() -> Void
 
     @State var showSheet:Bool = false;
 
     var body : some View {
-        EditableWineSheetLayoutForNotes(title: title, text: $text, showSheet: $showSheet, sameAsPrevious: $sameAsPrevious, onSave:onSave) {
-            if text.isEmpty {
-                BarButtonTriggeringTextInput(title: title, addTitle: addTitle, text: $text, icon:"\u{e91d}", onSave:onSave)
+        EditableWineSheetLayoutForNotes(title:title, pairing:$pairing, showSheet:$showSheet, onSave:onSave) {
+            if pairing.notes.isEmpty {
+                BarButtonTriggeringTextInput(title: title, addTitle: addTitle, text: $pairing.notes, icon:"\u{e91d}", onSave:onSave)
             } else {
                 HStack(alignment: .top, spacing: 0) {
-                    FoodieText(text, Colors.TextStaticTextSecondary, size:14, weight:.semibold)
+                    FoodieText(pairing.notes, Colors.TextStaticTextSecondary, size:14, weight:.semibold)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(16)
@@ -60,21 +59,22 @@ struct EditableStandaloneWineNotesBox: View {
 struct EditableWineSheetComponentMainTextAndSingleImageControl: View {
     let title:String;
     let icon:String;
-    @Binding var text:String;
+    @Binding var name:String;
     @Binding var picture:Picture?
-    
+    @Binding var info:BeverageLookupInfo
+
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
                 SingleImageCarousel(picture: $picture, mutable:true)
                     .padding(.trailing, 8)
 
-                FoodieText("Add label photo", Colors.TextStaticTextSecondary, size:12, weight:.semibold)
+                RecogninzePairingView(info:$info, picture:$picture)
             }
 
             VerticalSpace(16)
             
-            EditSheetComponentMainTextControl(title:title, text: $text)
+            EditSheetComponentMainTextControl(title:title, text: $name)
             
             Spacer()
         }
@@ -85,13 +85,12 @@ struct EditableWineSheetComponentMainTextAndSingleImageControl: View {
 struct EditableWineSheetLayoutForNameAndImage<Content: View>: View {
     let title:String;
     
-    @Binding var text:String;
-    @Binding var picture:Picture?
+    @Binding var pairing:BeveragePairing;
     @Binding var showSheet:Bool;
 
     var onSave:() -> Void = {}
     
-    @State private var newText:String = ""
+    @State private var newName:String = ""
     @State private var newPicture:Picture? = nil
 
     @ViewBuilder let content: Content;
@@ -106,16 +105,17 @@ struct EditableWineSheetLayoutForNameAndImage<Content: View>: View {
                         }
                     },
                     topRightButton: {
-                        SmallClearButton(disabled: { newText.isEmpty }) {
-                            newText = ""
+                        SmallClearButton(disabled: { newName.isEmpty }) {
+                            newName = ""
                         }
                     },
                     mainView: {
                         EditableWineSheetComponentMainTextAndSingleImageControl(
                             title: title,
                             icon: "\u{e913}",
-                            text: $newText,
-                            picture: $newPicture
+                            name: $newName,
+                            picture: $newPicture,
+                            info: $pairing.info
                         )
                     },
                     bottomButtons: {
@@ -123,11 +123,12 @@ struct EditableWineSheetLayoutForNameAndImage<Content: View>: View {
                             saveButton: {
                                 EditSheetComponentSaveButton(
                                     disabledClosure: {
-                                        text == newText && picture == newPicture
+                                        pairing.info.name == newName && pairing.picture == newPicture
                                     },
                                     action: {
-                                        text = newText
-                                        picture = newPicture
+                                        pairing.info.name = newName
+                                        pairing.info.url = nil;
+                                        pairing.picture = newPicture
                                         showSheet.toggle()
                                         onSave()
                                     }
@@ -137,8 +138,8 @@ struct EditableWineSheetLayoutForNameAndImage<Content: View>: View {
                     }
                 )
                 .onAppear() {
-                    newText = text
-                    newPicture = picture
+                    newName = pairing.info.name
+                    newPicture = pairing.picture
                 }
             }
     }
@@ -147,16 +148,13 @@ struct EditableWineSheetLayoutForNameAndImage<Content: View>: View {
 struct EditableWineSheetLayoutForNotes<Content: View>: View {
     let title:String;
     
-    @Binding var text:String;
+    @Binding var pairing:BeveragePairing;
     @Binding var showSheet:Bool;
-    @Binding var sameAsPrevious:Bool
-
-    @State private var newText:String = ""
+    
+    @State private var newNotes:String = ""
     @State private var newSameAsPrevious:Bool = false
 
     var onSave:() -> Void = { }
-
-    var itemNum:Int? = nil;
     
     @ViewBuilder let content: Content;
 
@@ -170,12 +168,12 @@ struct EditableWineSheetLayoutForNotes<Content: View>: View {
                         }
                     },
                     topRightButton: {
-                        SmallClearButton(disabled: { newText.isEmpty }) {
-                            newText = ""
+                        SmallClearButton(disabled: { newNotes.isEmpty }) {
+                            newNotes = ""
                         }
                     },
                     mainView: {
-                        EditSheetComponentMainTextControl(title: title, text: $newText, itemNum:itemNum)
+                        EditSheetComponentMainTextControl(title: title, text: $newNotes)
                     },
                     bottomButtons: {
                         EditSheetComponentBottomCheckboxAndButton(
@@ -185,11 +183,11 @@ struct EditableWineSheetLayoutForNotes<Content: View>: View {
                             saveButton: {
                                 EditSheetComponentSaveButton(
                                     disabledClosure: {
-                                        text == newText && sameAsPrevious == newSameAsPrevious
+                                        pairing.notes == newNotes && pairing.sameAsPrevious == newSameAsPrevious
                                     },
                                     action: {
-                                        text = newText
-                                        sameAsPrevious = newSameAsPrevious
+                                        pairing.notes = newNotes
+                                        pairing.sameAsPrevious = newSameAsPrevious
                                         showSheet.toggle()
                                         onSave()
                                     }
@@ -199,8 +197,8 @@ struct EditableWineSheetLayoutForNotes<Content: View>: View {
                     }
                 )
                 .onAppear() {
-                    newText = text
-                    newSameAsPrevious = sameAsPrevious
+                    newNotes = pairing.notes
+                    newSameAsPrevious = pairing.sameAsPrevious
                 }
             }
     }
@@ -215,7 +213,7 @@ struct BarButtonTriggeringAddWinePhoto: View {
     @State var showSheet:Bool = false;
     
     var body : some View {
-        EditableWineSheetLayoutForNameAndImage(title:"What was the name of this pairing?", text: $pairing.name, picture: $pairing.picture, showSheet: $showSheet, onSave:onSave) {
+        EditableWineSheetLayoutForNameAndImage(title:"What was the name of this pairing?", pairing: $pairing, showSheet: $showSheet, onSave:onSave) {
             BarButton(icon: icon, text: text, action: {
                 pairing.notes = "";
                 showSheet.toggle()
