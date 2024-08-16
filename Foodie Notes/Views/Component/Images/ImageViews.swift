@@ -47,6 +47,7 @@ struct ImageLoadingBorder<ForContent: View> : View {
 
     var body: some View {
         content
+            .background(Colors.FillStaticFillNull)
             .borderLoadingAnimation(isAnimating: $isAnimating)
             .onAppear {
                 withAnimation(.linear(duration: 4)
@@ -107,11 +108,10 @@ struct NoPhotoPlaceholderView: View {
     var body: some View {
         ZStack(alignment: .center) {
             Rectangle()
-                .foregroundColor(Colors.FillStaticFillTertiary)
+                .foregroundColor(Colors.FillStaticFillNull)
                 .scaledToFill()
-            if edit {
-                FoodieIcon("\u{e913}", .white, size:24, padding:0)
-            }
+
+            FoodieIcon("\u{e913}", Colors.IconSecondary, size:24, padding:0)
         }
     }
 }
@@ -127,7 +127,7 @@ struct PhotoView: View {
             source: photoModel,
             img: img,
             progressContent: { 
-                ProgressView()
+                HStack {}
             },
             photoContent: {
                 let image = UIImage(data: photoModel.loadedImg?.imgData ?? Data()) ?? UIImage()

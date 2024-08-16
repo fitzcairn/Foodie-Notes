@@ -137,7 +137,7 @@ struct LargeActionWhiteButton: View {
     let action:() -> Void
     
     var body: some View {
-        ActionButton(action:action)
+        ActionButton(action:action, dim: 48)
             .buttonStyle(LargeActionWhiteButtonStyle(icon:icon))
             .padding(.horizontal, 16)
             .padding(.vertical, 8)

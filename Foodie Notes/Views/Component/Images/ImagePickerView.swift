@@ -20,9 +20,12 @@ struct CoverImageAndPickerView: View {
     
     var body: some View {
         ZStack(alignment: .top) {
-            if (isLoading && viewModel.isPictureEmpty(picture)) {
-                ImageLoadingView()
-                    .frame(height:270)
+            if (viewModel.isPictureEmpty(picture) && !isLoading) {
+                Rectangle()
+                    .foregroundColor(Colors.FillStaticFillNull)
+                    .scaledToFill()
+                    .frame(height:110)
+
             } else if (isLoading) {
                 ImageLoadingBorder {
                     CoverPicture(picture: picture)
@@ -33,28 +36,51 @@ struct CoverImageAndPickerView: View {
                     .id(picture)
             }
             
-            VStack {
-                VerticalSpace(64)
-                
-                HStack {
-                    Spacer()
-                    
+            if (viewModel.isPictureEmpty(picture)) {
+                ZStack(alignment: .center) {
                     SingleImagePicker(
                         picture:$picture,
                         isPickingPhoto: $isPickingPhoto,
                         isLoading: $isLoading,
                         onSave: onSave) {
-                            LargeActionWhiteButton(icon:"\u{e913}") {
-                                isPickingPhoto = true;
-                                isLoading = true;
-                            }
+                            FoodieIcon("\u{e913}", Colors.TextActionTextAction, size:32, padding:0)
+                                .onTapGesture() {
+                                    isPickingPhoto = true;
+                                    isLoading = true;
+                                }
+                                .padding(20)
+                                .background(Colors.FillStaticFillNull)
                         }
-                    .onChange(of: picture) {
-                        onSave()
-                    }
-                    .padding(.trailing, 25)
                 }
-                .frame(maxWidth: .infinity, alignment: .leading)
+                .background(Colors.FillStaticFillNull)
+                .padding(.horizontal, 16)
+                .padding(.top, 64)
+                .padding(.bottom, 16)
+                .frame(height:270)
+            } else {
+                VStack {
+                    VerticalSpace(64)
+                    
+                    HStack {
+                        Spacer()
+                        
+                        SingleImagePicker(
+                            picture:$picture,
+                            isPickingPhoto: $isPickingPhoto,
+                            isLoading: $isLoading,
+                            onSave: onSave) {
+                                LargeActionWhiteButton(icon:"\u{e913}") {
+                                    isPickingPhoto = true;
+                                    isLoading = true;
+                                }
+                            }
+                            .onChange(of: picture) {
+                                onSave()
+                            }
+                            .padding(.trailing, 25)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                }
             }
         }
     }
