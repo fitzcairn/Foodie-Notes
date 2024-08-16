@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct AsyncRecognizedWineLabelView<Source:AsyncLabelRecognitionConfig, ProgressContent: View, LinkContent: View, ErrorContent: View>: View {
+struct AsyncRecognizedPairingLabelView<Source:AsyncLabelRecognitionConfig, ProgressContent: View, LinkContent: View, ErrorContent: View>: View {
     @ObservedObject var source:Source
     let img: SavedImage;
     @ViewBuilder let progressContent: ProgressContent;

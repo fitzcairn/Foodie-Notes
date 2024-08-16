@@ -1,5 +1,5 @@
 //
-//  BeverageLinkView.swift
+//  PairingLinkViews.swift
 //  Foodie Notes
 //
 //  Created by Steve Martin on 7/29/24.
@@ -42,7 +42,7 @@ struct PairingBeverageInfoLinkAsyncView : View {
         
         if networkService.isConnected {
             // Load link async, and update view.
-            AsyncRecognizedWineLabelView(
+            AsyncRecognizedPairingLabelView(
                 source:labelRecModel,
                 img:img,
                 progressContent: {

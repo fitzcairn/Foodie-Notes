@@ -67,8 +67,8 @@ struct CourseView: View {
                         ViewSection("Pairing Notes") {
                             
                             if course.item.beveragePairings.isEmpty {
-                                WineBox() {
-                                    BarButtonTriggeringAddWinePhoto(text: "Add pairing label photo", pairing:$newPairing) {
+                                PairingBox() {
+                                    PairingAddImageBarButton(text: "Add pairing label photo", pairing:$newPairing) {
                                         course.item.beveragePairings.append(newPairing)
                                         newPairing = BeveragePairing()
                                         onSave()
@@ -76,7 +76,7 @@ struct CourseView: View {
                                 }
                             } else {
                                 ForEach(Array(zip(course.item.beveragePairings.indices, course.item.beveragePairings)), id: \.0) { index, pairing in
-                                    WineListCard(
+                                    PairingListCard(
                                         pairing: $course.item.beveragePairings[index],
                                         forceClose: $forceAllSwipesClosed,
                                         onSave:onSave) {
@@ -85,7 +85,7 @@ struct CourseView: View {
                                         }
                                 }
                                 
-                                BarButtonTriggeringAddWinePhoto(text: "Add another pairing", icon:"\u{e91f}", pairing:$newPairing) {
+                                PairingAddImageBarButton(text: "Add another pairing", icon:"\u{e91f}", pairing:$newPairing) {
                                     course.item.beveragePairings.append(newPairing)
                                     newPairing = BeveragePairing()
                                     onSave()

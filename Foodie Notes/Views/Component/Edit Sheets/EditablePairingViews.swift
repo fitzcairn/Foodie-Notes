@@ -1,5 +1,5 @@
 //
-//  EditableWinePairingView.swift
+//  EditablePairingViews.swift
 //  Foodie Notes
 //
 //  Created by Steve Martin on 8/13/24.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct WineBox<Content:View> : View {
+struct PairingBox<Content:View> : View {
     @ViewBuilder let content:Content;
     
     var body: some View {
@@ -25,7 +25,7 @@ struct WineBox<Content:View> : View {
     }
 }
 
-struct EditableStandaloneWineNotesBox: View {
+struct EditableStandalonePairingNotesBox: View {
     let title:String
     let addTitle:String
     @Binding var pairing:BeveragePairing;
@@ -35,7 +35,7 @@ struct EditableStandaloneWineNotesBox: View {
     @State var showSheet:Bool = false;
 
     var body : some View {
-        EditableWineSheetLayoutForNotes(title:title, pairing:$pairing, showSheet:$showSheet, onSave:onSave) {
+        EditablePairingSheetLayoutForNotes(title:title, pairing:$pairing, showSheet:$showSheet, onSave:onSave) {
             if pairing.notes.isEmpty {
                 BarButtonTriggeringTextInput(title: title, addTitle: addTitle, text: $pairing.notes, icon:"\u{e91d}", onSave:onSave)
             } else {
@@ -56,7 +56,7 @@ struct EditableStandaloneWineNotesBox: View {
     }
 }
 
-struct EditableWineSheetComponentMainTextAndSingleImageControl: View {
+struct EditablePairingSheetComponentNameAndImageControl: View {
     let title:String;
     let icon:String;
     @Binding var name:String;
@@ -82,7 +82,7 @@ struct EditableWineSheetComponentMainTextAndSingleImageControl: View {
 }
 
 
-struct EditableWineSheetLayoutForNameAndImage<Content: View>: View {
+struct EditablePairingSheetLayoutForNameAndImage<Content: View>: View {
     let title:String;
     
     @Binding var pairing:BeveragePairing;
@@ -110,7 +110,7 @@ struct EditableWineSheetLayoutForNameAndImage<Content: View>: View {
                         }
                     },
                     mainView: {
-                        EditableWineSheetComponentMainTextAndSingleImageControl(
+                        EditablePairingSheetComponentNameAndImageControl(
                             title: title,
                             icon: "\u{e913}",
                             name: $newName,
@@ -145,7 +145,7 @@ struct EditableWineSheetLayoutForNameAndImage<Content: View>: View {
     }
 }
 
-struct EditableWineSheetLayoutForNotes<Content: View>: View {
+struct EditablePairingSheetLayoutForNotes<Content: View>: View {
     let title:String;
     
     @Binding var pairing:BeveragePairing;
@@ -204,7 +204,7 @@ struct EditableWineSheetLayoutForNotes<Content: View>: View {
     }
 }
 
-struct BarButtonTriggeringAddWinePhoto: View {
+struct PairingAddImageBarButton: View {
     let text:String;
     var icon:String = "\u{e913}";
     @Binding var pairing:BeveragePairing
@@ -213,7 +213,7 @@ struct BarButtonTriggeringAddWinePhoto: View {
     @State var showSheet:Bool = false;
     
     var body : some View {
-        EditableWineSheetLayoutForNameAndImage(title:"What was the name of this pairing?", pairing: $pairing, showSheet: $showSheet, onSave:onSave) {
+        EditablePairingSheetLayoutForNameAndImage(title:"What was the name of this pairing?", pairing: $pairing, showSheet: $showSheet, onSave:onSave) {
             BarButton(icon: icon, text: text, action: {
                 pairing.notes = "";
                 showSheet.toggle()

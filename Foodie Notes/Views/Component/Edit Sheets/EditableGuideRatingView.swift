@@ -1,5 +1,5 @@
 //
-//  EditableMichelinRatingView.swift
+//  EditableMichelinRatingViews.swift
 //  Foodie Notes
 //
 //  Created by Steve Martin on 8/11/24.

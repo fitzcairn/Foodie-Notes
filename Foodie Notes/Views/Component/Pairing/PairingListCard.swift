@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct WineListCard: View {
+struct PairingListCard: View {
     @EnvironmentObject var viewModel:AppViewModel;
     @State var showSheet:Bool = false;
     
@@ -18,7 +18,7 @@ struct WineListCard: View {
 
     var body: some View {
         
-        WineBox() {
+        PairingBox() {
             // Top: swipeable image and name card.
             
             SwipeableListCard(
@@ -49,7 +49,7 @@ struct WineListCard: View {
                         
                         
                         VStack(alignment: .leading, spacing: 4) {
-                            EditableWineSheetLayoutForNameAndImage(title:"What's the name of this pairing?", pairing:$pairing, showSheet: $showSheet, onSave:onSave) {
+                            EditablePairingSheetLayoutForNameAndImage(title:"What's the name of this pairing?", pairing:$pairing, showSheet: $showSheet, onSave:onSave) {
                                 FoodieText(pairing.info.name, Colors.TextStaticTextPrimary, size:14, weight:.bold)
                             }
                             .padding(.leading, 8)
@@ -65,7 +65,7 @@ struct WineListCard: View {
                 }
             
             // Bottom: notes field.
-            EditableStandaloneWineNotesBox(title: "What were your notes on this pairing?", addTitle: "Add notes", pairing:$pairing, onSave:onSave)
+            EditableStandalonePairingNotesBox(title: "What were your notes on this pairing?", addTitle: "Add notes", pairing:$pairing, onSave:onSave)
             
             HStack(alignment: .center, spacing: 4) {
                 if (pairing.sameAsPrevious) {

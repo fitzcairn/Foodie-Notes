@@ -123,7 +123,7 @@ struct PhotoView: View {
     @State var isAnimating:Bool = false;
 
     var body: some View {
-        AsyncPhotoView(
+        AsyncImageView(
             source: photoModel,
             img: img,
             progressContent: { 

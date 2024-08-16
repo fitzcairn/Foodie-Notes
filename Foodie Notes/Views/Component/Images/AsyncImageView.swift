@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct AsyncPhotoView<Source:AsyncImageConfig, ProgressContent: View, PhotoContent:View>: View {
+struct AsyncImageView<Source:AsyncImageConfig, ProgressContent: View, PhotoContent:View>: View {
     @ObservedObject var source:Source
     let img: SavedImage;
     @ViewBuilder let progressContent: ProgressContent;

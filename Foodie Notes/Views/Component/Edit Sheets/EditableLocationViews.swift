@@ -1,5 +1,5 @@
 //
-//  EditableLocationView.swift
+//  EditableLocationViews.swift
 //  Foodie Notes
 //
 //  Created by Steve Martin on 8/12/24.
