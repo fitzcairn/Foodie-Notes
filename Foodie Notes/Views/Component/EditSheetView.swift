@@ -57,6 +57,12 @@ struct EditSheetView<TopLeftButton: View, TopRightButton: View, MainView: View, 
             VStack {
                 Spacer()
                 
+                BottomFade()
+            }
+            
+            VStack {
+                Spacer()
+                
                 bottomButtons
             }
         }

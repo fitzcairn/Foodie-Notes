@@ -130,6 +130,7 @@ private struct EditableCuisineSheetLayout<Content: View>: View {
             )
             .onAppear() {
                 newCuisines = cuisines;
+                filterText = ""
             }
         }
     }
@@ -153,8 +154,6 @@ private struct EditableCuisineSheetLayout<Content: View>: View {
                     }
                     .padding(8)
                 }
-                
-                BottomFade()
             }
         }
     }
