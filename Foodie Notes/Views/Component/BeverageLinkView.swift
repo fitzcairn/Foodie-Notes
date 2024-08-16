@@ -8,8 +8,8 @@
 import SwiftUI
 
 
-/*struct BeverageLinkView : View {
-    var infoLink:InfoLink?
+struct BeverageLinkView : View {
+    var infoLink:BeverageLookupInfo?
     var img:SavedImage?
     
     var body: some View {
@@ -17,7 +17,7 @@ import SwiftUI
             BeverageInfoLinkView(link:link)
         } else if let img = img {
             BeverageAsyncView(
-                infoLink:Binding<InfoLink?>(
+                infoLink:Binding<BeverageLookupInfo?>(
                     get: { infoLink },
                     set: { _ = $0 }), // For courses saved before this feature was added, we can do lookups on demand.
                 img:img)
@@ -33,8 +33,7 @@ struct BeverageEditLinkView : View {
         case editing
         case edited
     }
-    
-    @Binding var infoLink:InfoLink?;
+    @Binding var infoLink:BeverageLookupInfo?;
     let img:SavedImage?
     
     @Environment(NetworkService.self) private var networkService
@@ -98,7 +97,7 @@ struct BeverageEditLinkView : View {
 }
     
 struct BeverageAsyncView : View {
-    @Binding var infoLink:InfoLink?;
+    @Binding var infoLink:BeverageLookupInfo?;
     var img:SavedImage;
     var edit:Bool = false;
     var executeCompletion: ((AsyncLabelRecognitionViewModel) -> Void)? = nil
@@ -115,32 +114,32 @@ struct BeverageAsyncView : View {
                 img:img,
                 progressContent: { Searching() },
                 // Can safely unwrap link due to switch statement in AyncGuideLink
-                linkContent: { BeverageInfoLinkView(link:InfoLink(name: labelRecModel.name, url:labelRecModel.link), edit:edit) },
+                linkContent: { BeverageInfoLinkView(link:BeverageLookupInfo(name: labelRecModel.name ?? "", url:labelRecModel.link), edit:edit) },
                 edit: edit,
                 executeCompletion: executeCompletion
             )
             .onChange(of: labelRecModel.status) {
                 if labelRecModel.status != .loading {
                     // Lookup completed; regardless of outcome make sure we don't repeat.
-                    infoLink = InfoLink(name:labelRecModel.name, url:labelRecModel.link)
+                    infoLink = BeverageLookupInfo(name:labelRecModel.name ?? "", url:labelRecModel.link)
                 }
             }
         } else {
-            BeverageInfoLinkView(link:InfoLink(name: "No Internet Connection", url: URL(string: "")))
+            BeverageInfoLinkView(link:BeverageLookupInfo(name: "No Internet Connection", url: URL(string: "")))
         }
     }
 }
 
 struct BeverageInfoLinkView: View {
-    let link:InfoLink
+    let link:BeverageLookupInfo
     var edit:Bool = false;
     
     var body: some View {
         HStack {
-            if let url = link.url, let name = link.name {
+            if let url = link.url, !link.name.isEmpty {
                 if edit { EditImg() }
                 else    { LinkImg() }
-                Link(name, destination:url)
+                Link(link.name, destination:url)
                     .font(.system(size:14, weight: .regular))
                     .foregroundColor(.gray)
                     .fixedSize(horizontal: false, vertical: true)
@@ -152,4 +151,3 @@ struct BeverageInfoLinkView: View {
         }
     }
 }
-*/

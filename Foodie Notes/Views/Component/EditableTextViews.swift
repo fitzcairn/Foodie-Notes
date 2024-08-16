@@ -200,29 +200,57 @@ struct OfferCourseNameSuggestions : View {
     }
     
     var body: some View {
-        WrappingHStack(suggestions.sorted(by: {$0.displayName() < $1.displayName()}), id: \.self) { suggestion in
-            suggestionPill(value: suggestion)
+        VStack {
+            HStack(alignment: .center, spacing: 0) {
+                FoodieText("Suggestions:", Colors.TextStaticTextSecondary, size:12, weight:.semibold)
+                    .frame(maxWidth: .infinity, alignment: .topLeading)
+            }
+            .padding(.horizontal, 8)
+            .padding(.top, 16)
+            .padding(.bottom, 4)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            
+            WrappingHStack(suggestions.sorted(by: {$0.displayName() < $1.displayName()}), id: \.self) { suggestion in
+                suggestionPill(value: suggestion)
+            }
+            .padding(8)
         }
-        .padding(8)
     }
     
     func suggestionPill(value:CourseNameSuggestion) -> some View {
         VStack {
-            HStack(alignment: .center, spacing: 4) {
-                FoodieText(value.displayName(), Colors.TextStaticTextSecondary, size:12, weight:.bold)
+            Button {
+                text = value.displayName()
+            } label: {
+                HStack(alignment: .center, spacing: 4) {
+                    FoodieText(value.displayName(), Colors.TextStaticTextSecondary, size:12, weight:.bold)
+                }
+                .fixedSize(horizontal: true, vertical: false)
+                .padding(.horizontal, 12)
+                .padding(.vertical, 4)
+                .frame(height: 28, alignment: .leading)
             }
-            .fixedSize(horizontal: true, vertical: false)
-            .padding(.horizontal, 12)
-            .padding(.vertical, 4)
-            .frame(height: 28, alignment: .leading)
-            .background(Colors.FillStaticFillSecondary)
-            .cornerRadius(80)
+            .buttonStyle(SuggestionButtonStyle(text:value.displayName()))
+
+            
+
+            
             Spacer()
                 .frame(height:8)
         }
         .frame(height:36)
-        .onTapGesture {
-            text = value.displayName()
+    }
+    
+    private struct SuggestionButtonStyle: ButtonStyle {
+        let text:String;
+        
+        func makeBody(configuration: Self.Configuration) -> some View {
+            configuration.label
+                .background(configuration.isPressed ? Colors.FillActionFillActionSelected : Colors.FillStaticFillSecondary)
+                .cornerRadius(80)
+                .overlay() {
+                    FoodieText(text, configuration.isPressed ? Colors.TextActionTextActionSelectedInvert : Colors.TextStaticTextSecondary, size:12, weight:.bold)
+                }
         }
     }
 }

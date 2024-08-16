@@ -25,7 +25,40 @@ struct WineBox<Content:View> : View {
     }
 }
 
-struct EditableWineSheetLayout<Content: View>: View {
+struct EditableStandaloneWineNotesBox: View {
+    let title:String
+    let addTitle:String
+    @Binding var text:String;
+    @Binding var sameAsPrevious:Bool
+
+    let onSave:() -> Void
+
+    @State var showSheet:Bool = false;
+
+    var body : some View {
+        EditableWineSheetLayoutForNotes(title: title, text: $text, showSheet: $showSheet, sameAsPrevious: $sameAsPrevious, onSave:onSave) {
+            if text.isEmpty {
+                BarButtonTriggeringTextInput(title: title, addTitle: addTitle, text: $text, icon:"\u{e91d}", onSave:onSave)
+            } else {
+                HStack(alignment: .top, spacing: 0) {
+                    FoodieText(text, Colors.TextStaticTextSecondary, size:14, weight:.semibold)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(16)
+                .background(Colors.FillStaticFillPrimary)
+                .cornerRadius(8)
+                .shadow(color: Colors.ShadowMed, radius: 8, x: 0, y: 8)
+                .shadow(color: Colors.ShadowEdge, radius: 4, x: 0, y: 0)
+                .onTapGesture {
+                    showSheet.toggle()
+                }
+            }
+        }
+    }
+}
+
+
+struct EditableWineSheetLayoutForNameAndImage<Content: View>: View {
     let title:String;
     
     @Binding var text:String;
@@ -87,6 +120,68 @@ struct EditableWineSheetLayout<Content: View>: View {
     }
 }
 
+struct EditableWineSheetLayoutForNotes<Content: View>: View {
+    let title:String;
+    
+    @Binding var text:String;
+    @Binding var showSheet:Bool;
+    @Binding var sameAsPrevious:Bool
+
+    @State private var newText:String = ""
+    @State private var newSameAsPrevious:Bool = false
+
+    var onSave:() -> Void = { }
+
+    var itemNum:Int? = nil;
+    
+    @ViewBuilder let content: Content;
+
+    var body: some View {
+        content
+            .sheet(isPresented: $showSheet) {
+                EditSheetView(
+                    topLeftButton: {
+                        SmallActionBackButton(icon: "\u{e900}") {
+                            showSheet.toggle()
+                        }
+                    },
+                    topRightButton: {
+                        SmallClearButton(disabled: { newText.isEmpty }) {
+                            newText = ""
+                        }
+                    },
+                    mainView: {
+                        EditSheetComponentMainTextControl(title: title, text: $newText, itemNum:itemNum)
+                    },
+                    bottomButtons: {
+                        EditSheetComponentBottomCheckboxAndButton(
+                            checkbox: {
+                                CheckboxButton(value: $newSameAsPrevious, text: "Shared with the previous course")
+                            },
+                            saveButton: {
+                                EditSheetComponentSaveButton(
+                                    disabledClosure: {
+                                        text == newText && sameAsPrevious == newSameAsPrevious
+                                    },
+                                    action: {
+                                        text = newText
+                                        sameAsPrevious = newSameAsPrevious
+                                        showSheet.toggle()
+                                        onSave()
+                                    }
+                                )
+                            }
+                        )
+                    }
+                )
+                .onAppear() {
+                    newText = text
+                    newSameAsPrevious = sameAsPrevious
+                }
+            }
+    }
+}
+
 struct BarButtonTriggeringAddWinePhoto: View {
     let text:String;
     var icon:String = "\u{e913}";
@@ -96,7 +191,7 @@ struct BarButtonTriggeringAddWinePhoto: View {
     @State var showSheet:Bool = false;
     
     var body : some View {
-        EditableWineSheetLayout(title:"What was the name of this pairing?", text: $pairing.name, picture: $pairing.picture, showSheet: $showSheet, onSave:onSave) {
+        EditableWineSheetLayoutForNameAndImage(title:"What was the name of this pairing?", text: $pairing.name, picture: $pairing.picture, showSheet: $showSheet, onSave:onSave) {
             BarButton(icon: icon, text: text, action: {
                 pairing.notes = "";
                 showSheet.toggle()

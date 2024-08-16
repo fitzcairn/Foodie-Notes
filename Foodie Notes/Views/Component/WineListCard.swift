@@ -14,6 +14,7 @@ struct WineListCard: View {
     @Binding var name:String
     @Binding var picture:Picture?
     @Binding var notes:String
+    @Binding var sameAsPrevious:Bool;
     @Binding var forceClose:Bool;
     var onSave:() -> Void = {}
     let onDelete:() -> Void;
@@ -51,7 +52,7 @@ struct WineListCard: View {
                         
                         
                         VStack(alignment: .leading, spacing: 4) {
-                            EditableWineSheetLayout(title:"What's the name of this pairing?", text: $name, picture: $picture, showSheet: $showSheet, onSave:onSave) {
+                            EditableWineSheetLayoutForNameAndImage(title:"What's the name of this pairing?", text: $name, picture: $picture, showSheet: $showSheet, onSave:onSave) {
                                 FoodieText(name, Colors.TextStaticTextPrimary, size:14, weight:.bold)
                             }
                             .padding(.leading, 8)
@@ -67,7 +68,28 @@ struct WineListCard: View {
                 }
             
             // Bottom: notes field.
-            EditableStandaloneTextBox(title: "What were your notes on this pairing?", addTitle: "Add notes", text: $notes, onSave:onSave)
+            EditableStandaloneWineNotesBox(title: "What were your notes on this pairing?", addTitle: "Add notes", text: $notes, sameAsPrevious:$sameAsPrevious, onSave:onSave)
+            
+            HStack(alignment: .center, spacing: 4) {
+                if (sameAsPrevious) {
+                    HStack(alignment: .center, spacing: 4) {
+                        FoodieIcon("\u{e90e}", Colors.IconSecondary, size:24, padding:0)
+                        FoodieText("Shared with prior course", Colors.TextStaticTextSecondary, size:12, weight:.semibold)
+                    }
+                    .padding(.leading, -4) // Hack
+
+                }
+                
+                Spacer()
+                
+                if (true) { // Has wine searcher link
+                    HStack(alignment: .center, spacing: 4) {
+                        FoodieText("Wine Searcher", Colors.TextActionTextAction, size:12, weight:.semibold)
+                        FoodieIcon("\u{e911}", Colors.TextActionTextAction, size:24, padding:0)
+                    }
+                }
+            }
+            .padding(8)
         }
     }
 }

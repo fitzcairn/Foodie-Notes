@@ -83,16 +83,36 @@ struct EditSheetComponentMainTextAndSingleImageControl: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-            EditSheetComponentMainTextControl(title:title, text: $text)
-            
+            SingleImageCarousel(picture: $picture, mutable:true)
+
             VerticalSpace(16)
             
-            SingleImageCarousel(picture: $picture, mutable:true)
+            EditSheetComponentMainTextControl(title:title, text: $text)
             
             Spacer()
         }
     }
 }
+
+struct EditSheetComponentBottomCheckboxAndButton<SaveButton: View, Checkbox: View>: View {
+    @ViewBuilder let checkbox:Checkbox
+    @ViewBuilder let saveButton:SaveButton
+
+    var body: some View {
+        VStack(alignment: .trailing, spacing: 16) {
+            HStack {
+                checkbox
+                Spacer ()
+                saveButton
+            }
+            .padding(.bottom, 0)
+            .padding(.trailing, -8)
+        }
+        .padding(.horizontal, 32)
+        .padding(.top, 24)
+    }
+}
+
 
 struct EditSheetComponentBottomSingleButton<SaveButton: View>: View {
     @ViewBuilder let saveButton:SaveButton

@@ -80,6 +80,7 @@ struct CourseView: View {
                                         name: $course.item.beveragePairings[index].name,
                                         picture: $course.item.beveragePairings[index].picture,
                                         notes: $course.item.beveragePairings[index].notes,
+                                        sameAsPrevious: $course.item.beveragePairings[index].sameAsPrevious,
                                         forceClose: $forceAllSwipesClosed,
                                         onSave:onSave) {
                                             course.item.beveragePairings.remove(at: index)
