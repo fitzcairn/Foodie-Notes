@@ -27,10 +27,21 @@ struct CoverImageAndPickerView: View {
                     .frame(height:110)
 
             } else if (isLoading) {
-                ImageLoadingBorder {
-                    CoverPicture(picture: picture)
-                        .id(picture)
+                ZStack(alignment: .top) {
+                    Rectangle()
+                        .foregroundColor(Colors.FillStaticFillNull)
+                        .scaledToFill()
+                        .frame(height:110)
+
+                    
+                    VStack {
+                        VerticalSpace(160)
+                        ImageLoadingView()
+                    }
                 }
+                .frame(height:110)
+
+                
             } else {
                 CoverPicture(picture: picture)
                     .id(picture)
@@ -152,7 +163,7 @@ struct MultiImagePicker<ButtonContent: View>: View {
                     for photo in photos {
                         newPictures.append(Picture(photo:photo))
                     }
-                    isLoading = false;
+                    //isLoading = false;
                 })
         }) {
             MediaPicker(

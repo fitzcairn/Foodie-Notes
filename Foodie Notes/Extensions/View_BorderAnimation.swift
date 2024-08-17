@@ -16,8 +16,8 @@ extension View {
 struct BorderLoadingAnimation: ViewModifier, Animatable {
     @Binding var isAnimating: Bool
 
-    private let lineWidth: CGFloat = 3
-    private let cornerRadius: CGFloat = 8
+    private let lineWidth: CGFloat = 2
+    private let cornerRadius: CGFloat = 4
     
     var animatableData: Bool {
         get { isAnimating }
@@ -34,7 +34,7 @@ struct BorderLoadingAnimation: ViewModifier, Animatable {
                             .foregroundStyle(.clear)
                         
                         RoundedRectangle(cornerRadius: cornerRadius)
-                            .frame(width:geometry.size.width * 0.7, height: geometry.size.height*2)
+                            .frame(width:geometry.size.width * 0.8, height: geometry.size.height*2)
                             .foregroundStyle(Colors.LoadingBorder)
                             .rotationEffect(.degrees(isAnimating ? 360 : 0))
                         

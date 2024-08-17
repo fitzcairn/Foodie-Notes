@@ -15,22 +15,26 @@ struct SingleImageCarousel: View {
     @State var isPickingPhoto: Bool = false;
     @State var isLoading:Bool = false;
     var onSave:() -> Void = {}
-
     
     var body: some View {
-        if picture?.photo == nil || picture!.deleted {
+        if (picture?.photo == nil || picture!.deleted) {
             SingleImagePicker(
                 picture: $picture,
                 isPickingPhoto: $isPickingPhoto,
                 isLoading: $isLoading,
                 onSave:onSave) {
-                AddImageButton(loading:$isLoading) {
-                    isPickingPhoto = true;
+                    if !isLoading {
+                        AddImageButton(loading:$isLoading) {
+                            isPickingPhoto = true;
+                        }
+                    } else {
+                        ImageLoadingView()
+                            .frame(width: 80, height: 80, alignment: .center)
+                    }
                 }
-            }
         } else {
             ExpandableImageGallery(src: .picture(picture)) {
-                MutableImage(picture: picture!, mutable: mutable) {
+                MutableImage(picture: picture!, mutable: mutable, isLoading:$isLoading) {
                     picture = nil;
                 }
             }
@@ -54,7 +58,7 @@ struct FlexibleImageGrid : View {
         
         LazyVGrid(columns: columns, spacing:4) {
             ForEach(pictures.filter { $0.photo != nil }, id: \.self) { picture in
-                MutableImage(picture: picture, mutable: mutable) {
+                MutableImage(picture: picture, mutable: mutable, isLoading:$isLoading) {
                     if let index = pictures.firstIndex(where: { $0 == picture }) {
                         pictures.remove(at: index)
                     }
@@ -85,12 +89,14 @@ struct FlexibleImageGrid : View {
 private struct MutableImage: View {
     let picture:Picture
     let mutable:Bool
+    @Binding var isLoading:Bool;
+    
     let action:() -> Void;
     
     var body: some View {
         ZStack(alignment: .topTrailing) {
             ExpandableImageGallery(src: .picture(picture)) {
-                PhotoView(img: picture.photo!.thumb, contentMode: .fill)
+                PhotoView(img: picture.photo!.thumb, contentMode: .fill, isLoading:$isLoading)
                     .frame(width: 80, height: 80)
                     .clipped()
                     .cornerRadius(8)

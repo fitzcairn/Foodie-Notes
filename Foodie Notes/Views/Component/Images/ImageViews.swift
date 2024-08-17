@@ -9,11 +9,19 @@ import SwiftUI
 
 struct ImageLoadingView : View {
     var body: some View {
-        ImageLoadingBorder {
+        ZStack(alignment: .center) {
             Rectangle()
                 .padding(0)
                 .cornerRadius(8)
-                .foregroundStyle(.clear)
+                .foregroundStyle(Colors.FillStaticFillNull)
+            
+            ImageLoadingBorder {
+                Rectangle()
+                    .padding(0)
+                    .cornerRadius(4)
+                    .foregroundStyle(Colors.FillStaticFillNull)
+                    .frame(width: 22, height: 22)
+            }
         }
     }
 }
@@ -98,14 +106,16 @@ struct PhotoView: View {
     @StateObject var photoModel:AsyncPhotoViewModel = AsyncPhotoViewModel()
     let img: SavedImage;
     var contentMode:ContentMode = .fill;
-    @State var isAnimating:Bool = false;
+    
+    @Binding var isLoading:Bool;
 
     var body: some View {
         AsyncImageView(
             source: photoModel,
             img: img,
             progressContent: { 
-                HStack {}
+                ImageLoadingView()
+                    .frame(width: 80, height: 80, alignment: .center)
             },
             photoContent: {
                 let image = UIImage(data: photoModel.loadedImg?.imgData ?? Data()) ?? UIImage()
@@ -113,23 +123,32 @@ struct PhotoView: View {
                     .resizable()
                     .scaledToFill()
                     .aspectRatio(contentMode: contentMode)
+                    .onAppear() {
+                        isLoading = false;
+                    }
             }
         )
     }
 }
 
-private struct PictureView : View {
+struct PictureView : View {
     var picture: Picture?;
     var useThumb: Bool = true;
-    var edit: Bool = false;
+    var showLoading: Bool = false;
+
+    @State var isLoading:Bool = false;
     
     var body: some View {
         HStack {
             if picture == nil || picture!.deleted || picture?.photo == nil  {
-                NoPhotoPlaceholderView(edit:edit)
+                if showLoading {
+                    ImageLoadingView()
+                } else {
+                    NoPhotoPlaceholderView()
+                }
             }
             else {
-                PhotoView(img: useThumb ? picture!.photo!.thumb : picture!.photo!.full)
+                PhotoView(img: useThumb ? picture!.photo!.thumb : picture!.photo!.full, isLoading: $isLoading)
             }
         }
     }

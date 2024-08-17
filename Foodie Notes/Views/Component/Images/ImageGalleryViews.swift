@@ -135,13 +135,14 @@ private struct ImageGalleryCarousel: View {
     @Binding var selectedCarousel:Int
     
     @State var test:Int = 0;
+    @State var isLoading:Bool = false;
 
     var body: some View {
         ScrollViewReader { carousel in
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 4) {
                     ForEach(Array(zip(images.indices, images)), id: \.0) { index, img in
-                        PhotoView(img: img.thumb, contentMode: .fill)
+                        PhotoView(img: img.thumb, contentMode: .fill, isLoading:$isLoading)
                             .frame(width: 64, height: 64)
                             .clipped()
                             .cornerRadius(8)
@@ -157,12 +158,6 @@ private struct ImageGalleryCarousel: View {
                         carousel.scrollTo(selectedGallery, anchor: .center)
                     }
                 }
-                /*.onChange(of: selectedGallery) {
-                    print("Carousel got a change to \(selectedGallery)")
-                    test = max(test, selectedGallery)
-                    selectedCarousel = test
-                }*/
-
             }
             .contentMargins(24, for: .scrollContent)
             .scrollTargetBehavior(.viewAligned)
@@ -181,18 +176,13 @@ private struct ImageGalleryImage: View {
     @Binding var selectedGallery:Int
     @Binding var selectedCarousel:Int
     
-    @State private var showFull:Bool = false;
-    @State private var screenW = 0.0
-    @State private var scale = 1.0
-    @State private var lastScale = 0.0
-    @State private var offset: CGSize = .zero
-    @State private var lastOffset: CGSize = .zero
+    @State private var isLoading:Bool = false;
     
     var body: some View {
         GeometryReader { geo in
             TabView(selection:$selectedGallery) {
                 ForEach(Array(zip(images.indices, images)), id: \.0) { index, img in
-                    PhotoView(img: img.full, contentMode: .fit)
+                    PhotoView(img: img.full, contentMode: .fit, isLoading:$isLoading)
                         .frame(width:geo.size.width)
                         .tag(index)
                         .transaction { $0.animation = nil }
