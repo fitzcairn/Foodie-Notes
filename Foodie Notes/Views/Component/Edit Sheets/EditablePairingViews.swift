@@ -59,7 +59,6 @@ struct EditableStandalonePairingNotesBox: View {
 struct EditablePairingSheetComponentNameAndImageControl: View {
     let title:String;
     let icon:String;
-    @Binding var name:String;
     @Binding var picture:Picture?
     @Binding var info:BeverageLookupInfo
 
@@ -78,7 +77,7 @@ struct EditablePairingSheetComponentNameAndImageControl: View {
 
             VerticalSpace(16)
             
-            EditSheetComponentMainTextControl(title:title, text: $name)
+            EditSheetComponentMainTextControl(title:title, text: $info.name)
             
             Spacer()
         }
@@ -93,7 +92,7 @@ struct EditablePairingSheetLayoutForNameAndImage<Content: View>: View {
 
     var onSave:() -> Void = {}
     
-    @State private var newName:String = ""
+    @State private var newInfo:BeverageLookupInfo = BeverageLookupInfo()
     @State private var newPicture:Picture? = nil
 
     @ViewBuilder let content: Content;
@@ -108,8 +107,8 @@ struct EditablePairingSheetLayoutForNameAndImage<Content: View>: View {
                         }
                     },
                     topRightButton: {
-                        SmallClearButton(disabled: { newName.isEmpty }) {
-                            newName = ""
+                        SmallClearButton(disabled: { newInfo.name.isEmpty }) {
+                            newInfo = BeverageLookupInfo()
                         }
                     },
                     showDivider: false,
@@ -117,9 +116,8 @@ struct EditablePairingSheetLayoutForNameAndImage<Content: View>: View {
                         EditablePairingSheetComponentNameAndImageControl(
                             title: title,
                             icon: "\u{e913}",
-                            name: $newName,
                             picture: $newPicture,
-                            info: $pairing.info
+                            info: $newInfo
                         )
                     },
                     bottomButtons: {
@@ -127,11 +125,11 @@ struct EditablePairingSheetLayoutForNameAndImage<Content: View>: View {
                             saveButton: {
                                 EditSheetComponentSaveButton(
                                     disabledClosure: {
-                                        (pairing.info.name == newName && pairing.picture == newPicture) || newName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+                                        (pairing.info.name == newInfo.name && pairing.picture == newPicture) || newInfo.name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
                                     },
                                     action: {
-                                        pairing.info.name = newName.trimmingCharacters(in: .whitespacesAndNewlines)
-                                        pairing.info.url = nil;
+                                        pairing.info.name = newInfo.name.trimmingCharacters(in: .whitespacesAndNewlines)
+                                        pairing.info.url = newInfo.url;
                                         pairing.picture = newPicture
                                         showSheet.toggle()
                                         onSave()
@@ -142,7 +140,7 @@ struct EditablePairingSheetLayoutForNameAndImage<Content: View>: View {
                     }
                 )
                 .onAppear() {
-                    newName = pairing.info.name
+                    newInfo = pairing.info
                     newPicture = pairing.picture
                 }
             }
