@@ -84,6 +84,7 @@ struct CourseView: View {
                                             onSave()
                                         }
                                 }
+                                .id(UUID())
                                 
                                 PairingAddImageBarButton(text: "Add another pairing", icon:"\u{e91f}", pairing:$newPairing) {
                                     course.item.beveragePairings.append(newPairing)
