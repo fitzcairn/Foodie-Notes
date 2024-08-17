@@ -130,9 +130,10 @@ struct EditablePairingSheetLayoutForNameAndImage<Content: View>: View {
                                         (pairing.info.name == newInfo.name && pairing.picture == newPicture) || newInfo.name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
                                     },
                                     action: {
-                                        pairing.info.name = newInfo.name.trimmingCharacters(in: .whitespacesAndNewlines)
                                         pairing.info.url = newInfo.url;
+                                        pairing.info.name = newInfo.name.trimmingCharacters(in: .whitespacesAndNewlines)
                                         pairing.picture = newPicture
+                                        pairing.info.imgIdRecognized = newInfo.imgIdRecognized
                                         showSheet.toggle()
                                         onSave()
                                     }
