@@ -15,13 +15,12 @@ struct CourseListCard: View {
     
     var course:Course;
     @Binding var forceClose:Bool;
+    let onDelete:() -> Void;
     
     var body: some View {
         SwipeableListCard(
             confirmString: "Delete Course?",
-            onDelete:{
-                viewModel.removeCourse(course)
-            },
+            onDelete: onDelete,
             forceClose: $forceClose) {
                 HStack(alignment: .top, spacing: 0) {
                     

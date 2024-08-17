@@ -159,7 +159,10 @@ struct MealView: View {
                                 SwipeViewGroup {
                                     ForEach(Array(zip(meal.item.courses.indices, meal.item.courses)), id: \.0) { index, course in
                                         
-                                        CourseListCard(course:course, forceClose: $forceAllSwipesClosed)
+                                        CourseListCard(course:course, forceClose: $forceAllSwipesClosed) {
+                                            viewModel.removeCourse(course)
+                                            meal.item.courses.remove(at: index)
+                                        }
                                             .padding(.bottom, -2)
                                             .onDrag {
                                                 self.draggingIndex = index

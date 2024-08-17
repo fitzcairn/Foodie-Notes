@@ -37,7 +37,9 @@ struct EditableStandalonePairingNotesBox: View {
     var body : some View {
         EditablePairingSheetLayoutForNotes(title:title, pairing:$pairing, showSheet:$showSheet, onSave:onSave) {
             if pairing.notes.isEmpty {
-                BarButtonTriggeringTextInput(title: title, addTitle: addTitle, text: $pairing.notes, icon:"\u{e91d}", onSave:onSave)
+                BarButton(icon: "\u{e91d}", text: addTitle, action: {
+                    showSheet.toggle()
+                })
             } else {
                 HStack(alignment: .top, spacing: 0) {
                     FoodieText(pairing.notes, Colors.TextStaticTextSecondary, size:14, weight:.semibold)
@@ -172,6 +174,7 @@ struct EditablePairingSheetLayoutForNotes<Content: View>: View {
                     topRightButton: {
                         SmallClearButton(disabled: { newNotes.isEmpty }) {
                             newNotes = ""
+                            newSameAsPrevious = false;
                         }
                     },
                     mainView: {
@@ -184,8 +187,7 @@ struct EditablePairingSheetLayoutForNotes<Content: View>: View {
                             },
                             saveButton: {
                                 EditSheetComponentSaveButton(
-                                    disabledClosure: {
-                                        pairing.notes == newNotes && pairing.sameAsPrevious == newSameAsPrevious
+                                    disabledClosure: { pairing.notes == newNotes && pairing.sameAsPrevious == newSameAsPrevious
                                     },
                                     action: {
                                         pairing.notes = newNotes.trimmingCharacters(in: .whitespacesAndNewlines)
