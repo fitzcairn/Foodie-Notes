@@ -37,24 +37,6 @@ enum GallerySource {
     }
 }
 
-struct ExpandableImageGalleryButton: View {
-    let src:GallerySource;
-    @State var showSheet:Bool = false;
-    
-    var body: some View {
-        if src.isEmpty {
-            EmptyView()
-        } else {
-            MedActionWhiteButton(icon: "\u{e914}") {
-                showSheet.toggle()
-            }
-            .sheet(isPresented: $showSheet) {
-                ImageSheetView(src:src, showSheet: $showSheet)
-            }
-        }
-    }
-}
-
 struct ExpandableImageGallery<Content: View>: View {
     let src:GallerySource;
     let content: Content;

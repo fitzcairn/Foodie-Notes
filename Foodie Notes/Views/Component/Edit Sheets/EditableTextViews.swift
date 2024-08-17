@@ -8,66 +8,6 @@
 import SwiftUI
 import WrappingHStack
 
-struct EditableVerticallyExpandingImageAndTextBoxRow: View {
-    let title:String
-    let addTitle:String
-    @Binding var pictures:[Picture]
-    @Binding var text:String;
-    let onSave:() -> Void
-
-    @State private var textFieldHeight: CGFloat = .zero
-    @State var showSheet:Bool = false;
-    
-    var body : some View {
-        if text.isEmpty && pictures.isEmpty {
-            EditableTextAndMultiImageSheetLayout(title:title, text: $text, pictures: $pictures, showSheet: $showSheet, onSave:onSave) {
-                BarButton(icon: "\u{e91d}", text: addTitle, action: {
-                    text = "";
-                    showSheet.toggle()
-                })
-            }
-        } else {
-            HStack(alignment: .top, spacing: 10) {
-                HStack(alignment: .center) {
-                    ExpandableImageGallery(src: .list(pictures)) {
-                        VariableHeightListPicture(picture: pictures.first, num:pictures.count)
-                            .clipShape(RoundedRectangle(cornerRadius: 4))
-                            .padding(4)
-                    }
-                    .id(pictures.first)
-                }
-                .frame(width:64, height: textFieldHeight)
-                
-                EditableTextAndMultiImageSheetLayout(title:title, text: $text, pictures: $pictures, showSheet: $showSheet, onSave:onSave) {
-                    HStack(alignment: .top, spacing: 4) {
-                        FoodieText(text, Colors.TextStaticTextSecondary, size:14, weight:.semibold)
-                    }
-                    .padding(8)
-                    .frame(maxWidth: .infinity, minHeight:64, alignment: .topLeading)
-                    .background(heightReader)
-                    .onTapGesture {
-                        showSheet.toggle()
-                    }
-                }
-            }
-            .frame(minHeight:64)
-            .background(Colors.FillStaticFillPrimary)
-            .cornerRadius(8)
-            .shadow(color: Colors.ShadowMed, radius: 8, x: 0, y: 8)
-            .shadow(color: Colors.ShadowEdge, radius: 4, x: 0, y: 0)
-        }
-    }
-    
-      private var heightReader: some View {
-          GeometryReader { proxy in
-              let h = proxy.size.height
-              Colors.FillStaticFillPrimary
-                  .onChange(of: h, initial: true) { oldVal, newVal in
-                      textFieldHeight = newVal
-                  }
-          }
-      }
-}
 
 struct EditableStandaloneTextBox: View {
     let title:String
@@ -254,59 +194,6 @@ struct OfferCourseNameSuggestions : View {
         }
     }
 }
-
-
-struct AddCourseEditableTextSheetLayout<Content: View>: View {
-    let title:String;
-
-    @Binding var text:String;
-    @Binding var showSheet:Bool;
-
-    @State private var newText:String = ""
-    
-    var onSave:() -> Void = { }
-
-    @ViewBuilder let content: Content;
-
-    var body: some View {
-        content
-            .sheet(isPresented: $showSheet) {
-                EditSheetView(
-                    topLeftButton: {
-                        SmallActionBackButton(icon: "\u{e900}") {
-                            showSheet.toggle()
-                        }
-                    },
-                    topRightButton: {
-                        SmallClearButton(disabled: { newText.isEmpty }) {
-                            newText = ""
-                        }
-                    },
-                    mainView: {
-                        EditSheetComponentMainTextControl(title: title, text: $newText)
-                    },
-                    bottomButtons: {
-                        EditSheetComponentBottomSingleButton(
-                            saveButton: {
-                                EditSheetComponentSaveButton(
-                                    disabledClosure: { text == newText },
-                                    action: {
-                                        text = newText
-                                        showSheet.toggle()
-                                        onSave()
-                                    }
-                                )
-                            }
-                        )
-                    }
-                )
-                .onAppear() {
-                    newText = text
-                }
-            }
-    }
-}
-
 
 struct EditableTextSheetLayout<Content: View>: View {
     let title:String;

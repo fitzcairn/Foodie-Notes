@@ -82,46 +82,6 @@ struct FlexibleImageGrid : View {
     }
 }
 
-struct ImageCarouselHorizontal: View {
-    @Binding var pictures:[Picture]
-    var mutable:Bool = false;
-    
-    @State var loadingCount:Int = 0;
-    @State var isPickingPhoto: Bool = false;
-    @State var isLoading:Bool = false;
-    
-    var body: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 8) {
-                ForEach(pictures.filter { $0.photo != nil }, id: \.self) { picture in
-                    MutableImage(picture: picture, mutable: mutable) {
-                        if let index = pictures.firstIndex(where: { $0 == picture }) {
-                            pictures.remove(at: index)
-                        }
-                    }
-                }
-                .id(pictures.count)
-                
-                ForEach(0..<loadingCount, id: \.self) { _ in
-                    ImageLoadingView()
-                        .frame(width: 80, height: 80, alignment: .center)
-                }
-                
-                MultiImagePicker(
-                    pictures: $pictures,
-                    loadingCount:$loadingCount,
-                    isPickingPhoto: $isPickingPhoto,
-                    isLoading: $isLoading) {
-                    AddImageButton(loading:$isLoading) {
-                        isPickingPhoto = true;
-                    }
-                }
-            }
-        }
-        .scrollTargetLayout()
-    }
-}
-
 private struct MutableImage: View {
     let picture:Picture
     let mutable:Bool

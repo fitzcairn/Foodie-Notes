@@ -30,7 +30,7 @@ struct GuideLinkView: View {
                 source:linkViewModel,
                 venue:venue,
                 guide:guide,
-                progressContent: { Searching() },
+                progressContent: {  FoodieText("Searching...", Colors.TextStaticTextSecondary, size:12, weight:.medium) },
                 // Can safely unwrap link due to switch statement in AyncGuideLink
                 linkContent: { GuideLink(guideName:guide.displayName, url:linkViewModel.link, iconOnRight:iconOnRight) }
             )
@@ -41,7 +41,7 @@ struct GuideLinkView: View {
                 }
             }
         } else {
-            FoodieText("( not connected )", Colors.TextStaticTextSecondary, size:12, weight:.medium)
+            FoodieText("No internet connection.", Colors.TextStaticTextSecondary, size:12, weight:.medium)
         }
     }
 

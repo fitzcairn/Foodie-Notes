@@ -7,28 +7,6 @@
 
 import SwiftUI
 
-// Expandable clipped image for a variable height row
-struct VariableHeightListPicture : View {
-    var picture: Picture?;
-    var num: Int = 0;
-
-    // TODO: Swap this to use the cover image size, once that exists.
-    var body: some View {
-        ZStack(alignment: .bottom) {
-            PictureView(picture: picture, edit:true)
-                .frame(minWidth:56, maxWidth:56, minHeight: 56, maxHeight: .infinity)
-                .clipped()
-            if picture != nil && num > 1 {
-                HStack {
-                    FoodieIcon("\u{e915}", .white, size:24, padding:0)
-                    FoodieText("\(num)", .white, size:12, weight:.medium)
-                        .padding(.leading, -6)
-                }
-            }
-        }
-    }
-}
-
 struct ImageLoadingView : View {
     var body: some View {
         ImageLoadingBorder {

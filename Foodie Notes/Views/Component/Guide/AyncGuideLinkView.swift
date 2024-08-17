@@ -26,7 +26,7 @@ struct AyncGuideLinkView<Source:AsyncSearchConfig, ProgressContent: View, LinkCo
         case .complete:
             linkContent
         case .error, .none:
-            FoodieText("( no link found )", Colors.TextStaticTextSecondary, size:12, weight:.medium)
+            FoodieText("No guide link found.", Colors.TextStaticTextSecondary, size:12, weight:.medium)
                 .padding(.vertical, 4)
         }
     }

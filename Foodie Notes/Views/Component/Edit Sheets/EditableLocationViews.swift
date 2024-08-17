@@ -28,9 +28,6 @@ struct EditableLocationView: View {
                         AsyncLocationView(
                             source: locViewModel,
                             progressContent: {
-                                Loading()
-                                    .padding(.leading, 2)
-                                    .padding(.trailing, 6)
                                 FoodieText("Finding location...", Colors.TextStaticTextSecondary, size:12, weight:.medium)
                             },
                             locContent: {

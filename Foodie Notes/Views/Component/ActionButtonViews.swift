@@ -145,16 +145,6 @@ struct LargeActionWhiteButton: View {
     }
 }
 
-struct MedActionWhiteButton: View {
-    let icon:String;
-    let action:() -> Void
-    
-    var body: some View {
-        ActionButton(action:action, dim: 48)
-            .buttonStyle(MedActionWhiteButtonStyle(icon:icon))
-    }
-}
-
 struct LargeActionWhiteShareButton: View {
     let subject:String;
     let message:String;
@@ -327,20 +317,5 @@ private struct CheckboxButtonStyle: ButtonStyle {
                         .stroke(configuration.isPressed ? Colors.BorderStaticBorderSubtle : Colors.BackgroundBgPrimary, lineWidth: 1)
                 }
             )
-    }
-}
-
-private struct MedActionWhiteButtonStyle: ButtonStyle {
-    let icon:String;
-    
-    func makeBody(configuration: Self.Configuration) -> some View {
-        configuration.label
-            .background(Colors.BackgroundBgTertiary)
-            .cornerRadius(80)
-            .overlay() {
-                FoodieIcon(icon, configuration.isPressed ? .black : Colors.FillActionFillAction, size:24, padding:0)
-            }
-            .shadow(color: Colors.ShadowMed, radius: 8, x: 0, y: 8)
-            .shadow(color: Colors.ShadowEdge, radius: 4, x: 0, y: 0)
     }
 }
