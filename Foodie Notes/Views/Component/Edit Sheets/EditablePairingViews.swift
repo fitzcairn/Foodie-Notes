@@ -180,12 +180,12 @@ struct EditablePairingSheetLayoutForNotes<Content: View>: View {
                     bottomButtons: {
                         EditSheetComponentBottomCheckboxAndButton(
                             checkbox: {
-                                CheckboxButton(value: $newSameAsPrevious, text: "Shared with the previous course")
+                                CheckboxButton(value: $newSameAsPrevious, text: "Shared with previous course")
                             },
                             saveButton: {
                                 EditSheetComponentSaveButton(
                                     disabledClosure: {
-                                        (pairing.notes == newNotes && pairing.sameAsPrevious == newSameAsPrevious) || !newNotes.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+                                        pairing.notes == newNotes && pairing.sameAsPrevious == newSameAsPrevious
                                     },
                                     action: {
                                         pairing.notes = newNotes.trimmingCharacters(in: .whitespacesAndNewlines)
