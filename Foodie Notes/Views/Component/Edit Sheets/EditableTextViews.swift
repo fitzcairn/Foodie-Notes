@@ -230,9 +230,9 @@ struct EditableTextSheetLayout<Content: View>: View {
                         EditSheetComponentBottomSingleButton(
                             saveButton: {
                                 EditSheetComponentSaveButton(
-                                    disabledClosure: { text == newText },
+                                    disabledClosure: { text == newText || newText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty },
                                     action: {
-                                        text = newText
+                                        text = newText.trimmingCharacters(in: .whitespacesAndNewlines)
                                         showSheet.toggle()
                                         onSave()
                                     }
@@ -288,10 +288,10 @@ struct EditableTextAndMultiImageSheetLayout<Content: View>: View {
                                     disabledClosure: {
                                         (newText == text && newPictures == pictures)
                                         ||
-                                        (newText.isEmpty && newPictures.isEmpty)
+                                        (newText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && newPictures.isEmpty)
                                     },
                                     action: {
-                                        text = newText
+                                        text = newText.trimmingCharacters(in: .whitespacesAndNewlines)
                                         pictures = newPictures
                                         onSave()
                                         showSheet.toggle()

@@ -127,10 +127,10 @@ struct EditablePairingSheetLayoutForNameAndImage<Content: View>: View {
                             saveButton: {
                                 EditSheetComponentSaveButton(
                                     disabledClosure: {
-                                        pairing.info.name == newName && pairing.picture == newPicture
+                                        (pairing.info.name == newName && pairing.picture == newPicture) || newName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
                                     },
                                     action: {
-                                        pairing.info.name = newName
+                                        pairing.info.name = newName.trimmingCharacters(in: .whitespacesAndNewlines)
                                         pairing.info.url = nil;
                                         pairing.picture = newPicture
                                         showSheet.toggle()
@@ -187,10 +187,10 @@ struct EditablePairingSheetLayoutForNotes<Content: View>: View {
                             saveButton: {
                                 EditSheetComponentSaveButton(
                                     disabledClosure: {
-                                        pairing.notes == newNotes && pairing.sameAsPrevious == newSameAsPrevious
+                                        (pairing.notes == newNotes && pairing.sameAsPrevious == newSameAsPrevious) || !newNotes.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
                                     },
                                     action: {
-                                        pairing.notes = newNotes
+                                        pairing.notes = newNotes.trimmingCharacters(in: .whitespacesAndNewlines)
                                         pairing.sameAsPrevious = newSameAsPrevious
                                         showSheet.toggle()
                                         onSave()

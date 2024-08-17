@@ -16,7 +16,7 @@ struct MealListSearchSortMode: View {
     var body: some View {
         VStack {
             Spacer()
-                .frame(height:24)
+                .frame(height:32)
             
             HStack {
                 SearchBox(searchText: $filterText, isFocused:$isSearching)

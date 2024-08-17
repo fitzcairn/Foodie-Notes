@@ -29,14 +29,18 @@ struct MealListView: View {
         NavigationStack {
             ZStack {
                 VStack {
-                    MealListSearchSortMode(filterText:$filterText, sortOrder:$sortOrder, isSearching:$isSearching)
+                    if !viewModel.getMeals().isEmpty {
+                        MealListSearchSortMode(filterText:$filterText, sortOrder:$sortOrder, isSearching:$isSearching)
+                    }
 
                     list
                 }
                 .frame(maxWidth: .infinity)
                 .background(Colors.BackgroundBgPrimary)
                 
-                topFade
+                if !viewModel.getMeals().isEmpty {
+                    topDivider
+                }
                 
                 BottomFade()
                 
@@ -86,14 +90,10 @@ struct MealListView: View {
         }
     }
     
-    var topFade: some View {
+    var topDivider: some View {
         VStack {
-            Rectangle()
-                .frame(height:0)
-                .padding(.bottom, 1)
-                .background(Colors.BackgroundBgPrimary)
-                .shadow(color: Colors.ShadowHigh, radius: 8, x: 0, y: 16)
-                .shadow(color: Colors.ShadowEdge, radius: 2, x: 0, y: 1)
+            Divider()
+                .padding(.top, 16)
             Spacer()
         }
     }
