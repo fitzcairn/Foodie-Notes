@@ -88,7 +88,7 @@ struct MealView: View {
                                     EditableMichelinRatingView(title: "What was this venue's Michelin rating?", rating: $meal.item.venue.michelin, onSave:onSave) {
                                         MichelinStarView(rating: meal.item.venue.michelin)
                                             .padding(.leading, 4)
-                                            .padding(.trailing, 16)
+                                            .padding(.trailing, 12)
                                             .padding(.vertical, 3)
                                         
                                         GuideLinkView(venue:$meal.item.venue, onSave:onSave, iconOnRight:true)
