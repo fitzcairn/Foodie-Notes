@@ -14,17 +14,22 @@ struct MealListSortMenu: View {
     @State private var menuHeight:CGFloat = 0.0
     @State private var showMenu:Bool = false;
     @State private var isFullScreenViewVisible = false
+    
+    private var transaction = Transaction()
 
     @Binding var sortOrder:AppViewModel.MealSortOrder;
 
     init(sortOrder: Binding<AppViewModel.MealSortOrder>) {
         self._sortOrder = sortOrder
+        transaction.disablesAnimations = true
     }
     
     private func saveOption(_ option:AppViewModel.MealSortOrder) {
         sortOrder = option;
-        showMenu.toggle()
-        isFullScreenViewVisible.toggle();
+        withTransaction(transaction) {
+            showMenu.toggle()
+            isFullScreenViewVisible.toggle();
+        }
     }
     
     private var optionsMenu: some View {
@@ -57,7 +62,8 @@ struct MealListSortMenu: View {
     var body: some View {
         FoodieIcon("\u{e923}", Colors.TextActionTextAction)
             .onTapGesture {
-                withAnimation(.easeIn(duration:0.2)) {
+                UIView.setAnimationsEnabled(false)
+                withTransaction(transaction) {
                     showMenu.toggle()
                 }
             }
@@ -97,14 +103,12 @@ struct MealListSortMenu: View {
                     isFullScreenViewVisible = true
                 }
                 .onTapGesture {
-                    isFullScreenViewVisible = false;
-                    showMenu = false;
+                    withTransaction(transaction) {
+                        isFullScreenViewVisible = false;
+                        showMenu = false;
+                    }
                 }
             })
-            .transaction({ transaction in
-                transaction.disablesAnimations = true
-            })
-            .animation(.linear(duration: 0.2), value: isFullScreenViewVisible)
     }
 }
 
@@ -126,14 +130,17 @@ private struct MealListSortMenuButton: View {
     let label: String
     let action: () -> Void
     
+    private var transaction = Transaction()
+    
     init(_ label: String, action: @escaping () -> Void) {
         self.label = label
         self.action = action
+        transaction.disablesAnimations = true
     }
     
     var body: some View {
         Button(action: {
-            withAnimation(.linear(duration: 0.01)) {
+            withTransaction(transaction) {
                 self.tap.toggle();
             }
             action()
