@@ -18,42 +18,31 @@ struct CoverImageAndPickerView: View {
     @State var isLoading:Bool = false;
     @State var isPickingPhoto: Bool = false;
     
+    var background : some View {
+        Rectangle()
+            .foregroundColor(Colors.FillStaticFillNull)
+            .scaledToFill()
+            
+    }
+    
     var body: some View {
         ZStack(alignment: .top) {
-            if (viewModel.isPictureEmpty(picture) && !isLoading) {
-                Rectangle()
-                    .foregroundColor(Colors.FillStaticFillNull)
-                    .scaledToFill()
-                    .frame(height:110)
-
-            } else if (isLoading) {
-                ZStack(alignment: .top) {
-                    Rectangle()
-                        .foregroundColor(Colors.FillStaticFillNull)
-                        .scaledToFill()
-                        .frame(height:110)
-
-                    
-                    VStack {
-                        VerticalSpace(160)
-                        ImageLoadingView()
-                    }
-                }
+            background
                 .frame(height:110)
-
-                
-            } else {
-                CoverPicture(picture: picture)
+            
+            withAnimation {
+                CoverPicture(picture: picture, isLoading:$isLoading)
                     .id(picture)
             }
             
             if (viewModel.isPictureEmpty(picture)) {
                 ZStack(alignment: .center) {
-                    SingleImagePicker(
+                    SingleImagePickerButton(
                         picture:$picture,
                         isPickingPhoto: $isPickingPhoto,
                         isLoading: $isLoading,
-                        onSave: onSave) {
+                        onSave: onSave,
+                        content: {
                             FoodieIcon("\u{e913}", Colors.TextActionTextAction, size:32, padding:0)
                                 .onTapGesture() {
                                     isPickingPhoto = true;
@@ -61,7 +50,10 @@ struct CoverImageAndPickerView: View {
                                 }
                                 .padding(20)
                                 .background(Colors.FillStaticFillNull)
-                        }
+                        },
+                        loading: {
+                                ImageLoadingView()
+                        })
                 }
                 .background(Colors.FillStaticFillNull)
                 .padding(.horizontal, 16)
@@ -70,25 +62,33 @@ struct CoverImageAndPickerView: View {
                 .frame(height:270)
             } else {
                 VStack {
-                    VerticalSpace(64)
+                    VerticalSpace(54)
                     
                     HStack {
                         Spacer()
                         
-                        SingleImagePicker(
+                        SingleImagePickerButton(
                             picture:$picture,
                             isPickingPhoto: $isPickingPhoto,
                             isLoading: $isLoading,
-                            onSave: onSave) {
+                            onSave: onSave,
+                            content: {
                                 LargeActionWhiteButton(icon:"\u{e913}") {
                                     isPickingPhoto = true;
                                     isLoading = true;
                                 }
-                            }
-                            .onChange(of: picture) {
-                                onSave()
-                            }
-                            .padding(.trailing, 25)
+                                .onChange(of: picture) {
+                                    onSave()
+                                }
+                                .padding(.trailing, 25)
+                            },
+                            loading: {
+                                EmptyView()
+                                /*ImageLoadingView(width:48, height:48)
+                                    .padding(.trailing, 25)
+                                    .padding(.horizontal, 16)
+                                    .padding(.vertical, 8)*/
+                            })
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
                 }
@@ -98,7 +98,7 @@ struct CoverImageAndPickerView: View {
 }
 
 
-struct SingleImagePicker<ButtonContent: View>: View {
+struct SingleImagePickerButton<ButtonContent: View, LoadingContent: View>: View {
     @Binding var picture:Picture?
     @Binding var isPickingPhoto:Bool
     @Binding var isLoading:Bool
@@ -106,10 +106,10 @@ struct SingleImagePicker<ButtonContent: View>: View {
     var onSave: () -> Void = {}
     
     @ViewBuilder let content: ButtonContent;
-    
+    @ViewBuilder let loading: LoadingContent;
     
     var body: some View {
-        MultiImagePicker(
+        MultiImagePickerButton(
             pictures: Binding<[Picture]>(
                 get: { [] },
                 set: { if !$0.isEmpty { picture = $0[0] } }),
@@ -119,14 +119,18 @@ struct SingleImagePicker<ButtonContent: View>: View {
             isPickingPhoto: $isPickingPhoto,
             isLoading: $isLoading,
             limit:1,
-            onSave:onSave) {
+            onSave:onSave,
+            content: {
                 content
-            }
+            },
+            loading: {
+                loading
+            })
     }
 }
 
 
-struct MultiImagePicker<ButtonContent: View>: View {
+struct MultiImagePickerButton<ButtonContent: View, LoadingContent: View>: View {
     @Binding var pictures:[Picture]
     @Binding var loadingCount:Int
     @Binding var isPickingPhoto:Bool
@@ -135,6 +139,7 @@ struct MultiImagePicker<ButtonContent: View>: View {
     var onSave: () -> Void = {}
     
     @ViewBuilder let content: ButtonContent;
+    @ViewBuilder let loading: LoadingContent;
 
     @StateObject private var photoPickerModel: PhotoPickerViewModel = PhotoPickerViewModel();
     @State private var newMedia: [Media] = [];
@@ -142,7 +147,11 @@ struct MultiImagePicker<ButtonContent: View>: View {
     
     var body: some View {
         HStack {
-            content
+            if !isLoading {
+                content
+            } else {
+                loading
+            }
         }
         .onChange(of:isPickingPhoto) {
             isLoading = isPickingPhoto ? true : isLoading;
@@ -163,7 +172,9 @@ struct MultiImagePicker<ButtonContent: View>: View {
                     for photo in photos {
                         newPictures.append(Picture(photo:photo))
                     }
-                    //isLoading = false;
+                    if newPictures.isEmpty {
+                        isLoading = false;
+                    }
                 })
         }) {
             MediaPicker(

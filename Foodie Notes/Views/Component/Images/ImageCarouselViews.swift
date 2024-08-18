@@ -18,11 +18,12 @@ struct SingleImageCarousel: View {
     
     var body: some View {
         if (picture?.photo == nil || picture!.deleted) {
-            SingleImagePicker(
+            SingleImagePickerButton(
                 picture: $picture,
                 isPickingPhoto: $isPickingPhoto,
                 isLoading: $isLoading,
-                onSave:onSave) {
+                onSave:onSave,
+                content: {
                     if !isLoading {
                         AddImageButton(loading:$isLoading) {
                             isPickingPhoto = true;
@@ -31,7 +32,10 @@ struct SingleImageCarousel: View {
                         ImageLoadingView()
                             .frame(width: 80, height: 80, alignment: .center)
                     }
-                }
+                },
+                loading: {
+                    ImageLoadingView()
+                })
         } else {
             ExpandableImageGallery(src: .picture(picture)) {
                 MutableImage(picture: picture!, mutable: mutable, isLoading:$isLoading) {
@@ -61,6 +65,7 @@ struct FlexibleImageGrid : View {
                 MutableImage(picture: picture, mutable: mutable, isLoading:$isLoading) {
                     if let index = pictures.firstIndex(where: { $0 == picture }) {
                         pictures.remove(at: index)
+                        onSave()
                     }
                 }
             }
@@ -69,18 +74,25 @@ struct FlexibleImageGrid : View {
             ForEach(0..<loadingCount, id: \.self) { _ in
                 ImageLoadingView()
                     .frame(width: 80, height: 80, alignment: .center)
+                    .background(Colors.FillStaticFillNull)
+                    .cornerRadius(8)
             }
             
-            MultiImagePicker(
+            MultiImagePickerButton(
                 pictures: $pictures,
                 loadingCount:$loadingCount,
                 isPickingPhoto: $isPickingPhoto,
                 isLoading: $isLoading,
-                onSave:onSave) {
-                AddImageButton(loading:$isLoading) {
-                    isPickingPhoto = true;
-                }
-            }
+                onSave:onSave,
+                content: {
+                    AddImageButton(loading:$isLoading) {
+                        isPickingPhoto = true;
+                    }
+                },
+                loading: {
+                    ImageLoadingView()
+                })
+
         }
         .frame(maxWidth:.infinity)
     }

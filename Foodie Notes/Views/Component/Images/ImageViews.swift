@@ -8,18 +8,23 @@
 import SwiftUI
 
 struct ImageLoadingView : View {
+    var width:CGFloat = 80;
+    var height:CGFloat = 80;
+
     var body: some View {
         ZStack(alignment: .center) {
             Rectangle()
                 .padding(0)
                 .cornerRadius(8)
                 .foregroundStyle(Colors.FillStaticFillNull)
+                .frame(width:width, height:height)
             
             ImageLoadingBorder {
                 Rectangle()
                     .padding(0)
                     .cornerRadius(4)
                     .foregroundStyle(Colors.FillStaticFillNull)
+                    .background(.clear)
                     .frame(width: 22, height: 22)
             }
         }
@@ -48,9 +53,10 @@ struct ImageLoadingBorder<ForContent: View> : View {
 // Clipped image for a cover
 struct CoverPicture : View {
     var picture: Picture?;
+    @Binding var isLoading:Bool;
     
     var body: some View {
-        PictureView(picture: picture, useThumb: false)
+        PictureView(picture: picture, useThumb: false, showLoading:true, showPlaceholder: false, isLoading:$isLoading)
             .frame(height:270)
             .clipped()
     }
@@ -60,10 +66,12 @@ struct CoverPicture : View {
 struct CourseListPicture : View {
     var picture: Picture?;
     var num: Int = 0;
+    
+    @State var isLoading:Bool = false;
 
     var body: some View {
         ZStack(alignment: .bottom) {
-            PictureView(picture: picture)
+            PictureView(picture: picture, isLoading:$isLoading)
                 .frame(width:56, height:56)
                 .clipped()
             if picture != nil && num > 1 {
@@ -80,9 +88,10 @@ struct CourseListPicture : View {
 // Clipped image for meal list.
 struct MealListPicture : View {
     var picture: Picture?;
-
+    @State var isLoading:Bool = false;
+    
     var body: some View {
-        PictureView(picture: picture)
+        PictureView(picture: picture, isLoading:$isLoading)
             .frame(width:64, height:113)
             .clipped()
     }
@@ -135,15 +144,16 @@ struct PictureView : View {
     var picture: Picture?;
     var useThumb: Bool = true;
     var showLoading: Bool = false;
+    var showPlaceholder:Bool = true;
 
-    @State var isLoading:Bool = false;
+    @Binding var isLoading:Bool;
     
     var body: some View {
         HStack {
             if picture == nil || picture!.deleted || picture?.photo == nil  {
                 if showLoading {
                     ImageLoadingView()
-                } else {
+                } else if showPlaceholder {
                     NoPhotoPlaceholderView()
                 }
             }
