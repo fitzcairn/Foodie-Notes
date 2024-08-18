@@ -130,8 +130,8 @@ struct EditablePairingSheetLayoutForNameAndImage<Content: View>: View {
                                         (pairing.info.name == newInfo.name && pairing.picture == newPicture) || newInfo.name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
                                     },
                                     action: {
-                                        pairing.info.url = newInfo.url;
                                         pairing.info.name = newInfo.name.trimmingCharacters(in: .whitespacesAndNewlines)
+                                        pairing.info.url = URL(string:WebSearchService.constructLinkFor(baseUrl:"https://www.wine-searcher.com/find/", query:[newInfo.name]))!
                                         pairing.picture = newPicture
                                         pairing.info.imgIdRecognized = newInfo.imgIdRecognized
                                         showSheet.toggle()
