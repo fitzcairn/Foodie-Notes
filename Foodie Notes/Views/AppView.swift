@@ -15,7 +15,9 @@ struct AppView: View {
         switch viewModel.state {
             case .loading:
                 LoadingView()
-            case .splash, .list:
+            case .null:
+                NullView()
+            case .list:
                 MealListView()
         }
     }

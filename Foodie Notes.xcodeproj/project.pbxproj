@@ -15,6 +15,7 @@
 		AA20D3722C6BF77C00C63895 /* BeveragePairingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA20D3712C6BF77C00C63895 /* BeveragePairingModel.swift */; };
 		AA20D3742C6BFFA700C63895 /* EditSheetComponentViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA20D3732C6BFFA700C63895 /* EditSheetComponentViews.swift */; };
 		AA20D3762C6C3E7100C63895 /* NavigationLazyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA20D3752C6C3E7100C63895 /* NavigationLazyView.swift */; };
+		AA22A6232C7527D80053C462 /* NullView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA22A6222C7527D80053C462 /* NullView.swift */; };
 		AA2D0AAB2C69469000481CB9 /* EditableDateViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2D0AAA2C69469000481CB9 /* EditableDateViews.swift */; };
 		AA410FF22C6E23D20006D7A6 /* SwipeableListCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA410FF12C6E23D20006D7A6 /* SwipeableListCard.swift */; };
 		AA410FF62C6E2DF40006D7A6 /* MenuListCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA410FF52C6E2DF40006D7A6 /* MenuListCard.swift */; };
@@ -171,6 +172,7 @@
 		AA20D3712C6BF77C00C63895 /* BeveragePairingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeveragePairingModel.swift; sourceTree = "<group>"; };
 		AA20D3732C6BFFA700C63895 /* EditSheetComponentViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSheetComponentViews.swift; sourceTree = "<group>"; };
 		AA20D3752C6C3E7100C63895 /* NavigationLazyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationLazyView.swift; sourceTree = "<group>"; };
+		AA22A6222C7527D80053C462 /* NullView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NullView.swift; sourceTree = "<group>"; };
 		AA2D0AAA2C69469000481CB9 /* EditableDateViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditableDateViews.swift; sourceTree = "<group>"; };
 		AA410FF12C6E23D20006D7A6 /* SwipeableListCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeableListCard.swift; sourceTree = "<group>"; };
 		AA410FF52C6E2DF40006D7A6 /* MenuListCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuListCard.swift; sourceTree = "<group>"; };
@@ -410,6 +412,7 @@
 				AA45C09E2C4727B5009F6DEC /* CourseCreateView.swift */,
 				AA81D2912C3209E100FF0221 /* CourseView.swift */,
 				AA81D27F2C309BF000FF0221 /* MealListView.swift */,
+				AA22A6222C7527D80053C462 /* NullView.swift */,
 				AA45C09A2C4723B5009F6DEC /* MealCreateView.swift */,
 				AA81D2842C309C7F00FF0221 /* MealView.swift */,
 				AAD2512B2C5C17F700180006 /* AppView.swift */,
@@ -826,6 +829,7 @@
 				AA6026842C651B89008652B4 /* BottomFade.swift in Sources */,
 				AA81D2B12C3818E000FF0221 /* MealModel.swift in Sources */,
 				AAC91A562C4D357400225BDD /* ImageDataService.swift in Sources */,
+				AA22A6232C7527D80053C462 /* NullView.swift in Sources */,
 				AA6026802C62C29D008652B4 /* MealListSearchSortMode.swift in Sources */,
 				AA81D2B72C38193500FF0221 /* VenueModel.swift in Sources */,
 				AAC91A5F2C4DC96900225BDD /* ThreadSafeDictionary.swift in Sources */,
@@ -1032,10 +1036,13 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = "Foodie Notes/Foodie_Notes.entitlements";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Foodie Notes/Preview Content\"";
-				DEVELOPMENT_TEAM = 4V86JWDWVA;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 4V86JWDWVA;
 				ENABLE_HARDENED_RUNTIME = YES;
 				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = YES;
 				ENABLE_PREVIEWS = YES;
@@ -1066,6 +1073,8 @@
 				MARKETING_VERSION = 0.97;
 				PRODUCT_BUNDLE_IDENTIFIER = "stevezero.com.Foodie-Notes";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Foodie Notes Team Distribution";
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -1082,10 +1091,13 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = "Foodie Notes/Foodie_Notes.entitlements";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Foodie Notes/Preview Content\"";
-				DEVELOPMENT_TEAM = 4V86JWDWVA;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 4V86JWDWVA;
 				ENABLE_HARDENED_RUNTIME = YES;
 				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = YES;
 				ENABLE_PREVIEWS = YES;
@@ -1116,6 +1128,8 @@
 				MARKETING_VERSION = 0.97;
 				PRODUCT_BUNDLE_IDENTIFIER = "stevezero.com.Foodie-Notes";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Foodie Notes Team Distribution";
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;

@@ -10,19 +10,25 @@ import Foundation
 // View model for the app.
 @MainActor
 class AppViewModel : ObservableObject {
-    enum AppState { case loading, splash, list }
+    enum AppState { case loading, null, list }
     enum MealSortOrder { case name, dateAsc, dateDesc, location, rating, michelin }
     
     let id = Id.createId();
     
     @Published var state = AppState.loading
     @Published var model: AppModel = AppModel()
+    @Published var nullMeal: Meal?
     
     // MARK: - Model Management
     func fromLoad(model:AppModel) {
         self.model = model;
-        // Skip a the splash screen for now.
-        state = .list
+        
+        // If we don't have any meals, trigger the null intro state.
+        if model.getMeals().isEmpty {
+            state = .null
+        } else {
+            state = .list
+        }
     }
     func writeOut() {
         Task {

@@ -29,18 +29,14 @@ struct MealListView: View {
         NavigationStack {
             ZStack {
                 VStack {
-                    if !viewModel.getMeals().isEmpty {
-                        MealListSearchSortMode(filterText:$filterText, sortOrder:$sortOrder, isSearching:$isSearching)
-                    }
-
+                    MealListSearchSortMode(filterText:$filterText, sortOrder:$sortOrder, isSearching:$isSearching)
+                    
                     list
                 }
                 .frame(maxWidth: .infinity)
                 .background(Colors.BackgroundBgPrimary)
                 
-                if !viewModel.getMeals().isEmpty {
-                    topDivider
-                }
+                topDivider
                 
                 BottomFade()
                 
@@ -69,6 +65,15 @@ struct MealListView: View {
         .onChange(of: scenePhase) { oldPhase, newPhase in
             if newPhase == .inactive {
                 viewModel.writeOut()
+            }
+        }
+        .onAppear() {
+            // If we came from null screen, go straight to view for the new meal.
+            // This is cludgey, but best way I could think of doing this with the right nav stack.
+            if let meal = viewModel.nullMeal {
+                newMeal = meal;
+                viewModel.nullMeal = nil;
+                goToMealView.toggle()
             }
         }
     }
