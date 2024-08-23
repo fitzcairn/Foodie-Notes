@@ -127,7 +127,7 @@ struct EditablePairingSheetLayoutForNameAndImage<Content: View>: View {
                             saveButton: {
                                 EditSheetComponentSaveButton(
                                     disabledClosure: {
-                                        (pairing.info.name == newInfo.name && pairing.picture == newPicture) || newInfo.name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+                                        (pairing.info.name == newInfo.name && pairing.picture == newPicture)
                                     },
                                     action: {
                                         pairing.info.name = newInfo.name.trimmingCharacters(in: .whitespacesAndNewlines)
