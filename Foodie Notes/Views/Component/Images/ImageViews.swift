@@ -57,7 +57,7 @@ struct CoverPicture : View {
     
     var body: some View {
         PictureView(picture: picture, useThumb: false, showLoading:true, showPlaceholder: false, isLoading:$isLoading)
-            .frame(height:270)
+            .frame(width: UIScreen.main.bounds.size.width, height:270)
             .clipped()
     }
 }
