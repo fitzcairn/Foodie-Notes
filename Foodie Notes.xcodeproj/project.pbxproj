@@ -145,6 +145,7 @@
 		AAC91A5F2C4DC96900225BDD /* ThreadSafeDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAC91A5E2C4DC96900225BDD /* ThreadSafeDictionary.swift */; };
 		AAD2512C2C5C17F700180006 /* AppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAD2512B2C5C17F700180006 /* AppView.swift */; };
 		AAD2512E2C5C189000180006 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAD2512D2C5C189000180006 /* LoadingView.swift */; };
+		AAD556262C792FE40095F81D /* TopFade.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAD556252C792FE40095F81D /* TopFade.swift */; };
 		AAE6A7AA2C4E9A3200765C76 /* AsyncLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE6A7A92C4E9A3100765C76 /* AsyncLocationView.swift */; };
 /* End PBXBuildFile section */
 
@@ -267,6 +268,7 @@
 		AAC91A5E2C4DC96900225BDD /* ThreadSafeDictionary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadSafeDictionary.swift; sourceTree = "<group>"; };
 		AAD2512B2C5C17F700180006 /* AppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppView.swift; sourceTree = "<group>"; };
 		AAD2512D2C5C189000180006 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
+		AAD556252C792FE40095F81D /* TopFade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopFade.swift; sourceTree = "<group>"; };
 		AAE6A7A92C4E9A3100765C76 /* AsyncLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncLocationView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -433,6 +435,7 @@
 				AA8ED2532C6FFB3D00F35B95 /* Location */,
 				AA6026942C666C30008652B4 /* ActionButtonViews.swift */,
 				AA6026832C651B89008652B4 /* BottomFade.swift */,
+				AAD556252C792FE40095F81D /* TopFade.swift */,
 				AAA064CE2C46A7DA005397EA /* IconsAndText.swift */,
 				AA8CED082C6A4EB100A1395C /* SearchBox.swift */,
 				AA6026982C6673C6008652B4 /* VerticalSpace.swift */,
@@ -861,6 +864,7 @@
 				AA81D3002C3AA1DD00FF0221 /* Constants.swift in Sources */,
 				AAAA9A812C6952C6003F499F /* EditableRatingViews.swift in Sources */,
 				AABE57052C53F7F100771A83 /* String_Error.swift in Sources */,
+				AAD556262C792FE40095F81D /* TopFade.swift in Sources */,
 				AA6026972C667324008652B4 /* EditableTextViews.swift in Sources */,
 				AA8CED0B2C6A501100A1395C /* EditableCuisineViews.swift in Sources */,
 				AA81D20F2C26EEA100FF0221 /* FoodieNotesApp.swift in Sources */,

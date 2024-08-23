@@ -197,6 +197,8 @@ struct MealView: View {
             }
             .safeAreaPadding(EdgeInsets(top: 0, leading: 0, bottom: 150, trailing: 0))
             
+            TopFade()
+            
             BottomFade()
             
             // Buttons
@@ -218,6 +220,7 @@ struct MealView: View {
         }
         .ignoresSafeArea(.all)
         .navigationBarHidden(true)
+        .preferredColorScheme(.dark)
     }
     
     private func reload() {
