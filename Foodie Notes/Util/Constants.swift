@@ -52,8 +52,8 @@ enum Colors {
 }
 
 enum PhotoDimensions {
-    static let photoThumbWidth:CGFloat = 128;
-    static let photoThumbHeight:CGFloat = 128;
+    static let photoThumbWidth:CGFloat = 512;
+    static let photoThumbHeight:CGFloat = 512;
     static let thumbSize:CGSize = CGSize(width:PhotoDimensions.photoThumbWidth, height:PhotoDimensions.photoThumbHeight)
 }
 
