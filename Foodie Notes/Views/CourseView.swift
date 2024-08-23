@@ -59,7 +59,7 @@ struct CourseView: View {
                         VerticalSpace(16)
                                                 
                         ViewSection("Tasting Notes") {
-                            EditableStandaloneTextBox(title: "Any notes on the food for this course?", addTitle: "Add notes", text: $course.item.food.notes, onSave:onSave)
+                            EditableStandaloneTextBox(title: "Any notes on the food for this course?", addTitle: "Add Notes", text: $course.item.food.notes, onSave:onSave)
                         }
 
                         VerticalSpace(16)
@@ -68,7 +68,7 @@ struct CourseView: View {
                             
                             if course.item.beveragePairings.isEmpty {
                                 PairingBox() {
-                                    PairingAddImageBarButton(text: "Add pairing label photo", pairing:$newPairing) {
+                                    PairingAddImageBarButton(text: "Add Pairing Photo & Name", pairing:$newPairing) {
                                         course.item.beveragePairings.append(newPairing)
                                         newPairing = BeveragePairing()
                                         onSave()
@@ -86,7 +86,7 @@ struct CourseView: View {
                                 }
                                 .id(UUID())
                                 
-                                PairingAddImageBarButton(text: "Add another pairing", icon:"\u{e91f}", pairing:$newPairing) {
+                                PairingAddImageBarButton(text: "Add Pairing", icon:"\u{e91f}", pairing:$newPairing) {
                                     course.item.beveragePairings.append(newPairing)
                                     newPairing = BeveragePairing()
                                     onSave()

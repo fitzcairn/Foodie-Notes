@@ -114,7 +114,7 @@ struct MealView: View {
                         
                         // Meal Notes
                         ViewSection("Overall Notes") {
-                            EditableStandaloneTextBox(title: "Overall notes about your meal?", addTitle: "Add notes", text: $meal.item.notes, onSave:onSave)
+                            EditableStandaloneTextBox(title: "Overall notes about your meal?", addTitle: "Add Notes", text: $meal.item.notes, onSave:onSave)
                         }
                         
                         VerticalSpace(16)
@@ -148,7 +148,7 @@ struct MealView: View {
                                 .id(meal.item.menus.count)
                             }
                             
-                            BarButtonTriggeringMultiImageTextInput(title: "What's the name of this menu?", addTitle: "Add menu", pictures:$newMenu.pictures, text:$newMenu.notes) {
+                            BarButtonTriggeringMultiImageTextInput(title: "What's the name of this menu?", addTitle: "Add Menu", pictures:$newMenu.pictures, text:$newMenu.notes) {
                                 meal.item.menus.append(newMenu)
                                 onSave()
                                 newMenu = PicturesAndNotes()
@@ -177,7 +177,7 @@ struct MealView: View {
                                     .onMove(perform: {_, _  in })
                                 }
                                 
-                                BarButtonTriggeringTextInput(title: "What's the name of the course?", addTitle: "Add a course", text:$courseName, itemNum:meal.item.courses.count) {
+                                BarButtonTriggeringTextInput(title: "What's the name of the course?", addTitle: "Add Course", text:$courseName, itemNum:meal.item.courses.count) {
                                     newCourse = Course(mealId: meal.item.id, name: courseName)
                                     meal.item.courses.append(newCourse)
                                     onSave()

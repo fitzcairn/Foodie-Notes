@@ -65,7 +65,7 @@ struct PairingListCard: View {
                 }
             
             // Bottom: notes field.
-            EditableStandalonePairingNotesBox(title: "What were your notes on this pairing?", addTitle: "Add notes", pairing:$pairing, onSave:onSave)
+            EditableStandalonePairingNotesBox(title: "What were your notes on this pairing?", addTitle: "Add Notes", pairing:$pairing, onSave:onSave)
             
             HStack(alignment: .center, spacing: 4) {
                 if (pairing.sameAsPrevious) {
