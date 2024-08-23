@@ -43,7 +43,7 @@ struct CoverImageAndPickerView: View {
                         isLoading: $isLoading,
                         onSave: onSave,
                         content: {
-                            FoodieIcon("\u{e913}", Colors.TextActionTextAction, size:32, padding:0)
+                            FoodieIcon("\u{e914}", Colors.TextActionTextAction, size:32, padding:0)
                                 .onTapGesture() {
                                     isPickingPhoto = true;
                                     isLoading = true;
@@ -73,7 +73,7 @@ struct CoverImageAndPickerView: View {
                             isLoading: $isLoading,
                             onSave: onSave,
                             content: {
-                                LargeActionWhiteButton(icon:"\u{e913}") {
+                                LargeActionWhiteButton(icon:"\u{e914}") {
                                     isPickingPhoto = true;
                                     isLoading = true;
                                 }
@@ -84,10 +84,6 @@ struct CoverImageAndPickerView: View {
                             },
                             loading: {
                                 EmptyView()
-                                /*ImageLoadingView(width:48, height:48)
-                                    .padding(.trailing, 25)
-                                    .padding(.horizontal, 16)
-                                    .padding(.vertical, 8)*/
                             })
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
