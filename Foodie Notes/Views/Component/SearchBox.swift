@@ -62,7 +62,7 @@ struct SearchBox: View {
                     }
                 }
 
-            FoodieIcon("\u{e92a}", Colors.TextActionTextAction)
+            FoodieIcon("\u{e90a}", Colors.TextActionTextAction)
                 .onTapGesture {
                     searchText = ""
                     focused = false;
