@@ -27,7 +27,7 @@ struct MealListCard: View {
                 NavigationLink(destination: MealView(meal: meal)) { EmptyView() }.opacity(0.0)
                 
                 SwipeView {
-                    HStack {
+                    HStack(alignment: .top) {
                         MealListPicture(picture:viewModel.getMealImageFor(meal))
                             .clipShape(RoundedRectangle(cornerRadius: 4))
                             .padding(4)
@@ -62,6 +62,7 @@ struct MealListCard: View {
                                 .frame(height:10)
                             }
                         }
+                        .padding(.top, 4)
                         .padding(.vertical, 4)
                         .padding(.leading, 4)
                         .padding(.trailing, 16)
