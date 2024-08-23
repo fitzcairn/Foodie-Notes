@@ -82,7 +82,7 @@ private struct ImageSheetView: View {
         .padding(.top, 16)
         .padding(.bottom, -8) // Hack
 
-        Divider()
+        MyDivider()
             .padding(.bottom, 8)
         
         ZStack {

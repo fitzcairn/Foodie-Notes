@@ -68,9 +68,7 @@ private struct EditSheetCommon<TopLeftButton: View, TopRightButton: View, MainVi
         .padding(.bottom, -8) // Hack
 
         if (showDivider) {
-            Divider()
-                .frame(height: 1.5)
-                .background(Colors.BorderStaticBorderSubtle)
+            MyDivider()
                 .padding(.bottom, 8)
         }
         

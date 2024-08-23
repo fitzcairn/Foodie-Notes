@@ -73,7 +73,7 @@ struct EditablePairingSheetComponentNameAndImageControl: View {
                 RecogninzePairingView(info:$info, picture:$picture)
             }
 
-            Divider()
+            MyDivider()
                 .padding(.horizontal, -50) // hack
                 .padding(.top, 8)
 

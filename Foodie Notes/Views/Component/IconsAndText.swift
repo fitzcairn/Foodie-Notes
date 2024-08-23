@@ -54,3 +54,11 @@ struct FoodieText: View {
     }
 }
 
+
+struct MyDivider: View {
+    var body: some View {
+        Divider()
+            .frame(height: 1.5)
+            .background(Colors.BorderStaticBorderSubtle)
+    }
+}

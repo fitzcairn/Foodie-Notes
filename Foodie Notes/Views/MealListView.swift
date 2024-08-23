@@ -97,7 +97,7 @@ struct MealListView: View {
     
     var topDivider: some View {
         VStack {
-            Divider()
+            MyDivider()
                 .padding(.top, 16)
             Spacer()
         }

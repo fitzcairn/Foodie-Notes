@@ -39,7 +39,7 @@ struct LocationEditSheet: View {
             )
             .padding(.bottom, 8)
 
-            Divider()
+            MyDivider()
                 .padding(.horizontal, -50) // hack
                 .padding(.bottom, 8)
 
