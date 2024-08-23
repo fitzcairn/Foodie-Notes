@@ -51,7 +51,7 @@ private struct EditableMichelinRatingComponent<Content: View>: View {
     var onSave:() -> Void = { }
 
     @State var showSheet:Bool = false;
-    @State var newRating:Michelin = .none
+    @State var newRating:Michelin = .unselected
  
     @ViewBuilder let content: Content;
  
@@ -97,7 +97,9 @@ private struct EditableMichelinRatingComponent<Content: View>: View {
             
             VStack(alignment: .center, spacing: 4) {
                 ForEach(michelinRatings, id: \.rawValue) { rating in
-                    MichelinButton(label: rating, rating: $newRating)
+                    if rating != .unselected {
+                        MichelinButton(label: rating, rating: $newRating)
+                    }
                 }
                 .buttonStyle(.plain)
                 .padding(0)

@@ -60,6 +60,8 @@ class ModelIOService {
         }
         
         switch(meal.venue.michelin) {
+        case .unselected:
+            str += ""
         case .none:
             str += "At time of dining, Michelin has not rated this restaurant.  "
         case .plate:

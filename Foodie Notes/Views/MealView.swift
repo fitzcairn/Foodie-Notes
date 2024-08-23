@@ -67,7 +67,7 @@ struct MealView: View {
                             
                             
                             HStack(alignment: .center, spacing: 4) {
-                                if (meal.item.venue.michelin == .none) {
+                                if (meal.item.venue.michelin == .unselected) {
                                     // No rating view
                                     EditableMichelinRatingView(title: "What was this venue's Michelin rating?", rating: $meal.item.venue.michelin, onSave:onSave) {
                                         HStack {
@@ -91,7 +91,11 @@ struct MealView: View {
                                             .padding(.trailing, 12)
                                             .padding(.vertical, 3)
                                         
-                                        GuideLinkView(venue:$meal.item.venue, onSave:onSave, iconOnRight:true)
+                                        if meal.item.venue.michelin != .none {
+                                            GuideLinkView(venue:$meal.item.venue, onSave:onSave, iconOnRight:true)
+                                        } else {
+                                            FoodieText("not Michelin rated", Colors.TextStaticTextSecondary, size:12, weight:.medium)
+                                        }
                                     }
                                     
                                     

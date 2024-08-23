@@ -52,7 +52,7 @@ struct MealListCard: View {
                             // Guide link and star rating.
                             if meal.venue.guideLink?.url != nil {
                                 HStack {
-                                    if meal.venue.guideLink?.url != nil {
+                                    if meal.venue.michelin != .none && meal.venue.michelin != .unselected &&  meal.venue.guideLink?.url != nil {
                                         GuideLinkView(venue:Binding<Venue>( get: { meal.venue }, set: { _ = $0 }))
                                     }
                                     Spacer()
@@ -60,7 +60,7 @@ struct MealListCard: View {
                                     MichelinStarView(rating: meal.venue.michelin)
                                 }
                                 .frame(height:10)
-                            } else if meal.venue.michelin != .none {
+                            } else if meal.venue.michelin != .unselected {
                                 HStack {
                                     Spacer()
                                     

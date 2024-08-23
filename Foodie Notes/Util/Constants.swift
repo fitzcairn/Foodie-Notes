@@ -117,6 +117,7 @@ enum SectionTitle {
 }
 
 enum Michelin: String, Codable, CaseIterable, Comparable {
+    case unselected = ""
     case none = "\u{e91c}"
     case plate = "\u{e918}"
     case bibGourmand = "\u{e902}"
@@ -126,6 +127,8 @@ enum Michelin: String, Codable, CaseIterable, Comparable {
     
     private var sortOrder: Int {
         switch self {
+        case .unselected:
+            return -1
         case .none:
             return 0
         case .plate:
@@ -151,6 +154,8 @@ enum Michelin: String, Codable, CaseIterable, Comparable {
     
     var displayName: String {
         switch self {
+        case .unselected:
+            return ""
         case .none:
             return "Not Rated"
         case .plate:

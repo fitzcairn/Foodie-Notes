@@ -22,7 +22,7 @@ struct VenueGuideLink: Codable {
 struct Venue : Hashable, Codable, Equatable {
     var id:String = Id.createId()
     var name: String = ""
-    var michelin: Michelin = .none
+    var michelin: Michelin = .unselected
     var guideLink:VenueGuideLink?
     var location:Location?
     
