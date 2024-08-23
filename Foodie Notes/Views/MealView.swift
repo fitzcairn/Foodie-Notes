@@ -110,21 +110,21 @@ struct MealView: View {
                             .id(meal.item.venue)
                         }
                         
-                        VerticalSpace(24)
+                        VerticalSpace(16)
                         
                         // Meal Notes
                         ViewSection("Overall Notes") {
                             EditableStandaloneTextBox(title: "Overall notes about your meal?", addTitle: "Add notes", text: $meal.item.notes, onSave:onSave)
                         }
                         
-                        VerticalSpace(24)
+                        VerticalSpace(16)
                         
                         // Meal Cuisine
                         ViewSection("Cuisine") {
                             EditableCuisineView(title: "What cuisine[s] were served for this meal?", cuisines: $meal.item.cuisines, onSave:onSave)
                         }
                         
-                        VerticalSpace(24)
+                        VerticalSpace(16)
                         
                         // Menu[s]
                         ViewSection("Menus") {
@@ -155,7 +155,7 @@ struct MealView: View {
                             }
                         }
                         
-                        VerticalSpace(24)
+                        VerticalSpace(16)
                         
                         // Courses
                         ViewSection("Courses") {

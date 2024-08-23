@@ -23,7 +23,7 @@ struct EditableStandaloneTextBox: View {
                 BarButtonTriggeringTextInput(title: title, addTitle: addTitle, text: $text, icon:"\u{e91d}", onSave:onSave)
             } else {
                 HStack(alignment: .top, spacing: 0) {
-                    FoodieText(text, Colors.TextStaticTextSecondary, size:14, weight:.semibold)
+                    FoodieText(text, Colors.TextStaticTextSecondary, size:16, weight:.semibold)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(16)

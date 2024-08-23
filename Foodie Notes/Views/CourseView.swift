@@ -56,13 +56,13 @@ struct CourseView: View {
                             }
                         } // Course Metadata
                         
-                        VerticalSpace(24)
+                        VerticalSpace(16)
                                                 
                         ViewSection("Tasting Notes") {
                             EditableStandaloneTextBox(title: "Any notes on the food for this course?", addTitle: "Add notes", text: $course.item.food.notes, onSave:onSave)
                         }
 
-                        VerticalSpace(24)
+                        VerticalSpace(16)
                         
                         ViewSection("Pairing Notes") {
                             
@@ -94,13 +94,13 @@ struct CourseView: View {
                             }
                         }
 
-                        VerticalSpace(24)
+                        VerticalSpace(16)
 
                         ViewSection("Photos") {
                             FlexibleImageGrid(pictures: $course.item.food.pictures, mutable: true, onSave:onSave)
                         }
 
-                        VerticalSpace(24)
+                        VerticalSpace(16)
 
                     }
                     .padding(.horizontal, 24)
