@@ -60,6 +60,13 @@ struct MealListCard: View {
                                     MichelinStarView(rating: meal.venue.michelin)
                                 }
                                 .frame(height:10)
+                            } else if meal.venue.michelin != .none {
+                                HStack {
+                                    Spacer()
+                                    
+                                    MichelinStarView(rating: meal.venue.michelin)
+                                }
+                                .frame(height:10)
                             }
                         }
                         .padding(.top, 4)
