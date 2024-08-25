@@ -20,7 +20,9 @@ struct BottomFade: View {
                 endPoint: .bottom
             )
             .frame(height:120)
+            .allowsHitTesting(false)
         }
         .edgesIgnoringSafeArea(.bottom)
+        .allowsHitTesting(false)
     }
 }

@@ -111,7 +111,6 @@ struct BottomButtonContainer<Content: View>: View {
             buttons
         }
         .padding(.horizontal, 32)
-        .padding(.top, 24)
         .padding(.bottom, 32)
     }
 }

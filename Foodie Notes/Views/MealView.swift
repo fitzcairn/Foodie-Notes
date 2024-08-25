@@ -165,7 +165,7 @@ struct MealView: View {
                                         
                                         CourseListCard(course:course, forceClose: $forceAllSwipesClosed) {
                                             viewModel.removeCourse(course)
-                                            meal.item.courses.remove(at: index)
+                                            meal.item = viewModel.getMealFor(meal.item.id)!
                                         }
                                             .padding(.bottom, -2)
                                             .onDrag {
@@ -175,8 +175,9 @@ struct MealView: View {
                                             .onDrop(of: [UTType.text], delegate: DragDelegate(dropIndex: index, listData: $meal.item.courses, dragIndex: $draggingIndex, onSave:onSave))
                                     }
                                     .onMove(perform: {_, _  in })
+                                    .id(meal.item.courses.count)
                                 }
-                                
+
                                 BarButtonTriggeringTextInput(title: "What's the name of the course?", addTitle: "Add Course", text:$courseName, itemNum:meal.item.courses.count) {
                                     newCourse = Course(mealId: meal.item.id, name: courseName)
                                     meal.item.courses.append(newCourse)
@@ -188,6 +189,9 @@ struct MealView: View {
                                 }
                             }
                         }
+                        
+                        VerticalSpace(200)
+                        
                     }
                     .padding(.horizontal, 24)
                 }
@@ -195,7 +199,6 @@ struct MealView: View {
             .onAppear() {
                 reload()
             }
-            .safeAreaPadding(EdgeInsets(top: 0, leading: 0, bottom: 150, trailing: 0))
             
             TopFade()
             

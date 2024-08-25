@@ -99,14 +99,13 @@ struct CourseView: View {
                         ViewSection("Photos") {
                             FlexibleImageGrid(pictures: $course.item.food.pictures, mutable: true, onSave:onSave)
                         }
-
-                        VerticalSpace(16)
+                        
+                        VerticalSpace(200)
 
                     }
                     .padding(.horizontal, 24)
                 }
             }
-            .safeAreaPadding(EdgeInsets(top: 0, leading: 0, bottom: 150, trailing: 0))
             
             TopFade()
             
