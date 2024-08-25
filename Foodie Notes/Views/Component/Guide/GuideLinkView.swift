@@ -51,7 +51,16 @@ struct GuideLinkView: View {
         var iconOnRight:Bool = false;
         
         var icon: some View {
-                FoodieIcon("\u{e911}", Colors.TextActionTextAction, padding:0)
+            Link("\u{e911}", destination:url!) // unwrap handled below
+                .font(
+                    Font.custom("foodie-icons", size: 24)
+                        .weight(.semibold)
+                )
+                .foregroundColor(Colors.TextActionTextAction)
+                .buttonStyle(.borderless)
+                .lineLimit(1)
+                .fixedSize(horizontal: false, vertical: true)
+                .padding(0)
         }
         
         var link: some View {
