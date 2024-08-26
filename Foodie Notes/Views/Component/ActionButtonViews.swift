@@ -117,6 +117,7 @@ struct BottomButtonContainer<Content: View>: View {
 
 struct LargeActionRedButton: View {
     let icon:String;
+    var font:String = "foodie-icons"
     var disabled:Bool = false;
     let action:() -> Void
     var dim:CGFloat = 64
@@ -125,7 +126,7 @@ struct LargeActionRedButton: View {
     var body: some View {
         ActionButton(action:action, dim:dim)
             .disabled(disabled)
-            .buttonStyle(LargeActionRedButtonStyle(icon:icon, iconSize:iconSize, disabled:disabled))
+            .buttonStyle(LargeActionRedButtonStyle(icon:icon, font:font, iconSize:iconSize, disabled:disabled))
             .padding(.horizontal, 16)
             .padding(.vertical, 8)
     }
@@ -250,6 +251,7 @@ private struct SmallActionBackButtonStyle: ButtonStyle {
 
 private struct LargeActionRedButtonStyle: ButtonStyle {
     let icon:String;
+    let font:String;
     var iconSize:CGFloat = 32
     var disabled:Bool = false;
 
@@ -258,7 +260,7 @@ private struct LargeActionRedButtonStyle: ButtonStyle {
             .background(disabled ? Colors.FillActionFillDisabled : configuration.isPressed ? Colors.FillActionFillActionPressed : Colors.FillActionFillAction)
             .cornerRadius(80)
             .overlay() {
-                FoodieIcon(icon, disabled ? Colors.FillActionFillActionIconDisabled : configuration.isPressed ? Colors.FillActionFillActionPressedIcon : Color.white, size:iconSize, padding:0)
+                FoodieIcon(icon, disabled ? Colors.FillActionFillActionIconDisabled : configuration.isPressed ? Colors.FillActionFillActionPressedIcon : Color.white, size:iconSize, padding:0, font:font)
             }
             .shadow(color: disabled ? Color.clear : Colors.ShadowHighVibrant, radius: 8, x: 0, y: 16)
             .opacity(disabled ? 0 : 1)

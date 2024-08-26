@@ -2,8 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>UIUserInterfaceStyle</key>
-	<string>Light</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -36,6 +34,7 @@
 		<string>Nunito-Italic-VariableFont_wght.ttf</string>
 		<string>Nunito-VariableFont_wght.ttf</string>
 		<string>foodie-icons.ttf</string>
+		<string>foodie-icons-v1-1.ttf</string>
 	</array>
 </dict>
 </plist>

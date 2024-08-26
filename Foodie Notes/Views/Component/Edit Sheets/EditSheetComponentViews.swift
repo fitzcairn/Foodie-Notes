@@ -117,6 +117,6 @@ struct EditSheetComponentSaveButton: View {
     let action:() -> Void
     
     var body: some View {
-        LargeActionRedButton(icon:"\u{e905}", disabled:disabledClosure(), action: action, dim:48, iconSize:24)
+        LargeActionRedButton(icon:"\u{e908}", font:"foodie-icons-v1-1", disabled:disabledClosure(), action: action, dim:48, iconSize:24)
     }
 }

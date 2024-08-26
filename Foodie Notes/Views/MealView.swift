@@ -94,7 +94,7 @@ struct MealView: View {
                                         if meal.item.venue.michelin != .none {
                                             GuideLinkView(venue:$meal.item.venue, onSave:onSave, iconOnRight:true)
                                         } else {
-                                            FoodieText("not Michelin rated", Colors.TextStaticTextSecondary, size:12, weight:.medium)
+                                            FoodieText("Not Michelin rated", Colors.TextStaticTextSecondary, size:12, weight:.medium)
                                         }
                                     }
                                     
@@ -206,7 +206,7 @@ struct MealView: View {
             
             // Buttons
             BottomButtonContainer() {
-                LargeActionRedButton(icon:"\u{e900}") {
+                LargeActionRedButton(icon:"\u{e917}", font:"foodie-icons-v1-1") {
                     self.presentationMode.wrappedValue.dismiss()
                 }
                 

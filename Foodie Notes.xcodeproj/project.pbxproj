@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		AA0F1ECB2C60166D00B2202A /* foodie-icons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AA0F1ECA2C60166D00B2202A /* foodie-icons.ttf */; };
 		AA0F1ED22C626E3E00B2202A /* MealListCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0F1ED12C626E3E00B2202A /* MealListCard.swift */; };
 		AA0F1ED32C626E3E00B2202A /* MealListCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0F1ED12C626E3E00B2202A /* MealListCard.swift */; };
 		AA0F1ED42C626E3E00B2202A /* MealListCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0F1ED12C626E3E00B2202A /* MealListCard.swift */; };
@@ -72,6 +71,12 @@
 		AA8CED0D2C6A611500A1395C /* ImageGalleryViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8CED0C2C6A611500A1395C /* ImageGalleryViews.swift */; };
 		AA8ED2502C6F99E200F35B95 /* DragDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8ED24F2C6F99E200F35B95 /* DragDelegate.swift */; };
 		AA8ED2522C6FA6E600F35B95 /* PairingListCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8ED2512C6FA6E600F35B95 /* PairingListCard.swift */; };
+		AA991BE82C7CA949006BB15F /* foodie-icons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AA991BE72C7CA949006BB15F /* foodie-icons.ttf */; };
+		AA991BE92C7CA949006BB15F /* foodie-icons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AA991BE72C7CA949006BB15F /* foodie-icons.ttf */; };
+		AA991BEA2C7CA949006BB15F /* foodie-icons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AA991BE72C7CA949006BB15F /* foodie-icons.ttf */; };
+		AA991BEC2C7CA9AD006BB15F /* foodie-icons-v1-1.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AA991BEB2C7CA9AD006BB15F /* foodie-icons-v1-1.ttf */; };
+		AA991BED2C7CA9AD006BB15F /* foodie-icons-v1-1.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AA991BEB2C7CA9AD006BB15F /* foodie-icons-v1-1.ttf */; };
+		AA991BEE2C7CA9AD006BB15F /* foodie-icons-v1-1.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AA991BEB2C7CA9AD006BB15F /* foodie-icons-v1-1.ttf */; };
 		AA9D9FE92C6AB75500B23B5A /* ImagePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9D9FE82C6AB75500B23B5A /* ImagePickerView.swift */; };
 		AA9D9FEB2C6BBE0400B23B5A /* ImageCarouselViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9D9FEA2C6BBE0400B23B5A /* ImageCarouselViews.swift */; };
 		AAA064C72C46A084005397EA /* ModelIOService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA064C62C46A084005397EA /* ModelIOService.swift */; };
@@ -167,7 +172,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		AA0F1ECA2C60166D00B2202A /* foodie-icons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "foodie-icons.ttf"; sourceTree = "<group>"; };
 		AA0F1ED12C626E3E00B2202A /* MealListCard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MealListCard.swift; sourceTree = "<group>"; };
 		AA20D36F2C6BDC5000C63895 /* EditablePairingViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditablePairingViews.swift; sourceTree = "<group>"; };
 		AA20D3712C6BF77C00C63895 /* BeveragePairingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeveragePairingModel.swift; sourceTree = "<group>"; };
@@ -231,6 +235,8 @@
 		AA8CED0C2C6A611500A1395C /* ImageGalleryViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageGalleryViews.swift; sourceTree = "<group>"; };
 		AA8ED24F2C6F99E200F35B95 /* DragDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DragDelegate.swift; sourceTree = "<group>"; };
 		AA8ED2512C6FA6E600F35B95 /* PairingListCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PairingListCard.swift; sourceTree = "<group>"; };
+		AA991BE72C7CA949006BB15F /* foodie-icons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "foodie-icons.ttf"; sourceTree = "<group>"; };
+		AA991BEB2C7CA9AD006BB15F /* foodie-icons-v1-1.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "foodie-icons-v1-1.ttf"; sourceTree = "<group>"; };
 		AA9D9FE82C6AB75500B23B5A /* ImagePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerView.swift; sourceTree = "<group>"; };
 		AA9D9FEA2C6BBE0400B23B5A /* ImageCarouselViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCarouselViews.swift; sourceTree = "<group>"; };
 		AAA064C62C46A084005397EA /* ModelIOService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelIOService.swift; sourceTree = "<group>"; };
@@ -304,7 +310,8 @@
 		AA0F1EC92C60164300B2202A /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
-				AA0F1ECA2C60166D00B2202A /* foodie-icons.ttf */,
+				AA991BEB2C7CA9AD006BB15F /* foodie-icons-v1-1.ttf */,
+				AA991BE72C7CA949006BB15F /* foodie-icons.ttf */,
 				AAAFBB6C2C600A2100685F25 /* Nunito */,
 			);
 			path = Fonts;
@@ -730,6 +737,7 @@
 				AAAFBB822C600A2100685F25 /* Nunito-ExtraLightItalic.ttf in Resources */,
 				AAAFBB882C600A2100685F25 /* Nunito-Light.ttf in Resources */,
 				AAAFBB972C600A2100685F25 /* Nunito-SemiBold.ttf in Resources */,
+				AA991BEC2C7CA9AD006BB15F /* foodie-icons-v1-1.ttf in Resources */,
 				AAAFBB912C600A2100685F25 /* Nunito-MediumItalic.ttf in Resources */,
 				AAAFBB852C600A2100685F25 /* Nunito-Italic.ttf in Resources */,
 				AAAFBB8E2C600A2100685F25 /* Nunito-Medium.ttf in Resources */,
@@ -743,7 +751,7 @@
 				AAAFBB8B2C600A2100685F25 /* Nunito-LightItalic.ttf in Resources */,
 				AA81D2182C26EEA200FF0221 /* Assets.xcassets in Resources */,
 				AAAFBB6D2C600A2100685F25 /* Nunito-Black.ttf in Resources */,
-				AA0F1ECB2C60166D00B2202A /* foodie-icons.ttf in Resources */,
+				AA991BE82C7CA949006BB15F /* foodie-icons.ttf in Resources */,
 				AAAFBB702C600A2100685F25 /* Nunito-BlackItalic.ttf in Resources */,
 				AAAFBB9D2C600A2100685F25 /* Nunito-Italic-VariableFont_wght.ttf in Resources */,
 				AAAFBB792C600A2100685F25 /* Nunito-ExtraBold.ttf in Resources */,
@@ -756,8 +764,10 @@
 			files = (
 				AAAFBB6E2C600A2100685F25 /* Nunito-Black.ttf in Resources */,
 				AAAFBB862C600A2100685F25 /* Nunito-Italic.ttf in Resources */,
+				AA991BED2C7CA9AD006BB15F /* foodie-icons-v1-1.ttf in Resources */,
 				AAAFBB802C600A2100685F25 /* Nunito-ExtraLight.ttf in Resources */,
 				AAAFBB742C600A2100685F25 /* Nunito-Bold.ttf in Resources */,
+				AA991BE92C7CA949006BB15F /* foodie-icons.ttf in Resources */,
 				AAAFBBA12C600A2100685F25 /* Nunito-VariableFont_wght.ttf in Resources */,
 				AAAFBB9B2C600A2100685F25 /* Nunito-SemiBoldItalic.ttf in Resources */,
 				AAAFBB952C600A2100685F25 /* Nunito-Regular.ttf in Resources */,
@@ -781,8 +791,10 @@
 			files = (
 				AAAFBB6F2C600A2100685F25 /* Nunito-Black.ttf in Resources */,
 				AAAFBB872C600A2100685F25 /* Nunito-Italic.ttf in Resources */,
+				AA991BEE2C7CA9AD006BB15F /* foodie-icons-v1-1.ttf in Resources */,
 				AAAFBB812C600A2100685F25 /* Nunito-ExtraLight.ttf in Resources */,
 				AAAFBB752C600A2100685F25 /* Nunito-Bold.ttf in Resources */,
+				AA991BEA2C7CA949006BB15F /* foodie-icons.ttf in Resources */,
 				AAAFBBA22C600A2100685F25 /* Nunito-VariableFont_wght.ttf in Resources */,
 				AAAFBB9C2C600A2100685F25 /* Nunito-SemiBoldItalic.ttf in Resources */,
 				AAAFBB962C600A2100685F25 /* Nunito-Regular.ttf in Resources */,
@@ -1068,6 +1080,7 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
@@ -1120,6 +1133,7 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
