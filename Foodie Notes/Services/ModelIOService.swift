@@ -30,7 +30,7 @@ class ModelIOService {
             guard let data = try? Data(contentsOf: fileURL) else {
                 return AppModel()
             }
-            print(fileURL)
+            //print(fileURL)
             let appModel = try JSONDecoder().decode(AppModel.self, from: data)
             
             return appModel

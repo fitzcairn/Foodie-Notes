@@ -25,7 +25,7 @@ struct MealListView: View {
     @State var newMeal = Meal(venueName: "")
     
     var body: some View {
-        let _ = Self._printChanges()
+        //let _ = Self._printChanges()
         NavigationStack {
             ZStack {
                 VStack {
